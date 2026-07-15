@@ -1,42 +1,23 @@
 ---
-component_id: "github-cli"
 name: "GitHub CLI (gh)"
 category: "Developer tools"
-tier: "developer"
-status: "verified"
-delivery_method: "homebrew-formula"
-brew_cask: null
-brew_formula: "gh"
-official_url: "https://cli.github.com/"
-check_command: "gh"
-install_after: []
+tier: core
+status: installed
+source: homebrew
 download_bytes: null
-installed_bytes: null
+download_estimate_bytes: 50000000
+download_estimate_method: catalog_size_gb_planning_estimate
+installed_bytes: 39337984
 installed_version: "2.96.0"
-installed_at: "2026-07-15"
-configured_at: "2026-07-15"
-verified_at: "2026-07-15"
-config_status: "complete"
-verification_status: "passed"
-account_required: true
-permissions_required: []
-secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
+installed_at: "2026-07-16"
+secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
 ---
-
-# GitHub CLI (`gh`)
-
-> [!summary] Purpose
-> Command-line access to GitHub repositories, workflows, issues, and other GitHub operations.
+# GitHub CLI (gh)
 
 ## Parameters
 
 | Parameter | Value |
 |---|---|
-| Delivery | Homebrew formula |
-| Package identifier | `gh` |
-| Official source | https://cli.github.com/ |
-| Required tier | developer |
-| Install order | none |
 | Expected download | Not recorded; installed before per-app byte measurement was added |
 | Expected installed size | Not recorded; installed before per-app byte measurement was added |
 | Config path(s) | GitHub CLI keyring/config managed by `gh` |

@@ -1,28 +1,17 @@
 ---
-component_id: "ghostty"
 name: "Ghostty"
 category: "Developer tools"
-tier: "developer"
-status: "configured"
-delivery_method: "homebrew-cask"
-brew_cask: "ghostty"
-brew_formula: null
-official_url: "https://ghostty.org/download"
-check_command: null
-install_after: []
+tier: core
+status: installed
+source: homebrew
 download_bytes: 34508800
-installed_bytes: 65007616
+download_estimate_bytes: 1000000000
+download_estimate_method: catalog_size_gb_planning_estimate
+installed_bytes: 70725632
 installed_version: "1.3.1"
-installed_at: "2026-07-15"
-configured_at: "2026-07-15"
-verified_at: "2026-07-15"
-config_status: "complete"
-verification_status: "passed"
-account_required: false
-permissions_required: []
-secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
+installed_at: "2026-07-16"
+secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
 ---
-
 # Ghostty
 
 > [!summary] Purpose
@@ -38,7 +27,10 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 | Required tier | developer |
 | Install order | none |
 | Download recorded | 34,508,800 bytes (~32.9 MiB) |
-| Installed size recorded | 65,007,616 bytes (~62.0 MiB) |
+| Installed size recorded | 70,725,632 bytes (~67.4 MiB) |
+| Config path | `~/.config/ghostty/config` |
+| Account needed | no |
+| Permissions | none required for the default setup |
 | Config path | `~/.config/ghostty/config` |
 | Account needed | no |
 | Permissions | none required for the default setup |

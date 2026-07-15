@@ -70,6 +70,21 @@ def expected_source(app):
     return "unknown"
 
 
+def version_key(value):
+    """Compare dotted app versions without treating a missing suffix as text."""
+    if not value:
+        return ()
+    return tuple(int(part) if part.isdigit() else 0 for part in str(value).split("."))
+
+
+def version_below(actual, minimum):
+    if not actual or not minimum:
+        return False
+    left, right = version_key(actual), version_key(minimum)
+    width = max(len(left), len(right))
+    return left + (0,) * (width - len(left)) < right + (0,) * (width - len(right))
+
+
 def detect_source(catalog_app, installed_item, brew_casks):
     """Compare an installed bundle with its catalog delivery method.
 
@@ -93,8 +108,11 @@ def detect_source(catalog_app, installed_item, brew_casks):
     if not detected:
         detected.append("manual_or_unknown")
     expected = expected_source(catalog_app)
+    allowed_sources = catalog_app.get("allowed_sources")
     source = detected[0]
-    if expected in {"app_store", "homebrew", "system"}:
+    if allowed_sources:
+        match = source in allowed_sources
+    elif expected in {"app_store", "homebrew", "system"}:
         match = expected == source
     elif expected == "official_web":
         # A downloaded DMG/ZIP has no portable provenance marker. Unknown is
@@ -105,6 +123,7 @@ def detect_source(catalog_app, installed_item, brew_casks):
         match = None
     return {
         "expected": expected,
+        "allowed_sources": allowed_sources,
         "detected": source,
         "detected_sources": detected,
         "match": match,
@@ -143,6 +162,7 @@ def installed_apps(data=None):
                 item["bundle_identifier"] = bundle_identifier
             entry = by_name.get(name.casefold())
             if entry:
+                item["catalog_name"] = entry["name"]
                 item["source"] = detect_source(entry, item, brew_casks)
             else:
                 receipt = app_store_receipt(app)
@@ -155,6 +175,35 @@ def installed_apps(data=None):
                 }
             found.append(item)
     return sorted(found, key=lambda item: item["name"].casefold())
+
+
+def source_mismatches(applications):
+    """Return true mismatches while tolerating duplicate bundles.
+
+    If an expected-source copy exists alongside an older/manual copy, report
+    the duplicate separately rather than treating the catalog item as wholly
+    misinstalled.
+    """
+    grouped = {}
+    for item in applications:
+        key = item.get("catalog_name") or item.get("name")
+        grouped.setdefault(key.casefold(), []).append(item)
+    mismatches = []
+    for items in grouped.values():
+        has_match = any(item.get("source", {}).get("match") is True for item in items)
+        for item in items:
+            if item.get("source", {}).get("match") is False and not has_match:
+                mismatches.append(item)
+    return mismatches
+
+
+def duplicate_apps(applications):
+    grouped = {}
+    for item in applications:
+        key = item.get("catalog_name")
+        if key:
+            grouped.setdefault(key.casefold(), []).append(item)
+    return [items for items in grouped.values() if len(items) > 1]
 
 
 def app_present(app, installed_names):
@@ -190,12 +239,17 @@ def scan(_args):
     path = write_record("scan", result)
     print(f"Wrote {path}")
     print(f"Found {len(result['applications'])} apps; storage: {result['storage_total_gb']} GB")
-    mismatches = [item for item in applications if item.get("source", {}).get("match") is False]
+    mismatches = source_mismatches(applications)
     if mismatches:
         print(f"Source mismatches requiring review: {len(mismatches)}")
         for item in mismatches:
             source = item["source"]
             print(f"- {item['name']}: expected {source['expected']}, detected {source['detected']}")
+    duplicates = duplicate_apps(applications)
+    if duplicates:
+        print(f"Duplicate catalog app bundles requiring review: {len(duplicates)}")
+        for items in duplicates:
+            print("- " + (items[0].get("catalog_name") or items[0]["name"]) + ": " + ", ".join(item["path"] for item in items))
 
 
 def plan(args):
@@ -215,10 +269,22 @@ def plan(args):
         selected.append(app)
     missing = [app for app in selected if not app_present(app, installed_names)]
     mismatches = []
-    for item in installed:
-        if not item.get("source") or item["source"].get("match") is not False:
-            continue
+    for item in source_mismatches(installed):
         mismatches.append({"app": item["name"], "path": item["path"], "source": item["source"]})
+    version_issues = []
+    for app in selected:
+        minimum = app.get("minimum_version")
+        if not minimum:
+            continue
+        names = {name.casefold() for name in [app["name"], *app.get("aliases", [])]}
+        installed_item = next((item for item in installed if item["name"].casefold() in names), None)
+        if installed_item and version_below(installed_item.get("version"), minimum):
+            version_issues.append({
+                "app": app["name"],
+                "installed_version": installed_item.get("version"),
+                "minimum_version": minimum,
+                "path": installed_item["path"],
+            })
     follow_up = [{"app": app["name"], "tasks": app.get("follow_up", [])} for app in missing if app.get("follow_up")]
     result = {
         "generated_at": dt.datetime.now().astimezone().isoformat(),
@@ -229,6 +295,12 @@ def plan(args):
         "selected_count": len(selected),
         "missing": missing,
         "source_mismatches": mismatches,
+        "version_issues": version_issues,
+        "account_hints": [{"app": app["name"], "account": app["preferred_account"],
+                           "verification": app.get("account_verification", "manual")}
+                          for app in selected if app.get("preferred_account")],
+        "version_constraints": [{"app": app["name"], "minimum_version": app["minimum_version"]}
+                                for app in selected if app.get("minimum_version")],
         "estimated_download_gb": round(sum(app.get("size_gb", 0) for app in missing), 1),
         "follow_up": follow_up,
         "completion_notes": []
@@ -249,6 +321,17 @@ def plan(args):
         for item in mismatches:
             source = item["source"]
             print(f"- {item['app']}: expected {source['expected']}, detected {source['detected']} ({item['path']})")
+    duplicates = duplicate_apps(installed)
+    if duplicates:
+        print("Duplicate catalog app bundles (keep the preferred-source copy):")
+        for items in duplicates:
+            print("- " + (items[0].get("catalog_name") or items[0]["name"]) + ": " + ", ".join(item["path"] for item in items))
+    if version_issues:
+        print("Version constraints requiring review:")
+        for item in version_issues:
+            print(f"- {item['app']}: installed {item['installed_version']}, minimum {item['minimum_version']} ({item['path']})")
+    for hint in result["account_hints"]:
+        print(f"Login reminder - {hint['app']}: use {hint['account']}; do not automate login")
 
 
 def run(command, apply):

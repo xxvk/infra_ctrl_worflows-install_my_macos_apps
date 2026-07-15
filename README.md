@@ -33,6 +33,33 @@ python3 scripts/macos_apps.py install state/PLAN.json --only "App Name" --apply
 
 The first command is a dry run. `--apply` makes external changes and must be used only after explicit review. GUI apps must be opened and checked after installation.
 
+Approved Homebrew CLI recommendations may be installed in batches of up to five. GUI apps and App Store/website installs remain one at a time so each can be opened, authenticated, and verified separately.
+
+Catalog entries may include a `minimum_version` and `preferred_account`. The
+plan reports versions below the recorded floor as `version_issues`; account
+values are prompts only and never include passwords, tokens, or recovery codes.
+
+GUI installation and CLI installation are tracked separately. When a GUI app
+has a CLI, the skill verifies `command -v` and the declared version, and only
+creates a documented link after explicit confirmation. It never guesses a
+symlink from an app bundle.
+
+Every Core component guide must record measured `download_bytes` and
+`installed_bytes`; `size_gb` in the catalog is only a planning estimate. Run
+`python3 scripts/audit_core_catalog.py` to find missing guides, measurements,
+or App Store/CLI metadata.
+
+## App Store apps
+
+For entries with an `app_store_url`, sign in to the same Apple Account used on
+the other Macs, verify that the listing supports macOS, and install from the
+App Store or Purchased list. The user must click Get/Download and handle any
+password, two-factor authentication, license, or permission prompts. Afterward,
+the skill verifies the App Store receipt during the next scan. Apple Configurator
+is reserved for iPhone, iPad, and Apple TV preparation; it is not used to deploy
+Mac apps. The skill opens the matching App Store page and pauses immediately
+before Get/Download/Redownload so the user can confirm the installation action.
+
 ## Docker Desktop retirement
 
 Inspect Docker Desktop before removing it:
@@ -50,5 +77,11 @@ python3 scripts/docker_desktop_cleanup.py remove --confirm "REMOVE DOCKER DESKTO
 ## Local records
 
 `state/` is intentionally ignored by Git. It contains machine-specific app paths, storage information, and deployment history; keep it locally for continuity but do not commit it.
+
+The expected Chrome Profile mapping is intentionally tracked in
+[`config/chrome-profiles.json`](config/chrome-profiles.json), so a new Mac can
+compare its local inventory with the seven expected Profile directories and
+account emails. It contains account identifiers only; never add passwords,
+tokens, recovery codes, or Passkey data.
 
 See [SKILL.md](SKILL.md) for the complete Codex workflow and safety rules.

@@ -30,6 +30,11 @@ Use this skill from its synced source folder. Treat the catalog as the source of
 
 3. Review the plan with the user. Select one or two apps only. Identify required free space, account/permission tasks, and any source that is not Homebrew. Do not run installations before confirmation.
 
+   Homebrew CLI-only entries marked as approved recommendations may be
+   installed in batches of up to five after one confirmation. GUI applications,
+   App Store applications, official website downloads, and any item requiring
+   account or permission decisions remain strictly one at a time.
+
    Review `source_mismatches` before installing. For example, Slack and Telegram
    are cataloged as `app_store`; if their bundles have no App Store receipt, tell
    the user they appear to come from a website or another installer and offer a
@@ -46,7 +51,71 @@ Use this skill from its synced source folder. Treat the catalog as the source of
 
    The script accepts at most two `--only` values per run. It bootstraps Homebrew only with `--apply` and asks interactively first. It installs only catalog entries with a verified Homebrew cask or formula identifier. It never supplies credentials, modifies privacy settings, or silently installs an unverified DMG/PKG.
 
+   **Claude pre-install storage gate:** before installing or replacing Claude,
+   run `python3 scripts/claude_vm_cleanup.py inspect`. The VM review and any
+   cleanup are separate actions from the Claude installation. Only after the
+   user explicitly confirms, and only after Claude is fully quit, may the skill
+   run `remove --confirm "REMOVE CLAUDE VM IMAGES"`. Optional directory locking
+   is a second confirmation using `lock --confirm "LOCK CLAUDE VM DIRECTORY"`;
+   it disables Cowork/local-agent VM recreation and is never implicit. See
+   [components/claude.md](components/claude.md).
+
+## App Store workflow
+
+Use this workflow for every catalog entry with `app_store_url`. It is the
+default deployment method for a personal user with several Macs; Apple
+Configurator is not a Mac application deployment tool in this workflow.
+
+1. Confirm that the target Mac is signed in to the same Apple Account used for
+   the user's App Store purchases. Never enter the account password, approve
+   two-factor authentication, or accept a purchase on the user's behalf.
+2. Open the catalog's App Store URL, verify that the page offers a Mac build,
+   and check the user's Purchased list if the direct page is unavailable. A
+   page that lists only iPhone/iPad/Apple TV is not a valid Mac installation
+   source, even if the app has the same name.
+3. The skill must open the catalog's App Store URL for the user (using the
+   App Store UI when available), search for the exact app if needed, select
+   `Mac Apps`, and report whether the button says `Get`, `Download`,
+   `Redownload`, `Update`, or `Open`. Stop immediately before any
+   `Get`/`Download`/`Redownload` action and ask for confirmation. After the
+   user confirms, the skill may click that button, but the user must complete
+   any Apple Account password, Touch ID, purchase, or two-factor prompt.
+   App Store installation must not be automated with Apple Configurator,
+   undocumented store APIs, or credential entry.
+4. After installation, open the app and confirm its first window. Re-run
+   `scan` and verify the App Store evidence: the traditional
+   `Contents/_MASReceipt/receipt`, or for some Mac Catalyst/wrapper packages
+   `Wrapper/iTunesMetadata.plist`. Record version and any sign-in, license,
+   notification, microphone, camera, VPN, or accessibility follow-up tasks.
+   If replacing a direct-download copy with an App Store copy, do not assume
+   that its login session will migrate: signing, sandbox containers, and
+   Keychain access groups can differ even when the Bundle ID is identical.
+   Have the user sign in to the new copy and verify the required workspace
+   before retiring the old bundle.
+5. If the App Store page is unavailable, not Mac-compatible, region-restricted,
+   or the app is absent from Purchased, mark the item as `store_unavailable`
+   in the plan and offer the catalog's official website or Web App only when
+   that alternative is explicitly recorded. Do not silently substitute a
+   website download for an App Store-required entry.
+
+Apple Configurator may remain in the catalog for iPhone, iPad, and Apple TV
+backup, restore, supervision, and preparation. It must not be used as the
+normal way to install Mac apps or to bypass Apple Account authorization.
+
 5. Open each just-installed GUI app and confirm that it reaches its first window without a crash or macOS security warning. Then complete the plan's `follow_up` tasks and re-run `scan`. Add completed account, license, permission, or configuration notes to the plan's `completion_notes`; never store passwords, API keys, recovery codes, or license secrets.
+
+   When a catalog entry has `preferred_account`, prompt the user to verify that
+   account in the app before proceeding. For example, ChatGPT should use
+   `xxvk@outlook.com` and Claude should use the Google account
+   `example.user@example.invalid`; never automate account selection or login. Open the
+   app's account/avatar menu and read the displayed email, then record only
+   `account_verified: true/false` and the verification date. If the displayed
+   account differs, stop and ask the user whether to switch accounts; never
+   click Log out, change accounts, or enter credentials automatically.
+
+   When an entry has `minimum_version`, treat it as a lower bound for every
+   future install. The planner reports an installed app below that bound in
+   `version_issues`; do not downgrade an app or silently replace it.
 
    Installation logs record download bytes and installed bytes separately for each Homebrew item. A cached or resumed download may report the final artifact size rather than bytes transferred during the current attempt.
 
@@ -62,6 +131,67 @@ Use this skill from its synced source folder. Treat the catalog as the source of
 
 6. For every install, update or create the matching `components/<component_id>.md`, add or update its row in `components/README.md`, and ensure the catalog entry has the relative `guide` path. For every uninstall or removal, update that guide's frontmatter to `status: retired`, document what was removed and what data was preserved, and keep the historical install/removal evidence. A component operation is not complete until its guide and index are synchronized.
 
+   Every Core guide must persist both delivery and storage measurements:
+   `download_bytes` (actual bytes transferred for the install),
+   `installed_bytes` (measured on-disk footprint after installation),
+   `installed_version`, and `installed_at`. The catalog's `size_gb` remains an
+   estimate used for planning and must never be presented as the measured
+   footprint. For a not-yet-installed Core app, use `null`/`pending` rather
+   than inventing measurements. Audit the complete Core set with:
+
+   ```sh
+   python3 scripts/audit_core_catalog.py
+   ```
+
+   Estimate download size in this order: (a) a cached Homebrew artifact or
+   vendor-provided installer size, (b) the Mac App Store listing size for a
+   verified Mac build, (c) a vendor download page/API, and only then (d) the
+   catalog `size_gb` planning estimate. Label the method and timestamp; never
+   present an estimate as transferred bytes. After installation, measure the
+   actual bundle or Homebrew prefix with `du` and record `installed_bytes`.
+
+## GUI app and CLI workflow
+
+Treat a graphical app and its command-line tool as separate deliverables. A
+Mac App Store install does not automatically guarantee that a CLI is available
+on `PATH`, and a Homebrew cask's app bundle must not be treated as a formula.
+For every catalog entry that declares a CLI, the post-install check must:
+
+1. Run the declared `check_command` (for example `code --version` or
+   `cursor --version`) and record the resolved path with `command -v`.
+2. Prefer the vendor's documented CLI installation or the catalog's explicit
+   Homebrew formula. Do not create arbitrary symlinks from inside an app bundle.
+3. If a documented app-provided CLI needs linking, show the exact source and
+   destination and ask for confirmation before changing `PATH`, `/usr/local`,
+   `/opt/homebrew/bin`, or shell startup files.
+4. Record `cli_status`, `cli_path`, and `cli_version` in the component guide;
+   never mark the GUI install incomplete merely because an optional CLI does
+   not exist.
+
+For App Store apps without a documented CLI, record `cli_status: not_provided`.
+For GUI apps with a separate Homebrew formula, install and verify that formula
+independently. This rule applies globally, not only to MQTT Explorer.
+
+An App Store GUI and a Homebrew CLI are separate catalog capabilities. If a
+vendor provides both, add `cli_command`, `cli_formula`, and
+`cli_link_policy: separate_formula` to the GUI entry, then install/verify the
+formula independently. Only create a PATH/symlink link when the vendor or
+formula documents the target; never infer one from an App Store bundle. Record
+the CLI path/version in the same component guide. A GUI App Store receipt alone
+does not prove that a CLI exists.
+
+## Duplicate bundle cleanup
+
+If multiple `.app` bundles map to the same catalog entry or Bundle ID, keep the
+copy that matches the catalog's preferred source. Mark the other copy as
+`retirement_pending`; do not delete it automatically. First open and verify the
+preferred copy, complete any required login or license activation, and confirm
+that needed data is available. Only after explicit user confirmation may the
+skill move the old `.app` to Trash or remove it. Preserve shared Application
+Support, Container, and Group Container data unless the user separately asks
+for data cleanup. Record both paths, versions, source evidence, and the final
+single-copy result in the component guide.
+
 ## Browser download preflight
 
 Use this only when an app needs an official website download or browser-managed download; it is not required for Homebrew or App Store items.
@@ -71,6 +201,41 @@ Use this only when an app needs an official website download or browser-managed 
 3. Record the result in the current plan's `completion_notes` as `Chrome Codex extension: verified YYYY-MM-DD` or `Chrome Codex extension: unavailable`. Do not claim that a failed connection is a macOS privacy-permission failure; it may be an extension state, browser-profile, or Codex connection issue.
 4. If unavailable, ask the user to open/enable the Codex Chrome extension and retry. Do not use another browser to bypass this check when the user specifically requests Chrome control.
 5. Before clicking a download button, verify the vendor domain and visible file details. Ask for confirmation immediately before any browser action that initiates a software download or install. Record the final vendor URL and downloaded version in `completion_notes`.
+
+## Chrome multi-profile workflow
+
+Chrome profiles are separate Google sessions. Use the read-only inventory script
+to discover local profiles and the account email exposed by Chrome's Local
+State. It never reads cookies, passwords, tokens, or Keychain data:
+
+```sh
+python3 scripts/chrome_profiles.py \
+  --expected config/chrome-profiles.json \
+  --output state/chrome-profiles-inventory.json
+```
+
+For a new Mac, treat `config/chrome-profiles.json` as the synced desired
+seven-profile registry. Compare it with a fresh `state/chrome-profiles-inventory.json`
+by
+`profile_directory` and `account_email`; report missing, extra, or mismatched
+profiles. Restore missing profiles one at a time by creating/opening the exact
+profile directory with Chrome, then let the user complete Google sign-in,
+Passkey selection, and Touch ID/other second-factor prompts:
+
+```sh
+open -na "/Applications/Google Chrome.app" --args --profile-directory="Profile 1"
+```
+
+Do not silently delete or rename an existing profile. If fewer than seven
+profiles exist, create only the missing profile through Chrome's `Add profile`
+flow, then verify the expected email before marking it complete. If the email
+differs, stop and ask the user; never log out or switch accounts automatically.
+Maintain `account_verified` and `verified_at` in the local inventory or a
+separate private deployment note; do not overwrite the synced expected account
+mapping with machine-specific paths. The
+skill may automate opening windows and checking the visible profile name or
+avatar, but must never enter credentials, select a Passkey, approve Touch ID,
+or bypass 2FA. Never store passwords, tokens, recovery codes, or Passkey data.
 
 ## GitHub CLI preflight
 

@@ -1,45 +1,29 @@
 ---
-component_id: "mole"
 name: "mole"
 category: "System tools"
-tier: "developer"
-status: "installed"
-delivery_method: "homebrew-formula"
-brew_cask: null
-brew_formula: "mole"
-official_url: "https://mole.fit"
-check_command: "mole"
-install_after:
-  - "Ghostty"
+tier: core
+status: installed
+source: homebrew
 download_bytes: 4403200
+download_estimate_bytes: 10000000
+download_estimate_method: catalog_size_gb_planning_estimate
 installed_bytes: 9224192
 installed_version: "1.46.0"
 installed_at: "2026-07-15"
-configured_at: null
-verified_at: "2026-07-15"
-config_status: "not-started"
-verification_status: "passed"
-account_required: false
-permissions_required:
-  - "Optional sudo or Touch ID approval for specific cleanup actions"
-secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
+secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
 ---
-
 # mole
 
 > [!summary] Purpose
-> A macOS disk-cleaning and optimization command-line tool. It is installed for reviewable cleanup workflows, not unattended deletion.
+> A macOS disk-cleaning and optimization command-line tool.
 
 ## Parameters
 
 | Parameter | Value |
 |---|---|
 | Delivery | Homebrew formula |
-| Package identifier | `mole` |
-| Official source | https://mole.fit |
-| Required tier | developer |
-| Install order | after Ghostty |
-| Download recorded | 4,403,200 bytes (~4.2 MiB) |
+| Binary | `/opt/homebrew/bin/mole` |
+| Download recorded | 4,403,200 bytes |
 | Installed size recorded | 9,224,192 bytes (~8.8 MiB) |
 | Binary | `/opt/homebrew/bin/mole` |
 | Account needed | no |

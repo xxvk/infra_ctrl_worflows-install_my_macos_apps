@@ -6,11 +6,12 @@ cd "$ROOT"
 
 python3 -m json.tool references/app-catalog.json >/dev/null
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/install-macos-apps-pycache" \
-  python3 -m py_compile scripts/macos_apps.py scripts/docker_desktop_cleanup.py
+  python3 -m py_compile scripts/macos_apps.py scripts/docker_desktop_cleanup.py scripts/claude_vm_cleanup.py
 
 python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto
 python3 scripts/docker_desktop_cleanup.py inspect
+python3 scripts/claude_vm_cleanup.py inspect
 
 python3 - <<'PY'
 import json
