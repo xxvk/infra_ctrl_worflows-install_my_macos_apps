@@ -48,6 +48,8 @@ Use this skill from its synced source folder. Treat the catalog as the source of
 
    Treat this as a post-install configuration step, not part of the Homebrew installation. Verify the theme name with `ghostty +list-themes --plain` and open Ghostty once after writing the config.
 
+6. For every install, update or create the matching `components/<component_id>.md`, add or update its row in `components/README.md`, and ensure the catalog entry has the relative `guide` path. For every uninstall or removal, update that guide's frontmatter to `status: retired`, document what was removed and what data was preserved, and keep the historical install/removal evidence. A component operation is not complete until its guide and index are synchronized.
+
 ## Browser download preflight
 
 Use this only when an app needs an official website download or browser-managed download; it is not required for Homebrew or App Store items.

@@ -131,7 +131,7 @@ def path_size(path):
     target = Path(path)
     if not target.exists():
         return 0
-    result = subprocess.run(["du", "-sk", str(target)], capture_output=True, text=True, check=True)
+    result = subprocess.run(["du", "-skL", str(target)], capture_output=True, text=True, check=True)
     return int(result.stdout.split()[0]) * 1024
 
 
