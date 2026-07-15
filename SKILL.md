@@ -46,6 +46,15 @@ Use this only when an app needs an official website download or browser-managed 
 4. If unavailable, ask the user to open/enable the Codex Chrome extension and retry. Do not use another browser to bypass this check when the user specifically requests Chrome control.
 5. Before clicking a download button, verify the vendor domain and visible file details. Ask for confirmation immediately before any browser action that initiates a software download or install. Record the final vendor URL and downloaded version in `completion_notes`.
 
+## GitHub CLI preflight
+
+Use this when the workflow needs a private GitHub repository, a Git submodule, or a GitHub CLI action.
+
+1. Check that `gh` is installed with `command -v gh` and `gh --version`. Install it from the catalog/Homebrew formula if missing.
+2. Run `gh auth status` before any private-repository command. Treat a listed active account and `repo` scope as the pass condition.
+3. If a sandboxed `gh auth status` reports an invalid token, repeat the same read-only check with access to the system keychain before treating the login as invalid. If authentication is still absent or invalid, ask the user to complete the interactive `gh auth login` flow. Do not automate browser sign-in, paste tokens, or store tokens in the catalog, plans, or logs.
+4. After the user reports completion, run `gh auth status` again. Only then use an HTTPS private repository URL with `git`, including `git submodule add`.
+
 ## Docker Desktop retirement
 
 When OrbStack is installed, check for Docker Desktop during a new-Mac scan. If `/Applications/Docker.app` exists, offer a separate cleanup; never perform it implicitly as part of an app installation.
