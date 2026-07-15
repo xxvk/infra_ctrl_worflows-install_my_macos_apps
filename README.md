@@ -29,13 +29,13 @@ The first command is a dry run. `--apply` makes external changes and must be use
 
 ## Docker Desktop retirement
 
-When OrbStack is installed, inspect Docker Desktop before removing it:
+Inspect Docker Desktop before removing it:
 
 ```sh
 python3 scripts/docker_desktop_cleanup.py inspect
 ```
 
-Removal permanently deletes Docker Desktop-local containers, images, volumes, build cache, Kubernetes data, and settings. It preserves OrbStack and `~/.docker`.
+Install and verify OrbStack as the default local container backend on every developer Mac, including a new Mac with no Docker Desktop. If Docker Desktop is present, only remove it after OrbStack is verified. Removal permanently deletes Docker Desktop-local containers, images, volumes, build cache, Kubernetes data, and settings. It preserves OrbStack and `~/.docker`.
 
 ```sh
 python3 scripts/docker_desktop_cleanup.py remove --confirm "REMOVE DOCKER DESKTOP DATA"

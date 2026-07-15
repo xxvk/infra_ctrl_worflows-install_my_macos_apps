@@ -8,5 +8,6 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | GitHub CLI (`gh`) | [github-cli.md](github-cli.md) | Installed and authenticated |
 | Ghostty | [ghostty.md](ghostty.md) | Installed and configured |
 | mole | [mole.md](mole.md) | Installed; first cleanup review pending |
+| Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
 
 When adding a new app guide, start from `../templates/app-component.md`, add the guide to this table, and add its relative `guide` path to the matching catalog entry.
