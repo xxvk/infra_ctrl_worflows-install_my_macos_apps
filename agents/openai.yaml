@@ -1,0 +1,4 @@
+interface:
+  display_name: "Install My macOS Apps"
+  short_description: "Scan, plan, install, and document macOS apps."
+  default_prompt: "Use $install-macos-apps to scan this Mac and create a capacity-aware installation plan."
