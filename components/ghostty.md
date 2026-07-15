@@ -67,6 +67,8 @@ font-size = 20
 
 It is stored at `~/.config/ghostty/config`. Preserve unrelated user settings when adding or changing these lines.
 
+- [x] Created `~/.config/ghostty/config` with the three default settings on 2026-07-15.
+
 ## Verification
 
 ```sh
@@ -75,7 +77,7 @@ It is stored at `~/.config/ghostty/config`. Preserve unrelated user settings whe
 ```
 
 - [x] `Cyberpunk Scarlet Protocol` is available as a built-in theme.
-- [x] Ghostty reads the configured theme and font size `20`.
+- [x] Ghostty reads `Cyberpunk Scarlet Protocol`, `JetBrains Mono`, and font size `20`.
 - [ ] Open Ghostty and confirm the first window renders without a crash or macOS security warning.
 - [ ] Test shell integration, tabs, splits, and the configured font at the preferred display scale.
 

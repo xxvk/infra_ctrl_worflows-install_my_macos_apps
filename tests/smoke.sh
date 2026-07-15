@@ -12,6 +12,16 @@ python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto
 python3 scripts/docker_desktop_cleanup.py inspect
 
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+scan = json.loads(sorted(Path("state").glob("scan-*.json"))[-1].read_text())
+plan = json.loads(sorted(Path("state").glob("plan-*.json"))[-1].read_text())
+assert all("source" in app for app in scan["applications"]), "scan lacks source evidence"
+assert "source_mismatches" in plan, "plan lacks source mismatch report"
+PY
+
 PLAN="$(ls -t state/plan-*.json | head -n 1)"
 APP="$(python3 - "$PLAN" <<'PY'
 import json

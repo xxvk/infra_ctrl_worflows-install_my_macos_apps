@@ -15,6 +15,11 @@ Use this skill from its synced source folder. Treat the catalog as the source of
    python3 scripts/macos_apps.py scan
    ```
 
+   The scan records source evidence for catalog apps. An App Store receipt is
+   checked at `Contents/_MASReceipt/receipt`; Homebrew casks are checked against
+   `brew list --cask`; other bundles are reported as `manual_or_unknown`. A
+   source mismatch is a review item, not proof of malicious software.
+
 2. Create a plan. Use `auto` unless the user explicitly selects a capacity tier:
 
    ```sh
@@ -24,6 +29,13 @@ Use this skill from its synced source folder. Treat the catalog as the source of
    `portable` applies below 512 GB; `expanded` applies at 512 GB or above. The planner includes `core` apps in both tiers, while apps marked `heavy` are excluded from `portable` by default.
 
 3. Review the plan with the user. Select one or two apps only. Identify required free space, account/permission tasks, and any source that is not Homebrew. Do not run installations before confirmation.
+
+   Review `source_mismatches` before installing. For example, Slack and Telegram
+   are cataloged as `app_store`; if their bundles have no App Store receipt, tell
+   the user they appear to come from a website or another installer and offer a
+   reinstall from the App Store. Never delete or replace the existing bundle
+   automatically. The user must explicitly approve any reinstall and decide
+   whether to remove the old copy first.
 
 4. Execute only after explicit approval. Start with a dry run, then apply the recorded plan:
 
@@ -105,6 +117,10 @@ Docker states that its Mac containers and images reside in a large disk image an
 - Use `brew` only for a cask or formula whose identifier is present in `brew_cask` or `brew_formula`. If a package fails validation, leave it in the plan as a manual task and update the catalog after checking the vendor source.
 - Use `check_command` for CLI tools so a binary already on `PATH` is correctly considered installed. Record ordered dependencies with `install_after`; for example, install `mole` after Ghostty so the user can run and review its terminal UI.
 - Use `app_store_url` for App Store software. App Store sign-in and installation remain user actions.
+- Source policy is explicit: `app_store_url` means `app_store`, `brew_cask` or
+  `brew_formula` means `homebrew`, `official_url` alone means `official_web`,
+  and `system_app: true` means `system`. Keep source mismatches visible in plans;
+  do not silently accept a website download for an App Store-required app.
 - Prefer vendor URLs for apps without a verified cask. Add scripted direct downloads only when the vendor provides a stable, HTTPS URL and an integrity check; otherwise keep them manual.
 
 ## Persistent records

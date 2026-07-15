@@ -18,6 +18,12 @@ python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto
 ```
 
+The scan also records installation-source evidence. It recognizes an App Store
+receipt, a matching installed Homebrew cask, or a system bundle; website/DMG/ZIP
+installs are reported as `manual_or_unknown`. Review `source_mismatches` in the
+plan before reinstalling. For example, Slack and Telegram must have an App Store
+receipt; a mismatch only produces a prompt and never deletes the existing app.
+
 `portable` applies below 512 GB; `expanded` applies at 512 GB or more. Review the generated plan before choosing one or two apps to install.
 
 ```sh
