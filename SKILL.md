@@ -36,6 +36,18 @@ Use this skill from its synced source folder. Treat the catalog as the source of
 
 5. Open each just-installed GUI app and confirm that it reaches its first window without a crash or macOS security warning. Then complete the plan's `follow_up` tasks and re-run `scan`. Add completed account, license, permission, or configuration notes to the plan's `completion_notes`; never store passwords, API keys, recovery codes, or license secrets.
 
+   Installation logs record download bytes and installed bytes separately for each Homebrew item. A cached or resumed download may report the final artifact size rather than bytes transferred during the current attempt.
+
+   For Ghostty, after the app is installed, create or update `~/.config/ghostty/config` with the skill defaults below, preserving unrelated user settings:
+
+   ```ini
+   theme = Cyberpunk Scarlet Protocol
+   font-family = JetBrains Mono
+   font-size = 20
+   ```
+
+   Treat this as a post-install configuration step, not part of the Homebrew installation. Verify the theme name with `ghostty +list-themes --plain` and open Ghostty once after writing the config.
+
 ## Browser download preflight
 
 Use this only when an app needs an official website download or browser-managed download; it is not required for Homebrew or App Store items.
@@ -90,6 +102,8 @@ Docker states that its Mac containers and images reside in a large disk image an
 ## Persistent records
 
 `state/` is created beside the skill on first run and is intended to sync through iCloud. It holds dated scans, plans, and installation logs. Keep it; it is the deployment history.
+
+Detailed per-component instructions live in `components/README.md` and the linked Markdown guides. Keep the catalog as the install metadata source of truth, and link each detailed guide from its catalog entry with a relative `guide` path.
 
 ## Safety rules
 

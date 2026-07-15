@@ -126,6 +126,37 @@ def run(command, apply):
         subprocess.run(command, check=True)
 
 
+def path_size(path):
+    """Return a path's apparent size in bytes, or 0 when it is absent."""
+    target = Path(path)
+    if not target.exists():
+        return 0
+    result = subprocess.run(["du", "-sk", str(target)], capture_output=True, text=True, check=True)
+    return int(result.stdout.split()[0]) * 1024
+
+
+def brew_cache_path(app):
+    """Ask Homebrew for the artifact cache path for a catalog entry."""
+    identifier = app.get("brew_cask") or app.get("brew_formula")
+    if not identifier:
+        return None
+    command = ["brew", "--cache"]
+    if app.get("brew_cask"):
+        command.append("--cask")
+    command.append(identifier)
+    result = subprocess.run(command, capture_output=True, text=True, check=False)
+    path = result.stdout.strip().splitlines()[-1] if result.stdout.strip() else ""
+    return Path(path) if path else None
+
+
+def installed_size(app):
+    """Measure installed bytes for a GUI app or Homebrew formula."""
+    if app.get("brew_formula"):
+        result = subprocess.run(["brew", "--prefix", app["brew_formula"]], capture_output=True, text=True, check=False)
+        return path_size(result.stdout.strip()) if result.returncode == 0 else 0
+    return path_size(Path("/Applications") / f"{app['name']}.app")
+
+
 def install(args):
     plan_file = Path(args.plan).expanduser().resolve()
     plan_data = json.loads(plan_file.read_text())
@@ -149,19 +180,33 @@ def install(args):
         if args.apply:
             print("Restart the shell if Homebrew is not yet on PATH, then rerun this command.")
             return
+    measurements = []
     for app in brew_apps:
         command = ["brew", "install"]
         if app.get("brew_cask"):
             command.extend(["--cask", app["brew_cask"]])
         else:
             command.append(app["brew_formula"])
+        cache_path = brew_cache_path(app)
+        before_download = path_size(cache_path) if cache_path else 0
+        started = dt.datetime.now().astimezone().isoformat()
         run(command, args.apply)
+        after_download = path_size(cache_path) if cache_path else 0
+        measurements.append({
+            "app": app["name"],
+            "started_at": started,
+            "finished_at": dt.datetime.now().astimezone().isoformat(),
+            "download_bytes": max(after_download - before_download, 0) or after_download,
+            "installed_bytes": installed_size(app) if args.apply else 0,
+            "status": "installed" if args.apply else "dry_run",
+        })
     if manual_apps:
         print("\nManual/App Store items (not downloaded automatically):")
         for app in manual_apps:
             print(f"- {app['name']}: {app.get('app_store_url') or app.get('official_url') or 'source missing'}")
     log = {"executed_at": dt.datetime.now().astimezone().isoformat(), "plan": str(plan_file), "apply": args.apply,
-           "homebrew_items": [app["name"] for app in brew_apps], "manual_items": [app["name"] for app in manual_apps]}
+           "homebrew_items": [app["name"] for app in brew_apps], "manual_items": [app["name"] for app in manual_apps],
+           "measurements": measurements}
     path = write_record("install", log)
     print(f"Wrote {path}")
 
