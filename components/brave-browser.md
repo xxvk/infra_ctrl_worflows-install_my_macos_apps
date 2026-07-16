@@ -1,18 +1,22 @@
 ---
-installed_measurement_method: "local_du"
-download_measurement_method: "homebrew_install_log"
+component_id: "brave-browser"
 name: "Brave Browser"
 category: "Browser"
-tier: optional
-status: "installed"
-source: homebrew
-download_bytes: 151494656
+tier: "optional"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "brave-browser"
+brew_formula: null
+official_url: "https://brave.com/download/"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 1000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 450060288
-installed_version: "150.1.92.139"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
+installed_measurement_method: "local_du"
 ---
 # Brave Browser
 

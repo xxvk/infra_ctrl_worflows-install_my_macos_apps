@@ -3,12 +3,18 @@ component_id: "docker-desktop"
 name: "Docker Desktop"
 category: "Virtualization"
 tier: "heavy"
-status: "retired"
+lifecycle_status: "retired"
+source: "official_web"
 delivery_method: "vendor-download"
+brew_cask: null
+brew_formula: null
+check_command: null
+account_required: false
+permissions_required: []
+install_after: []
 official_url: "https://www.docker.com/products/docker-desktop/"
 replacement: "OrbStack"
 replacement_url: "https://orbstack.dev/download"
-verified_at: "2026-07-15"
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 ---
 

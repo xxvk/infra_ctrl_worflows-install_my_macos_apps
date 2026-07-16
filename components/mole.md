@@ -1,28 +1,24 @@
 ---
+component_id: "mole"
 name: "mole"
 category: "System tools"
-tier: core
-status: installed
-source: homebrew
-download_bytes: 4403200
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-formula"
+brew_cask: null
+brew_formula: "mole"
+official_url: "https://mole.fit"
+check_command: "mole"
+install_after: ["Ghostty"]
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 10000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 9224192
-installed_version: "1.46.0"
-installed_at: "2026-07-15"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
+cli_path: "/opt/homebrew/opt/mole"
 ---
-# mole
-
-> [!summary] Purpose
-> A macOS disk-cleaning and optimization command-line tool.
-
-## Parameters
-
-| Parameter | Value |
-|---|---|
-| Delivery | Homebrew formula |
-| Binary | `/opt/homebrew/bin/mole` |
+ry | `/opt/homebrew/bin/mole` |
 | Download recorded | 4,403,200 bytes |
 | Installed size recorded | 9,224,192 bytes (~8.8 MiB) |
 | Binary | `/opt/homebrew/bin/mole` |

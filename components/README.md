@@ -43,6 +43,15 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | Obsidian | [obsidian.md](obsidian.md) | Installed via Homebrew; vault verification pending |
 | GitHub CLI (`gh`) | [github-cli.md](github-cli.md) | Installed and authenticated |
 | Ghostty | [ghostty.md](ghostty.md) | Installed and configured |
+| deno | [deno.md](deno.md) | Installed via Homebrew |
+| fnm | [fnm.md](fnm.md) | Installed via Homebrew |
+| jenv | [jenv.md](jenv.md) | Installed via Homebrew |
+| Maven | [maven.md](maven.md) | Installed via Homebrew |
+| Android command-line tools | [android-commandlinetools.md](android-commandlinetools.md) | Core; installation pending |
+| Android platform tools | [android-platform-tools.md](android-platform-tools.md) | Core; installation pending |
+| Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Installed via Homebrew |
+| Kimi | [kimi.md](kimi.md) | Installed manually; Homebrew replacement preferred |
+| Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Installed via npm |
 | mole | [mole.md](mole.md) | Installed; first cleanup review pending |
 | Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
 

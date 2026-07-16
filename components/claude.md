@@ -1,25 +1,23 @@
 ---
+component_id: "claude"
 name: "Claude"
 category: "AI"
-tier: core
-status: installed
-source: homebrew
-download_bytes: null
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "claude"
+brew_formula: null
+official_url: "https://claude.ai/download"
+check_command: null
+install_after: []
+account_required: true
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 1000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 1831919616
-installed_version: "1.21459.0"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
-# Claude
-
-> [!summary]
-> Claude Desktop, with a separate Claude Code CLI workflow.
-
-## Post-install checklist
-
-- Open Claude and sign in with the Google account `example.user@example.invalid`.
+ `example.user@example.invalid`.
 - Verify the account shown in Claude before proceeding; never store credentials or tokens here.
 - Confirm notifications, microphone, accessibility, and any requested automation permission interactively.
 - Version verified: `1.21459.0`.

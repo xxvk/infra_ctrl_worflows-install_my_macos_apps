@@ -54,17 +54,22 @@ def main() -> int:
         follow_up = app.get("follow_up", [])
         checklist = "\n".join(f"- [ ] {item}" for item in follow_up) or "- [ ] Open and verify the app"
         text = f'''---
+component_id: {json.dumps(slug(app['name']), ensure_ascii=False)}
 name: {json.dumps(app['name'], ensure_ascii=False)}
 category: {json.dumps(app.get('category', ''), ensure_ascii=False)}
 tier: {app['tier']}
-status: planned
+lifecycle_status: planned
+delivery_method: {kind.replace('_', '-')}
+brew_cask: {json.dumps(app.get('brew_cask'))}
+brew_formula: {json.dumps(app.get('brew_formula'))}
+official_url: {json.dumps(app.get('official_url'))}
+check_command: {json.dumps(app.get('check_command'))}
+install_after: []
 source: {kind}
-download_bytes: null
 download_estimate_bytes: {estimate}
 download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: null
-installed_version: null
-installed_at: null
+account_required: {str(bool(app.get('preferred_account'))).lower()}
+permissions_required: []
 secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
 ---
 # {app['name']}

@@ -1,22 +1,21 @@
 ---
+component_id: "github-desktop"
 name: "GitHub Desktop"
 category: "Developer tools"
-tier: core
-status: installed
-source: homebrew
-download_bytes: null
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "github"
+brew_formula: null
+official_url: "https://desktop.github.com/"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 1000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 1758961664
-installed_version: "3.6.3"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
-ns/GitHub Desktop.app`
-- Opened successfully; the local repository view loaded.
-
-## Post-install checklist
-
-- Sign in only when repository access is needed.
-- Configure Git name, email, and SSH signing separately.
+ail, and SSH signing separately.
 - Review the list of changed files before committing or pushing.

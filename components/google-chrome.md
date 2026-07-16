@@ -1,24 +1,23 @@
 ---
+component_id: "google-chrome"
 name: "Google Chrome"
 category: "Browser"
-tier: core
-status: installed
-source: homebrew
-download_bytes: null
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "google-chrome"
+brew_formula: null
+official_url: "https://www.google.com/chrome/"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 1000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 2242318336
-installed_version: "150.0.7871.125"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
-`/Applications/Google Chrome.app`
-- Bundle ID: `com.google.Chrome`
-- Opened successfully after installation.
-
-## Post-install checklist
-
-- Sign in only with the intended Google profile.
+ogle profile.
 - Enable only the extensions needed for this Mac.
 - Run the Chrome Codex extension preflight before browser-controlled downloads.
 - For a new Mac, inventory profiles with `scripts/chrome_profiles.py` and

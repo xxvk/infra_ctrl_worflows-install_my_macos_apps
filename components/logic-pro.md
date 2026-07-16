@@ -1,17 +1,22 @@
 ---
-installed_measurement_method: "local_du"
+component_id: "logic-pro"
 name: "Logic Pro"
 category: "Audio"
-tier: optional
-status: "installed"
-source: app_store
-download_bytes: null
+tier: "optional"
+lifecycle_status: "active"
+source: "app_store"
+delivery_method: "app-store"
+brew_cask: null
+brew_formula: null
+official_url: null
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 7000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 1989111808
-installed_version: "12.0.1"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
+installed_measurement_method: "local_du"
 ---
 # Logic Pro
 

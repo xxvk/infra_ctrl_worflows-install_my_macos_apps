@@ -53,16 +53,20 @@ def compare(inventory: dict, expected_path: Path) -> dict:
         expected = json.loads(expected_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return {"error": str(exc)}
-    actual_by_dir = {p["profile_directory"]: p for p in inventory.get("profiles", [])}
-    expected_by_dir = {p["profile_directory"]: p for p in expected.get("profiles", [])}
-    missing = sorted(set(expected_by_dir) - set(actual_by_dir))
-    extra = sorted(set(actual_by_dir) - set(expected_by_dir))
-    mismatches = []
-    for directory in sorted(set(expected_by_dir) & set(actual_by_dir)):
-        exp, got = expected_by_dir[directory], actual_by_dir[directory]
-        if exp.get("account_email") != got.get("account_email"):
-            mismatches.append({"profile_directory": directory, "expected": exp.get("account_email", ""), "detected": got.get("account_email", "")})
-    return {"expected": str(expected_path), "expected_count": len(expected_by_dir), "detected_count": len(actual_by_dir), "missing": missing, "extra": extra, "email_mismatches": mismatches}
+    actual = inventory.get("profiles", [])
+    expected_profiles = expected.get("profiles", [])
+    actual_by_email = {p.get("account_email", "").casefold(): p for p in actual if p.get("account_email")}
+    expected_by_email = {p.get("account_email", "").casefold(): p for p in expected_profiles if p.get("account_email")}
+    missing = sorted(expected_by_email[email].get("account_email", "") for email in set(expected_by_email) - set(actual_by_email))
+    extra = sorted(actual_by_email[email].get("account_email", "") for email in set(actual_by_email) - set(expected_by_email))
+    directory_mismatches, name_mismatches = [], []
+    for email in sorted(set(expected_by_email) & set(actual_by_email)):
+        exp, got = expected_by_email[email], actual_by_email[email]
+        if exp.get("profile_directory") != got.get("profile_directory"):
+            directory_mismatches.append({"account_email": exp.get("account_email", ""), "expected": exp.get("profile_directory", ""), "detected": got.get("profile_directory", "")})
+        if exp.get("display_name") != got.get("display_name"):
+            name_mismatches.append({"account_email": exp.get("account_email", ""), "expected": exp.get("display_name", ""), "detected": got.get("display_name", "")})
+    return {"expected": str(expected_path), "expected_count": len(expected_profiles), "detected_count": len(actual), "missing": missing, "extra": extra, "directory_mismatches": directory_mismatches, "name_mismatches": name_mismatches, "email_matching": True}
 
 
 def main() -> int:

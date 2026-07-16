@@ -1,22 +1,21 @@
 ---
+component_id: "postman"
 name: "Postman"
 category: "Developer tools"
-tier: core
-status: installed
-source: homebrew
-download_bytes: null
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "postman"
+brew_formula: null
+official_url: "https://www.postman.com/downloads/"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 1000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 801525760
-installed_version: "12.19.3"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
-app`
-- Opened successfully; desktop workspace loaded.
-
-## Post-install checklist
-
-- Sign in only if cloud workspaces are needed.
-- Review synced collections before using production environments.
+uction environments.
 - Keep secrets in Postman-managed variables or a password manager, not in this catalog.

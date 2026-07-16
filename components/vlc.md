@@ -1,21 +1,21 @@
 ---
+component_id: "vlc"
 name: "VLC"
 category: "Media"
-tier: core
-status: installed
-source: homebrew
-download_bytes: null
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "vlc"
+brew_formula: null
+official_url: "https://www.videolan.org/vlc/"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 1000000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 154812416
-installed_version: "3.0.23"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
-erified: `/opt/homebrew/bin/vlc`
-- Opened successfully; first-run update-check dialog was shown.
-
-## Post-install checklist
-
-- Choose the preferred automatic-update setting.
+date setting.
 - Review privacy and network playback settings before enabling network shares.

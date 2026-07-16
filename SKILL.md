@@ -7,6 +7,23 @@ description: Scan a Mac for installed applications, compare it with a persistent
 
 Use this skill from its synced source folder. Treat the catalog as the source of truth; never infer that an app is installed merely because its installer or receipt exists.
 
+## Required macOS permission preflight
+
+Before running any workflow that checks Chrome profiles, verify that the
+Codex/ChatGPT process can read:
+
+```text
+~/Library/Application Support/Google/Chrome/Local State
+```
+
+This requires macOS permission at **System Settings → Privacy & Security →
+Full Disk Access** for the app hosting Codex/ChatGPT (or the terminal process
+running the skill). If the read is denied, stop the Chrome-profile check and
+ask the user to grant that permission, then retry. Never report all expected
+profiles as missing when the underlying error is `Operation not permitted`.
+The preflight reads only profile directories and account identifiers exposed in
+Local State; it must never read cookies, passwords, tokens, or Keychain data.
+
 ## Workflow
 
 1. Inspect the current Mac and write a dated scan:
@@ -73,15 +90,16 @@ Configurator is not a Mac application deployment tool in this workflow.
    and check the user's Purchased list if the direct page is unavailable. A
    page that lists only iPhone/iPad/Apple TV is not a valid Mac installation
    source, even if the app has the same name.
-3. The skill must open the catalog's App Store URL for the user (using the
-   App Store UI when available), search for the exact app if needed, select
-   `Mac Apps`, and report whether the button says `Get`, `Download`,
-   `Redownload`, `Update`, or `Open`. Stop immediately before any
-   `Get`/`Download`/`Redownload` action and ask for confirmation. After the
-   user confirms, the skill may click that button, but the user must complete
-   any Apple Account password, Touch ID, purchase, or two-factor prompt.
-   App Store installation must not be automated with Apple Configurator,
-   undocumented store APIs, or credential entry.
+3. The skill must actively open the catalog's App Store URL for the user,
+   one application at a time, using the App Store UI when available. The user
+   must not be asked to search for or open the page manually. Search for the
+   exact app if needed, select `Mac Apps`, and report whether the button says
+   `Get`, `Download`, `Redownload`, `Update`, or `Open`. Stop immediately
+   before any `Get`/`Download`/`Redownload` action and ask for confirmation.
+   After the user confirms, the skill may click that button, but the user must
+   complete any Apple Account password, Touch ID, purchase, or two-factor
+   prompt. App Store installation must not be automated with Apple
+   Configurator, undocumented store APIs, or credential entry.
 4. After installation, open the app and confirm its first window. Re-run
    `scan` and verify the App Store evidence: the traditional
    `Contents/_MASReceipt/receipt`, or for some Mac Catalyst/wrapper packages
@@ -129,15 +147,28 @@ normal way to install Mac apps or to bypass Apple Account authorization.
 
    Treat this as a post-install configuration step, not part of the Homebrew installation. Verify the theme name with `ghostty +list-themes --plain` and open Ghostty once after writing the config.
 
-6. For every install, update or create the matching `components/<component_id>.md`, add or update its row in `components/README.md`, and ensure the catalog entry has the relative `guide` path. For every uninstall or removal, update that guide's frontmatter to `status: retired`, document what was removed and what data was preserved, and keep the historical install/removal evidence. A component operation is not complete until its guide and index are synchronized.
+6. For a first install or a material deployment change, create or update the
+   matching `components/<component_id>.md`, add or update its row in
+   `components/README.md`, and ensure the catalog entry has the relative
+   `guide` path. Material changes include a changed delivery source, changed
+   installation or verification procedure, new permission/configuration
+   requirement, changed account/license workflow, or changed lifecycle status.
+   Routine reinstalls, upgrades, and repeated scans should write evidence to
+   `state/` records without rewriting the guide merely to refresh a version,
+   timestamp, formatting, or unchanged measurement. For every uninstall or
+   removal, update that guide's reusable `lifecycle_status: retired`, document
+   what was removed and what data was preserved, and keep machine-specific
+   evidence in the ignored `state/` record.
+   A component operation is complete when catalog, guide, and state evidence
+   are synchronized at the appropriate level of change.
 
-   Every Core guide must persist both delivery and storage measurements:
-   `download_bytes` (actual bytes transferred for the install),
-   `installed_bytes` (measured on-disk footprint after installation),
-   `installed_version`, and `installed_at`. The catalog's `size_gb` remains an
-   estimate used for planning and must never be presented as the measured
-   footprint. For a not-yet-installed Core app, use `null`/`pending` rather
-   than inventing measurements. Audit the complete Core set with:
+   Every Core installation must record delivery and storage measurements in the
+   ignored `state/` install record: `download_bytes` (actual bytes transferred),
+   `installed_bytes` (measured footprint), `installed_version`, and
+   `installed_at`. The catalog's `size_gb` remains an estimate used for
+   planning and must never be presented as the measured footprint. Component
+   Markdown contains no current-machine installation measurements. Audit the
+   complete Core set with:
 
    ```sh
    python3 scripts/audit_core_catalog.py
@@ -147,8 +178,46 @@ normal way to install Mac apps or to bypass Apple Account authorization.
    vendor-provided installer size, (b) the Mac App Store listing size for a
    verified Mac build, (c) a vendor download page/API, and only then (d) the
    catalog `size_gb` planning estimate. Label the method and timestamp; never
-   present an estimate as transferred bytes. After installation, measure the
-   actual bundle or Homebrew prefix with `du` and record `installed_bytes`.
+   present an estimate as transferred bytes. After first installation or a
+   material packaging change, measure the actual bundle or Homebrew prefix with
+   `du` and record it in the dated state installation log. Do not rewrite an
+   unchanged guide on every routine upgrade; preserve detailed version and byte
+   evidence only in the state installation log.
+
+## Documentation churn policy
+
+The skill is deployment-oriented, not a live changelog generator. Before
+editing a component Markdown file, confirm that the source, procedure,
+verification, permissions, configuration, lifecycle status, or operating
+knowledge changed. If not, leave the Markdown file untouched and record only
+the operation in `state/`. Do not run enrichment or normalization scripts as a
+routine post-install step when they would rewrite unchanged guides.
+
+## Component frontmatter integrity
+
+Every generated or catalog-linked `components/*.md` file must contain the
+complete frontmatter contract from `templates/app-component.md`, including
+`component_id`, `name`, `category`, `tier`, `lifecycle_status`, `source`,
+`delivery_method`, source identifiers, account/permission fields, and
+`secrets_policy`. Missing values must be explicit `null`, `[]`, or `false`; never
+omit a template field and never use a placeholder such as `X`.
+
+Machine-specific observations do not belong in component Markdown: do not
+persist `status: installed`, installed version/size/timestamps, or verification
+results there. Write those observations to ignored `state/` scan, plan, and
+install records. `lifecycle_status` describes the reusable catalog lifecycle,
+not whether this Mac currently has the component installed.
+
+After creating or materially rewriting guides, run:
+
+```sh
+python3 scripts/audit_component_frontmatter.py
+```
+
+The audit must pass for every catalog-linked guide and every other Markdown
+file under `components/` except `README.md`. A failed audit blocks the
+workflow until the frontmatter is repaired. Routine scans and upgrades must
+not rewrite frontmatter or body text.
 
 ## GUI app and CLI workflow
 
@@ -214,12 +283,46 @@ python3 scripts/chrome_profiles.py \
   --output state/chrome-profiles-inventory.json
 ```
 
+The `display_name` in `config/chrome-profiles.json` is the canonical naming
+registry, matched to each account by `account_email`. The current naming policy
+is:
+
+- `example.user@example.invalid`: `Example Profile 12`
+- `example.user@example.invalid`: `Example Profile 9`
+- `example.user@example.invalid`: `Example Profile 3`
+- `example.user@example.invalid`: `UDI Dev robot`
+- `example.user@example.invalid`: `GS Dev robot`
+
+Chrome does not expose a supported command-line operation for changing a
+profile's display name. For a new-Mac deployment, the skill may normalize names
+through the local `Local State` file only under this controlled sequence:
+
+1. Confirm Chrome is fully quit; do not edit while Chrome is running.
+2. Read the file and match profiles by `account_email`, never by
+   `profile_directory` alone.
+3. Create a timestamped backup beside the file before editing.
+4. Change only the matched profile's `display_name` field. Do not change
+   account emails, profile directories, cookies, passwords, tokens, or other
+   Chrome settings.
+5. Re-run `chrome_profiles.py --expected ...` and require zero
+   `name_mismatches`; preserve any directory mismatches as informational.
+6. Only after verification may Chrome be launched again. If the file cannot be
+   parsed or the backup fails, stop without editing.
+
+This controlled file-edit workflow is the approved automation path for profile
+name normalization; the UI remains the fallback when Chrome is running or the
+file structure is not recognized.
+
 For a new Mac, treat `config/chrome-profiles.json` as the synced desired
 seven-profile registry. Compare it with a fresh `state/chrome-profiles-inventory.json`
-by
-`profile_directory` and `account_email`; report missing, extra, or mismatched
-profiles. Restore missing profiles one at a time by creating/opening the exact
-profile directory with Chrome, then let the user complete Google sign-in,
+using `account_email` as the primary identity key. Treat `profile_directory` as
+a local implementation detail, not identity. Report missing or extra email
+accounts, directory changes, and display-name mismatches separately. If an
+email matches but its directory differs, do not call it a missing account.
+When an email matches, propose normalizing the Chrome display name to the
+expected name; never silently rename a profile and never use a directory name
+alone to map accounts. Restore genuinely missing emails one at a time by
+creating/opening a new Chrome profile, then let the user complete Google sign-in,
 Passkey selection, and Touch ID/other second-factor prompts:
 
 ```sh

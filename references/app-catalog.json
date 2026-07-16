@@ -587,7 +587,7 @@
       "name": "moomoo",
       "category": "Finance",
       "tier": "core",
-      "app_store_url": "https://apps.apple.com/app/moomoo-trade-stock-option/id1482713641?mt=12",
+      "app_store_url": "https://apps.apple.com/jp/app/moomoo%E8%A8%BC%E5%88%B8-%E6%97%A5%E7%B1%B3%E6%A0%AA%E5%8F%96%E5%BC%95-%E9%8A%98%E6%9F%84-%E3%83%AA%E3%82%A2%E3%83%AB%E3%82%BF%E3%82%A4%E3%83%A0%E6%8A%95%E8%B3%87%E6%83%85%E5%A0%B1/id6758005700?l=en-US&mt=12",
       "official_url": "https://www.moomoo.com/",
       "size_gb": 1,
       "follow_up": [
@@ -733,6 +733,8 @@
       "name": "KeyStats",
       "category": "System tools",
       "tier": "core",
+      "brew_cask": "keystats",
+      "brew_tap": "debugtheworldbot/keystats",
       "official_url": "https://keystats.vercel.app/",
       "size_gb": 0.1,
       "follow_up": [
@@ -746,6 +748,7 @@
       "name": "ZeroTier",
       "category": "Network",
       "tier": "core",
+      "brew_cask": "zerotier-one",
       "official_url": "https://www.zerotier.com/download/",
       "size_gb": 1,
       "follow_up": [
@@ -907,7 +910,8 @@
       "follow_up": [],
       "guide": "components/pnpm.md",
       "download_estimate_bytes": 20000000,
-      "download_estimate_method": "catalog_size_gb_planning_estimate"
+      "download_estimate_method": "catalog_size_gb_planning_estimate",
+      "cli_path": "/opt/homebrew/opt/pnpm"
     },
     {
       "name": "npm",
@@ -1145,6 +1149,20 @@
       "cli_path": "/opt/homebrew/opt/wget"
     },
     {
+      "name": "yt-dlp",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "yt-dlp",
+      "check_command": "yt-dlp",
+      "official_url": "https://github.com/yt-dlp/yt-dlp",
+      "guide": "components/yt-dlp.md",
+      "size_gb": 0.02,
+      "follow_up": [],
+      "download_estimate_bytes": 20000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate",
+      "cli_path": "/opt/homebrew/opt/yt-dlp"
+    },
+    {
       "name": "tree",
       "category": "Developer CLI",
       "tier": "core",
@@ -1303,6 +1321,138 @@
       "download_estimate_bytes": 20000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate",
       "cli_path": "/opt/homebrew/opt/pkgconf"
+    },
+    {
+      "name": "SmartDNS",
+      "category": "Network CLI",
+      "tier": "core",
+      "brew_formula": "smartdns",
+      "check_command": "smartdns",
+      "official_url": "https://github.com/mokeyish/smartdns-rs",
+      "guide": "components/smartdns.md",
+      "size_gb": 0.02,
+      "follow_up": [
+        "Verify the SmartDNS service is running",
+        "Verify macOS DNS points to 127.0.0.1",
+        "Test one international and one China-routed domain"
+      ],
+      "download_estimate_bytes": 20000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate",
+      "cli_path": "/opt/homebrew/opt/smartdns"
+    },
+    {
+      "name": "deno",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "deno",
+      "check_command": "deno",
+      "official_url": "https://deno.com/",
+      "guide": "components/deno.md",
+      "size_gb": 0.1,
+      "follow_up": [],
+      "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "fnm",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "fnm",
+      "check_command": "fnm",
+      "official_url": "https://github.com/Schniz/fnm",
+      "guide": "components/fnm.md",
+      "size_gb": 0.02,
+      "follow_up": ["Enable shell integration only after reviewing the generated config"],
+      "download_estimate_bytes": 20000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "jenv",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "jenv",
+      "check_command": "jenv",
+      "official_url": "https://www.jenv.be/",
+      "guide": "components/jenv.md",
+      "size_gb": 0.02,
+      "follow_up": ["Configure Java versions only after reviewing installed JDKs"],
+      "download_estimate_bytes": 20000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Maven",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "maven",
+      "check_command": "mvn",
+      "official_url": "https://maven.apache.org/",
+      "guide": "components/maven.md",
+      "size_gb": 0.05,
+      "follow_up": [],
+      "download_estimate_bytes": 50000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Android command-line tools",
+      "category": "Android tools",
+      "tier": "core",
+      "brew_cask": "android-commandlinetools",
+      "official_url": "https://developer.android.com/tools",
+      "guide": "components/android-commandlinetools.md",
+      "size_gb": 0.2,
+      "follow_up": ["Set Android SDK location and install only required packages"],
+      "download_estimate_bytes": 200000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Android platform tools",
+      "category": "Android tools",
+      "tier": "core",
+      "brew_cask": "android-platform-tools",
+      "official_url": "https://developer.android.com/tools/releases/platform-tools",
+      "guide": "components/android-platform-tools.md",
+      "size_gb": 0.1,
+      "follow_up": ["Verify adb only when an Android device or emulator is in scope"],
+      "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Google Cloud CLI",
+      "category": "Cloud CLI",
+      "tier": "core",
+      "brew_cask": "gcloud-cli",
+      "check_command": "gcloud",
+      "official_url": "https://cloud.google.com/sdk",
+      "guide": "components/gcloud-cli.md",
+      "size_gb": 0.2,
+      "follow_up": ["Authenticate interactively; never store credentials in the catalog"],
+      "download_estimate_bytes": 200000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Kimi",
+      "category": "AI",
+      "tier": "core",
+      "brew_cask": "kimi",
+      "official_url": "https://www.kimi.com/",
+      "guide": "components/kimi.md",
+      "size_gb": 1,
+      "follow_up": ["Sign in interactively and verify the intended account"],
+      "download_estimate_bytes": 1000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Cloudflare Wrangler",
+      "category": "Cloud CLI",
+      "tier": "core",
+      "npm_package": "wrangler",
+      "check_command": "wrangler",
+      "official_url": "https://developers.cloudflare.com/workers/wrangler/install/",
+      "guide": "components/cloudflare-wrangler.md",
+      "size_gb": 0.1,
+      "follow_up": ["Authenticate interactively with Cloudflare and verify the intended account"],
+      "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Android File Transfer",

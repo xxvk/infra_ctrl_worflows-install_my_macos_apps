@@ -1,17 +1,22 @@
 ---
-installed_measurement_method: "local_du"
+component_id: "android-file-transfer"
 name: "Android File Transfer"
 category: "File transfer"
-tier: optional
-status: "installed"
-source: official_web
-download_bytes: null
+tier: "optional"
+lifecycle_status: "active"
+source: "official_web"
+delivery_method: "vendor-download"
+brew_cask: null
+brew_formula: null
+official_url: "https://www.android.com/filetransfer/"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 100000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 6696960
-installed_version: "1.0.12"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
+installed_measurement_method: "local_du"
 ---
 # Android File Transfer
 

@@ -93,14 +93,10 @@ def main() -> int:
         if path.exists():
             text = path.read_text(encoding="utf-8")
         else:
-            text = f"---\nname: {app['name']}\nstatus: {'installed' if actual is not None else 'planned'}\n---\n\n# {app['name']}\n\n"
+            text = f"---\ncomponent_id: {app['name'].lower().replace(' ', '-')}\nname: {app['name']}\ncategory: {app.get('category', '')}\ntier: core\nlifecycle_status: active\ndelivery_method: {'app-store' if app.get('app_store_url') else 'homebrew-cask' if app.get('brew_cask') else 'homebrew-formula' if app.get('brew_formula') else 'vendor-download'}\nbrew_cask: {app.get('brew_cask')}\nbrew_formula: {app.get('brew_formula')}\nofficial_url: {app.get('official_url')}\ncheck_command: {app.get('check_command')}\ninstall_after: []\naccount_required: false\npermissions_required: []\nsecrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.\n---\n\n# {app['name']}\n\n"
         metadata = (
-            f"download_bytes: null\n"
             f"download_estimate_bytes: {estimate}\n"
             f"download_estimate_method: catalog_size_gb_planning_estimate\n"
-            f"installed_bytes: {actual if actual is not None else 'null'}\n"
-            f"installed_version: {json.dumps(version) if version else 'null'}\n"
-            f"installed_at: {json.dumps(now) if actual is not None else 'null'}\n"
         )
         if text.startswith("---\n"):
             end = text.find("\n---", 4)

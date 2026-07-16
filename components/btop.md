@@ -1,16 +1,22 @@
 ---
+component_id: "btop"
 name: "btop"
 category: "System CLI"
-tier: core
-status: installed
-source: homebrew
-download_bytes: null
+tier: "core"
+lifecycle_status: "active"
+source: "homebrew"
+delivery_method: "homebrew-formula"
+brew_cask: null
+brew_formula: "btop"
+official_url: "https://github.com/aristocratos/btop"
+check_command: "btop"
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 20000000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 1589248
-installed_version: "btop version: \u001b[1m1.4.7\u001b[0m"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
+cli_path: "/opt/homebrew/opt/btop"
 ---
 # btop
 

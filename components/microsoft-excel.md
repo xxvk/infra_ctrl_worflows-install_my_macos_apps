@@ -1,17 +1,22 @@
 ---
-installed_measurement_method: "local_du"
+component_id: "microsoft-excel"
 name: "Microsoft Excel"
 category: "Business"
-tier: optional
-status: "installed"
-source: app_store
-download_bytes: null
+tier: "optional"
+lifecycle_status: "active"
+source: "app_store"
+delivery_method: "app-store"
+brew_cask: null
+brew_formula: null
+official_url: "https://www.microsoft.com/microsoft-365/excel"
+check_command: null
+install_after: []
+account_required: false
+permissions_required: []
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 850700000
-download_estimate_method: catalog_size_gb_planning_estimate
-installed_bytes: 1811238912
-installed_version: "16.107.1"
-installed_at: "2026-07-16"
-secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.
+download_estimate_method: "catalog_size_gb_planning_estimate"
+installed_measurement_method: "local_du"
 ---
 # Microsoft Excel
 

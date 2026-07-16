@@ -29,24 +29,8 @@ def write_record(prefix, value):
 
 
 def update_guide_measurement(app, measurement):
-    """Persist a completed Homebrew measurement in the component guide."""
-    guide = app.get("guide")
-    if not guide or measurement.get("status") != "installed":
-        return
-    path = ROOT / guide
-    if not path.is_file():
-        return
-    text = path.read_text(encoding="utf-8")
-    replacements = {
-        "download_bytes": measurement["download_bytes"],
-        "installed_bytes": measurement["installed_bytes"],
-        "installed_at": dt.datetime.now().astimezone().date().isoformat(),
-    }
-    for key, value in replacements.items():
-        text, count = re.subn(rf"^{key}:.*$", f"{key}: {json.dumps(value)}", text, count=1, flags=re.MULTILINE)
-        if count == 0:
-            text = text.replace("---\n", f"{key}: {json.dumps(value)}\n---\n", 1)
-    path.write_text(text, encoding="utf-8")
+    """Keep measurements in the ignored install state record, never in guides."""
+    return
 
 
 def catalog():
@@ -85,6 +69,8 @@ def expected_source(app):
         return "app_store"
     if app.get("brew_cask") or app.get("brew_formula"):
         return "homebrew"
+    if app.get("npm_package"):
+        return "npm_global"
     if app.get("system_app"):
         return "system"
     if app.get("official_url"):
@@ -334,7 +320,8 @@ def plan(args):
         if app.get("brew_cask"):
             delivery = f"brew install --cask {app['brew_cask']}"
         elif app.get("brew_formula"):
-            delivery = f"brew install {app['brew_formula']}"
+            tap = f" (after brew tap {app['brew_tap']})" if app.get('brew_tap') else ""
+            delivery = f"brew install {app['brew_formula']}{tap}"
         else:
             delivery = app.get("app_store_url") or app.get("official_url", "no source recorded")
         print(f"- {app['name']}: {delivery}")
@@ -390,6 +377,11 @@ def installed_size(app):
     if app.get("brew_formula"):
         result = subprocess.run(["brew", "--prefix", app["brew_formula"]], capture_output=True, text=True, check=False)
         return path_size(result.stdout.strip()) if result.returncode == 0 else 0
+    if app.get("npm_package"):
+        result = subprocess.run(["npm", "root", "-g"], capture_output=True, text=True, check=False)
+        if result.returncode == 0:
+            return path_size(Path(result.stdout.strip()) / app["npm_package"])
+        return 0
     return path_size(Path("/Applications") / f"{app['name']}.app")
 
 
@@ -399,7 +391,10 @@ def install(args):
     # A source correction is an install target too: the app may already exist,
     # but must be replaced/reinstalled from the catalog's preferred source.
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))["apps"]
-    catalog_by_name = {app["name"].casefold(): app for app in catalog}
+    catalog_by_name = {}
+    for app in catalog:
+        for label in [app["name"], *app.get("aliases", [])]:
+            catalog_by_name[label.casefold()] = app
     mismatch_names = {item["app"].casefold() for item in plan_data.get("source_mismatches", [])}
     selected = list(plan_data["missing"])
     for name in mismatch_names:
@@ -412,12 +407,22 @@ def install(args):
     if len(args.only) > 2:
         raise SystemExit("A run may contain at most two --only app names.")
     wanted = {name.casefold() for name in args.only}
-    selected = [app for app in selected if app["name"].casefold() in wanted]
-    absent = wanted - {app["name"].casefold() for app in selected}
+    def matches_wanted(app):
+        labels = {app["name"].casefold(), *(alias.casefold() for alias in app.get("aliases", []))}
+        return bool(labels & wanted)
+
+    selected = [app for app in selected if matches_wanted(app)]
+    selected_labels = {
+        label.casefold()
+        for app in selected
+        for label in [app["name"], *app.get("aliases", [])]
+    }
+    absent = wanted - selected_labels
     if absent:
         raise SystemExit("App not found in this plan: " + ", ".join(sorted(absent)))
     brew_apps = [app for app in selected if app.get("brew_cask") or app.get("brew_formula")]
-    manual_apps = [app for app in selected if not (app.get("brew_cask") or app.get("brew_formula"))]
+    npm_apps = [app for app in selected if app.get("npm_package")]
+    manual_apps = [app for app in selected if not (app.get("brew_cask") or app.get("brew_formula") or app.get("npm_package"))]
     if not args.apply:
         print("DRY RUN — nothing will be installed. Re-run with --apply after review.")
     if brew_apps and not shutil.which("brew"):
@@ -428,6 +433,8 @@ def install(args):
             return
     measurements = []
     for app in brew_apps:
+        if app.get("brew_tap"):
+            run(["brew", "tap", app["brew_tap"]], args.apply)
         command = ["brew", "install"]
         if app["name"].casefold() in mismatch_names:
             command.append("--force")
@@ -450,12 +457,28 @@ def install(args):
         }
         measurements.append(measurement)
         update_guide_measurement(app, measurement)
+    for app in npm_apps:
+        command = ["npm", "install", "--global", app["npm_package"]]
+        started = dt.datetime.now().astimezone().isoformat()
+        run(command, args.apply)
+        measurement = {
+            "app": app["name"],
+            "started_at": started,
+            "finished_at": dt.datetime.now().astimezone().isoformat(),
+            "download_bytes": None,
+            "installed_bytes": installed_size(app) if args.apply else 0,
+            "status": "installed" if args.apply else "dry_run",
+        }
+        measurements.append(measurement)
+        update_guide_measurement(app, measurement)
     if manual_apps:
         print("\nManual/App Store items (not downloaded automatically):")
         for app in manual_apps:
             print(f"- {app['name']}: {app.get('app_store_url') or app.get('official_url') or 'source missing'}")
     log = {"executed_at": dt.datetime.now().astimezone().isoformat(), "plan": str(plan_file), "apply": args.apply,
-           "homebrew_items": [app["name"] for app in brew_apps], "manual_items": [app["name"] for app in manual_apps],
+           "homebrew_items": [app["name"] for app in brew_apps],
+           "npm_items": [app["name"] for app in npm_apps],
+           "manual_items": [app["name"] for app in manual_apps],
            "measurements": measurements}
     path = write_record("install", log)
     print(f"Wrote {path}")

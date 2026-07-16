@@ -3,21 +3,14 @@ component_id: "<stable-kebab-case-id>"
 name: "<App or component name>"
 category: "<AI|Browser|Developer tools|Network|Productivity|...>"
 tier: "<core|developer|optional|heavy>"
-status: "<planned|installed|configured|verified|blocked|retired>"
+lifecycle_status: "<planned|active|retired|blocked>"
+source: "<app_store|homebrew|npm_global|official_web|manual>"
 delivery_method: "<homebrew-cask|homebrew-formula|app-store|vendor-download|manual>"
 brew_cask: "<identifier or null>"
 brew_formula: "<identifier or null>"
 official_url: "<official vendor URL>"
 check_command: "<command or null>"
 install_after: []
-download_bytes: null
-installed_bytes: null
-installed_version: "<version or null>"
-installed_at: null
-configured_at: null
-verified_at: null
-config_status: "<not-started|in-progress|complete|not-applicable>"
-verification_status: "<not-started|passed|failed|blocked>"
 account_required: false
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
