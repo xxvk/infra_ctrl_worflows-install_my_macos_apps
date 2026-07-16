@@ -5,6 +5,7 @@ import datetime as dt
 import json
 import os
 import plistlib
+import re
 import shutil
 import subprocess
 import sys
@@ -25,6 +26,27 @@ def write_record(prefix, value):
     path = STATE / f"{prefix}-{stamp()}.json"
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     return path
+
+
+def update_guide_measurement(app, measurement):
+    """Persist a completed Homebrew measurement in the component guide."""
+    guide = app.get("guide")
+    if not guide or measurement.get("status") != "installed":
+        return
+    path = ROOT / guide
+    if not path.is_file():
+        return
+    text = path.read_text(encoding="utf-8")
+    replacements = {
+        "download_bytes": measurement["download_bytes"],
+        "installed_bytes": measurement["installed_bytes"],
+        "installed_at": dt.datetime.now().astimezone().date().isoformat(),
+    }
+    for key, value in replacements.items():
+        text, count = re.subn(rf"^{key}:.*$", f"{key}: {json.dumps(value)}", text, count=1, flags=re.MULTILINE)
+        if count == 0:
+            text = text.replace("---\n", f"{key}: {json.dumps(value)}\n---\n", 1)
+    path.write_text(text, encoding="utf-8")
 
 
 def catalog():
@@ -374,7 +396,17 @@ def installed_size(app):
 def install(args):
     plan_file = Path(args.plan).expanduser().resolve()
     plan_data = json.loads(plan_file.read_text())
-    selected = plan_data["missing"]
+    # A source correction is an install target too: the app may already exist,
+    # but must be replaced/reinstalled from the catalog's preferred source.
+    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))["apps"]
+    catalog_by_name = {app["name"].casefold(): app for app in catalog}
+    mismatch_names = {item["app"].casefold() for item in plan_data.get("source_mismatches", [])}
+    selected = list(plan_data["missing"])
+    for name in mismatch_names:
+        app = catalog_by_name.get(name)
+        if app and (app.get("brew_cask") or app.get("brew_formula")):
+            if all(existing["name"].casefold() != name for existing in selected):
+                selected.append(app)
     if not args.only:
         raise SystemExit("Select one or two apps with --only; do not install an entire plan at once.")
     if len(args.only) > 2:
@@ -397,6 +429,8 @@ def install(args):
     measurements = []
     for app in brew_apps:
         command = ["brew", "install"]
+        if app["name"].casefold() in mismatch_names:
+            command.append("--force")
         if app.get("brew_cask"):
             command.extend(["--cask", app["brew_cask"]])
         else:
@@ -406,14 +440,16 @@ def install(args):
         started = dt.datetime.now().astimezone().isoformat()
         run(command, args.apply)
         after_download = path_size(cache_path) if cache_path else 0
-        measurements.append({
+        measurement = {
             "app": app["name"],
             "started_at": started,
             "finished_at": dt.datetime.now().astimezone().isoformat(),
             "download_bytes": max(after_download - before_download, 0) or after_download,
             "installed_bytes": installed_size(app) if args.apply else 0,
             "status": "installed" if args.apply else "dry_run",
-        })
+        }
+        measurements.append(measurement)
+        update_guide_measurement(app, measurement)
     if manual_apps:
         print("\nManual/App Store items (not downloaded automatically):")
         for app in manual_apps:

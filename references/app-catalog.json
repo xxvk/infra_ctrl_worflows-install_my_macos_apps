@@ -304,7 +304,10 @@
       "size_gb": 1,
       "follow_up": [
         "Sign in only if needed"
-      ]
+      ],
+      "guide": "components/brave-browser.md",
+      "download_estimate_bytes": 1000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Slack",
@@ -358,19 +361,25 @@
       "size_gb": 1,
       "follow_up": [
         "Sign in"
-      ]
+      ],
+      "guide": "components/dingtalk.md",
+      "download_estimate_bytes": 1000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Microsoft Excel",
       "category": "Business",
       "tier": "optional",
-      "brew_cask": "microsoft-excel",
+      "app_store_url": "https://apps.apple.com/us/app/microsoft-excel/id462058435?mt=12",
       "official_url": "https://www.microsoft.com/microsoft-365/excel",
-      "size_gb": 3,
+      "size_gb": 0.8507,
       "follow_up": [
         "Sign in and activate Microsoft 365",
         "Review file-access permissions"
-      ]
+      ],
+      "guide": "components/microsoft-excel.md",
+      "download_estimate_bytes": 850700000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Canva",
@@ -404,12 +413,14 @@
       "name": "FileZilla",
       "category": "File transfer",
       "tier": "optional",
-      "brew_cask": "filezilla",
       "official_url": "https://filezilla-project.org/",
       "size_gb": 1,
       "follow_up": [
         "Add sites manually"
-      ]
+      ],
+      "guide": "components/filezilla.md",
+      "download_estimate_bytes": 1000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "OrbStack",
@@ -662,7 +673,7 @@
       "name": "Medis",
       "category": "Developer tools",
       "tier": "core",
-      "brew_cask": "medis",
+      "app_store_url": "https://apps.apple.com/us/app/medis-2-gui-for-redis/id1579200037?mt=12",
       "official_url": "https://getmedis.com/",
       "size_gb": 1,
       "follow_up": [
@@ -1301,7 +1312,10 @@
       "size_gb": 0.1,
       "follow_up": [
         "Connect an Android device and confirm file-access permission"
-      ]
+      ],
+      "guide": "components/android-file-transfer.md",
+      "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Xcode",
@@ -1312,7 +1326,10 @@
       "follow_up": [
         "Open once to accept the license",
         "Install command-line tools only if required"
-      ]
+      ],
+      "guide": "components/xcode.md",
+      "download_estimate_bytes": 15000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Android Studio",
@@ -1322,7 +1339,10 @@
       "size_gb": 5,
       "follow_up": [
         "Install required SDK platforms and emulator images only"
-      ]
+      ],
+      "guide": "components/android-studio.md",
+      "download_estimate_bytes": 5000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Android Studio Preview",
@@ -1332,7 +1352,10 @@
       "size_gb": 5,
       "follow_up": [
         "Keep separate from the stable build when testing preview features"
-      ]
+      ],
+      "guide": "components/android-studio-preview.md",
+      "download_estimate_bytes": 5000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Affinity",
@@ -1342,7 +1365,10 @@
       "size_gb": 3,
       "follow_up": [
         "Sign in and activate the applicable Affinity license"
-      ]
+      ],
+      "guide": "components/affinity.md",
+      "download_estimate_bytes": 3000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "CapCut",
@@ -1354,7 +1380,10 @@
       "follow_up": [
         "Sign in if required",
         "Choose media-cache location"
-      ]
+      ],
+      "guide": "components/capcut.md",
+      "download_estimate_bytes": 2000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Compressor",
@@ -1364,7 +1393,10 @@
       "size_gb": 4,
       "follow_up": [
         "Sign in with the Apple Account used for the purchase"
-      ]
+      ],
+      "guide": "components/compressor.md",
+      "download_estimate_bytes": 4000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "DaVinci Resolve",
@@ -1377,7 +1409,10 @@
       "follow_up": [
         "Choose App Store or Blackmagic edition deliberately",
         "Configure cache/media locations"
-      ]
+      ],
+      "guide": "components/davinci-resolve.md",
+      "download_estimate_bytes": 5000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Final Cut Pro",
@@ -1388,7 +1423,10 @@
       "follow_up": [
         "Sign in with the Apple Account used for the purchase",
         "Choose library/cache storage location"
-      ]
+      ],
+      "guide": "components/final-cut-pro.md",
+      "download_estimate_bytes": 6000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Logic Pro",
@@ -1399,7 +1437,10 @@
       "follow_up": [
         "Download sound libraries only when needed",
         "Choose sound-library location"
-      ]
+      ],
+      "guide": "components/logic-pro.md",
+      "download_estimate_bytes": 7000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "MainStage",
@@ -1409,7 +1450,10 @@
       "size_gb": 3,
       "follow_up": [
         "Sign in with the Apple Account used for the purchase"
-      ]
+      ],
+      "guide": "components/mainstage.md",
+      "download_estimate_bytes": 3000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Motion",
@@ -1419,7 +1463,10 @@
       "size_gb": 3,
       "follow_up": [
         "Sign in with the Apple Account used for the purchase"
-      ]
+      ],
+      "guide": "components/motion.md",
+      "download_estimate_bytes": 3000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     }
   ]
 }

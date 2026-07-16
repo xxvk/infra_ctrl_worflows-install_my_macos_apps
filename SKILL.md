@@ -279,6 +279,7 @@ Docker states that its Mac containers and images reside in a large disk image an
 ## Catalog maintenance
 
 - Edit `references/app-catalog.json` when adding, removing, or recategorizing apps. Keep the official download URL, delivery method, capacity tier, estimated size, and post-install tasks current.
+- Keep every catalog entry linked to a component guide. To scaffold missing non-Core guides without installing anything, run `python3 scripts/generate_optional_guides.py`; review the generated source and size estimate before using it.
 - Use `brew` only for a cask or formula whose identifier is present in `brew_cask` or `brew_formula`. If a package fails validation, leave it in the plan as a manual task and update the catalog after checking the vendor source.
 - Use `check_command` for CLI tools so a binary already on `PATH` is correctly considered installed. Record ordered dependencies with `install_after`; for example, install `mole` after Ghostty so the user can run and review its terminal UI.
 - Use `app_store_url` for App Store software. App Store sign-in and installation remain user actions.

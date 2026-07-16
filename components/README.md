@@ -46,4 +46,27 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | mole | [mole.md](mole.md) | Installed; first cleanup review pending |
 | Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
 
+## Optional components
+
+These guides are cataloged for review but are not installed automatically during a Core deployment.
+
+| Component | Guide | Preferred source |
+|---|---|---|
+| Brave Browser | [brave-browser.md](brave-browser.md) | Homebrew |
+| DingTalk | [dingtalk.md](dingtalk.md) | Official website |
+| Microsoft Excel | [microsoft-excel.md](microsoft-excel.md) | Mac App Store |
+| FileZilla | [filezilla.md](filezilla.md) | Official website; Homebrew cask unavailable |
+| Android File Transfer | [android-file-transfer.md](android-file-transfer.md) | Official website |
+| Xcode | [xcode.md](xcode.md) | Mac App Store |
+| Android Studio | [android-studio.md](android-studio.md) | Official website |
+| Android Studio Preview | [android-studio-preview.md](android-studio-preview.md) | Official website |
+| Affinity | [affinity.md](affinity.md) | Official website |
+| CapCut | [capcut.md](capcut.md) | Mac App Store |
+| Compressor | [compressor.md](compressor.md) | Mac App Store |
+| DaVinci Resolve | [davinci-resolve.md](davinci-resolve.md) | Mac App Store / Blackmagic website |
+| Final Cut Pro | [final-cut-pro.md](final-cut-pro.md) | Mac App Store |
+| Logic Pro | [logic-pro.md](logic-pro.md) | Mac App Store |
+| MainStage | [mainstage.md](mainstage.md) | Mac App Store |
+| Motion | [motion.md](motion.md) | Mac App Store |
+
 When adding a new app guide, start from `../templates/app-component.md`, add the guide to this table, and add its relative `guide` path to the matching catalog entry.
