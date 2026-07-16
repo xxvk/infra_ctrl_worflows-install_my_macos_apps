@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path.home() / "Library" / "Application Support" / "Claude"
 BUNDLE = ROOT / "vm_bundles" / "claudevm.bundle"
 CONFIRM_REMOVE = "REMOVE CLAUDE VM IMAGES"
+CONFIRM_REMOVE_BUNDLE = "REMOVE CLAUDE VM BUNDLE"
 CONFIRM_LOCK = "LOCK CLAUDE VM DIRECTORY"
 ISSUE_URL = "https://github.com/anthropics/claude-code/issues/65577"
 
@@ -61,6 +62,18 @@ def remove(args):
     print(json.dumps({"deleted": deleted, "remaining_bundle_bytes": size(BUNDLE), "issue_url": ISSUE_URL}, ensure_ascii=False, indent=2))
 
 
+def remove_bundle(args):
+    if args.confirm != CONFIRM_REMOVE_BUNDLE:
+        raise SystemExit(f"Type exactly: {CONFIRM_REMOVE_BUNDLE}")
+    active = processes()
+    if active:
+        raise SystemExit("Claude VM-related processes are running; quit Claude and retry: " + " | ".join(active))
+    deleted_bytes = size(BUNDLE)
+    if BUNDLE.exists():
+        shutil.rmtree(BUNDLE)
+    print(json.dumps({"deleted_bundle": str(BUNDLE), "deleted_bytes": deleted_bytes, "exists": BUNDLE.exists(), "issue_url": ISSUE_URL}, ensure_ascii=False, indent=2))
+
+
 def lock(args):
     if args.confirm != CONFIRM_LOCK:
         raise SystemExit(f"Type exactly: {CONFIRM_LOCK}")
@@ -84,9 +97,9 @@ def unlock(_args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(required=True)
-    for name, func in (("inspect", inspect), ("remove", remove), ("lock", lock), ("unlock", unlock)):
+    for name, func in (("inspect", inspect), ("remove", remove), ("remove-bundle", remove_bundle), ("lock", lock), ("unlock", unlock)):
         command = sub.add_parser(name)
-        if name == "remove":
+        if name in {"remove", "remove-bundle"}:
             command.add_argument("--confirm", required=True)
         elif name == "lock":
             command.add_argument("--confirm", required=True)

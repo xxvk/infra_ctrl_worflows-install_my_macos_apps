@@ -43,6 +43,17 @@ python3 scripts/claude_vm_cleanup.py inspect
 
 The current tracked issue is [anthropics/claude-code#65577](https://github.com/anthropics/claude-code/issues/65577). It describes unbounded growth of `rootfs.img`; the issue is currently open and stale. The documented workaround is to remove `rootfs.img` and `sessiondata.img` while Claude is fully quit. Session state is stored separately, but Cowork/local-agent execution will rebuild or fail afterward.
 
+## Mandatory Analyze Disk cleanup
+
+After every Claude installation or replacement, run the Analyze Disk inspection and do not mark the operation complete while `claudevm.bundle` remains. Report the total bundle size, quit Claude completely, then obtain explicit confirmation and remove the complete bundle:
+
+```sh
+python3 scripts/claude_vm_cleanup.py inspect
+python3 scripts/claude_vm_cleanup.py remove-bundle --confirm "REMOVE CLAUDE VM BUNDLE"
+```
+
+This removes the entire `~/Library/Application Support/Claude/vm_bundles/claudevm.bundle` and may disable or rebuild Cowork/local-agent execution. Verify the path is gone and record the reclaimed bytes in the ignored `state/` operation log.
+
 ## Separate cleanup actions
 
 The skill must ask for a separate confirmation before either action:
@@ -52,7 +63,7 @@ python3 scripts/claude_vm_cleanup.py remove --confirm "REMOVE CLAUDE VM IMAGES"
 python3 scripts/claude_vm_cleanup.py lock --confirm "LOCK CLAUDE VM DIRECTORY"
 ```
 
-`remove` deletes only the two VM images and preserves the surrounding Claude support directory. `lock` applies `chmod 000` and `chflags uchg` to prevent automatic recreation; it deliberately disables Cowork/local-agent VM use and may cause retries or errors. Restore with:
+`remove` deletes only the two VM images and preserves the surrounding Claude support directory. `remove-bundle` deletes the complete VM bundle. `lock` applies `chmod 000` and `chflags uchg` to prevent automatic recreation; it deliberately disables Cowork/local-agent VM use and may cause retries or errors. Restore with:
 
 ```sh
 python3 scripts/claude_vm_cleanup.py unlock

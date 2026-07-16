@@ -104,9 +104,13 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
 
    **Claude pre-install storage gate:** before installing or replacing Claude,
    run `python3 scripts/claude_vm_cleanup.py inspect`. The VM review and any
-   cleanup are separate actions from the Claude installation. Only after the
-   user explicitly confirms, and only after Claude is fully quit, may the skill
-   run `remove --confirm "REMOVE CLAUDE VM IMAGES"`. Optional directory locking
+   cleanup are separate actions from the Claude installation. **Analyze Disk is
+   mandatory completion work for every Claude install or replacement:** if
+   `claudevm.bundle` exists, report its total size and obtain explicit approval
+   to remove the complete bundle with `remove-bundle --confirm "REMOVE CLAUDE VM BUNDLE"`.
+   Only after the user explicitly confirms, and only after Claude is fully quit, may the skill
+   run `remove --confirm "REMOVE CLAUDE VM IMAGES"` or the complete-bundle removal.
+   Optional directory locking
    is a second confirmation using `lock --confirm "LOCK CLAUDE VM DIRECTORY"`;
    it disables Cowork/local-agent VM recreation and is never implicit. See
    [components/claude.md](components/claude.md).
