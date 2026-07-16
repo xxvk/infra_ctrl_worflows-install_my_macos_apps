@@ -20,3 +20,10 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 # deno
 
 JavaScript/TypeScript runtime and toolchain. Install with `brew install deno`.
+
+## Activation
+
+No global activation is required. The Homebrew binary is already on `PATH`.
+Verify with `deno --version`. Project permissions remain explicit; review any
+`--allow-*` flags before running third-party code. Shell completions are
+optional and should be added only after previewing the generated block.

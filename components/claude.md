@@ -22,7 +22,8 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 - Confirm notifications, microphone, accessibility, and any requested automation permission interactively.
 - Version verified: `1.21459.0`.
 - Path: `/Applications/Claude.app`; Bundle ID: `com.anthropic.claudefordesktop`.
-- VM image cleanup was completed before replacement; the directory was not locked.
+- Complete VM bundle cleanup was completed after replacement; `vm_bundles/` is
+  locked with `chmod 000` and `chflags uchg` to prevent automatic re-download.
 - Claude.app was opened after installation and passed the follow-up source scan.
 
 ## Claude Code CLI
@@ -52,7 +53,15 @@ python3 scripts/claude_vm_cleanup.py inspect
 python3 scripts/claude_vm_cleanup.py remove-bundle --confirm "REMOVE CLAUDE VM BUNDLE"
 ```
 
-This removes the entire `~/Library/Application Support/Claude/vm_bundles/claudevm.bundle` and may disable or rebuild Cowork/local-agent execution. Verify the path is gone and record the reclaimed bytes in the ignored `state/` operation log.
+This removes the entire `~/Library/Application Support/Claude/vm_bundles/claudevm.bundle` and may disable or rebuild Cowork/local-agent execution. Verify the path is gone and record the reclaimed bytes in the ignored `state/` operation log. To prevent Claude from downloading the bundle again, lock the parent directory as the default storage-saving follow-up:
+
+```sh
+python3 scripts/claude_vm_cleanup.py lock --confirm "LOCK CLAUDE VM DIRECTORY"
+```
+
+Verify with `inspect`/`ls -ldO`; the expected directory state includes mode
+`d---------` and the `uchg` flag. This lock intentionally disables Cowork and
+local-agent VM features until it is removed.
 
 ## Separate cleanup actions
 

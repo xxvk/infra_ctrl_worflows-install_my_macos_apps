@@ -754,6 +754,8 @@
       "category": "Network",
       "tier": "core",
       "brew_cask": "zerotier-one",
+      "allowed_sources": ["homebrew", "package_receipt"],
+      "package_receipt": "com.zerotier.pkg.ZeroTierOne",
       "official_url": "https://www.zerotier.com/download/",
       "size_gb": 1,
       "follow_up": [

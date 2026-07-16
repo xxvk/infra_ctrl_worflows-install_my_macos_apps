@@ -26,3 +26,18 @@ brew_tap: "debugtheworldbot/keystats"
   3. `brew install --cask keystats`
 - The tap trust step is required by Homebrew and must not be replaced with whole-tap trust or `HOMEBREW_NO_REQUIRE_TAP_TRUST=1`.
 - CLI status: not provided; verify the GUI app and Accessibility permission instead.
+
+## Gatekeeper note
+
+This cask may be ad-hoc signed and retain a quarantine attribute. If the
+Homebrew source and checksum have been reviewed, remove only this App's
+quarantine marker and open it:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/KeyStats.app
+open -a /Applications/KeyStats.app
+```
+
+Do not disable Gatekeeper globally merely for KeyStats. The app may still show
+an ad-hoc signature in `codesign`; verify the running process and review the
+Accessibility permission request in System Settings.

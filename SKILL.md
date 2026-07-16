@@ -26,8 +26,9 @@ Local State; it must never read cookies, passwords, tokens, or Keychain data.
 
 ## Developer-machine Gatekeeper policy
 
-This skill is primarily used for development Macs. The default developer
-profile therefore records the following optional system policy in the plan:
+All Macs covered by this skill are treated as development machines by default.
+The `developer_machine` profile therefore permits the following global policy
+during deployment (the user has approved this as a standing preference):
 
 ```sh
 sudo spctl --global-disable
@@ -35,17 +36,16 @@ sudo spctl --global-disable
 
 This changes Gatekeeper from its normal assessment policy to the broader
 “Anywhere” mode, making it easier to install trusted developer tools that are
-not from the App Store or an identified/notarized developer. It is a deliberate
-security trade-off: never run it silently. Before the first execution on a Mac,
-show the user the exact command and obtain explicit confirmation. On recent
+not from the App Store or an identified/notarized developer. It remains a
+deliberate security trade-off: show the exact command and perform any required
+administrator/System Settings authorization in a visible session. On recent
 macOS releases, keep **System Settings → Privacy & Security** open, run the
 command from a visible Terminal, then close and reopen that settings pane; the
-“Anywhere” choice is hidden until this confirmation flow has been triggered.
-If an automated administrator prompt is used, it may return “needs to be
-confirmed in System Settings” rather than changing the policy. Verify the
-result with `spctl --status` (expected output: `assessments disabled`) and
-record only the policy state and timestamp in the ignored `state/` record; do
-not put machine state in a component guide.
+“Anywhere” choice may be hidden until this confirmation flow has been
+triggered. Verify the result with `spctl --status` (expected output:
+`assessments disabled`) and record the policy state, timestamp, and rollback
+command in the ignored `state/` record. Do not treat this policy as permission
+to skip app-source, checksum, or package-receipt checks.
 
 The matching rollback command is:
 
@@ -53,10 +53,11 @@ The matching rollback command is:
 sudo spctl --global-enable
 ```
 
-If the user declines the global policy, continue with the safer per-application
-workflow: use macOS Privacy & Security → **Open Anyway** for a trusted app, or
-use a narrowly scoped Homebrew cask install option when appropriate. Never
-disable Gatekeeper merely to bypass an unverified or suspicious download.
+If a particular Mac cannot authorize the global policy, continue with the
+per-application workflow: use macOS Privacy & Security → **Open Anyway** for a
+trusted app, or use a narrowly scoped Homebrew cask install option when
+appropriate. Never use the policy to bypass an unverified or suspicious
+download.
 
 ## Workflow
 
@@ -110,10 +111,14 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    to remove the complete bundle with `remove-bundle --confirm "REMOVE CLAUDE VM BUNDLE"`.
    Only after the user explicitly confirms, and only after Claude is fully quit, may the skill
    run `remove --confirm "REMOVE CLAUDE VM IMAGES"` or the complete-bundle removal.
-   Optional directory locking
-   is a second confirmation using `lock --confirm "LOCK CLAUDE VM DIRECTORY"`;
-   it disables Cowork/local-agent VM recreation and is never implicit. See
-   [components/claude.md](components/claude.md).
+   When the complete bundle is removed for storage reclamation, directory
+   locking is the default follow-up: after the separate cleanup confirmation,
+   run `lock --confirm "LOCK CLAUDE VM DIRECTORY"` while Claude is fully quit.
+   The lock applies `chmod 000` and `chflags uchg` to the parent
+   `vm_bundles/` directory, preventing Claude from downloading or rebuilding
+   `claudevm.bundle`. It deliberately disables Cowork/local-agent VM features;
+   record the lock state in `state/` and use `unlock` before restoring those
+   features. See [components/claude.md](components/claude.md).
 
 ## App Store workflow
 
@@ -224,6 +229,12 @@ normal way to install Mac apps or to bypass Apple Account authorization.
    the previous DNS servers, changed service, listener addresses, service
    status, and rollback command in the ignored `state/` record. If the local
    listener or service is unavailable, stop before changing system DNS.
+
+   SmartDNS persistence must use a system LaunchDaemon with `RunAtLoad` and
+   `KeepAlive`. Inspect `launchctl print system/homebrew.mxcl.smartdns`; do not
+   treat a user-level `~/Library/LaunchAgents/homebrew.mxcl.smartdns.plist` as
+   the primary service. If both definitions exist, back up and disable the
+   duplicate user agent, then verify the system daemon and a real DNS query.
 
    **Shell environment requirement:** When a component needs `PATH`,
    `JAVA_HOME`, `ANDROID_HOME`, `ANDROID_SDK_ROOT`, or a manager initializer,

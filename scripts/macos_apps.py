@@ -109,11 +109,22 @@ def detect_source(catalog_app, installed_item, brew_casks):
     # `brew list --cask` reports only the final cask token.
     cask_tokens = {str(token).casefold(), str(token).rsplit("/", 1)[-1].casefold()} if token else set()
     brew_match = bool(cask_tokens & brew_casks)
+    package_receipt = catalog_app.get("package_receipt")
+    pkg_match = False
+    if package_receipt:
+        pkg_match = subprocess.run(
+            ["pkgutil", "--pkg-info", package_receipt],
+            capture_output=True,
+            text=True,
+            check=False,
+        ).returncode == 0
     detected = []
     if receipt:
         detected.append("app_store")
     if brew_match:
         detected.append("homebrew")
+    if pkg_match:
+        detected.append("package_receipt")
     if catalog_app.get("system_app") and path.startswith("/System/Applications/"):
         detected.append("system")
     if not detected:
@@ -138,7 +149,8 @@ def detect_source(catalog_app, installed_item, brew_casks):
         "detected": source,
         "detected_sources": detected,
         "match": match,
-        "evidence": {"path": path, "app_store_receipt": receipt, "homebrew_cask": token if brew_match else None},
+        "evidence": {"path": path, "app_store_receipt": receipt, "homebrew_cask": token if brew_match else None,
+                     "package_receipt": package_receipt if pkg_match else None},
     }
 
 

@@ -22,11 +22,8 @@ cli_path: "/opt/homebrew/bin/smartdns"
 
 ## Purpose
 
-Local macOS DNS split routing:
-
-- Default/international domains: `1.1.1.1` and `8.8.8.8`
-- `.cn` and selected China domains: `114.114.114.114`
-- macOS Wi-Fi resolver: `127.0.0.1` and `::1` when IPv6 is bound
+Local macOS DNS proxy. Split routing is optional and must be explicitly
+configured; installing SmartDNS alone must not silently change domain routing.
 
 ## Installation
 
@@ -37,16 +34,17 @@ brew install smartdns
 ## Configuration
 
 The Homebrew configuration is `/opt/homebrew/etc/smartdns/smartdns.conf`.
-The split-routing rules are kept in `/opt/homebrew/etc/smartdns/split-dns.conf`
-and included from the main configuration with:
+The reusable baseline template is `config/smartdns.conf`. If split-routing is
+needed, create and review a separate `split-dns.conf` and include it from the
+main configuration with:
 
 ```conf
 conf-file /opt/homebrew/etc/smartdns/split-dns.conf
 ```
 
-The split config binds SmartDNS to `127.0.0.1:53`, defines the global and
-China upstream groups, routes `.cn` plus selected domains such as `bilibili.com`
-and `hdslb.com` to the China group, and keeps a local cache.
+The baseline binds `127.0.0.1:53` and `[::1]:53` and uses the previously
+approved upstream DNS values. Do not claim split routing is active unless the
+included configuration and a domain-specific query prove it.
 
 Validate before starting:
 
@@ -58,20 +56,28 @@ Validate before starting:
 
 ## Start and activate on macOS
 
-Starting the port-53 service requires the macOS administrator password:
+Starting the port-53 service requires the macOS administrator password. Prefer
+the system LaunchDaemon so the service survives logout and reboot:
 
 ```bash
-sudo brew services start smartdns
-sudo brew services list | grep smartdns
-networksetup -setdnsservers Wi-Fi 127.0.0.1
+sudo smartdns service install
+sudo smartdns service start
+launchctl print system/homebrew.mxcl.smartdns
+networksetup -setdnsservers <active-service> 127.0.0.1 ::1
 dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 ```
 
-Do not consider SmartDNS effective until `scutil --dns` shows the local
-listeners and a normal `dig` query succeeds through them. Record the previous
-Wi-Fi DNS values and the rollback command in `state/`; do not put machine DNS
-values in this reusable guide.
+Before starting, inspect and disable a duplicate user LaunchAgent at
+`~/Library/LaunchAgents/homebrew.mxcl.smartdns.plist`; keep a backup in
+`state/` and retain only the system LaunchDaemon. A duplicate user agent can
+produce Homebrew `error 101` while the system daemon is healthy.
+
+Do not consider SmartDNS effective until `launchctl print system/homebrew.mxcl.smartdns`
+shows `state = running`, `scutil --dns` shows the local listeners, and a normal
+`dig` query succeeds through them. Record the previous DNS values, changed
+network service, listener addresses, service status, and rollback command in
+`state/`; do not put machine DNS values in this reusable guide.
 
 ## Verification
 
@@ -88,8 +94,8 @@ group and the second uses the China rule.
 ## Rollback
 
 ```bash
-sudo brew services stop smartdns
-networksetup -setdnsservers Wi-Fi 192.168.50.1
+sudo smartdns service stop
+networksetup -setdnsservers <active-service> <previous-dns-1> <previous-dns-2>
 dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 ```
