@@ -5,8 +5,8 @@ category: "Compatibility"
 tier: "core"
 lifecycle_status: "active"
 source: "official_web"
-delivery_method: "vendor-download"
-brew_cask: null
+delivery_method: "homebrew"
+brew_cask: "PlayCover/playcover/playcover-community"
 brew_formula: null
 official_url: "https://github.com/PlayCover/PlayCover"
 check_command: null

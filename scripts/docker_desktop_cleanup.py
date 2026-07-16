@@ -65,7 +65,9 @@ def inspect():
     docker_cli = docker_cli_on_path or docker_cli_login_shell
     orbstack_docker = executable("docker", ["~/.orbstack/bin/docker"])
     docker_context = command_output([docker_cli, "context", "show"]) if docker_cli else None
-    docker_server = command_output([docker_cli, "version", "--format", "{{.Server.Version}}"])
+    docker_server = (
+        command_output([docker_cli, "version", "--format", "{{.Server.Version}}"]) if docker_cli else None
+    )
     return {
         "generated_at": dt.datetime.now().astimezone().isoformat(),
         "docker_desktop_installed": APP.exists(),

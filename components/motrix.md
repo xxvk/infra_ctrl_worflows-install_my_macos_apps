@@ -5,8 +5,8 @@ category: "Download manager"
 tier: "core"
 lifecycle_status: "active"
 source: "official_web"
-delivery_method: "vendor-download"
-brew_cask: null
+delivery_method: "homebrew"
+brew_cask: "motrix"
 brew_formula: null
 official_url: "https://motrix.app/"
 check_command: null

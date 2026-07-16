@@ -55,6 +55,7 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | WordPress Studio CLI | [wordpress-studio-cli.md](wordpress-studio-cli.md) | Core; official npm package |
 | mole | [mole.md](mole.md) | Installed; first cleanup review pending |
 | Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
+| Antigravity CLI | [antigravity-cli.md](antigravity-cli.md) | Replacement for retired Gemini CLI; installation pending |
 
 ## Optional components
 

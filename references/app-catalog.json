@@ -459,7 +459,12 @@
       "category": "AI",
       "tier": "core",
       "official_url": "https://www.perplexity.ai/",
+      "allowed_sources": [
+        "official_web",
+        "app_store"
+      ],
       "size_gb": 1,
+      "note": "Perplexity officially distributes the Mac app both from its website and the Mac App Store; either provenance is accepted.",
       "follow_up": [
         "Sign in"
       ],
@@ -791,6 +796,7 @@
       "name": "Motrix",
       "category": "Download manager",
       "tier": "core",
+      "brew_cask": "motrix",
       "official_url": "https://motrix.app/",
       "size_gb": 1,
       "follow_up": [
@@ -804,6 +810,7 @@
       "name": "PlayCover",
       "category": "Compatibility",
       "tier": "core",
+      "brew_cask": "PlayCover/playcover/playcover-community",
       "official_url": "https://github.com/PlayCover/PlayCover",
       "size_gb": 1,
       "follow_up": [
@@ -946,9 +953,27 @@
       "cli_path": "/opt/homebrew/opt/typescript"
     },
     {
+      "name": "Antigravity CLI",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_cask": "antigravity-cli",
+      "check_command": "agy",
+      "official_url": "https://antigravity.google/product/antigravity-cli",
+      "size_gb": 0.1,
+      "follow_up": [
+        "Run `agy --version`",
+        "Sign in or configure credentials interactively; never store them in the catalog"
+      ],
+      "guide": "components/antigravity-cli.md",
+      "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate",
+      "cli_path": "/opt/homebrew/bin/agy"
+    },
+    {
       "name": "gemini-cli",
       "category": "Developer CLI",
       "tier": "core",
+      "lifecycle_status": "retired",
       "brew_formula": "gemini-cli",
       "check_command": "gemini",
       "official_url": "https://github.com/google-gemini/gemini-cli",

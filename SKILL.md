@@ -24,6 +24,40 @@ profiles as missing when the underlying error is `Operation not permitted`.
 The preflight reads only profile directories and account identifiers exposed in
 Local State; it must never read cookies, passwords, tokens, or Keychain data.
 
+## Developer-machine Gatekeeper policy
+
+This skill is primarily used for development Macs. The default developer
+profile therefore records the following optional system policy in the plan:
+
+```sh
+sudo spctl --global-disable
+```
+
+This changes Gatekeeper from its normal assessment policy to the broader
+“Anywhere” mode, making it easier to install trusted developer tools that are
+not from the App Store or an identified/notarized developer. It is a deliberate
+security trade-off: never run it silently. Before the first execution on a Mac,
+show the user the exact command and obtain explicit confirmation. On recent
+macOS releases, keep **System Settings → Privacy & Security** open, run the
+command from a visible Terminal, then close and reopen that settings pane; the
+“Anywhere” choice is hidden until this confirmation flow has been triggered.
+If an automated administrator prompt is used, it may return “needs to be
+confirmed in System Settings” rather than changing the policy. Verify the
+result with `spctl --status` (expected output: `assessments disabled`) and
+record only the policy state and timestamp in the ignored `state/` record; do
+not put machine state in a component guide.
+
+The matching rollback command is:
+
+```sh
+sudo spctl --global-enable
+```
+
+If the user declines the global policy, continue with the safer per-application
+workflow: use macOS Privacy & Security → **Open Anyway** for a trusted app, or
+use a narrowly scoped Homebrew cask install option when appropriate. Never
+disable Gatekeeper merely to bypass an unverified or suspicious download.
+
 ## Workflow
 
 1. Inspect the current Mac and write a dated scan:
@@ -91,7 +125,21 @@ Configurator is not a Mac application deployment tool in this workflow.
    page that lists only iPhone/iPad/Apple TV is not a valid Mac installation
    source, even if the app has the same name.
 3. The skill must actively open the catalog's App Store URL for the user,
-   one application at a time, using the App Store UI when available. The user
+   one application at a time, inside the native App Store whenever possible.
+   Do not send a normal `https://apps.apple.com/...` link to the default
+   browser as the first attempt: that commonly opens a web page without
+   handing off to App Store. Use this escalation order:
+
+   ```sh
+   open -a "App Store" "<app_store_url>"
+   open "macappstore://itunes.apple.com/app/id< numeric_app_id >"
+   ```
+
+   The second form is a deep-link fallback constructed only from the numeric
+   App Store ID already present in the catalog URL. Confirm that the foreground
+   window is App Store and that the product title matches before proceeding.
+   Only if both native routes fail may the skill open the HTTPS page in a
+   browser, and it must record that fallback in `completion_notes`. The user
    must not be asked to search for or open the page manually. Search for the
    exact app if needed, select `Mac Apps`, and report whether the button says
    `Get`, `Download`, `Redownload`, `Update`, or `Open`. Stop immediately
@@ -161,6 +209,30 @@ normal way to install Mac apps or to bypass Apple Account authorization.
    evidence in the ignored `state/` record.
    A component operation is complete when catalog, guide, and state evidence
    are synchronized at the appropriate level of change.
+
+   **Effective SmartDNS requirement:** Installing the `smartdns` formula or
+   starting its service alone is not considered configured. After installation,
+   validate the config, install/start the Homebrew service, identify the active
+   network service, and—only after explicit user approval—set that service's DNS
+   servers to the local listeners (`127.0.0.1` and `::1` when both are bound).
+   Flush the macOS resolver cache, verify `scutil --dns` reports the local
+   nameservers, and run a real `dig` query through the system resolver. Record
+   the previous DNS servers, changed service, listener addresses, service
+   status, and rollback command in the ignored `state/` record. If the local
+   listener or service is unavailable, stop before changing system DNS.
+
+   **Shell environment requirement:** When a component needs `PATH`,
+   `JAVA_HOME`, `ANDROID_HOME`, `ANDROID_SDK_ROOT`, or a manager initializer,
+   installation is incomplete until the environment is configured in the
+   user's active shell startup file. Detect the active shell and prefer
+   `~/.zshrc` for zsh or `~/.bashrc`/`~/.bash_profile` for bash. Preserve
+   unrelated content, create a timestamped backup before editing an existing
+   file, and add an idempotent clearly labelled block only when the lines are
+   absent. Start a fresh login shell, verify `command -v` plus version output,
+   and write the exact file, variables, and verification results to `state/`.
+   Never overwrite shell files, duplicate initialization blocks, or place
+   credentials in them. PATH changes that point into a vendor app bundle or
+   `/usr/local/bin` still require separate explicit confirmation.
 
    Every Core installation must record delivery and storage measurements in the
    ignored `state/` install record: `download_bytes` (actual bytes transferred),

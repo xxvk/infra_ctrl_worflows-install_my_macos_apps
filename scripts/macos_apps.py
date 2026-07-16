@@ -105,7 +105,10 @@ def detect_source(catalog_app, installed_item, brew_casks):
     path = installed_item["path"]
     receipt = app_store_receipt(path)
     token = catalog_app.get("brew_cask")
-    brew_match = bool(token and token.casefold() in brew_casks)
+    # Tapped casks are cataloged as ``tap/name/cask`` for installation, while
+    # `brew list --cask` reports only the final cask token.
+    cask_tokens = {str(token).casefold(), str(token).rsplit("/", 1)[-1].casefold()} if token else set()
+    brew_match = bool(cask_tokens & brew_casks)
     detected = []
     if receipt:
         detected.append("app_store")
@@ -272,6 +275,8 @@ def plan(args):
     }
     selected = []
     for app in data["apps"]:
+        if app.get("lifecycle_status") == "retired":
+            continue
         if app["tier"] == "heavy" and profile == "portable":
             continue
         selected.append(app)
@@ -405,9 +410,9 @@ def install(args):
             if all(existing["name"].casefold() != name for existing in selected):
                 selected.append(app)
     if not args.only:
-        raise SystemExit("Select one or two apps with --only; do not install an entire plan at once.")
-    if len(args.only) > 2:
-        raise SystemExit("A run may contain at most two --only app names.")
+        raise SystemExit("Select one to five apps with --only; do not install an entire plan at once.")
+    if len(args.only) > 5:
+        raise SystemExit("A run may contain at most five --only app names.")
     wanted = {name.casefold() for name in args.only}
     def matches_wanted(app):
         labels = {app["name"].casefold(), *(alias.casefold() for alias in app.get("aliases", []))}

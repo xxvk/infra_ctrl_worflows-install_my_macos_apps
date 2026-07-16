@@ -56,6 +56,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 ## Configuration
 
 - [ ] Create or update: `<configuration path>`
+- [ ] If shell environment is required, add one labelled idempotent block to the active shell startup file; preserve unrelated lines and record a backup in `state/`.
 - [ ] Apply required settings:
 
 ```ini

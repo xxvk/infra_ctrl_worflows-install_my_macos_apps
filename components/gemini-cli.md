@@ -3,7 +3,7 @@ component_id: "gemini-cli"
 name: "gemini-cli"
 category: "Developer CLI"
 tier: "core"
-lifecycle_status: "active"
+lifecycle_status: "retired"
 source: "homebrew"
 delivery_method: "homebrew-formula"
 brew_cask: null

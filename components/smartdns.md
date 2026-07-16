@@ -26,7 +26,7 @@ Local macOS DNS split routing:
 
 - Default/international domains: `1.1.1.1` and `8.8.8.8`
 - `.cn` and selected China domains: `114.114.114.114`
-- macOS Wi-Fi resolver: `127.0.0.1`
+- macOS Wi-Fi resolver: `127.0.0.1` and `::1` when IPv6 is bound
 
 ## Installation
 
@@ -68,12 +68,18 @@ dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 ```
 
+Do not consider SmartDNS effective until `scutil --dns` shows the local
+listeners and a normal `dig` query succeeds through them. Record the previous
+Wi-Fi DNS values and the rollback command in `state/`; do not put machine DNS
+values in this reusable guide.
+
 ## Verification
 
 ```bash
 scutil --dns | grep nameserver
 dig @127.0.0.1 example.com A
 dig @127.0.0.1 dl.hdslb.com A
+dig +short example.com A
 ```
 
 Both queries should report `SERVER: 127.0.0.1#53`; the first uses the global
