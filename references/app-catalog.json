@@ -1397,6 +1397,7 @@
       "category": "Android tools",
       "tier": "core",
       "brew_cask": "android-commandlinetools",
+      "check_command": "sdkmanager",
       "official_url": "https://developer.android.com/tools",
       "guide": "components/android-commandlinetools.md",
       "size_gb": 0.2,
@@ -1409,6 +1410,7 @@
       "category": "Android tools",
       "tier": "core",
       "brew_cask": "android-platform-tools",
+      "check_command": "adb",
       "official_url": "https://developer.android.com/tools/releases/platform-tools",
       "guide": "components/android-platform-tools.md",
       "size_gb": 0.1,
@@ -1452,6 +1454,21 @@
       "size_gb": 0.1,
       "follow_up": ["Authenticate interactively with Cloudflare and verify the intended account"],
       "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "WordPress Studio CLI",
+      "category": "Web development CLI",
+      "tier": "core",
+      "npm_package": "wp-studio",
+      "check_command": "studio",
+      "official_url": "https://developer.wordpress.com/docs/developer-tools/studio/cli/",
+      "guide": "components/wordpress-studio-cli.md",
+      "size_gb": 0.05,
+      "follow_up": [
+        "Authenticate interactively only when Studio Sync, previews, or account features are needed"
+      ],
+      "download_estimate_bytes": 50000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
@@ -1505,6 +1522,22 @@
       ],
       "guide": "components/android-studio-preview.md",
       "download_estimate_bytes": 5000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "WordPress Studio",
+      "aliases": ["Studio"],
+      "category": "Web development",
+      "tier": "optional",
+      "brew_cask": "wordpresscom-studio",
+      "official_url": "https://developer.wordpress.com/studio/",
+      "size_gb": 1,
+      "follow_up": [
+        "Create or import a local WordPress site only when WordPress development is in scope",
+        "Verify Studio Sync, local domains, and deployment targets before using production data"
+      ],
+      "guide": "components/wordpress-studio.md",
+      "download_estimate_bytes": 1000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {

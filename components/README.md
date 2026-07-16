@@ -52,6 +52,7 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Installed via Homebrew |
 | Kimi | [kimi.md](kimi.md) | Installed manually; Homebrew replacement preferred |
 | Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Installed via npm |
+| WordPress Studio CLI | [wordpress-studio-cli.md](wordpress-studio-cli.md) | Core; official npm package |
 | mole | [mole.md](mole.md) | Installed; first cleanup review pending |
 | Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
 
@@ -69,6 +70,7 @@ These guides are cataloged for review but are not installed automatically during
 | Xcode | [xcode.md](xcode.md) | Mac App Store |
 | Android Studio | [android-studio.md](android-studio.md) | Official website |
 | Android Studio Preview | [android-studio-preview.md](android-studio-preview.md) | Official website |
+| WordPress Studio | [wordpress-studio.md](wordpress-studio.md) | Official website |
 | Affinity | [affinity.md](affinity.md) | Official website |
 | CapCut | [capcut.md](capcut.md) | Mac App Store |
 | Compressor | [compressor.md](compressor.md) | Mac App Store |

@@ -9,7 +9,7 @@ delivery_method: "homebrew-cask"
 brew_cask: "android-platform-tools"
 brew_formula: null
 official_url: "https://developer.android.com/tools/releases/platform-tools"
-check_command: null
+check_command: "adb"
 install_after: []
 account_required: false
 permissions_required: []

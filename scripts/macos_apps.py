@@ -322,6 +322,8 @@ def plan(args):
         elif app.get("brew_formula"):
             tap = f" (after brew tap {app['brew_tap']})" if app.get('brew_tap') else ""
             delivery = f"brew install {app['brew_formula']}{tap}"
+        elif app.get("npm_package"):
+            delivery = f"npm install --global {app['npm_package']}"
         else:
             delivery = app.get("app_store_url") or app.get("official_url", "no source recorded")
         print(f"- {app['name']}: {delivery}")
