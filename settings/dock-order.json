@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "description": "Persistent Dock application membership and left-to-right order.",
+  "persistent_apps": [
+    {
+      "order": 1,
+      "label": "Apps",
+      "bundle_identifier": "com.apple.apps.launcher",
+      "path": "/System/Applications/Apps.app",
+      "kind": "system"
+    },
+    {
+      "order": 2,
+      "label": "Ghostty",
+      "bundle_identifier": "com.mitchellh.ghostty",
+      "path": "/Applications/Ghostty.app",
+      "kind": "native"
+    },
+    {
+      "order": 3,
+      "label": "Safari",
+      "bundle_identifier": "com.apple.Safari",
+      "path": "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app",
+      "kind": "system"
+    },
+    {
+      "order": 4,
+      "label": "Google Chrome",
+      "bundle_identifier": "com.google.Chrome",
+      "path": "/Applications/Google Chrome.app",
+      "kind": "native"
+    },
+    {
+      "order": 5,
+      "label": "Mail",
+      "bundle_identifier": "com.apple.mail",
+      "path": "/System/Applications/Mail.app",
+      "kind": "system"
+    },
+    {
+      "order": 6,
+      "label": "com.google.ios.youtube",
+      "bundle_identifier": "com.google.ios.youtube",
+      "path": "~/Library/Containers/io.playcover.PlayCover/Applications/com.google.ios.youtube.app",
+      "kind": "playcover"
+    },
+    {
+      "order": 7,
+      "label": "GitHub Desktop",
+      "bundle_identifier": "com.github.GitHubClient",
+      "path": "/Applications/GitHub Desktop.app",
+      "kind": "native"
+    },
+    {
+      "order": 8,
+      "label": "Slack",
+      "bundle_identifier": "com.tinyspeck.slackmacgap",
+      "path": "/Applications/Slack.app",
+      "kind": "native"
+    },
+    {
+      "order": 9,
+      "label": "Obsidian",
+      "bundle_identifier": "md.obsidian",
+      "path": "/Applications/Obsidian.app",
+      "kind": "native"
+    },
+    {
+      "order": 10,
+      "label": "ChatGPT",
+      "bundle_identifier": "com.openai.codex",
+      "path": "/Applications/ChatGPT.app",
+      "kind": "native"
+    },
+    {
+      "order": 11,
+      "label": "Claude",
+      "bundle_identifier": "com.anthropic.claudefordesktop",
+      "path": "/Applications/Claude.app",
+      "kind": "native"
+    },
+    {
+      "order": 12,
+      "label": "Perplexity",
+      "bundle_identifier": "ai.perplexity.macv3",
+      "path": "/Applications/Perplexity.app",
+      "kind": "native"
+    },
+    {
+      "order": 13,
+      "label": "Antigravity",
+      "bundle_identifier": "com.google.antigravity",
+      "path": "/Applications/Antigravity.app",
+      "kind": "native"
+    },
+    {
+      "order": 14,
+      "label": "TRAE Work",
+      "bundle_identifier": "com.trae.solo.app",
+      "path": "/Applications/TRAE SOLO.app",
+      "kind": "native"
+    },
+    {
+      "order": 15,
+      "label": "Kimi",
+      "bundle_identifier": "com.moonshot.kimichat",
+      "path": "/Applications/Kimi.app",
+      "kind": "native"
+    },
+    {
+      "order": 16,
+      "label": "Hermes One",
+      "bundle_identifier": "com.nousresearch.hermes",
+      "path": "/Applications/Hermes One.app",
+      "kind": "native"
+    },
+    {
+      "order": 17,
+      "label": "Notion",
+      "bundle_identifier": "com.webcatalog.juli.notion",
+      "path": "~/Applications/WebCatalog Apps/Notion.app",
+      "kind": "webcatalog"
+    },
+    {
+      "order": 18,
+      "label": "X",
+      "bundle_identifier": "com.webcatalog.juli.twitter",
+      "path": "~/Applications/WebCatalog Apps/X.app",
+      "kind": "webcatalog"
+    },
+    {
+      "order": 19,
+      "label": "哔哩哔哩",
+      "bundle_identifier": "com.bilibili.bilibiliPC",
+      "path": "/Applications/哔哩哔哩.app",
+      "kind": "native"
+    },
+    {
+      "order": 20,
+      "label": "WeChat",
+      "bundle_identifier": "com.tencent.xinWeChat",
+      "path": "/Applications/WeChat.app",
+      "kind": "native"
+    }
+  ]
+}

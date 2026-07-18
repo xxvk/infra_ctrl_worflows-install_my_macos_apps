@@ -673,7 +673,7 @@
     {
       "name": "Cherry Studio",
       "category": "AI",
-      "tier": "core",
+      "tier": "option",
       "brew_cask": "cherry-studio",
       "official_url": "https://cherry-studio-ai.com/download",
       "size_gb": 1,

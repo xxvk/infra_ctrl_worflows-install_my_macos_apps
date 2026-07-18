@@ -240,6 +240,35 @@ app should launch merely because its bundle appears in the scan. After a
 change, run `scan` again and record the result in ignored `state/` when a
 machine-specific audit is needed.
 
+## Dock configuration and order audit
+
+The desired persistent Dock applications and their left-to-right order are
+reusable skill configuration. The current machine's existence checks and scan
+metadata are machine-local state. Scan and save both with:
+
+```sh
+python3 scripts/macos_dock.py
+python3 scripts/macos_dock.py --save-config
+```
+
+The scan JSON in `state/` preserves the ordered application list, bundle
+identifier, path, existence check, and a `kind` classification. The reusable
+configuration is stored in `settings/dock-order.json` without machine scan
+timestamps or `exists` values. `kind` distinguishes
+`system`, native third-party `native`, PlayCover `playcover`, and WebCatalog
+wrappers `webcatalog`. A Dock entry is not evidence that an application is in
+the reusable catalog or that it is installed from the same source.
+
+In particular, the current Dock entries for **Notion** and **X** are
+WebCatalog applications under `~/Applications/WebCatalog Apps/`, not native
+Notion or X macOS applications. Preserve that distinction in audits and do not
+replace their paths with `/Applications/Notion.app` or `/Applications/X.app`.
+
+`settings/dock-order.json` is the desired baseline and is persisted with the
+skill. It does not automatically reorder the Dock; any future apply workflow
+must compare it with a fresh scan and explicitly request the user's approval.
+Keep only current machine observations in ignored `state/`.
+
 ## Developer-machine Gatekeeper policy
 
 This skill is primarily used for development Macs. The default developer

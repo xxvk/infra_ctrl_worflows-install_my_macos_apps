@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Scan and persist the current user's macOS Dock application order."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import plistlib
+import socket
+import subprocess
+import sys
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+
+def dock_preferences() -> dict:
+    result = subprocess.run(
+        ["defaults", "export", "com.apple.dock", "-"],
+        check=True,
+        capture_output=True,
+    )
+    return plistlib.loads(result.stdout)
+
+
+def file_url_path(value: object) -> str | None:
+    if not isinstance(value, str) or not value.startswith("file://"):
+        return None
+    return unquote(urlparse(value).path)
+
+
+def app_kind(path: str | None, bundle_id: str | None) -> str:
+    path = (path or "").rstrip("/")
+    bundle_id = bundle_id or ""
+    if "/WebCatalog Apps/" in path or bundle_id.startswith("com.webcatalog."):
+        return "webcatalog"
+    if "/Library/Containers/io.playcover.PlayCover/Applications/" in path:
+        return "playcover"
+    if path.startswith("/System/"):
+        return "system"
+    if path.endswith(".app"):
+        return "native"
+    return "other"
+
+
+def config_path(path: str | None) -> str | None:
+    if not path:
+        return None
+    path = path.rstrip("/")
+    home = str(Path.home()).rstrip("/")
+    if path == home:
+        return "~"
+    if path.startswith(home + "/"):
+        return "~" + path[len(home) :]
+    return path
+
+
+def scan() -> dict:
+    prefs = dock_preferences()
+    apps = []
+    for order, tile in enumerate(prefs.get("persistent-apps", []), start=1):
+        data = tile.get("tile-data", {})
+        file_data = data.get("file-data", {})
+        path = file_url_path(file_data.get("_CFURLString"))
+        bundle_id = data.get("bundle-identifier")
+        apps.append(
+            {
+                "order": order,
+                "label": data.get("file-label"),
+                "bundle_identifier": bundle_id,
+                "path": path,
+                "kind": app_kind(path, bundle_id),
+                "exists": bool(path and os.path.exists(path)),
+                "tile_type": tile.get("tile-type"),
+            }
+        )
+    return {
+        "schema_version": 1,
+        "captured_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "hostname": socket.gethostname(),
+        "source": "defaults export com.apple.dock",
+        "persistent_app_count": len(apps),
+        "persistent_apps": apps,
+    }
+
+
+def reusable_config(result: dict) -> dict:
+    return {
+        "schema_version": 1,
+        "description": "Persistent Dock application membership and left-to-right order.",
+        "persistent_apps": [
+            {
+                "order": app["order"],
+                "label": app["label"],
+                "bundle_identifier": app["bundle_identifier"],
+                "path": config_path(app["path"]),
+                "kind": app["kind"],
+            }
+            for app in result["persistent_apps"]
+        ],
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Save the current user's persistent Dock apps and order."
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="JSON output path; defaults to state/dock-scan-YYYYmmdd-HHMMSS.json",
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        help="Also write the reusable Dock order config to this JSON path.",
+    )
+    parser.add_argument(
+        "--save-config",
+        action="store_true",
+        help="Write the reusable config to settings/dock-order.json.",
+    )
+    args = parser.parse_args()
+
+    try:
+        result = scan()
+    except (OSError, subprocess.CalledProcessError, plistlib.InvalidFileException) as exc:
+        print(f"Dock scan failed: {exc}", file=sys.stderr)
+        return 1
+
+    root = Path(__file__).resolve().parents[1]
+    output = args.output or (
+        root
+        / "state"
+        / f"dock-scan-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+
+    config = args.config
+    if args.save_config:
+        config = root / "settings" / "dock-order.json"
+    if config:
+        config.parent.mkdir(parents=True, exist_ok=True)
+        config.write_text(
+            json.dumps(reusable_config(result), ensure_ascii=False, indent=2) + "\n"
+        )
+
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

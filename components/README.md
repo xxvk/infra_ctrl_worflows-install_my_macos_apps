@@ -73,6 +73,7 @@ These guides are cataloged for review but are not installed automatically during
 | Android Studio | [android-studio.md](android-studio.md) | Official website |
 | Android Studio Preview | [android-studio-preview.md](android-studio-preview.md) | Official website |
 | WordPress Studio | [wordpress-studio.md](wordpress-studio.md) | Official website |
+| Cherry Studio | [cherry-studio.md](cherry-studio.md) | Optional multi-model and Agent workbench |
 | Logi Options+ | [logi-options-plus.md](logi-options-plus.md) | Homebrew Cask |
 | Solaar | [solaar.md](solaar.md) | GitHub source; Homebrew dependencies |
 | Affinity | [affinity.md](affinity.md) | Official website |

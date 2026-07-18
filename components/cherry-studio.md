@@ -2,7 +2,7 @@
 component_id: "cherry-studio"
 name: "Cherry Studio"
 category: "AI"
-tier: "core"
+tier: "option"
 lifecycle_status: "active"
 source: "homebrew"
 delivery_method: "homebrew-cask"
