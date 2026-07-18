@@ -24,6 +24,110 @@ profiles as missing when the underlying error is `Operation not permitted`.
 The preflight reads only profile directories and account identifiers exposed in
 Local State; it must never read cookies, passwords, tokens, or Keychain data.
 
+## Keyboard settings workflow
+
+Keyboard configuration has a dedicated entry point and must not be scattered
+through app component guides:
+
+- Main policy: `settings/keyboard.yaml`
+- Device profile: `settings/keyboards/logitech-k240-japanese-dictation.yaml`
+- Native K240 listener: `scripts/keyboard-config-logi-k240.swift`
+- Machine-specific observations: ignored `state/` and
+  `~/Library/Logs/install_my_macos_apps/`
+
+### Logitech K240 profile
+
+The K240 Japanese keyboard uses a Logitech USB receiver. Confirm all of the
+following before applying its profile:
+
+```sh
+hidutil list
+defaults read -g AppleSelectedInputSources
+```
+
+The expected receiver is Logitech `VID 0x046d`, `PID 0xc534`; the physical
+keyboard model must also be confirmed as K240, and the active input layout must
+be Japanese. The receiver identifier alone is not enough to distinguish every
+keyboard paired to that receiver.
+
+The current target mapping is:
+
+```text
+F1  Open ChatGPT.app
+F2  Open Claude.app
+F3  Open Perplexity.app
+F4  Mission Control
+F5  Open Apple Music
+F6  Previous Track
+F7  Play/Pause
+F8  Next Track
+F9  Mute
+F10 Volume Down
+F11 Volume Up
+F12 Open macOS Screenshot.app toolbar
+```
+
+Use native `hidutil` consumer usages for F6–F11. These mappings are local HID
+state, not iCloud settings, and can disappear after restart, logout, or a
+receiver reconnect. Reapply and verify them rather than assuming persistence.
+
+### F1–F3, F5, and F12 native listener implementation
+
+Do not rely on editing `com.apple.symbolichotkeys` IDs for this profile. Those
+preferences may read back as successfully changed while an external K240 key
+still does nothing. macOS's standard `Command-Shift-4` is area capture;
+`Command-Shift-5` opens the Screenshot toolbar. The intended K240 behavior is
+F12 opening the latter.
+
+The supported implementation is the small native Swift HID listener:
+
+```sh
+swiftc scripts/keyboard-config-logi-k240.swift -o /tmp/keyboard-config-logi-k240
+/tmp/keyboard-config-logi-k240
+```
+
+The listener handles F1, F2, F3, F5, and F12. F4 is handled by macOS's
+native Mission Control shortcut configuration and is intentionally excluded
+from the listener:
+
+1. Matches only Logitech receiver `0x046d:0xc534`.
+2. Filters the USB HID keyboard page `0x07`: F1 `0x3a`, F2 `0x3b`, F3
+   `0x3c`, F5 `0x3e`, and F12 `0x45`.
+3. Debounces duplicate reports from the receiver.
+4. Opens ChatGPT.app, Claude.app, Perplexity.app, Apple Music, or Screenshot.app.
+5. Writes operational diagnostics to
+   `~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log`.
+
+The first validation must run in the foreground. Press F1, F2, F3, F5, and
+F12 one at a time and confirm ChatGPT, Claude, Perplexity, Apple Music, and the
+Screenshot toolbar respectively. Separately verify left Command twice for
+Dictation. If the listener cannot open the receiver, grant
+**Privacy & Security → Input Monitoring** to the terminal or installed
+listener does not need Accessibility for the direct application launches.
+Screenshot capture permissions remain
+controlled by the native Screenshot app and macOS Screen Recording settings.
+
+The listener source is the reusable implementation; an always-on LaunchAgent
+is a separate installation step. When persistence is requested, install the
+template `templates/keyboard-config-logi-k240.launchagent.plist` as
+`~/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist`.
+The LaunchAgent is receiver-scoped: the Swift filter matches only Logitech
+`0x046d:0xc534`, so another brand or another receiver will not activate these
+actions. The receiver ID does not uniquely prove the paired physical keyboard
+is K240. Verify the loaded agent and record its current status in ignored
+`state/`.
+
+### Known keyboard limitations
+
+The native listener is scoped to the Logitech receiver identifiers, but the
+listener must still be foreground-tested after macOS updates or receiver
+changes. Do not install Karabiner-Elements as an implicit dependency.
+
+Keyboard policy is machine-local. Do not claim that `defaults`, `hidutil`, or
+the Swift listener synchronizes through iCloud. Keep reusable policy in
+`settings/`; keep current device detection, permissions, versions, and test
+results out of synced policy files.
+
 ## Developer-machine Gatekeeper policy
 
 This skill is primarily used for development Macs. The default developer

@@ -1,0 +1,84 @@
+# Logitech K240 Japanese keyboard profile.
+# Selected by settings/keyboard.yaml when the Logitech USB receiver and the
+# Japanese keyboard layout are detected. The receiver identifies Logitech but
+# does not uniquely identify the paired keyboard model, so K240 is confirmed
+# from the physical label or the user's device inventory.
+
+profile:
+  id: "logitech-k240-ja"
+  manufacturer: "Logitech"
+  model: "K240"
+  keyboard_layout: "ja-JP"
+  transport: "USB_receiver"
+  receiver:
+    vendor_id: "0x046d"
+    product_id: "0xc534"
+
+runtime:
+  launch_agent: "com.xvk.install-my-macos-apps.keyboard-config-logi-k240"
+  scope: "Logitech USB receiver 0x046d:0xc534 only"
+  physical_model_note: "Receiver identity does not uniquely prove the paired keyboard is K240"
+
+detection:
+  require_all:
+    - "Logitech receiver is present"
+    - "receiver Vendor ID is 0x046d"
+    - "receiver Product ID is 0xc534"
+    - "physical keyboard model is K240"
+    - "active keyboard layout is Japanese"
+  confidence:
+    receiver_identity: "machine_detectable"
+    keyboard_model: "requires_physical_or_user_confirmation"
+    keyboard_layout: "machine_detectable"
+
+dictation:
+  shortcut:
+    type: "left_command_twice"
+    description: "Press the left Command key twice to start or stop Dictation"
+  reason: "The verified macOS Dictation shortcut remains left Command twice"
+
+function_keys:
+  f1:
+    action: "open_chatgpt"
+    implementation: "native_hid_listener"
+    application: "/Applications/ChatGPT.app"
+  f2:
+    action: "open_claude"
+    implementation: "native_hid_listener"
+    application: "/Applications/Claude.app"
+  f3:
+    action: "open_perplexity"
+    implementation: "native_hid_listener"
+    application: "/Applications/Perplexity.app"
+  f4:
+    action: "mission_control"
+    implementation: "macos_system_shortcut"
+    symbolic_hotkey_id: 32
+    note: "Configured in macOS Keyboard Shortcuts; do not handle in Swift listener"
+  f5:
+    action: "open_apple_music"
+    implementation: "native_hid_listener"
+  f12:
+    action: "screenshot_toolbar"
+    implementation: "native_hid_listener"
+    executable: "scripts/keyboard-config-logi-k240.swift"
+    hid:
+      vendor_id: "0x046d"
+      product_id: "0xc534"
+      usage_page: "0x07"
+      usage: "0x45"
+    command: "/usr/bin/open -a /System/Applications/Utilities/Screenshot.app"
+    permission: "Input Monitoring may be required; Screen Recording is controlled by Screenshot.app"
+
+verification:
+  - "Read the active keyboard layout"
+  - "Confirm the Logitech receiver identifiers"
+  - "Confirm the physical model label or user-provided model"
+  - "Read back macOS Dictation shortcut configuration"
+  - "Press K240 F5 and verify Apple Music opens"
+  - "Press left Command twice in a text field and verify Dictation starts"
+  - "Press K240 F3 and verify Perplexity opens"
+  - "Press K240 F4 and verify Mission Control opens"
+  - "Press K240 F1 and verify ChatGPT opens"
+  - "Press K240 F2 and verify Claude opens"
+  - "Press K240 F12 and verify the macOS Screenshot toolbar appears"

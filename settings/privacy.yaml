@@ -1,0 +1,29 @@
+# Desired macOS privacy posture for this personal developer Mac.
+# Sensitive permissions must never be enabled silently. The skill may inspect
+# a permission and explain the required action, but the user must approve the
+# actual change in System Settings.
+
+policy:
+  auto_grant_sensitive_permissions: false
+  require_user_confirmation: true
+  record_credentials_or_tokens: false
+
+permissions:
+  full_disk_access:
+    desired: "only_when_required"
+    rationale: "Required for workflows that inspect protected app data, such as Chrome profile inventory"
+  microphone:
+    desired: "ask_when_required"
+    rationale: "Required by Dictation, Voice Control, and selected AI applications"
+  camera:
+    desired: "ask_when_required"
+  accessibility:
+    desired: "ask_when_required"
+  files_and_folders:
+    desired: "ask_when_required"
+
+data_handling:
+  api_keys: "never_store"
+  passwords: "never_store"
+  recovery_codes: "never_store"
+  private_documents: "do_not_upload_without_explicit_approval"

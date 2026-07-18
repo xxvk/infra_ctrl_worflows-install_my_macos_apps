@@ -9,6 +9,100 @@ A personal Codex Skill for setting up a new Mac from a persistent app catalog. I
 - Homebrew for automatic Homebrew cask/formula installs
 - Codex Chrome extension only when managing an official website download in Chrome
 
+## Keyboard configuration entry
+
+Keyboard settings are managed from [`settings/keyboard.yaml`](settings/keyboard.yaml).
+The device-specific K240 profile is:
+
+[`settings/keyboards/logitech-k240-japanese-dictation.yaml`](settings/keyboards/logitech-k240-japanese-dictation.yaml)
+
+The current Logitech K240 Japanese-keyboard policy is:
+
+| Key | Action |
+| --- | --- |
+| F1 | Open ChatGPT.app |
+| F2 | Open Claude.app |
+| F3 | Open Perplexity.app |
+| F4 | Mission Control |
+| F5 | Open Apple Music |
+| F6 | Previous Track |
+| F7 | Play/Pause |
+| F8 | Next Track |
+| F9 | Mute |
+| F10 | Volume Down |
+| F11 | Volume Up |
+| F12 | Open macOS Screenshot.app toolbar |
+
+The K240 is identified from the Logitech USB receiver (`VID 0x046d`,
+`PID 0xc534`) plus physical confirmation of the K240 model and Japanese
+layout. The receiver ID alone does not uniquely identify the paired keyboard.
+
+### K240 implementation and test flow
+
+1. Verify the receiver and keyboard layout:
+
+   ```sh
+   hidutil list
+   defaults read -g AppleSelectedInputSources
+   ```
+
+2. Apply F6–F11 with native `hidutil` usage mappings. These mappings are
+   local to the current macOS session and may need to be reapplied after a
+   restart or receiver reconnect.
+
+3. F1–F3, F5, and F12 are handled by the native listener source at
+   [`scripts/keyboard-config-logi-k240.swift`](scripts/keyboard-config-logi-k240.swift). It matches
+   the Logitech receiver and the relevant HID usages (`usage page 0x07`): F1
+   `0x3a`, F2 `0x3b`, F3 `0x3c`, F5 `0x3e`, and F12 `0x45`. It opens
+   ChatGPT.app, Claude.app, Perplexity.app, Apple Music, or
+   `/System/Applications/Utilities/Screenshot.app` respectively. F4 is
+   configured by the native macOS Mission Control shortcut (symbolic hotkey
+   ID 32), not by Swift. F12 opens
+   full screenshot toolbar, equivalent to `Command-Shift-5`; it does not
+   immediately force an area selection.
+
+4. Compile and run the listener in the foreground for a first test:
+
+   ```sh
+   swiftc scripts/keyboard-config-logi-k240.swift -o /tmp/keyboard-config-logi-k240
+   /tmp/keyboard-config-logi-k240
+   ```
+
+   Press F1 and F2 and confirm that ChatGPT and Claude open. Press F4 and
+   confirm Mission Control opens through the macOS shortcut. Press F12 and
+   confirm that the Screenshot toolbar appears. Press F5 and
+   confirm that Apple Music opens. Test left Command twice in a text field to
+   confirm that Dictation starts or stops. Stop the
+   foreground process after testing. The listener writes diagnostics to
+   `~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log`.
+
+5. If a function key is captured in the log but its action does not appear,
+   verify that the relevant system app exists. For F3, verify that
+   `/Applications/Perplexity.app` exists. For F12, verify that
+   `/System/Applications/Utilities/Screenshot.app` exists and that macOS
+   allows the Screenshot app to use the required Screen Recording capability.
+   If the listener cannot open the receiver, grant the terminal or installed
+   listener **Privacy & Security → Input Monitoring** permission and retry.
+
+### Automatic startup
+
+The listener can run automatically after login through the LaunchAgent template
+[`templates/keyboard-config-logi-k240.launchagent.plist`](templates/keyboard-config-logi-k240.launchagent.plist).
+It is receiver-scoped, not a universal keyboard remapper: another brand or
+another receiver will not match the Swift HID filter. The receiver identifier
+does not uniquely prove that the paired physical keyboard is K240.
+
+The `defaults` entries for system shortcut IDs are not the authoritative
+implementation for K240. They can be written successfully while having no
+effect on an external keyboard, so the HID listener is the supported F1–F3,
+F5, and F12 path. F4 is a native macOS shortcut and should not be duplicated
+in the listener. Dictation remains a separate system shortcut: verify left
+Command twice rather than treating F5 as a Dictation key.
+
+These keyboard settings are machine-local. They are not treated as iCloud
+synced configuration. Durable policy belongs in `settings/`; current device
+facts and test logs belong in ignored `state/` or the local log directory.
+
 ## Start safely
 
 Run every command from this directory. These commands only inspect the Mac and write local records under `state/`:
