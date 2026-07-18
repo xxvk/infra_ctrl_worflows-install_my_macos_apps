@@ -907,6 +907,12 @@ Docker states that its Mac containers and images reside in a large disk image an
 
 `state/` is created beside the skill on first run and is intended to sync through iCloud. It holds dated scans, plans, and installation logs. Keep it; it is the deployment history.
 
+For explicit macOS local-account retirement, read
+[references/account-removal.md](references/account-removal.md). It covers the
+preflight, visible-Terminal authorization, `sysadminctl` deletion, and
+post-delete verification. Keep account names and machine-specific results in
+ignored `state/` records only.
+
 Detailed per-component instructions live in `components/README.md` and the linked Markdown guides. Keep the catalog as the install metadata source of truth, and link each detailed guide from its catalog entry with a relative `guide` path.
 
 ## Safety rules

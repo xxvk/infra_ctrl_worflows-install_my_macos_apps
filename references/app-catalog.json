@@ -1582,6 +1582,9 @@
       "name": "Android File Transfer",
       "category": "File transfer",
       "tier": "optional",
+      "source": "homebrew",
+      "delivery_method": "homebrew-cask",
+      "brew_cask": "android-file-transfer",
       "official_url": "https://www.android.com/filetransfer/",
       "size_gb": 0.1,
       "follow_up": [
@@ -1589,6 +1592,26 @@
       ],
       "guide": "components/android-file-transfer.md",
       "download_estimate_bytes": 100000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Blender",
+      "category": "3D and design",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "source": "homebrew",
+      "delivery_method": "homebrew-cask",
+      "brew_cask": "blender",
+      "official_url": "https://www.blender.org/download/",
+      "check_command": "test -d '/Applications/Blender.app'",
+      "size_gb": 1.5,
+      "follow_up": [
+        "Open Blender once and confirm it launches",
+        "Choose a project/cache location with sufficient free space",
+        "Keep render caches and downloaded assets outside shared system folders"
+      ],
+      "guide": "components/blender.md",
+      "download_estimate_bytes": 1500000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
@@ -1609,6 +1632,9 @@
       "name": "Android Studio",
       "category": "Developer tools",
       "tier": "optional",
+      "source": "homebrew",
+      "delivery_method": "homebrew-cask",
+      "brew_cask": "android-studio",
       "official_url": "https://developer.android.com/studio",
       "size_gb": 5,
       "follow_up": [
@@ -1693,6 +1719,9 @@
       "name": "Affinity",
       "category": "Design",
       "tier": "optional",
+      "source": "homebrew",
+      "delivery_method": "homebrew-cask",
+      "brew_cask": "affinity",
       "official_url": "https://affinity.serif.com/",
       "size_gb": 3,
       "follow_up": [

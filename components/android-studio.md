@@ -4,9 +4,9 @@ name: "Android Studio"
 category: "Developer tools"
 tier: "optional"
 lifecycle_status: "active"
-source: "official_web"
-delivery_method: "vendor-download"
-brew_cask: null
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "android-studio"
 brew_formula: null
 official_url: "https://developer.android.com/studio"
 check_command: null
@@ -22,9 +22,13 @@ installed_measurement_method: "local_du"
 
 ## Delivery
 
-- Preferred source: https://developer.android.com/studio
+- Preferred source: Homebrew cask `android-studio`.
+- Official project page: https://developer.android.com/studio
+- Install with `brew install --cask android-studio`.
+- If `/opt/homebrew/bin/studio` already belongs to WordPress Studio, use
+  `brew install --cask --no-binaries android-studio` to preserve that CLI name;
+  launch Android Studio from `/Applications/Android Studio.app`.
 - This is an Optional item; do not install automatically during a Core deployment.
-- App Store installs require the user to complete Get/Download, password, Touch ID, or 2FA.
 
 ## Size tracking
 

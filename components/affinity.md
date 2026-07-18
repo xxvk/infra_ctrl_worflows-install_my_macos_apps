@@ -4,9 +4,9 @@ name: "Affinity"
 category: "Design"
 tier: "optional"
 lifecycle_status: "active"
-source: "official_web"
-delivery_method: "vendor-download"
-brew_cask: null
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "affinity"
 brew_formula: null
 official_url: "https://affinity.serif.com/"
 check_command: null
@@ -22,7 +22,9 @@ installed_measurement_method: "local_du"
 
 ## Delivery
 
-- Preferred source: https://affinity.serif.com/
+- Preferred source: Homebrew cask `affinity`.
+- Official project page: https://www.affinity.studio/
+- Install with `brew install --cask affinity`.
 - This is an Optional item; do not install automatically during a Core deployment.
 - App Store installs require the user to complete Get/Download, password, Touch ID, or 2FA.
 

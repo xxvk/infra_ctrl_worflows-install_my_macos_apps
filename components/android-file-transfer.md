@@ -4,9 +4,9 @@ name: "Android File Transfer"
 category: "File transfer"
 tier: "optional"
 lifecycle_status: "active"
-source: "official_web"
-delivery_method: "vendor-download"
-brew_cask: null
+source: "homebrew"
+delivery_method: "homebrew-cask"
+brew_cask: "android-file-transfer"
 brew_formula: null
 official_url: "https://www.android.com/filetransfer/"
 check_command: null
@@ -22,9 +22,10 @@ installed_measurement_method: "local_du"
 
 ## Delivery
 
-- Preferred source: https://www.android.com/filetransfer/
+- Preferred source: Homebrew cask `android-file-transfer`.
+- Official project page: https://www.android.com/filetransfer/
+- The current cask is Intel-only and requires Rosetta 2 on Apple Silicon.
 - This is an Optional item; do not install automatically during a Core deployment.
-- App Store installs require the user to complete Get/Download, password, Touch ID, or 2FA.
 
 ## Size tracking
 
