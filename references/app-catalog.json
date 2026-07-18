@@ -127,13 +127,16 @@
       "name": "Notion",
       "category": "Productivity",
       "tier": "core",
-      "lifecycle_status": "retired",
-      "brew_cask": "notion",
-      "official_url": "https://www.notion.so/desktop",
+      "lifecycle_status": "active",
+      "allowed_sources": ["webcatalog"],
+      "official_url": "https://www.notion.so/",
+      "delivery_method": "webcatalog-wrapper",
+      "webcatalog_url": "https://www.notion.so/",
       "guide": "components/notion.md",
       "size_gb": 1,
       "follow_up": [
-        "Use Notion in the web version or web app instead of the desktop app"
+        "Create and verify the Notion WebCatalog wrapper",
+        "Remove the native Notion app after wrapper verification"
       ],
       "download_estimate_bytes": 1000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
@@ -461,17 +464,22 @@
     },
     {
       "name": "LM Studio Bionic",
+      "aliases": [
+        "LM Bionic",
+        "Bionic"
+      ],
       "category": "AI Agent",
       "tier": "core",
       "lifecycle_status": "active",
       "allowed_sources": [
-        "official_web"
+        "official_web",
+        "manual_or_unknown"
       ],
-      "official_url": "https://lmstudio.ai/bionic",
+      "official_url": "https://lmstudio.ai/download/bionic/latest/darwin/arm64",
       "size_gb": 2,
-      "note": "Primary LM Studio application for this Mac. Bionic and classic LM Studio share the llmster daemon; do not run both local backends concurrently. Verify official macOS download, account, model routing, and privacy behavior before installation.",
+      "note": "Bionic is a separate official agent app. On Apple Silicon the endpoint redirects to the signed Bionic 1.0.1-1 arm64 DMG. Retire classic LM Studio first, preserve ~/.lmstudio, and verify model routing and privacy behavior.",
       "follow_up": [
-        "After installation, rename the application bundle to LM Bionic.app",
+        "After installation, verify /Applications/LM Bionic.app",
         "Verify whether local LM Studio models, LM Link, or Secure Cloud is selected",
         "Review code, document, voice, MCP, and filesystem permissions",
         "Record account and data-routing choice without storing credentials"
@@ -484,13 +492,13 @@
       "name": "Perplexity",
       "category": "AI",
       "tier": "core",
-      "official_url": "https://www.perplexity.ai/",
+      "official_url": "https://www.perplexity.ai/personal-computer",
       "allowed_sources": [
         "official_web",
-        "app_store"
+        "manual_or_unknown"
       ],
       "size_gb": 1,
-      "note": "Perplexity officially distributes the Mac app both from its website and the Mac App Store; either provenance is accepted.",
+      "note": "Use the current official website Mac app with Personal Computer capabilities. The installed App Store 2.260428.0 build is legacy and should be replaced after the new build is verified.",
       "follow_up": [
         "Sign in"
       ],
@@ -632,7 +640,7 @@
       "name": "rednote",
       "category": "Social",
       "tier": "core",
-      "app_store_url": "https://apps.apple.com/",
+      "app_store_url": "https://apps.apple.com/jp/app/rednote/id741292507?l=en-US&platform=mac",
       "size_gb": 1,
       "follow_up": [
         "Sign in"
@@ -674,6 +682,7 @@
       "name": "Cherry Studio",
       "category": "AI",
       "tier": "option",
+      "lifecycle_status": "retired",
       "brew_cask": "cherry-studio",
       "official_url": "https://cherry-studio-ai.com/download",
       "size_gb": 1,
@@ -718,6 +727,7 @@
       "name": "Qwen",
       "category": "AI",
       "tier": "core",
+      "lifecycle_status": "retired",
       "official_url": "https://chat.qwen.ai/",
       "size_gb": 1,
       "follow_up": [
@@ -733,6 +743,10 @@
       "category": "Social",
       "tier": "core",
       "official_url": "https://x.com/",
+      "delivery_method": "webcatalog-wrapper",
+      "allowed_sources": ["webcatalog"],
+      "webcatalog_url": "https://x.com/",
+      "note": "Use X through a WebCatalog wrapper. The current App Store listing is not Mac-compatible; do not install a legacy native wrapper.",
       "size_gb": 0,
       "note": "The current App Store listing is not Mac-compatible (it lists iPhone/iPad/Apple TV). Use X on the web or install it as a browser web app. A legacy Mac App Store package may still exist on older Macs.",
       "follow_up": [

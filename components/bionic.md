@@ -8,7 +8,7 @@ source: "official_web"
 delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
-official_url: "https://lmstudio.ai/bionic"
+official_url: "https://lmstudio.ai/download/bionic/latest/darwin/arm64"
 check_command: null
 install_after: []
 account_required: true
@@ -18,31 +18,41 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 
 # LM Studio Bionic
 
-Bionic is the primary LM Studio application for this Mac. It is used for
-agent-oriented work, local models, LM Link, and LM Studio Secure Cloud.
+Bionic is a separate official LM Studio agent application. On Apple Silicon,
+use the official endpoint above; it currently redirects to the signed
+`Bionic-1.0.1-1-arm64.dmg` installer. Do not substitute the classic
+`LM Studio.app` download.
 
 ## Local app name
 
-After installing the official Bionic app, rename the application bundle in
-`/Applications` to:
+Keep the official application bundle name unless a future deployment explicitly
+requires local renaming. The current official bundle is:
 
 ```text
 LM Bionic.app
 ```
 
-This is a local organization rule only. Do not change the bundle identifier or
-internal application metadata. Open the renamed app once and verify that macOS
-launches it normally.
+Do not change the bundle identifier or internal application metadata. Open the
+app once and verify that macOS launches it normally.
 
 ## Runtime conflict rule
 
-Bionic and the classic LM Studio desktop app use the same `llmster` daemon.
-They are not two independent local inference runtimes. Do not run both local
-backends at the same time. If classic LM Studio reports that the daemon is
+Bionic and the classic LM Studio desktop app use the same `llmster` model
+store/runtime components. They are not two independent local inference
+runtimes. Do not run both local backends at the same time. If classic LM Studio reports that the daemon is
 already running, keep Bionic open and quit the classic app instead.
 
 The classic LM Studio app is retired in this catalog. Keep shared model data
 until Bionic has been verified; do not delete `~/.lmstudio` automatically.
+
+## Migration from classic LM Studio
+
+1. Install and launch Bionic successfully.
+2. Quit classic LM Studio and remove only `/Applications/LM Studio.app` (or
+   uninstall its Homebrew cask).
+3. Preserve `~/.lmstudio`; it contains shared models and runtime data.
+4. Confirm `/Applications/LM Bionic.app` starts and can see the expected local model store before
+   considering the migration complete.
 
 ## Verification
 

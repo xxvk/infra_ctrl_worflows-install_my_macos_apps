@@ -296,6 +296,12 @@ def plan(args):
     mismatches = []
     for item in source_mismatches(installed):
         mismatches.append({"app": item["name"], "path": item["path"], "source": item["source"]})
+    unlisted = [
+        {"app": item["name"], "path": item["path"], "bundle_identifier": item.get("bundle_identifier")}
+        for item in installed
+        if not item.get("catalog_name")
+        and not str(item.get("bundle_identifier") or "").casefold().startswith("com.apple.")
+    ]
     version_issues = []
     for app in selected:
         minimum = app.get("minimum_version")
@@ -320,6 +326,7 @@ def plan(args):
         "selected_count": len(selected),
         "missing": missing,
         "source_mismatches": mismatches,
+        "unlisted_apps": unlisted,
         "version_issues": version_issues,
         "account_hints": [{"app": app["name"], "account": app["preferred_account"],
                            "verification": app.get("account_verification", "manual")}
@@ -349,6 +356,10 @@ def plan(args):
         for item in mismatches:
             source = item["source"]
             print(f"- {item['app']}: expected {source['expected']}, detected {source['detected']} ({item['path']})")
+    if unlisted:
+        print("Unlisted installed apps (review for removal or catalog entry):")
+        for item in unlisted:
+            print(f"- {item['app']}: {item['path']}")
     duplicates = duplicate_apps(installed)
     if duplicates:
         print("Duplicate catalog app bundles (keep the preferred-source copy):")

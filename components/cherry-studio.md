@@ -3,7 +3,7 @@ component_id: "cherry-studio"
 name: "Cherry Studio"
 category: "AI"
 tier: "option"
-lifecycle_status: "active"
+lifecycle_status: "retired"
 source: "homebrew"
 delivery_method: "homebrew-cask"
 brew_cask: "cherry-studio"
@@ -17,3 +17,8 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 download_estimate_bytes: 1000000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
+
+## Retirement status
+
+Cherry Studio is retired for this machine. Do not reinstall it unless the
+catalog is explicitly reactivated.

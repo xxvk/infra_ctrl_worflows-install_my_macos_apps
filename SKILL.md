@@ -348,7 +348,10 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    The script accepts at most two `--only` values per run. It bootstraps Homebrew only with `--apply` and asks interactively first. It installs only catalog entries with a verified Homebrew cask or formula identifier. It never supplies credentials, modifies privacy settings, or silently installs an unverified DMG/PKG.
 
    **IPATool authentication and IPA workflow:** IPATool is a Core Homebrew
-   formula. Install it with `brew install ipatool` and verify with
+   formula, but it is not a prerequisite for PlayCover. M4a and M4b verified
+   that its Apple account/authentication workflow is not usable for the
+   required IPA packages. Install it only as a general developer utility with
+   `brew install ipatool` and verify with
    `ipatool --version`. Before downloading an App Store package, identify the
    intended App Store purchase account; the current iCloud account is only a
    candidate because iCloud and App Store purchase accounts may differ. Start
@@ -358,7 +361,8 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    Git. Verify with `ipatool auth info`; the CLI does not provide a native
    macOS Passkey/Touch ID login prompt. For YouTube, search/download using
    bundle ID `com.google.ios.youtube`. IPATool downloads an App Store package
-   that may be encrypted; it is not automatically a PlayCover-compatible IPA.
+   that may be encrypted; it is not automatically a PlayCover-compatible IPA
+   and must not gate the YouTube workflow.
    PlayCover requires a decrypted IPA, so do not claim success until import
    and launch are tested. Keep the downloaded IPA and authentication result in
    ignored machine-local state only, and use `ipatool auth revoke` when the
@@ -367,8 +371,12 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
 
    **YouTube through PlayCover:** treat YouTube as a separate Core capability
    installed after PlayCover. Use the current decrypted YouTube entry from the
-   configured `approved-private-source.invalid` IPA Library; do not persist a version-specific
+   configured `approved-private-source.invalid` IPA Library (or another explicitly approved,
+   reputable decrypted-IPA source); do not persist a version-specific
    direct IPA URL in the catalog. For the validated YouTube 21.28.3 profile,
+   after importing, open the app's Settings → Misc and explicitly click
+   **Remove PlayTools**; PlayCover may install PlayTools automatically during
+   import, but it must be removed before the first launch.
    PlayTools must remain removed. Keep PlayChain off, Jailbreak Bypass on,
    Introspection libraries off, and Force Insert iOS Frameworks on. Use the
    iPad Pro 13-inch (7th generation) M4 8 GB device profile, 1080p, 4:3, and
@@ -727,6 +735,42 @@ skill move the old `.app` to Trash or remove it. Preserve shared Application
 Support, Container, and Group Container data unless the user separately asks
 for data cleanup. Record both paths, versions, source evidence, and the final
 single-copy result in the component guide.
+
+## Complete removal and embedded helper cleanup
+
+When the user explicitly requests an app's complete removal, deleting only the
+top-level `.app` is not sufficient. Search `/Applications`, `~/Applications`,
+Application Support, Caches, Preferences, Containers, Saved Application State,
+LaunchAgents, and Homebrew cask records for the app name, bundle identifier,
+and known aliases. Inspect nested `.app` bundles inside another host
+application; a helper can remain launchable after a top-level alias is gone.
+
+For a nested helper, identify its bundle identifier and host app before
+deletion. Explain any host-app impact and obtain explicit confirmation before
+removing a helper embedded in another application. If confirmed, remove the
+host app too when the user names the host (as with Cici), or otherwise remove
+only the helper and its clearly matching support data. Never delete unrelated
+shared data merely because it contains a similar word.
+
+The removal sequence is:
+
+1. Quit matching applications and helpers.
+2. Remove application bundles, nested helpers, matching Homebrew casks, and
+   only app-specific support, cache, preference, container, and recent-document
+   records.
+3. Verify absence with filesystem checks, `brew list --cask`, and a fresh app
+   scan. A stale Launch Services or Recent Documents entry is not an installed
+   app; clear it only when explicitly tied to the removed bundle.
+4. Write measured removed paths, byte counts, preserved data, and verification
+   results to an ignored `state/remove-*.json` record. Do not put current
+   machine paths or measurements in reusable component Markdown.
+5. For catalog components, set the guide and catalog `lifecycle_status` to
+   `retired` and document what was removed and what data was preserved. For an
+   unlisted nested helper, keep the reusable procedure here and record
+   machine-specific evidence only in `state/`.
+
+If administrator authorization is required, use a visible Terminal so the
+user can enter the password. Never pass or store the password in the skill.
 
 ## Browser download preflight
 

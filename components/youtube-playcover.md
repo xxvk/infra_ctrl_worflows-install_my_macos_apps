@@ -29,8 +29,11 @@ YouTube app rather than the browser site.
 ## IPA source
 
 Use the current YouTube entry in the already configured `approved-private-source.invalid` IPA
-Library. Do not hard-code a direct IPA download URL in the catalog: source
-links and versions change. A validated test package was named:
+Library (or another explicitly approved, reputable decrypted-IPA source).
+IPATool is not a prerequisite: M4a and M4b verified that its Apple account
+workflow is not usable for this PlayCover acquisition. Do not hard-code a
+direct IPA download URL in the catalog: source links and versions change. A
+validated test package was named:
 
 ```text
 com.google.ios.youtube-21.28.3-Decrypted.ipa
@@ -38,6 +41,11 @@ com.google.ios.youtube-21.28.3-Decrypted.ipa
 
 The package must be decrypted. An IPA downloaded with `ipatool` from the App
 Store is encrypted and is not accepted by PlayCover.
+
+After import, PlayCover may automatically install PlayTools. Open the
+YouTube app's Settings → Misc and click **Remove PlayTools** before the first
+launch. This is mandatory for the validated YouTube package; leaving PlayTools
+installed caused startup failure in the PlayKeychain/DRM path.
 
 ## Known-good PlayCover profile
 

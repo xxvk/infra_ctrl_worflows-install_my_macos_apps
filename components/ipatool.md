@@ -17,13 +17,16 @@ secrets_policy: "Never store Apple passwords, two-factor codes, App Store tokens
 download_estimate_bytes: 30000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 installed_measurement_method: "local_du"
+recommended_for_playcover_ipa: false
+known_cross_machine_status: "M4a and M4b: not usable for the required IPA workflow; do not gate PlayCover on IPATool"
 ---
 # IPATool
 
 IPATool is a Homebrew-installed CLI for searching the iOS App Store and
-downloading app packages (`.ipa`) with an Apple App Store account. It is a
-core developer utility for obtaining a user-owned App Store package for
-testing or PlayCover investigation.
+downloading app packages (`.ipa`) with an Apple App Store account. It remains
+installed as a general developer utility, but it is **not** the acquisition
+path for PlayCover on this fleet: M4a and M4b already verified that the
+account/authentication workflow is not usable for the required packages.
 
 ## Installation
 
@@ -57,7 +60,7 @@ does not provide a native macOS Passkey/Touch ID login prompt. If the account
 is protected by a flow that cannot complete this interaction, stop and let the
 user finish authentication manually.
 
-## YouTube example
+## YouTube example (not the PlayCover path)
 
 YouTube's App Store bundle identifier is `com.google.ios.youtube`:
 
@@ -70,10 +73,13 @@ ipatool download \
 ```
 
 IPATool downloads an App Store package, which may be encrypted. A successful
-download is not proof that PlayCover can run it. PlayCover requires a decrypted
-IPA; test the file by importing it only after confirming that it is an
-authorized package. Do not silently download or install modified, cracked, or
-unverified IPA files.
+download is not proof that PlayCover can run it, and this workflow is known to
+be unusable on M4a/M4b. Do not use it as a prerequisite for YouTube.
+
+For PlayCover, use the current decrypted YouTube IPA from the configured
+`approved-private-source.invalid` IPA Library (or another explicitly approved, reputable IPA
+source), verify the bundle identifier and decrypted status, then import it in
+PlayCover. Never silently install modified or unverified IPA files.
 
 ## Verification and cleanup
 
