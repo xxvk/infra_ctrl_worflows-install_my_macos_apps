@@ -26,6 +26,106 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
   locked with `chmod 000` and `chflags uchg` to prevent automatic re-download.
 - Claude.app was opened after installation and passed the follow-up source scan.
 
+## Mandatory Developer mode, third-party inference, and Local MCP verification
+
+After installation, account verification, and the first successful launch,
+automatically check and enable Claude Desktop's Developer settings before
+marking Claude ready for use. This is a local application preference; it does
+not require entering credentials or changing macOS privacy permissions:
+
+1. Open the `Help` menu and inspect `Troubleshooting`.
+2. If the item says `Enable Developer Mode`, activate it, accept the app's
+   non-binding warning, and wait for Claude Desktop to restart.
+3. If the item already says `Disable Developer Mode`, treat Developer Mode as
+   already enabled.
+4. Confirm that a top-level `Developer` menu appears.
+5. Open `Developer → Configure Third-party Inference…`.
+6. If the page is available, configure the Gateway base URL, credential kind,
+   custom inference headers, model discovery, and model list manually.
+   Treat the model-list editor as Anthropic-family-only: a non-Anthropic
+   OpenRouter ID such as `deepseek/deepseek-v4-pro` may be accepted by the
+   form but causes a malformed provider setup after relaunch. If validation
+   reports that the route is not an Anthropic model, remove/discard the entry,
+   save and apply the restored list, relaunch Claude, and confirm the setup
+   warning is gone. Do not force-apply that entry.
+7. Verify required Local MCP servers, including command, arguments, and status.
+8. Open server logs when a server is disconnected and resolve the issue before
+   marking the Claude setup complete.
+9. Record only provider name, endpoint type, model name, MCP server name,
+   status, and pass/fail. Never record API keys, tokens, or request headers.
+10. Use the GUI for third-party inference changes; do not edit Claude's local
+    configuration files directly.
+
+The exact location and availability of Developer settings may change by Claude
+Desktop version, account type, region, and rollout status. If the setting is
+not available, mark the installation follow-up as blocked and record the
+installed version.
+
+The verified current build exposes a `Configure Third-party Inference…` page
+with a Gateway base URL, custom headers, credential kind, model discovery, and
+model list. This makes compatible third-party inference gateways possible, but
+provider compatibility still requires a real non-sensitive test. Never assume
+that every OpenAI, Chinese, or other provider works without testing its
+endpoint and model response.
+
+### Non-Anthropic model compatibility guard
+
+An Anthropic-compatible Gateway protocol does not guarantee that Claude
+Desktop accepts the provider's native model ID. Current builds validate model
+entries as Anthropic-family routes. For example, adding the OpenRouter ID
+`deepseek/deepseek-v4-pro` produces a `Doesn't look like an Anthropic model`
+warning and can make the relaunched app report `provider setup needs a fix`.
+
+When a non-Anthropic model is requested:
+
+1. Add it only through the GUI and observe the validation warning.
+2. If the warning appears, do not apply it as a working configuration.
+3. Remove the entry, save and apply the restored model list, relaunch Claude,
+   and verify that the setup warning is gone and a normal Anthropic model can
+   run a non-sensitive inference test.
+4. Treat community model aliases, local proxies, and CC-switch-style routing
+   as separate workarounds, not native Claude Desktop support. Prefer Claude
+   Code CLI, OpenCode, or a separately tested Anthropic-compatible proxy for
+   DeepSeek.
+
+### Restore the original Claude subscription
+
+Developer Mode can remain enabled while using the original Claude
+subscription; it is independent of the inference mode. To leave Gateway / 3P
+mode:
+
+1. Open the current Gateway account menu and click `Sign out`/`Logout`.
+2. After Claude relaunches, sign in again at `claude.ai` with the original
+   Claude account.
+3. Verify that the page URL is `claude.ai/new`, the `Gateway` indicator is
+   gone, and the model picker shows the subscription model.
+
+Do not disable Developer Mode during this switch. If signing out does not
+restore the Anthropic login flow, stop before deleting local state; back up the
+relevant 3P state first and treat filesystem cleanup as a separate recovery
+operation.
+
+### OpenRouter model discovery troubleshooting
+
+For OpenRouter, use the Anthropic-compatible Gateway URL:
+
+```text
+https://openrouter.ai/api
+```
+
+Keep Model discovery enabled. Claude Desktop discovers models from:
+
+```text
+https://openrouter.ai/api/v1/models
+```
+
+After changing or creating a configuration, run `Test model discovery`. If it
+finds models but the task model picker still shows only the previous default,
+fully quit Claude Desktop and reopen it; discovery is loaded at launch. Do not
+paste API keys into documentation or operation records. OpenRouter documents
+this Gateway setup and model discovery flow at its Claude Desktop integration
+guide.
+
 ## Claude Code CLI
 
 - Source: Homebrew cask `claude-code`

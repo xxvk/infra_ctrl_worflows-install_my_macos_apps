@@ -115,6 +115,113 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    it disables Cowork/local-agent VM recreation and is never implicit. See
    [components/claude.md](components/claude.md).
 
+   **Claude Desktop Developer settings:** after Claude Desktop opens and the
+   intended account is verified, automatically inspect the Help menu. If it
+   shows `Help → Troubleshooting → Enable Developer Mode`, the skill must click
+   that menu item, accept the app's non-binding warning, and wait for Claude to
+   restart. This is a local application preference and does not enter
+   credentials or change macOS privacy permissions. Verify that the top-level
+   `Developer` menu appears; if it already shows `Disable Developer Mode`, the
+   check passes. Then inspect `Developer → Configure Third-party Inference…`.
+   Verify required Local MCP servers separately. Never
+   enter, display, log, or sync API keys through the skill, and never store them
+   in the catalog, `state/`, Obsidian, or Git. If the build exposes the
+   third-party inference page, the user may manually configure the Gateway base
+   URL, credential kind, custom headers, model discovery, and model list. Test
+   each provider with a non-sensitive prompt and record only provider name,
+   endpoint type, model name, and pass/fail. If the menu is absent, mark the
+   feature blocked and report the build version. Use the GUI for this workflow;
+   do not edit Claude's local configuration files directly.
+
+   **Claude Desktop model compatibility guard:** a Gateway endpoint being
+   Anthropic-protocol-compatible does not mean the Desktop model list accepts
+   the provider's native model IDs. Current builds validate model entries as
+   Anthropic-family routes. In particular, adding an OpenRouter ID such as
+   `deepseek/deepseek-v4-pro` can produce the warning `Doesn't look like an
+   Anthropic model` and can leave Claude Desktop in a `provider setup needs a
+   fix` state after relaunch. Before applying a non-Anthropic model, run the
+   real GUI validation; if that warning appears, remove the entry, save and
+   apply the restored list, relaunch, and verify the setup warning is gone.
+   Do not treat community alias/proxy workarounds as native support. Use
+   Claude Code CLI, OpenCode, or a separately tested Anthropic-compatible
+   proxy/router for DeepSeek instead.
+
+   Claude Desktop's model-list editor is not a general OpenRouter model
+   switcher. It validates entries as Anthropic-family gateway routes. A
+   non-Anthropic OpenRouter ID such as `deepseek/deepseek-v4-pro` can be
+   accepted by the form but leave the provider setup malformed after relaunch.
+   Before applying any manual entry, check the validation message; if it says
+   the route is not an Anthropic model, discard/remove the entry, save and
+   apply the restored list, relaunch Claude, and verify that the setup warning
+   is gone. Use a separate tested Anthropic-compatible router/client when a
+   non-Anthropic model is required.
+
+   **Restore the original Claude subscription:** Developer Mode may remain
+   enabled; it is independent of the inference mode. When Claude Desktop is
+   in `Gateway` / 3P mode and the user wants the original Claude subscription,
+   use the current Gateway account menu's `Sign out`/`Logout` action. After
+   Claude relaunches, sign in again at `claude.ai` with the original Claude
+   account. Verify the URL is `claude.ai/new`, the Gateway indicator is gone,
+   and the model picker shows the subscription model. Do not remove Developer
+   Mode as part of this switch. If sign-out does not restore the login flow,
+   stop before deleting local state and report that 3P recovery requires a
+   backed-up state reset.
+
+   **LM Studio and multi-provider Gateway settings:** LM Studio is a local
+   model server, not a general-purpose cloud API key proxy. Its current
+   official server supports OpenAI-compatible endpoints and
+   Anthropic-compatible `/v1/messages`; use it as a local backend for models
+   loaded into LM Studio. Do not assume that a DeepSeek official API key can
+   be stored in LM Studio and transparently forwarded to
+   `api.deepseek.com`. For OpenRouter, DeepSeek, Google, and LM Studio behind
+   one Claude Desktop Gateway, use a separate routing layer such as a tested
+   Anthropic-compatible router, and keep provider keys in that router's secret
+   store rather than in the catalog or component guides. Test model discovery,
+   tool calls, streaming, and the exact model ID separately; compatibility at
+   the HTTP endpoint does not guarantee agent compatibility.
+
+   **LM Studio Bionic:** Bionic is the active `core` application for this Mac
+   for code, documents, voice, and open-model agent workflows. Verify the
+   official Bionic download page and macOS build before installing; do not
+   substitute an unofficial similarly named download. Classic LM Studio is
+   retired in this catalog. Bionic and classic LM Studio use the same `llmster`
+   daemon, so do not run both local backends concurrently. Preserve shared
+   model data unless the user explicitly requests cleanup.
+
+   After installing Bionic, rename the application bundle in `/Applications`
+   to `LM Bionic.app` for local organization. Do not change the bundle
+   identifier or internal metadata. Open the renamed app once and verify launch
+   success before marking installation complete.
+
+   If classic LM Studio is installed, treat it as `retirement_pending`: quit
+   both applications, verify Bionic's local/cloud workflows, then remove only
+   the classic app bundle if requested. Do not delete `~/.lmstudio` as part of
+   routine retirement.
+
+   **Bionic capability verification:** treat the current Bionic build as an
+   initial preview and verify these surfaces after installation:
+
+   - Work Projects: research, writing, analysis, document editing, and
+     generation of documents, presentations, spreadsheets, and other files in
+     a managed workspace.
+   - Code Projects: a selected local working directory with file search,
+     code explanation, edits, Git visibility, shell tools, test execution, and
+     documentation updates.
+   - Sessions and tabs: separate task conversations, background sessions,
+     side-by-side sessions, project files, and response forking.
+   - Model routing: local models, remote models through LM Link, and hosted
+     open models through LM Studio Secure Cloud.
+   - Local model management: discover/download models and use models that fit
+     the Mac's available memory and runtime support.
+   - Web Search: optional fresh web context for Work Projects; verify that
+     billing is enabled before treating it as available.
+   - Account and billing: local and LM Link models do not require an account;
+     Secure Cloud models require sign-in, credits, and network access.
+
+   Record whether each test used local, remote, or cloud inference. Never
+   assume that a feature works with every model: check tool support, image
+   input, reasoning controls, streaming, and filesystem/shell permissions.
+
 ## App Store workflow
 
 Use this workflow for every catalog entry with `app_store_url`. It is the

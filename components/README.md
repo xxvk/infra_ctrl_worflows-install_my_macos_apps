@@ -8,8 +8,9 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | ChatGPT | [chatgpt.md](chatgpt.md) | Installed; account and version verification required |
 | Claude | [claude.md](claude.md) | Installed via Homebrew; VM images reclaimed before replacement |
 | Google Chrome | [google-chrome.md](google-chrome.md) | Installed via Homebrew; Codex extension preflight pending |
+| Obsidian Web Clipper | [obsidian-web-clipper.md](obsidian-web-clipper.md) | Core; Chrome extension and Safari extension required |
 | Tailscale | [tailscale.md](tailscale.md) | Installed via Mac App Store; connection pending |
-| Notion | [notion.md](notion.md) | Installed via Homebrew; workspace verification pending |
+| Notion | [notion.md](notion.md) | Retired; use the Notion web version or web app; desktop app and cache cleanup pending |
 | Visual Studio Code | [visual-studio-code.md](visual-studio-code.md) | Installed via Homebrew; extensions/settings pending |
 | Cursor | [cursor.md](cursor.md) | Installed via Homebrew; account/settings pending |
 | GitHub Desktop | [github-desktop.md](github-desktop.md) | Installed via Homebrew; account/Git settings pending |

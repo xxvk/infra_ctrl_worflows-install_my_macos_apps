@@ -49,7 +49,9 @@
       "follow_up": [
         "Sign in with the Google account example.user@example.invalid",
         "Confirm the Google account shown in Claude before continuing",
-        "Review permissions"
+        "Review permissions",
+        "Review Claude Desktop Developer settings and verify required Local MCP servers",
+        "Treat third-party model API provider support as unverified unless the installed build exposes and passes a provider test"
       ],
       "download_estimate_bytes": 1000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
@@ -125,12 +127,13 @@
       "name": "Notion",
       "category": "Productivity",
       "tier": "core",
+      "lifecycle_status": "retired",
       "brew_cask": "notion",
       "official_url": "https://www.notion.so/desktop",
       "guide": "components/notion.md",
       "size_gb": 1,
       "follow_up": [
-        "Sign in"
+        "Use Notion in the web version or web app instead of the desktop app"
       ],
       "download_estimate_bytes": 1000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
@@ -442,9 +445,11 @@
     {
       "name": "LM Studio",
       "category": "Local AI",
-      "tier": "core",
+      "tier": "option",
+      "lifecycle_status": "retired",
       "brew_cask": "lm-studio",
       "official_url": "https://lmstudio.ai/",
+      "note": "Retired in favor of LM Studio Bionic for this Mac. Do not install by default: Bionic and LM Studio use the same llmster daemon and cannot run their local backends concurrently.",
       "guide": "components/lm-studio.md",
       "size_gb": 20,
       "follow_up": [
@@ -452,6 +457,27 @@
         "Download models only as needed"
       ],
       "download_estimate_bytes": 20000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "LM Studio Bionic",
+      "category": "AI Agent",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "allowed_sources": [
+        "official_web"
+      ],
+      "official_url": "https://lmstudio.ai/bionic",
+      "size_gb": 2,
+      "note": "Primary LM Studio application for this Mac. Bionic and classic LM Studio share the llmster daemon; do not run both local backends concurrently. Verify official macOS download, account, model routing, and privacy behavior before installation.",
+      "follow_up": [
+        "After installation, rename the application bundle to LM Bionic.app",
+        "Verify whether local LM Studio models, LM Link, or Secure Cloud is selected",
+        "Review code, document, voice, MCP, and filesystem permissions",
+        "Record account and data-routing choice without storing credentials"
+      ],
+      "guide": "components/bionic.md",
+      "download_estimate_bytes": 2000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
@@ -1677,6 +1703,47 @@
       "guide": "components/motion.md",
       "download_estimate_bytes": 3000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Obsidian Web Clipper — Chrome",
+      "category": "Browser",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "source": "manual",
+      "delivery_method": "browser-extension",
+      "official_url": "https://chromewebstore.google.com/detail/obsidian-web-clipper/cnjifjpddelmedmihgijeibhnjfabmlf",
+      "brew_cask": null,
+      "brew_formula": null,
+      "check_command": null,
+      "install_after": ["Obsidian", "Google Chrome"],
+      "account_required": false,
+      "permissions_required": ["browser access to pages selected by the user"],
+      "secrets_policy": "Never store passwords, API keys, recovery codes, or license secrets here.",
+      "follow_up": ["Set the target Obsidian vault and review site permissions"],
+      "guide": "components/obsidian-web-clipper.md",
+      "download_estimate_bytes": 0,
+      "download_estimate_method": "browser_extension_store"
+    },
+    {
+      "name": "Obsidian Web Clipper — Safari",
+      "category": "Browser",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "source": "app_store",
+      "delivery_method": "app-store-extension",
+      "official_url": "https://apps.apple.com/us/app/obsidian-web-clipper/id6720708363",
+      "app_store_url": "https://apps.apple.com/us/app/obsidian-web-clipper/id6720708363",
+      "brew_cask": null,
+      "brew_formula": null,
+      "check_command": null,
+      "install_after": ["Obsidian", "Safari"],
+      "account_required": false,
+      "permissions_required": ["Safari access to pages selected by the user"],
+      "secrets_policy": "Never store passwords, API keys, recovery codes, or license secrets here.",
+      "follow_up": ["Enable the extension in Safari and set the target Obsidian vault"],
+      "guide": "components/obsidian-web-clipper.md",
+      "download_estimate_bytes": 0,
+      "download_estimate_method": "app_store_extension"
     }
   ]
 }

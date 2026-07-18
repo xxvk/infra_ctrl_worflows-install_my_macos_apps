@@ -18,6 +18,30 @@ python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto
 ```
 
+To audit shared application data that may remain after an app is removed, run
+the read-only Group Container scan:
+
+```sh
+python3 scripts/scan_group_containers.py
+python3 scripts/scan_group_containers.py --json
+```
+
+The scan reports container size, the metadata creator, whether a matching app
+bundle is currently installed, and `likely_orphan`. That flag is only a review
+signal: shared containers such as Microsoft Office's
+`UBF8T346G9.Office` must not be deleted as a whole. Removal is a separate,
+explicit, app-specific operation after reviewing what data is preserved.
+
+To inspect and explicitly remove standalone OpenClaw leftovers:
+
+```sh
+python3 scripts/openclaw_cleanup.py inspect
+python3 scripts/openclaw_cleanup.py remove --confirm "REMOVE OPENCLAW"
+```
+
+This targets only `~/.openclaw` and the known Kimi Desktop OpenClaw shim. It
+preserves Hermes source/test files, Kimi Desktop, and unrelated application data.
+
 The scan also records installation-source evidence. It recognizes an App Store
 receipt, a matching installed Homebrew cask, or a system bundle; website/DMG/ZIP
 installs are reported as `manual_or_unknown`. Review `source_mismatches` in the
@@ -48,6 +72,11 @@ Every Core component guide must record measured `download_bytes` and
 `installed_bytes`; `size_gb` in the catalog is only a planning estimate. Run
 `python3 scripts/audit_core_catalog.py` to find missing guides, measurements,
 or App Store/CLI metadata.
+
+LM Studio Bionic is the active Core application for this Mac. Classic LM Studio
+is retired because both applications use the same `llmster` daemon and cannot
+run their local backends concurrently. Keep shared `~/.lmstudio` model data
+until Bionic has been verified; retirement does not imply deleting that data.
 
 ## App Store apps
 
