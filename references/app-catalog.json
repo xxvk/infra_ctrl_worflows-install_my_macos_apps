@@ -849,6 +849,29 @@
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
+      "name": "YouTube (PlayCover)",
+      "category": "Media compatibility",
+      "tier": "core",
+      "app_store_url": "https://apps.apple.com/app/youtube/id544007664",
+      "official_url": "https://www.youtube.com/",
+      "bundle_identifiers": [
+        "com.google.ios.youtube"
+      ],
+      "preferred_source": "approved-private-source.invalid IPA Library",
+      "install_after": [
+        "PlayCover"
+      ],
+      "follow_up": [
+        "Import a current decrypted YouTube IPA into PlayCover",
+        "Keep PlayTools removed for YouTube",
+        "Verify launch and video playback before treating the setup as complete"
+      ],
+      "guide": "components/youtube-playcover.md",
+      "size_gb": 0.3,
+      "download_estimate_bytes": 300000000,
+      "download_estimate_method": "tested_decrypted_ipa_size_estimate"
+    },
+    {
       "name": "Transporter",
       "category": "Developer tools",
       "tier": "core",
@@ -1525,6 +1548,23 @@
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
+      "name": "IPATool",
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "ipatool",
+      "check_command": "ipatool",
+      "official_url": "https://github.com/majd/ipatool",
+      "guide": "components/ipatool.md",
+      "size_gb": 0.03,
+      "follow_up": [
+        "Authenticate interactively with the intended Apple App Store account",
+        "Complete password and two-factor prompts in a visible Terminal",
+        "Do not store Apple credentials or downloaded IPA files in the catalog or Git"
+      ],
+      "download_estimate_bytes": 30000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
       "name": "Android File Transfer",
       "category": "File transfer",
       "tier": "optional",
@@ -1591,6 +1631,48 @@
       ],
       "guide": "components/wordpress-studio.md",
       "download_estimate_bytes": 1000000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Logi Options+",
+      "aliases": ["Logitech Options+"],
+      "category": "Hardware utilities",
+      "tier": "option",
+      "lifecycle_status": "active",
+      "source": "homebrew",
+      "delivery_method": "homebrew-cask",
+      "brew_cask": "logi-options+",
+      "official_url": "https://www.logitech.com/en-us/software/logi-options-plus",
+      "check_command": "test -d '/Applications/logioptionsplus.app'",
+      "size_gb": 0.5,
+      "follow_up": [
+        "Confirm the exact Logitech keyboard and mouse models",
+        "Grant only the macOS permissions requested by the app",
+        "Check whether battery status is exposed for the connected devices"
+      ],
+      "guide": "components/logi-options-plus.md",
+      "download_estimate_bytes": 500000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Solaar",
+      "category": "Hardware utilities",
+      "tier": "option",
+      "lifecycle_status": "active",
+      "source": "github",
+      "delivery_method": "github-source",
+      "brew_cask": null,
+      "brew_formula": null,
+      "official_url": "https://pwr-solaar.github.io/Solaar/installation/",
+      "check_command": "test -d '/Applications/Solaar.app'",
+      "size_gb": 0.2,
+      "follow_up": [
+        "Quit Logi Options+ and OpenLogi before accessing the receiver",
+        "Verify the receiver and each physical device in the Solaar details pane",
+        "Treat battery readings as approximate device-reported values"
+      ],
+      "guide": "components/solaar.md",
+      "download_estimate_bytes": 200000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {

@@ -1,5 +1,7 @@
 import Foundation
 import IOKit.hid
+import AppKit
+import ApplicationServices
 
 private let logURL = URL(fileURLWithPath: NSHomeDirectory())
     .appendingPathComponent("Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log")
@@ -35,8 +37,23 @@ private func runAction(for usage: UInt32) {
         process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
         process.arguments = ["/Applications/Perplexity.app"]
     case 0x3e: // F5
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-        process.arguments = ["-a", "/System/Applications/Music.app"]
+        let standardYouTube = "/Applications/YouTube.app"
+        let playCoverYouTube = URL(fileURLWithPath: NSHomeDirectory())
+            .appendingPathComponent("Applications/PlayCover/YouTube.app").path
+        if FileManager.default.fileExists(atPath: standardYouTube) {
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+            process.arguments = ["-a", standardYouTube]
+        } else if FileManager.default.fileExists(atPath: playCoverYouTube + "/YouTube") {
+            if activateRunningApplication(bundleIdentifier: "com.google.ios.youtube") {
+                log("F5 received; activated existing PlayCover YouTube")
+                return
+            }
+            process.executableURL = URL(fileURLWithPath: playCoverYouTube + "/YouTube")
+            process.arguments = []
+        } else {
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+            process.arguments = ["-a", "/System/Applications/Music.app"]
+        }
     case 0x45: // F12
         process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
         process.arguments = ["-a", "/System/Applications/Utilities/Screenshot.app"]
@@ -49,6 +66,44 @@ private func runAction(for usage: UInt32) {
     } catch {
         log("Unable to start action for HID usage 0x\(String(usage, radix: 16)): \(error)")
     }
+}
+
+private func activateRunningApplication(bundleIdentifier: String) -> Bool {
+    guard let application = NSRunningApplication
+        .runningApplications(withBundleIdentifier: bundleIdentifier)
+        .first else {
+        return false
+    }
+
+    // Activation alone does not reliably restore a window minimized with the
+    // yellow button. Unhide the app first, then clear AXMinimized on its
+    // windows before activating it, matching the behavior of native apps.
+    application.unhide()
+    var restoredWindow = false
+    let axApplication = AXUIElementCreateApplication(application.processIdentifier)
+    var windowsValue: CFTypeRef?
+    let copyResult = AXUIElementCopyAttributeValue(
+        axApplication,
+        kAXWindowsAttribute as CFString,
+        &windowsValue
+    )
+    if copyResult == .success, let windows = windowsValue as? [AXUIElement] {
+        for window in windows {
+            if AXUIElementSetAttributeValue(
+                window,
+                kAXMinimizedAttribute as CFString,
+                kCFBooleanFalse
+            ) == .success {
+                restoredWindow = true
+            }
+        }
+    } else if copyResult != .success {
+        log("Unable to inspect PlayCover YouTube windows for restoration: AXError \(copyResult.rawValue)")
+    }
+
+    let activated = application.activate(options: [.activateAllWindows])
+    log("Restored existing PlayCover YouTube window: restored=\(restoredWindow) activated=\(activated)")
+    return activated || restoredWindow
 }
 
 private func inputValueCallback(

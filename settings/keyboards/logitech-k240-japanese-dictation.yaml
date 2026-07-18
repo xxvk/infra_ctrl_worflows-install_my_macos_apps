@@ -56,8 +56,14 @@ function_keys:
     symbolic_hotkey_id: 32
     note: "Configured in macOS Keyboard Shortcuts; do not handle in Swift listener"
   f5:
-    action: "open_apple_music"
+    action: "open_youtube_or_apple_music"
     implementation: "native_hid_listener"
+    preferred_applications:
+      - "/Applications/YouTube.app"
+      - "~/Applications/PlayCover/YouTube.app"
+    playcover_executable: "~/Applications/PlayCover/YouTube.app/YouTube"
+    fallback_application: "/System/Applications/Music.app"
+    selection_rule: "Use YouTube.app when present; otherwise use Apple Music"
   f12:
     action: "screenshot_toolbar"
     implementation: "native_hid_listener"
@@ -75,7 +81,7 @@ verification:
   - "Confirm the Logitech receiver identifiers"
   - "Confirm the physical model label or user-provided model"
   - "Read back macOS Dictation shortcut configuration"
-  - "Press K240 F5 and verify Apple Music opens"
+  - "Press K240 F5 and verify YouTube opens when installed, otherwise Apple Music opens"
   - "Press left Command twice in a text field and verify Dictation starts"
   - "Press K240 F3 and verify Perplexity opens"
   - "Press K240 F4 and verify Mission Control opens"

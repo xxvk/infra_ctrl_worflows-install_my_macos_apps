@@ -24,7 +24,7 @@ The current Logitech K240 Japanese-keyboard policy is:
 | F2 | Open Claude.app |
 | F3 | Open Perplexity.app |
 | F4 | Mission Control |
-| F5 | Open Apple Music |
+| F5 | Open YouTube.app (including PlayCover); otherwise Apple Music |
 | F6 | Previous Track |
 | F7 | Play/Pause |
 | F8 | Next Track |
@@ -54,7 +54,8 @@ layout. The receiver ID alone does not uniquely identify the paired keyboard.
    [`scripts/keyboard-config-logi-k240.swift`](scripts/keyboard-config-logi-k240.swift). It matches
    the Logitech receiver and the relevant HID usages (`usage page 0x07`): F1
    `0x3a`, F2 `0x3b`, F3 `0x3c`, F5 `0x3e`, and F12 `0x45`. It opens
-   ChatGPT.app, Claude.app, Perplexity.app, Apple Music, or
+   ChatGPT.app, Claude.app, Perplexity.app, YouTube.app when present (including
+   `~/Applications/PlayCover/YouTube.app`; otherwise Apple Music), or
    `/System/Applications/Utilities/Screenshot.app` respectively. F4 is
    configured by the native macOS Mission Control shortcut (symbolic hotkey
    ID 32), not by Swift. F12 opens
@@ -71,7 +72,7 @@ layout. The receiver ID alone does not uniquely identify the paired keyboard.
    Press F1 and F2 and confirm that ChatGPT and Claude open. Press F4 and
    confirm Mission Control opens through the macOS shortcut. Press F12 and
    confirm that the Screenshot toolbar appears. Press F5 and
-   confirm that Apple Music opens. Test left Command twice in a text field to
+   confirm that YouTube opens when installed, otherwise Apple Music opens. Test left Command twice in a text field to
    confirm that Dictation starts or stops. Stop the
    foreground process after testing. The listener writes diagnostics to
    `~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log`.
@@ -92,6 +93,59 @@ It is receiver-scoped, not a universal keyboard remapper: another brand or
 another receiver will not match the Swift HID filter. The receiver identifier
 does not uniquely prove that the paired physical keyboard is K240.
 
+The installed user-level locations are:
+
+```text
+Binary:       ~/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240
+LaunchAgent:  ~/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist
+Logs:         ~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log
+```
+
+The `~/Library` directory is hidden in Finder. Locate the binary with:
+
+```sh
+open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+```
+
+Input Monitoring is protected by macOS TCC. CLI can open the settings page but
+cannot silently grant this permission; `tccutil` can reset it but cannot
+authorize a new executable. Replacing or recompiling the binary may require
+authorization again. Every time the binary is replaced, the skill must
+automatically locate the new binary and open both Finder and the Input
+Monitoring page before asking the user to enable it:
+
+```sh
+open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent'
+```
+
+After authorization, reload the agent with:
+
+```sh
+launchctl bootstrap gui/$(id -u) \
+  "$HOME/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist"
+```
+
+F4 is intentionally excluded from the listener. Its Mission Control binding
+is a native macOS shortcut (symbolic hotkey ID 32). F5 checks standard
+`/Applications/YouTube.app`, then the PlayCover executable
+`~/Applications/PlayCover/YouTube.app/YouTube`, and falls back to
+`/System/Applications/Music.app`. PlayCover's flat bundle must be launched
+through its inner executable, not with `open -a`. If the PlayCover YouTube
+process is already running, the listener activates the existing instance
+instead of starting another process. When that instance was minimized with the
+yellow button, the listener also clears the window's minimized state before
+activating it. This restoration uses macOS Accessibility window attributes;
+grant the installed listener Accessibility permission if activation works but
+the minimized window does not return.
+
+The current PlayCover YouTube profile does not provide reliable login-session
+persistence: PlayTools must remain removed for startup compatibility, and
+enabling PlayChain did not preserve the tested YouTube login across a full quit
+and relaunch. The documented operating rule is therefore to log in again when
+YouTube is reopened. This is a known compatibility limitation, not an F5 or
+LaunchAgent failure.
+
 The `defaults` entries for system shortcut IDs are not the authoritative
 implementation for K240. They can be written successfully while having no
 effect on an external keyboard, so the HID listener is the supported F1–F3,
@@ -102,6 +156,35 @@ Command twice rather than treating F5 as a Dictation key.
 These keyboard settings are machine-local. They are not treated as iCloud
 synced configuration. Durable policy belongs in `settings/`; current device
 facts and test logs belong in ignored `state/` or the local log directory.
+
+### Logitech K240/M212 battery status
+
+The K240 keyboard and M212 mouse share the Logitech receiver `046d:c534`.
+macOS's native HID and power commands do not expose their battery values.
+Logi Options+ and OpenLogi may not recognize this legacy pairing. Solaar is the
+optional next test; its macOS support is limited and its device-reported battery
+values must be confirmed from each selected device's details pane. See
+[`components/solaar.md`](components/solaar.md) for the GitHub-based installation
+flow. Keep current readings in ignored `state/`, not in this durable README.
+
+### Audit and selectively disable startup items
+
+To see what macOS starts at login, including apps and helper components:
+
+```sh
+python3 scripts/macos_startup_items.py scan
+```
+
+For an interactive numbered selection:
+
+```sh
+python3 scripts/macos_startup_items.py review
+```
+
+The review flow asks for an explicit `DISABLE` confirmation. It only removes
+selected user Login Items or disables user LaunchAgents. It preserves the
+application and its data; system components and Background Task Management
+records are reported for review rather than deleted automatically.
 
 ## Start safely
 

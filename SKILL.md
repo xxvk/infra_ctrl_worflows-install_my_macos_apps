@@ -57,7 +57,7 @@ F1  Open ChatGPT.app
 F2  Open Claude.app
 F3  Open Perplexity.app
 F4  Mission Control
-F5  Open Apple Music
+F5  Open YouTube.app if present (including PlayCover), otherwise Apple Music
 F6  Previous Track
 F7  Play/Pause
 F8  Next Track
@@ -94,12 +94,14 @@ from the listener:
 2. Filters the USB HID keyboard page `0x07`: F1 `0x3a`, F2 `0x3b`, F3
    `0x3c`, F5 `0x3e`, and F12 `0x45`.
 3. Debounces duplicate reports from the receiver.
-4. Opens ChatGPT.app, Claude.app, Perplexity.app, Apple Music, or Screenshot.app.
+4. Opens ChatGPT.app, Claude.app, Perplexity.app, YouTube.app when present
+   (including `~/Applications/PlayCover/YouTube.app`), otherwise Apple Music,
+   or Screenshot.app.
 5. Writes operational diagnostics to
    `~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log`.
 
 The first validation must run in the foreground. Press F1, F2, F3, F5, and
-F12 one at a time and confirm ChatGPT, Claude, Perplexity, Apple Music, and the
+F12 one at a time and confirm ChatGPT, Claude, Perplexity, YouTube or Apple Music, and the
 Screenshot toolbar respectively. Separately verify left Command twice for
 Dictation. If the listener cannot open the receiver, grant
 **Privacy & Security → Input Monitoring** to the terminal or installed
@@ -117,16 +119,126 @@ actions. The receiver ID does not uniquely prove the paired physical keyboard
 is K240. Verify the loaded agent and record its current status in ignored
 `state/`.
 
+The installed user-level paths are:
+
+```text
+Binary:       ~/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240
+LaunchAgent:  ~/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist
+Logs:         ~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log
+```
+
+The `~/Library` directory is hidden. Use `open -R` to locate the binary. Input
+Monitoring is macOS TCC-protected: CLI can open the settings page, but cannot
+silently grant the permission. `tccutil` resets permissions; it does not grant
+Input Monitoring to a new executable. Recompiling/replacing the binary may
+invalidate the previous grant. Every replacement of the Swift binary must
+automatically run the following two commands before asking the user to grant
+the permission:
+
+```sh
+open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent'
+```
+
+If the log says `Unable to open Logitech receiver`, stop the `KeepAlive` agent,
+authorize the exact binary in Input Monitoring, and reload it:
+
+```sh
+open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent'
+launchctl bootstrap gui/$(id -u) \
+  "$HOME/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist"
+```
+
+F4 remains a native macOS Mission Control shortcut (symbolic hotkey ID 32) and
+must not be duplicated in Swift. F5 chooses YouTube in this order:
+
+1. `/Applications/YouTube.app`
+2. `~/Applications/PlayCover/YouTube.app/YouTube` (direct executable)
+3. `/System/Applications/Music.app`
+
+PlayCover's YouTube bundle is not a conventional macOS `.app` bundle: its
+`Info.plist` is at the bundle root rather than under `Contents/`. Therefore
+`open -a ~/Applications/PlayCover/YouTube.app` can fail with Launch Services
+error `-10670`; launch the inner `YouTube` executable instead.
+Before starting it, query the running application by bundle identifier
+`com.google.ios.youtube`; if it is already running, activate its existing
+windows rather than creating another process. The listener must also clear
+the macOS Accessibility `AXMinimized` attribute before activation, because
+`activate(.activateAllWindows)` alone does not reliably restore a window
+minimized with the yellow button. If the app activates but remains minimized,
+grant the installed listener Accessibility permission and retry. This preserves
+the normal single-instance behavior expected from ChatGPT and Claude.
+
 ### Known keyboard limitations
 
 The native listener is scoped to the Logitech receiver identifiers, but the
 listener must still be foreground-tested after macOS updates or receiver
 changes. Do not install Karabiner-Elements as an implicit dependency.
 
+### Logitech K240/M212 battery telemetry
+
+The current hardware pairing is a Logitech K240 keyboard and M212 mouse using
+the shared receiver `VID 0x046d`, `PID 0xc534`. The receiver identifier alone
+does not prove the physical device models. macOS `hidutil`, `ioreg`, and
+`pmset` do not expose their battery values as native macOS battery devices.
+
+Logi Options+ and OpenLogi may install successfully while still failing to
+detect these legacy devices. Do not interpret that as an installation failure.
+Use the optional Solaar workflow in `components/solaar.md` as the next
+macOS-native experiment; Solaar has explicit Nano receiver support but only
+limited macOS support.
+
+Solaar battery values are device-reported and may be approximate. The details
+pane must be selected for each device before assigning a value to keyboard or
+mouse. A label such as `next reported 5%` is a future reporting threshold, not
+the current battery level. Never infer the second device's identity from its
+row alone; confirm the right-hand details pane.
+
+Solaar has no official Homebrew cask. The supported macOS setup installs its
+dependencies with Homebrew, installs Solaar through `pipx`, and creates a local
+`/Applications/Solaar.app` wrapper from the official GitHub script:
+
+```sh
+brew install hidapi gtk+3 pygobject3 pipx
+pipx install --system-site-packages solaar
+bash <(curl -fsSL https://raw.githubusercontent.com/pwr-Solaar/Solaar/refs/heads/master/tools/create-macos-app.sh)
+```
+
+Quit Logi Options+ and OpenLogi before Solaar accesses the receiver. Keep
+current battery readings, detected names, versions, and permission results in
+ignored `state/`, not synced catalog or policy Markdown. Do not send unknown
+write commands to the receiver; battery investigation must remain read-only.
+
 Keyboard policy is machine-local. Do not claim that `defaults`, `hidutil`, or
 the Swift listener synchronizes through iCloud. Keep reusable policy in
 `settings/`; keep current device detection, permissions, versions, and test
 results out of synced policy files.
+
+## Startup item and login component audit
+
+Use `scripts/macos_startup_items.py` when the user asks what launches at login
+or wants to remove selected startup applications/components:
+
+```sh
+python3 scripts/macos_startup_items.py scan
+python3 scripts/macos_startup_items.py review
+```
+
+The scan reports three sources: macOS Login Items, the current user's
+`~/Library/LaunchAgents`, and Background Task Management entries from
+`sfltool dumpbtm`. The numbered `review` flow requires an explicit `DISABLE`
+confirmation for each selected batch. It can remove a Login Item or disable a
+user LaunchAgent; it does not automatically modify system LaunchDaemons,
+delete applications, delete caches, or remove Background Task Management
+records directly. Background-task entries are report-only and must be handled
+through their corresponding Login Item or vendor setting.
+
+Disabling a user LaunchAgent unloads it and renames its plist from `.plist` to
+`.plist.disabled`, preserving a reversible copy. Never infer that an installed
+app should launch merely because its bundle appears in the scan. After a
+change, run `scan` again and record the result in ignored `state/` when a
+machine-specific audit is needed.
 
 ## Developer-machine Gatekeeper policy
 
@@ -205,6 +317,43 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    ```
 
    The script accepts at most two `--only` values per run. It bootstraps Homebrew only with `--apply` and asks interactively first. It installs only catalog entries with a verified Homebrew cask or formula identifier. It never supplies credentials, modifies privacy settings, or silently installs an unverified DMG/PKG.
+
+   **IPATool authentication and IPA workflow:** IPATool is a Core Homebrew
+   formula. Install it with `brew install ipatool` and verify with
+   `ipatool --version`. Before downloading an App Store package, identify the
+   intended App Store purchase account; the current iCloud account is only a
+   candidate because iCloud and App Store purchase accounts may differ. Start
+   `ipatool auth login --email "<APPLE_ID>"` from a visible Terminal so the
+   user can enter the password and six-digit two-factor code. Never collect,
+   display, log, or persist these secrets in Markdown, `state/`, Obsidian, or
+   Git. Verify with `ipatool auth info`; the CLI does not provide a native
+   macOS Passkey/Touch ID login prompt. For YouTube, search/download using
+   bundle ID `com.google.ios.youtube`. IPATool downloads an App Store package
+   that may be encrypted; it is not automatically a PlayCover-compatible IPA.
+   PlayCover requires a decrypted IPA, so do not claim success until import
+   and launch are tested. Keep the downloaded IPA and authentication result in
+   ignored machine-local state only, and use `ipatool auth revoke` when the
+   account should no longer remain authenticated. See
+   [components/ipatool.md](components/ipatool.md).
+
+   **YouTube through PlayCover:** treat YouTube as a separate Core capability
+   installed after PlayCover. Use the current decrypted YouTube entry from the
+   configured `approved-private-source.invalid` IPA Library; do not persist a version-specific
+   direct IPA URL in the catalog. For the validated YouTube 21.28.3 profile,
+   PlayTools must remain removed. Keep PlayChain off, Jailbreak Bypass on,
+   Introspection libraries off, and Force Insert iOS Frameworks on. Use the
+   iPad Pro 13-inch (7th generation) M4 8 GB device profile, 1080p, 4:3, and
+   Resolution Scaler 2.0. If YouTube crashes with `PlayKeychain.copyMatching`,
+   `igdrms`, or a PlayTools frame in the crash report, do not change DNS,
+   Full Disk Access, or SIP; first verify that PlayTools was not reinjected.
+   See [components/youtube-playcover.md](components/youtube-playcover.md).
+   **Login persistence limitation:** PlayChain was tested for this validated
+   YouTube installation but did not reliably preserve the login session, while
+   PlayTools cannot be reintroduced because it causes the tested build to crash
+   during PlayKeychain/DRM initialization. The supported workflow is to expect
+   a fresh YouTube login after the app is fully quit and reopened. Do not keep
+   changing PlayTools/PlayChain or delete Keychain entries and PlayCover data
+   automatically; persistent login is a future compatibility investigation.
 
    **Claude pre-install storage gate:** before installing or replacing Claude,
    run `python3 scripts/claude_vm_cleanup.py inspect`. The VM review and any
