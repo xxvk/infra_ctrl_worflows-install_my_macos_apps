@@ -348,10 +348,12 @@ def non_app_components() -> dict[str, object]:
     if brew:
         formulae = subprocess.run([brew, "list", "--formula", "--versions"], capture_output=True, text=True, check=False)
         casks = subprocess.run([brew, "list", "--cask", "--versions"], capture_output=True, text=True, check=False)
+        taps = subprocess.run([brew, "tap"], capture_output=True, text=True, check=False)
         brew_data = {
-            "status": "verified" if formulae.returncode == 0 and casks.returncode == 0 else "partial",
+            "status": "verified" if formulae.returncode == 0 and casks.returncode == 0 and taps.returncode == 0 else "partial",
             "formulae": [line for line in formulae.stdout.splitlines() if line.strip()],
             "casks": [line for line in casks.stdout.splitlines() if line.strip()],
+            "taps": [line for line in taps.stdout.splitlines() if line.strip()],
         }
     return {
         "homebrew": brew_data,

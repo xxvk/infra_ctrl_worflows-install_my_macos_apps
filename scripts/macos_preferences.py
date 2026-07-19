@@ -248,25 +248,74 @@ def audio_profile() -> dict[str, object]:
     return {"status": "verified", "devices": devices}
 
 
+DEFAULT_APP_CATEGORIES = {
+    "browser": {"schemes": {"http", "https"}, "types": set()},
+    "mail": {"schemes": {"mailto"}, "types": set()},
+    "images": {"schemes": set(), "types": {"public.jpeg", "public.png", "public.tiff", "public.heic"}},
+    "video": {"schemes": set(), "types": {"public.movie", "public.mpeg-4", "com.apple.quicktime-movie"}},
+    "pdf": {"schemes": set(), "types": {"com.adobe.pdf"}},
+    "archives": {"schemes": set(), "types": {"public.zip-archive", "com.pkware.zip-archive", "org.gnu.gnu-zip-archive", "public.tar-archive"}},
+    "ssh": {"schemes": {"ssh"}, "types": set()},
+    "editor_text": {"schemes": set(), "types": {"public.plain-text", "net.daringfireball.markdown", "public.source-code", "public.shell-script", "public.json", "public.yaml"}},
+}
+# "terminal" and "git" have no LaunchServices content-type/URL-scheme surface
+# on macOS; they are default-application preferences without an LSHandler
+# record and are intentionally excluded from this scan.
+
+
 def launchservices_profile() -> dict[str, object]:
     domain = "com.apple.LaunchServices/com.apple.launchservices.secure"
     exported = export_plist_domain(domain)
     if exported["status"] != "verified":
         return exported
-    selected_types = {"com.adobe.pdf", "public.jpeg", "public.png", "public.movie", "public.plain-text", "public.data"}
-    selected_schemes = {"http", "https", "mailto", "ssh"}
-    handlers = []
-    for item in exported["values"].get("LSHandlers", []):
-        if not isinstance(item, dict):
-            continue
-        if item.get("LSHandlerContentType") not in selected_types and item.get("LSHandlerURLScheme") not in selected_schemes:
-            continue
-        handlers.append({
-            "content_type": item.get("LSHandlerContentType"),
-            "url_scheme": item.get("LSHandlerURLScheme"),
-            "roles": {key: value for key, value in item.items() if key.startswith("LSHandlerRole")},
-        })
-    return {"status": "verified", "handlers": handlers, "scope": sorted(selected_types | selected_schemes)}
+
+    all_types = {t for category in DEFAULT_APP_CATEGORIES.values() for t in category["types"]}
+    all_schemes = {s for category in DEFAULT_APP_CATEGORIES.values() for s in category["schemes"]}
+
+    raw_handlers = [item for item in exported["values"].get("LSHandlers", []) if isinstance(item, dict)]
+
+    def roles_of(item: dict) -> dict[str, object]:
+        return {key: value for key, value in item.items() if key.startswith("LSHandlerRole")}
+
+    by_type = {item.get("LSHandlerContentType"): roles_of(item) for item in raw_handlers if item.get("LSHandlerContentType")}
+    by_scheme = {item.get("LSHandlerURLScheme"): roles_of(item) for item in raw_handlers if item.get("LSHandlerURLScheme")}
+
+    categories = {}
+    for name, spec in DEFAULT_APP_CATEGORIES.items():
+        entries = []
+        for content_type in sorted(spec["types"]):
+            if content_type in by_type:
+                entries.append({"content_type": content_type, "roles": by_type[content_type]})
+            else:
+                entries.append({"content_type": content_type, "status": "system_default_no_override"})
+        for scheme in sorted(spec["schemes"]):
+            if scheme in by_scheme:
+                entries.append({"url_scheme": scheme, "roles": by_scheme[scheme]})
+            else:
+                entries.append({"url_scheme": scheme, "status": "system_default_no_override"})
+        categories[name] = entries
+
+    # Custom app-registered URL schemes (e.g. vendor deep links) outside the
+    # standard web/mail/ssh set. Bundle identifiers only, never paths/tokens.
+    custom_scheme_handlers = sorted(
+        (
+            {"url_scheme": scheme, "roles": roles}
+            for scheme, roles in by_scheme.items()
+            if scheme not in all_schemes
+        ),
+        key=lambda entry: entry["url_scheme"],
+    )
+
+    return {
+        "status": "verified",
+        "categories": categories,
+        "custom_url_scheme_handlers": custom_scheme_handlers,
+        "excluded_categories": {
+            "terminal": "no LaunchServices content-type/URL-scheme surface",
+            "git": "no LaunchServices content-type/URL-scheme surface",
+        },
+        "scope": sorted(all_types | all_schemes),
+    }
 
 
 def developer_environment_profile() -> dict[str, object]:

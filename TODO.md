@@ -124,18 +124,35 @@
 - [ ] Capture current display identity/resolution, sound volume/mute state,
       and power-management output as machine-local observations without
       storing serial numbers.
-- [ ] Capture default applications and file/URL associations for browser,
+- [x] Capture default applications and file/URL associations for browser,
       mail, terminal, editor, images, video, PDF, archives, SSH, Git, and
       common development file types. Store bundle identifiers, not volatile
       application paths.
+      Resolved: expanded `launchservices_profile()` in
+      `scripts/macos_preferences.py` into named categories (browser, mail,
+      images, video, pdf, archives, ssh, editor_text) with explicit
+      `system_default_no_override` status when macOS has no LSHandler
+      override, plus a separate `custom_url_scheme_handlers` list (60 on this
+      Mac) capturing every vendor-registered URL scheme and its bundle
+      identifier. `terminal` and `git` have no LaunchServices content-type or
+      URL-scheme surface and are recorded as intentionally excluded rather
+      than missing.
 - [x] Add a read-only LaunchServices association slice for common file types
       and URL schemes; broader associations remain to be reviewed because
       this Mac currently exposes only a partial handler set.
-- [ ] Capture login items, user LaunchAgents, system/background tasks,
+- [x] Capture login items, user LaunchAgents, system/background tasks,
       shell startup files, PATH/toolchain initialization, Homebrew taps,
       formulae/casks, Git identity/config policy, SSH config shape, and
       developer runtimes. Exclude private keys, tokens, host secrets, and
       machine-specific paths.
+      Resolved: `scripts/macos_startup_items.py scan` covers login items (2),
+      user LaunchAgents (4), and background tasks (76) in one dated
+      `state/startup-items-*.json` record; `developer_environment_profile` in
+      `scripts/macos_preferences.py` already covers shell/PATH/SSH-config
+      shape/Git config keys/CLI runtime versions. Added `taps` (via
+      `brew tap`) alongside existing `formulae`/`casks` in
+      `non_app_components.homebrew` (`scripts/macos_permissions.py`) to close
+      the one remaining gap. No private keys, tokens, or secrets are read.
 - [x] Capture Shell/startup-file shape, PATH size, Git config key names,
       SSH config metadata, and available CLI versions without collecting
       identities, file contents, private keys, or tokens.
