@@ -204,3 +204,89 @@
 - [x] Add final drift and recovery reporting so a second Mac can be compared
       with the baseline and failed steps can be rerun safely through
       `scripts/bootstrap_verify.py`.
+
+## CTO gap-audit backlog (2026-07-19)
+
+A read-only audit of `settings/`, `references/`, `scripts/`, and
+`components/README.md` against the "one-sync, ready-to-use Mac" mission
+found domains with no file or script touching them at all. Logged here for
+review before promoting any item into an implementation task.
+
+### Must-do (real gaps against the existing mission, low risk, high value)
+
+- [ ] Write one end-to-end disaster-recovery runbook that chains scan →
+      install → TCC/preference restore → verify into a single "Mac lost or
+      wiped" sequence. Today only separate script entry points exist; no
+      single document walks the full recovery path.
+- [ ] Add a read-only Time Machine / backup precondition check before any
+      destructive-adjacent script (Docker Desktop retirement, Capacities
+      cleanup, TCC reset) runs. Warn if no valid backup is detected instead
+      of silently proceeding. No script or settings file currently touches
+      backups at all.
+- [ ] Define a dotfiles reproduction mechanism. `developer_environment_profile`
+      only records shell startup file shape (byte counts/hashes), not how to
+      actually restore those configs on a new Mac. Needs a reusable dotfiles
+      repo + symlink strategy as the closing step of dev-environment bootstrap.
+- [ ] Define an SSH/GPG key provisioning strategy. SSH config shape is
+      captured (never key contents); GPG is not mentioned anywhere. Needs a
+      documented "generate new key vs. import from key manager" procedure and
+      verification step, never storing key material in the repo.
+- [ ] Declare the authoritative password/secrets manager. `manual-actions.yaml`
+      already implies manual sign-in flows everywhere but never states which
+      manager (1Password/Keychain/etc.) is the source of truth, nor how
+      access is restored on a new Mac.
+- [ ] Schedule the existing `--check` drift detection. `macos_preferences.py
+      --check` and `bootstrap_verify.py` are both manually triggered today.
+      Add an optional user-level LaunchAgent that runs a read-only drift
+      check periodically (e.g. weekly) and writes to `state/`.
+- [ ] Add a sandboxed dry-run mechanism for the full bootstrap.
+      `bootstrap_validate.py` only checks internal consistency of tracked
+      definitions; there is no way to actually exercise the full bootstrap
+      against a fresh local admin account or VM without touching the
+      production account.
+- [ ] Define an uninstall/rollback plan for the skill's own footprint.
+      Docker, Capacities, and TCC entries each have retirement workflows, but
+      nothing enumerates what this skill itself has installed (K240
+      LaunchAgent, binaries, backup files) if the user wants to abandon the
+      whole bootstrap approach.
+- [ ] Record this session's FDA host-process finding in
+      `settings/privacy.yaml` as a named requirement: when this skill runs
+      inside a Claude desktop local-agent/Cowork session, the process tree's
+      host app is `Claude.app`, not Terminal.app or iTerm — granting Full
+      Disk Access to a terminal app has no effect for that execution context.
+- [ ] Add a Wi-Fi/network-connectivity bootstrap checkpoint as the very first
+      manual-action item. `network_profile` only records service names/DNS/
+      proxy/VPN presence after the fact; joining Wi-Fi on a genuinely new Mac
+      is never recorded as a checkpoint, even though nothing else in the
+      bootstrap (App Store, Homebrew, account sign-in) works without it.
+
+### Optional (valuable, lower priority than the must-do list)
+
+- [ ] Font management: custom font inventory and installation is not covered
+      anywhere.
+- [ ] Printer/scanner setup: not covered.
+- [ ] Write an iCloud-vs-skill boundary document clarifying what's already
+      handled by iCloud sync (Photos, Notes, Safari bookmarks, etc.) versus
+      what this skill must handle explicitly, to avoid duplicated effort.
+- [ ] Capture menu bar app inventory and Notification Center widget layout.
+      `notification_profile` only records authorization status today, not
+      menu bar icon order or Today View widgets.
+- [ ] Define a browser bookmark migration strategy. Chrome profile matching
+      exists, but bookmarks themselves (excluding passwords/history) have no
+      scripted migration path today; manual only.
+- [ ] Define a multi-Mac continuous sync strategy. The current design is
+      "bootstrap one new Mac against the baseline," with no handling for
+      keeping several Macs converged over time after initial bootstrap.
+- [ ] Add a license-key reminder checklist. `manual-actions.yaml` explicitly
+      forbids storing license keys, but there is also no checklist of which
+      apps require manual activation, making it easy to miss one.
+- [ ] Document a FileVault enable + recovery-key escrow procedure. Disk
+      encryption is currently only read-only observed, with no "how to
+      enable and safely escrow the recovery key" workflow.
+- [ ] Add CI/lint checks across the growing script and catalog set (128+
+      catalog entries, a dozen-plus Python scripts) to catch malformed
+      files before they land — similar in spirit to the stray-backslash
+      corruption found and fixed in `com.local.keyremap.plist` this session.
+- [ ] Add a JSON Schema validation script for `references/app-catalog.json`
+      (required fields, source consistency) as the catalog grows past 128
+      entries, to prevent manual-edit data corruption.
