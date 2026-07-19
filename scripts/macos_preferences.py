@@ -198,9 +198,17 @@ def focus_profile() -> dict[str, object]:
     directory = HOME / "Library/DoNotDisturb/DB"
     if not directory.exists():
         return {"status": "not_present", "rules": "not_exported"}
+    try:
+        entries = sorted(path.name for path in directory.iterdir())
+    except PermissionError as error:
+        return {
+            "status": "unavailable_permission_denied",
+            "error": str(error),
+            "rules": "not_exported",
+        }
     return {
         "status": "present_manual_review_required",
-        "database_entries": sorted(path.name for path in directory.iterdir()),
+        "database_entries": entries,
         "rules": "redacted_not_exported",
     }
 
