@@ -214,79 +214,240 @@ review before promoting any item into an implementation task.
 
 ### Must-do (real gaps against the existing mission, low risk, high value)
 
-- [ ] Write one end-to-end disaster-recovery runbook that chains scan →
+- [x] Write one end-to-end disaster-recovery runbook that chains scan →
       install → TCC/preference restore → verify into a single "Mac lost or
       wiped" sequence. Today only separate script entry points exist; no
       single document walks the full recovery path.
-- [ ] Add a read-only Time Machine / backup precondition check before any
+      Resolved: added [`references/disaster-recovery-runbook.md`](references/disaster-recovery-runbook.md),
+      an 8-step sequence (pre-loss snapshot → repo retrieval → network →
+      read-only scan → account/secrets-manager setup → app install → TCC/
+      preference restore → device-specific config → final verify) that
+      references existing scripts/docs by path rather than duplicating
+      their content, plus a short "recovery incomplete" troubleshooting note.
+- [x] Add a read-only Time Machine / backup precondition check before any
       destructive-adjacent script (Docker Desktop retirement, Capacities
       cleanup, TCC reset) runs. Warn if no valid backup is detected instead
       of silently proceeding. No script or settings file currently touches
       backups at all.
-- [ ] Define a dotfiles reproduction mechanism. `developer_environment_profile`
+      Resolved: added `scripts/backup_precondition_check.py` (read-only;
+      checks `tmutil destinationinfo`/`latestbackup`, warns if no
+      destination, no completed backup, or the latest backup is older than
+      35 days — matched to the user's ~monthly cadence). It explicitly notes
+      iCloud file sync is not a full-system backup substitute. Wired as an
+      advisory-only warning (never a hard block) into `docker_desktop_cleanup.py
+      remove`, `capacities_cleanup.py --apply`, and
+      `macos_permissions_cleanup.py --apply`; each script's own existing
+      confirmation token/prompt remains the sole gate.
+- [x] Define a dotfiles reproduction mechanism. `developer_environment_profile`
       only records shell startup file shape (byte counts/hashes), not how to
       actually restore those configs on a new Mac. Needs a reusable dotfiles
       repo + symlink strategy as the closing step of dev-environment bootstrap.
-- [ ] Define an SSH/GPG key provisioning strategy. SSH config shape is
+      Resolved: added `dotfiles/` (tracked source of truth, mirroring `$HOME`
+      under `dotfiles/home/<relative-path>`, see `dotfiles/README.md` for the
+      manual-review-before-tracking convention) and
+      `scripts/dotfiles_sync.py` (`status` read-only preview, `link --apply`
+      symlinks tracked files into `$HOME`, backing up any pre-existing
+      non-symlink destination first). No user dotfiles are seeded yet — the
+      user confirmed no existing dotfiles repo and no current tracked
+      content, by design, to avoid committing unreviewed secrets from the
+      live `~/.zshrc`/`~/.ssh/config`; population is a separate, deliberate
+      per-file step.
+- [x] Define an SSH/GPG key provisioning strategy. SSH config shape is
       captured (never key contents); GPG is not mentioned anywhere. Needs a
       documented "generate new key vs. import from key manager" procedure and
       verification step, never storing key material in the repo.
-- [ ] Declare the authoritative password/secrets manager. `manual-actions.yaml`
+      Resolved: added [`references/ssh-gpg-provisioning.md`](references/ssh-gpg-provisioning.md),
+      documentation-only (no script, no key material). Records that this Mac
+      uses per-project `.pem` files outside `~/.ssh/` rather than a default
+      identity, and has no GPG installed/used. Defines: retrieval procedure
+      for project `.pem` keys on a new Mac, a `ssh-keygen` + `ssh-add
+      --apple-use-keychain` procedure if a default identity is ever needed
+      (matched to the user's declared system/iCloud Keychain secrets
+      manager), an opt-in-only GPG commit-signing procedure, and a
+      verification checklist.
+- [x] Declare the authoritative password/secrets manager. `manual-actions.yaml`
       already implies manual sign-in flows everywhere but never states which
       manager (1Password/Keychain/etc.) is the source of truth, nor how
       access is restored on a new Mac.
-- [ ] Schedule the existing `--check` drift detection. `macos_preferences.py
+      Resolved: added a `secrets_manager` block to
+      `settings/manual-actions.yaml` declaring the macOS system/iCloud
+      Keychain as the authoritative source (user confirmed no third-party
+      manager is in use), with a `new_mac_recovery_steps` list, plus a new
+      `secrets-manager-availability` checkpoint (phase: bootstrap) that
+      every other sign-in checkpoint in the file now implicitly depends on.
+      `scripts/bootstrap_validate.py` still passes (128 catalog apps, no
+      missing required files).
+- [x] Schedule the existing `--check` drift detection. `macos_preferences.py
       --check` and `bootstrap_verify.py` are both manually triggered today.
       Add an optional user-level LaunchAgent that runs a read-only drift
       check periodically (e.g. weekly) and writes to `state/`.
-- [ ] Add a sandboxed dry-run mechanism for the full bootstrap.
+      Resolved: added `templates/drift-check.launchagent.plist` (weekly,
+      Monday 09:00, `RunAtLoad: false`) and `scripts/drift_check_schedule.py`
+      (`status` read-only, `install --apply`/`uninstall --apply`, both
+      dry-run by default) following the same never-implicit-install
+      convention as the existing K240 LaunchAgent. The agent only re-runs
+      the skill's own existing read-only `--check`/`bootstrap_verify.py`
+      commands and logs output; it changes nothing itself. Rendered plist
+      validated with `plutil -lint` (a `&&` in the shell command needed
+      XML-escaping — caught before install, not after).
+- [x] Add a sandboxed dry-run mechanism for the full bootstrap.
       `bootstrap_validate.py` only checks internal consistency of tracked
       definitions; there is no way to actually exercise the full bootstrap
       against a fresh local admin account or VM without touching the
       production account.
-- [ ] Define an uninstall/rollback plan for the skill's own footprint.
+      Resolved: added
+      [`references/bootstrap-sandbox-dry-run.md`](references/bootstrap-sandbox-dry-run.md),
+      documentation-only (user has no existing sandbox environment; no
+      script/VM was set up). Documents three levels: (1) every mutating
+      script's own default dry-run mode, already usable with zero setup;
+      (2) a throwaway local admin account, with an explicit note on what it
+      does and doesn't isolate (per-account state yes, `/Applications` and
+      Homebrew no); (3) a full macOS VM via UTM/Tart for genuinely testing
+      `--apply` code paths end to end. Includes a "dry run passed" checklist.
+- [x] Define an uninstall/rollback plan for the skill's own footprint.
       Docker, Capacities, and TCC entries each have retirement workflows, but
       nothing enumerates what this skill itself has installed (K240
       LaunchAgent, binaries, backup files) if the user wants to abandon the
       whole bootstrap approach.
-- [ ] Record this session's FDA host-process finding in
+      Resolved: added `scripts/skill_footprint_inventory.py` (read-only;
+      lists both known LaunchAgents, the Application Support/bin directory,
+      the Logs directory, and any deployed dotfiles symlinks, with
+      existence/size/loaded checks) and `scripts/skill_uninstall.py`
+      (dry-run by default; `--apply` unloads LaunchAgents and moves them
+      plus the support directory to timestamped `.removed-*` backups rather
+      than deleting outright; logs are kept unless `--remove-logs` is
+      passed; the repository itself is explicitly never deleted). Verified
+      read-only against this Mac's real state: found the K240 LaunchAgent
+      genuinely `loaded`, confirmed dry-run left it untouched.
+- [x] Record this session's FDA host-process finding in
       `settings/privacy.yaml` as a named requirement: when this skill runs
       inside a Claude desktop local-agent/Cowork session, the process tree's
       host app is `Claude.app`, not Terminal.app or iTerm — granting Full
       Disk Access to a terminal app has no effect for that execution context.
-- [ ] Add a Wi-Fi/network-connectivity bootstrap checkpoint as the very first
+      Resolved: added an `execution_host_note` under `permissions.
+      full_disk_access` and a new `claude-desktop-local-agent-execution-host`
+      entry under `workflow_requirements`, both documenting the
+      `ps -p $$ -o pid,ppid,comm` parent-chain-walking verification method
+      used to actually diagnose this during this session.
+- [x] Add a Wi-Fi/network-connectivity bootstrap checkpoint as the very first
       manual-action item. `network_profile` only records service names/DNS/
       proxy/VPN presence after the fact; joining Wi-Fi on a genuinely new Mac
       is never recorded as a checkpoint, even though nothing else in the
       bootstrap (App Store, Homebrew, account sign-in) works without it.
+      Resolved: added `wifi-network-connectivity` as the first checkpoint in
+      `settings/manual-actions.yaml` (phase: bootstrap, ahead of
+      `secrets-manager-availability`), and cross-linked it from Step 2 of
+      `references/disaster-recovery-runbook.md`. `bootstrap_validate.py`
+      still passes.
 
 ### Optional (valuable, lower priority than the must-do list)
 
-- [ ] Font management: custom font inventory and installation is not covered
+- [x] Font management: custom font inventory and installation is not covered
       anywhere.
-- [ ] Printer/scanner setup: not covered.
-- [ ] Write an iCloud-vs-skill boundary document clarifying what's already
+      Resolved: added `settings/fonts.yaml` (tracked desired-font list) and
+      `scripts/macos_fonts.py` (read-only scan across `~/Library/Fonts`,
+      `/Library/Fonts`, and system font directories). Running it found a
+      real gap: JetBrains Mono is referenced by `~/.config/ghostty/config`'s
+      `font-family` but is not actually installed on this Mac -- Ghostty has
+      been silently falling back to a substitute font. Installing it
+      (`brew install --cask font-jetbrains-mono`) is left as a separate,
+      explicit step, not automated by this script.
+- [x] Printer/scanner setup: not covered.
+      Resolved: added `scripts/macos_printers.py` (read-only; `lpstat -p`/
+      `lpstat -d`/`system_profiler SPPrintersDataType` scan, writes only a
+      dated `state/printers-*.json`). Deliberately no tracked `settings/`
+      file: unlike fonts or Dock order, a printer list reflects
+      network/USB devices identified by LAN IP, which is a machine-local
+      observation, not portable cross-machine policy, per this skill's
+      existing tracked-vs-observed classification.
+- [x] Write an iCloud-vs-skill boundary document clarifying what's already
       handled by iCloud sync (Photos, Notes, Safari bookmarks, etc.) versus
       what this skill must handle explicitly, to avoid duplicated effort.
-- [ ] Capture menu bar app inventory and Notification Center widget layout.
+      Resolved: added [`references/icloud-vs-skill-boundary.md`](references/icloud-vs-skill-boundary.md),
+      documentation-only. Also calls out one real overlap worth flagging:
+      this repository's files sync via iCloud Drive while its Git history
+      does not, so concurrent editing across two Macs on both channels at
+      once can conflict -- something no script here detects or resolves.
+- [x] Capture menu bar app inventory and Notification Center widget layout.
       `notification_profile` only records authorization status today, not
       menu bar icon order or Today View widgets.
-- [ ] Define a browser bookmark migration strategy. Chrome profile matching
+      Resolved: found `control_center_profile()` in `scripts/macos_preferences.py`
+      already captures Control-Center-routed menu bar item visibility/order
+      (Wi-Fi, Bluetooth, Focus, Display, Clock, etc.). Extended it with a
+      `today_view_widget_count` (count only, since widget instances are
+      opaque NSKeyedArchiver blobs not safely decodable) and an explicit
+      `scope_note` documenting that third-party apps drawing their own
+      NSStatusItem outside Control Center are not enumerable read-only from
+      any single `defaults` domain. `--check` still reports 0 mismatches.
+- [x] Define a browser bookmark migration strategy. Chrome profile matching
       exists, but bookmarks themselves (excluding passwords/history) have no
       scripted migration path today; manual only.
-- [ ] Define a multi-Mac continuous sync strategy. The current design is
+      Resolved: added [`references/browser-bookmark-migration.md`](references/browser-bookmark-migration.md),
+      documentation-only by deliberate choice (Chrome Sync is the default
+      path; manual export/import via `chrome://bookmarks` is the fallback
+      when Sync is off for a profile). No script reads bookmark
+      titles/URLs -- confirmed the per-profile `Bookmarks` JSON file exists
+      across all seven tracked profiles on this Mac, but content stays
+      untouched, consistent with this skill's existing browser-data policy.
+- [x] Define a multi-Mac continuous sync strategy. The current design is
       "bootstrap one new Mac against the baseline," with no handling for
       keeping several Macs converged over time after initial bootstrap.
-- [ ] Add a license-key reminder checklist. `manual-actions.yaml` explicitly
+      Resolved: added [`references/multi-mac-continuous-sync.md`](references/multi-mac-continuous-sync.md),
+      documentation-only. Clarifies that iCloud Drive already propagates
+      tracked *files* across Macs automatically, but never their *effect*
+      -- each Mac must still run its own `--check`/`--apply` (now automatable
+      weekly via the item-6 drift-check LaunchAgent). Also lists which
+      tracked values are legitimately per-Mac and should not be forced to
+      converge (K240 profile, capacity-tier app selection).
+- [x] Add a license-key reminder checklist. `manual-actions.yaml` explicitly
       forbids storing license keys, but there is also no checklist of which
       apps require manual activation, making it easy to miss one.
-- [ ] Document a FileVault enable + recovery-key escrow procedure. Disk
+      Resolved: added `settings/license-reminders.yaml`, manually curated
+      (confirmed the app catalog's source fields do not reliably indicate
+      paid-vs-free status -- e.g. Notion/Zoom are official_url-sourced but
+      free, Affinity is brew_cask-sourced but requires a paid license -- so
+      no auto-derivation was attempted). Seeded with Affinity. Cross-linked
+      from the `developer-licenses` checkpoint in
+      `settings/manual-actions.yaml`. `bootstrap_validate.py` still passes.
+- [x] Document a FileVault enable + recovery-key escrow procedure. Disk
       encryption is currently only read-only observed, with no "how to
       enable and safely escrow the recovery key" workflow.
-- [ ] Add CI/lint checks across the growing script and catalog set (128+
+      Resolved: added [`references/filevault-enable-and-recovery-key.md`](references/filevault-enable-and-recovery-key.md),
+      documentation-only, consistent with the existing Gatekeeper-policy
+      pattern in SKILL.md (explicit user action, visible Terminal for sudo,
+      never automated). Found FileVault is currently **Off** on this Mac
+      (`fdesetup status`, 2026-07-19) -- a real finding, not changed by this
+      task. Documents both the Apple-Account-escrow path (recommended) and
+      the manual-recovery-key path, and is explicit that no script here
+      ever generates, displays, or stores the recovery key.
+- [x] Add CI/lint checks across the growing script and catalog set (128+
       catalog entries, a dozen-plus Python scripts) to catch malformed
       files before they land — similar in spirit to the stray-backslash
       corruption found and fixed in `com.local.keyremap.plist` this session.
-- [ ] Add a JSON Schema validation script for `references/app-catalog.json`
+      Resolved in two parts: (1) `tests/smoke.sh` already extended (backlog
+      item 6 follow-up) to `py_compile` every `scripts/*.py` file and
+      `plutil -lint` every LaunchAgent plist template, including rendered
+      output; (2) added `.github/workflows/smoke.yml` running that same
+      script on `macos-latest` for push/PR/manual dispatch, since this
+      submodule has a real GitHub remote
+      (`xxvk/infra_ctrl_worflows-install_my_macos_apps`). The workflow is
+      untested against actual GitHub Actions infrastructure -- it has not
+      been pushed, only locally reviewed -- since commits/pushes are the
+      user's own action per this skill's Safety rules.
+- [x] Add a JSON Schema validation script for `references/app-catalog.json`
       (required fields, source consistency) as the catalog grows past 128
       entries, to prevent manual-edit data corruption.
+      Resolved: added `scripts/validate_app_catalog.py` (hand-rolled, no
+      jsonschema dependency; checks required fields, valid `tier` values,
+      duplicate names, guide-file existence, at-least-one-source presence,
+      and `app_store_url` shape) and wired it into `tests/smoke.sh`. Running
+      it immediately found a real bug: 7 entries (LM Studio, Cherry Studio,
+      Logi Options+, Solaar, Capacities, Foxglove, PlayCover Learning Apps)
+      had `"tier": "option"` instead of `"optional"` -- confirmed via
+      `scripts/macos_apps.py`/`audit_core_catalog.py` that only `tier ==
+      "core"`/`"heavy"` are ever checked exactly, so this typo caused no
+      runtime misbehavior, but was still a genuine schema violation. Fixed
+      with a precise 7-line `sed` substitution (not a full JSON re-dump,
+      which would have reformatted the entire 1974-line file). Validator now
+      reports 0 errors across all 128 entries; `bootstrap_validate.py` still
+      passes.

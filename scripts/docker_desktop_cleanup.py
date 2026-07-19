@@ -9,6 +9,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from backup_precondition_check import print_precondition_warning
+
 HOME = Path.home()
 APP = Path("/Applications/Docker.app")
 # These are Docker Desktop-owned macOS locations. Do not add ~/.docker: OrbStack
@@ -101,6 +104,7 @@ def command_inspect(_args):
 def command_remove(args):
     if args.confirm != "REMOVE DOCKER DESKTOP DATA":
         raise SystemExit('Confirmation token must be exactly: REMOVE DOCKER DESKTOP DATA')
+    print_precondition_warning("Docker Desktop data removal")
     report = inspect()
     if not report["orbstack_installed"]:
         raise SystemExit("OrbStack is not installed; stop before retiring Docker Desktop.")

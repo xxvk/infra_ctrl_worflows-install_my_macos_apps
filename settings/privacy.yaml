@@ -34,6 +34,20 @@ permissions:
   full_disk_access:
     desired: "only_when_required"
     rationale: "Required for workflows that inspect protected app data, such as Chrome profile inventory"
+    execution_host_note: >
+      The process that needs Full Disk Access is whichever app is the
+      ultimate parent of the shell actually running this skill's scripts,
+      not necessarily a visible Terminal window. Confirmed on this Mac
+      (2026-07-19): when this skill runs inside a Claude desktop
+      local-agent/Cowork session, the process tree's host app is
+      /Applications/Claude.app, spawned independently of Terminal.app or
+      iTerm. Granting FDA to Terminal.app in that execution context has no
+      effect -- scripts/macos_permissions.py will still report
+      tcc_database_status: unavailable. Before troubleshooting a denied
+      TCC read, run `ps -p $$ -o pid,ppid,comm` and walk the parent chain
+      (`ps -ef | grep <ppid>`) to identify the actual top-level app hosting
+      the current shell, then grant Full Disk Access to that app in System
+      Settings > Privacy & Security > Full Disk Access.
   microphone:
     desired: "ask_when_required"
     rationale: "Required by Dictation, Voice Control, and selected AI applications"
@@ -77,6 +91,10 @@ workflow_requirements:
     target: "Terminal, VS Code, Antigravity, TRAE Work, and selected CLIs"
     permissions: [developer_tool, files_and_folders]
     verify: "Run the component check command and a minimal project operation"
+  - id: claude-desktop-local-agent-execution-host
+    target: "/Applications/Claude.app (only when this skill's scripts run inside a Claude desktop local-agent/Cowork session, not a normal Terminal/iTerm session)"
+    permissions: [full_disk_access]
+    verify: "Run `ps -p $$ -o pid,ppid,comm` and walk the parent chain to confirm the actual host app before granting FDA; re-run scripts/macos_permissions.py and confirm tcc_database_status is no longer unavailable"
 
 data_handling:
   api_keys: "never_store"

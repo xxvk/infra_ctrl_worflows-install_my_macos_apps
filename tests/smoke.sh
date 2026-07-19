@@ -5,14 +5,50 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 python3 -m json.tool references/app-catalog.json >/dev/null
+python3 scripts/validate_app_catalog.py >/dev/null
+# Compile-check every tracked script, not a hand-maintained subset --
+# a script added later is covered automatically instead of silently skipped.
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/install-macos-apps-pycache" \
-python3 -m py_compile scripts/bootstrap_macos.py scripts/bootstrap_validate.py scripts/bootstrap_verify.py scripts/capacities_migration_inventory.py scripts/capacities_cleanup.py scripts/macos_apps.py scripts/macos_permissions.py scripts/macos_permissions_cleanup.py scripts/macos_preferences.py scripts/docker_desktop_cleanup.py scripts/claude_vm_cleanup.py
+python3 -m py_compile scripts/*.py
 python3 -m json.tool settings/system-preferences-values.json >/dev/null
+
+# Every LaunchAgent plist template must be well-formed XML before it is ever
+# rendered and installed -- this is exactly the class of bug (a stray
+# backslash, an unescaped &) that has twice slipped through manual review.
+for template in templates/*.launchagent.plist; do
+  plutil -lint "$template" >/dev/null
+done
+# The K240 template has no placeholder substitution to verify beyond the
+# raw file. The drift-check template substitutes a shell command that must
+# still be valid XML after rendering -- lint the actual rendered output too.
+python3 -c "
+import sys
+sys.path.insert(0, 'scripts')
+from drift_check_schedule import render_plist
+open('/tmp/install-macos-apps-drift-check-rendered.plist', 'w').write(render_plist())
+"
+plutil -lint /tmp/install-macos-apps-drift-check-rendered.plist >/dev/null
 
 python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto
 python3 scripts/docker_desktop_cleanup.py inspect
 python3 scripts/claude_vm_cleanup.py inspect
+python3 scripts/macos_startup_items.py scan >/dev/null
+python3 scripts/macos_dock.py >/dev/null
+
+# Read-only / dry-run paths for the CTO gap-audit backlog scripts. None of
+# these accept --apply here, so nothing is written outside /dev/null or
+# left loaded as a LaunchAgent.
+python3 scripts/backup_precondition_check.py >/dev/null
+python3 scripts/dotfiles_sync.py status >/dev/null
+python3 scripts/dotfiles_sync.py link >/dev/null   # dry-run: no --apply
+python3 scripts/drift_check_schedule.py status >/dev/null
+python3 scripts/drift_check_schedule.py install >/dev/null   # dry-run: no --apply
+python3 scripts/drift_check_schedule.py uninstall >/dev/null # dry-run: no --apply
+python3 scripts/skill_footprint_inventory.py >/dev/null
+python3 scripts/skill_uninstall.py >/dev/null                # dry-run: no --apply
+python3 scripts/macos_fonts.py >/dev/null
+python3 scripts/macos_printers.py >/dev/null
 
 python3 - <<'PY'
 import json

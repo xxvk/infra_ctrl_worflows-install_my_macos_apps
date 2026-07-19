@@ -1,0 +1,23 @@
+schema_version: 1
+
+# Manually curated checklist of apps that require a paid license or vendor
+# activation, so this step isn't silently missed during a new-Mac bootstrap.
+# This is a reminder list only -- never store the license key, activation
+# token, or receipt here (see settings/manual-actions.yaml's
+# secrets_policy.store_license_keys: false and the developer-licenses
+# checkpoint). Populating this list is a manual judgment call: the app
+# catalog's source field (brew_cask/app_store_url/official_url) does not
+# reliably indicate whether an app is free or paid -- e.g. Notion and Zoom
+# are official_url-sourced but free, while Affinity is brew_cask-sourced
+# but requires a paid license. Do not attempt to auto-derive this list.
+
+apps:
+  - name: "Affinity"
+    catalog_guide: "components/affinity.md"
+    activation_note: "Requires a purchased Serif/Canva license, activated on
+      first launch. Verify sign-in/activation status manually after
+      install; do not record the license key or account credentials here."
+
+checkpoint: See settings/manual-actions.yaml's `developer-licenses`
+  checkpoint, which this list feeds -- when running that checkpoint, walk
+  this file's `apps` list explicitly rather than relying on memory.

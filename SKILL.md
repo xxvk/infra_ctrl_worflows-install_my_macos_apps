@@ -1148,3 +1148,4 @@ Detailed per-component instructions live in `components/README.md` and the linke
 - Treat Homebrew bootstrap, downloads, and `--apply` as external changes requiring explicit user approval.
 - Never use the catalog to automate login, license entry, security/privacy permissions, device-management enrollment, or VPN connection.
 - Before installing a `heavy` app on a portable profile, state the space impact and obtain an explicit override.
+- Never run `git commit` in this repository or its submodule on your own initiative, no matter how small or reversible the change looks. Edit and stage files as needed, then stop and report what changed; the user runs every commit themselves. This applies identically to this skill's own repository and to the parent repository that carries it as a submodule — a submodule-pointer bump is still a commit. Only commit when the user explicitly says to (e.g. "commit this", "提交").

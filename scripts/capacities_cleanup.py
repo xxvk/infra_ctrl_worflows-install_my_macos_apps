@@ -6,7 +6,11 @@ import argparse
 import datetime as dt
 import json
 import shutil
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from backup_precondition_check import print_precondition_warning
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "state"
@@ -30,6 +34,7 @@ def main() -> int:
     existed_before = APP.exists()
     removed = False
     if args.apply and existed_before:
+        print_precondition_warning("Capacities app bundle removal")
         shutil.rmtree(APP)
         removed = True
 

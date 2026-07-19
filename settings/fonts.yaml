@@ -1,0 +1,14 @@
+schema_version: 1
+
+# Tracked desired font list. Not applied automatically -- scripts/macos_fonts.py
+# only scans and compares. Installing a missing font remains a separate,
+# explicit step (brew cask or the vendor's official download).
+fonts:
+  - name: "JetBrains Mono"
+    required_by: "Ghostty (see SKILL.md App Store workflow step 5, Ghostty post-install config)"
+    brew_cask: "font-jetbrains-mono"
+    official_url: "https://www.jetbrains.com/lp/mono/"
+    note: >
+      Referenced by ~/.config/ghostty/config's font-family setting but not
+      currently installed on this Mac (found 2026-07-19) -- Ghostty is
+      silently falling back to a substitute font instead of erroring.

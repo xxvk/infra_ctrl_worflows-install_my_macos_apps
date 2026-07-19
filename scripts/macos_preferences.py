@@ -191,7 +191,27 @@ def control_center_profile() -> dict[str, object]:
             visible[key] = value
         elif key.startswith("NSStatusItem Preferred Position"):
             positions[key] = value
-    return {"status": "verified", "visible_items": visible, "preferred_positions": positions}
+    widget_instance_count = None
+    widgets_exported = export_plist_domain("com.apple.notificationcenterui")
+    if widgets_exported["status"] == "verified":
+        widgets = widgets_exported["values"].get("widgets")
+        if isinstance(widgets, dict) and isinstance(widgets.get("instances"), list):
+            widget_instance_count = len(widgets["instances"])
+    return {
+        "status": "verified",
+        "visible_items": visible,
+        "preferred_positions": positions,
+        "today_view_widget_count": widget_instance_count,
+        "scope_note": (
+            "Covers only menu bar items routed through Control Center's "
+            "BentoBox (system items: Wi-Fi, Bluetooth, Focus, Display, "
+            "Clock, etc.) and a count-only signal for Today View widgets. "
+            "Third-party apps that draw their own NSStatusItem outside "
+            "Control Center are not enumerable read-only from any single "
+            "defaults domain; widget contents are opaque NSKeyedArchiver "
+            "blobs and are deliberately not decoded here."
+        ),
+    }
 
 
 def focus_profile() -> dict[str, object]:

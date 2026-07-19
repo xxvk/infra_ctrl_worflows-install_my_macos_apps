@@ -8,7 +8,45 @@ secrets_policy:
   store_recovery_codes: false
   store_license_keys: false
 
+# Declares which system is the authoritative source for account passwords
+# and passkeys, so every "sign in" checkpoint below has a known dependency.
+# This is a policy declaration only; it never stores actual credentials.
+secrets_manager:
+  authoritative_source: system_keychain
+  description: >
+    The macOS system Keychain, synced across the user's Apple devices via
+    iCloud Keychain, is the authoritative source for account passwords and
+    passkeys. No third-party password manager (1Password, Bitwarden, etc.)
+    is in use.
+  new_mac_recovery_steps:
+    - Sign in to the Mac with the same Apple Account used on existing Macs.
+    - Enable iCloud Keychain (System Settings > Apple Account > iCloud >
+      Passwords and Keychain, or the equivalent current path).
+    - Approve the device-trust/verification prompt from an existing trusted
+      device or with the device passcode.
+    - Confirm previously saved entries appear in the Passwords app or Safari
+      AutoFill before relying on them for any checkpoint below.
+
 checkpoints:
+  - id: wifi-network-connectivity
+    phase: bootstrap
+    category: network
+    action: On a genuinely new/wiped Mac, join a Wi-Fi network (or connect
+      Ethernet) before any other checkpoint in this file. Nothing else --
+      App Store sign-in, Homebrew, AI app sign-in, VPN clients -- can
+      proceed without it.
+    verify: Confirm internet connectivity (e.g. reach apple.com and
+      github.com) before continuing to scripts/bootstrap_macos.py or any
+      install step.
+    state_record: state/manual-actions-*.json
+  - id: secrets-manager-availability
+    phase: bootstrap
+    category: account
+    action: Confirm iCloud Keychain is enabled and syncing before relying on
+      it for any other sign-in checkpoint in this file.
+    verify: Open the Passwords app (or System Settings > Passwords) and
+      confirm previously saved entries from other Apple devices are present.
+    state_record: state/manual-actions-*.json
   - id: app-store-sign-in
     phase: install
     category: account
@@ -40,7 +78,10 @@ checkpoints:
   - id: developer-licenses
     phase: post_install
     category: license
-    action: Accept required developer-tool licenses and complete vendor activation.
+    action: Accept required developer-tool licenses and complete vendor
+      activation. Walk settings/license-reminders.yaml's apps list
+      explicitly rather than relying on memory to catch every app needing
+      manual activation.
     verify: Run the component-specific check command.
     forbidden_data: license keys, activation tokens
   - id: claude-third-party-inference

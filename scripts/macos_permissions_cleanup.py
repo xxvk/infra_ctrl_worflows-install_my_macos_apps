@@ -13,8 +13,11 @@ import datetime as dt
 import json
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from backup_precondition_check import print_precondition_warning
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE_DIR = ROOT / "state"
@@ -121,6 +124,7 @@ def main() -> int:
         print("No supported candidates to reset; no changes made.")
         return 0
     print("This resets only the listed TCC service/client records. It does not delete apps or data.")
+    print_precondition_warning("TCC record reset")
     if input("Type CLEAN TCC to continue: ").strip() != "CLEAN TCC":
         print("Cancelled; no changes made.")
         return 0

@@ -448,7 +448,7 @@
     {
       "name": "LM Studio",
       "category": "Local AI",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "retired",
       "brew_cask": "lm-studio",
       "official_url": "https://lmstudio.ai/",
@@ -681,7 +681,7 @@
     {
       "name": "Cherry Studio",
       "category": "AI",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "retired",
       "brew_cask": "cherry-studio",
       "official_url": "https://cherry-studio-ai.com/download",
@@ -1680,7 +1680,7 @@
       "aliases": ["Logitech Options+", "logioptionsplus"],
       "bundle_identifiers": ["com.logi.optionsplus"],
       "category": "Hardware utilities",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "active",
       "source": "homebrew",
       "delivery_method": "homebrew-cask",
@@ -1700,7 +1700,7 @@
     {
       "name": "Solaar",
       "category": "Hardware utilities",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "active",
       "source": "github",
       "delivery_method": "github-source",
@@ -1835,7 +1835,7 @@
     {
       "name": "Capacities",
       "category": "Productivity",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "retired_pending_cleanup",
       "official_url": "https://capacities.io/",
       "check_command": "test -d '/Applications/Capacities.app'",
@@ -1847,7 +1847,7 @@
     {
       "name": "Foxglove",
       "category": "Robotics development",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "active",
       "official_url": "https://foxglove.dev/",
       "check_command": "test -d '/Applications/Foxglove.app'",
@@ -1913,7 +1913,7 @@
       "name": "PlayCover Learning Apps",
       "aliases": ["沪江开心词场", "百词斩雅思", "识日", "识日刷题", "阿布背单词"],
       "category": "Education",
-      "tier": "option",
+      "tier": "optional",
       "lifecycle_status": "active",
       "official_url": "https://playcover.io/",
       "delivery_method": "playcover-ipa",
