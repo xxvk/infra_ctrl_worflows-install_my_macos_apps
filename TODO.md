@@ -21,9 +21,15 @@
       and commit only reusable policy—not raw machine state.
 - [ ] Grant Apple Events access to the terminal/skill host if a complete GUI
       Login Items inventory is required; then rerun the preference baseline.
-- [ ] Review malformed `~/Library/LaunchAgents/com.local.keyremap.plist`; it
+- [x] Review malformed `~/Library/LaunchAgents/com.local.keyremap.plist`; it
       appears to be an older keyboard mapping and may overlap with the K240
       listener. Preserve a backup before any user-approved cleanup.
+      Resolved: the malformed XML was a stray backslash before `>` in the
+      DOCTYPE line. Content was an unrelated JIS-keyboard `hidutil`
+      UserKeyMapping (not the K240 receiver), already `not running`. User
+      confirmed it is no longer needed; backed up to
+      `~/Library/LaunchAgents/backups/` and disabled via the existing
+      `.plist.disabled` rename convention.
 
 ## Full application permission and authorization inventory
 
