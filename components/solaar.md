@@ -2,20 +2,17 @@
 component_id: "solaar"
 name: "Solaar"
 category: "Hardware utilities"
-tier: "option"
+tier: "optional"
 lifecycle_status: "active"
 source: "github"
-delivery_method: "github-source"
+delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
 official_url: "https://pwr-solaar.github.io/Solaar/installation/"
 check_command: "test -d '/Applications/Solaar.app'"
 install_after: []
-account_required: false
 permissions_required: ["Any macOS permission requested by the generated app must be approved manually"]
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 200000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
 # Solaar
 

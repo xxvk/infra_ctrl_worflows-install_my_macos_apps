@@ -4,18 +4,15 @@ name: "Cloudflare Wrangler"
 category: "Cloud CLI"
 tier: "core"
 lifecycle_status: "active"
-source: "npm_global"
+source: "official_web"
 delivery_method: "npm-global"
 brew_cask: null
 brew_formula: null
 official_url: "https://developers.cloudflare.com/workers/wrangler/install/"
 check_command: "wrangler"
 install_after: []
-account_required: true
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 100000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
 npm_package: "wrangler"
 ---
 # Cloudflare Wrangler

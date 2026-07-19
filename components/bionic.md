@@ -11,11 +11,9 @@ brew_formula: null
 official_url: "https://lmstudio.ai/download/bionic/latest/darwin/arm64"
 check_command: null
 install_after: []
-account_required: true
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 ---
-
 # LM Studio Bionic
 
 Bionic is a separate official LM Studio agent application. On Apple Silicon,

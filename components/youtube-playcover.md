@@ -4,21 +4,17 @@ name: "YouTube (PlayCover)"
 category: "Media compatibility"
 tier: "core"
 lifecycle_status: "active"
-source: "manual"
-delivery_method: "manual"
+source: "app_store"
+delivery_method: "app-store"
 brew_cask: null
 brew_formula: null
 official_url: "https://www.youtube.com/"
 check_command: null
 install_after: ["PlayCover"]
-account_required: true
 permissions_required: []
-secrets_policy: "Never store YouTube passwords, recovery codes, or session tokens in the catalog, state/, Obsidian, or Git."
-download_estimate_bytes: 300000000
-download_estimate_method: "tested_decrypted_ipa_size_estimate"
-installed_measurement_method: "local_du"
-bundle_identifier: "com.google.ios.youtube"
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 preferred_source: "approved-private-source.invalid IPA Library"
+installed_measurement_method: "local_du"
 ---
 # YouTube (PlayCover)
 

@@ -1,18 +1,17 @@
 ---
-component_id: "google-workspace-web-apps"
-name: "Google Docs / Sheets / Slides"
+component_id: "google-slides"
+name: "Google Slides"
 category: "Productivity"
 tier: "core"
 lifecycle_status: "active"
 source: "official_web"
-delivery_method: "web-app-shortcut"
+delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
-official_url: "https://workspace.google.com/"
-check_command: null
-install_after: ["Google Chrome"]
-account_required: true
-permissions_required: ["access to the user's Google Workspace pages"]
+official_url: "https://slides.google.com/"
+check_command: "test -d '/Applications/Google Slides.app'"
+install_after: []
+permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 ---
 # Google Docs / Sheets / Slides

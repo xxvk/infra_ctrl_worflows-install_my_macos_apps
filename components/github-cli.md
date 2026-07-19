@@ -11,11 +11,8 @@ brew_formula: "gh"
 official_url: "https://cli.github.com/"
 check_command: "gh"
 install_after: []
-account_required: false
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 50000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
 cli_path: "/opt/homebrew/opt/gh"
 ---
 Expected installed size | Not recorded; installed before per-app byte measurement was added |

@@ -2,16 +2,15 @@
 component_id: "playcover-learning-apps"
 name: "PlayCover Learning Apps"
 category: "Education"
-tier: "option"
+tier: "optional"
 lifecycle_status: "active"
 source: "manual"
-delivery_method: "playcover-ipa"
+delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
 official_url: "https://playcover.io/"
 check_command: null
 install_after: ["PlayCover"]
-account_required: false
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 ---

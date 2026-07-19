@@ -14,7 +14,7 @@ CATALOG = ROOT / "references/app-catalog.json"
 REQUIRED = [
     "component_id", "name", "category", "tier", "lifecycle_status", "source", "delivery_method",
     "brew_cask", "brew_formula", "official_url", "check_command", "install_after",
-    "account_required", "permissions_required", "secrets_policy",
+    "permissions_required", "secrets_policy",
 ]
 
 
@@ -130,17 +130,15 @@ def main() -> int:
             "official_url": app.get("official_url"),
             "check_command": app.get("check_command"),
             "install_after": app.get("install_after", []),
-            "account_required": values.get("account_required", bool(app.get("preferred_account"))),
             "permissions_required": values.get("permissions_required", []),
             "secrets_policy": values.get("secrets_policy"),
             "source": values.get("source", source(app)),
-            "download_estimate_bytes": app.get("download_estimate_bytes", int(float(app.get("size_gb", 0)) * 1_000_000_000)),
-            "download_estimate_method": app.get("download_estimate_method", "catalog_size_gb_planning_estimate"),
         }
         for extra in ("brew_tap", "npm_package", "preferred_source", "installed_measurement_method", "cli_path"):
             if extra in app or extra in values:
                 standard[extra] = values.get(extra, app.get(extra))
-        front = "---\n" + "\n".join(f"{key}: {render(standard[key])}" for key in [*REQUIRED, "download_estimate_bytes", "download_estimate_method", *[x for x in standard if x not in REQUIRED and x not in {"download_estimate_bytes", "download_estimate_method"}]]) + "\n---\n"
+        extra_keys = [k for k in standard if k not in set(REQUIRED)]
+        front = "---\n" + "\n".join(f"{key}: {render(standard[key])}" for key in [*REQUIRED, *extra_keys]) + "\n---\n"
         path.write_text(front + body.lstrip("\n"), encoding="utf-8")
         changed += 1
     print(f"Repaired {changed} component frontmatter files")

@@ -11,11 +11,8 @@ brew_formula: null
 official_url: "https://claude.ai/download"
 check_command: null
 install_after: []
-account_required: true
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 1000000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
  `example.user@example.invalid`.
 - Verify the account shown in Claude before proceeding; never store credentials or tokens here.

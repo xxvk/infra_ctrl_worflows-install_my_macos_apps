@@ -2,16 +2,15 @@
 component_id: "foxglove"
 name: "Foxglove"
 category: "Robotics development"
-tier: "option"
+tier: "optional"
 lifecycle_status: "active"
 source: "official_web"
-delivery_method: "official-web"
+delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
 official_url: "https://foxglove.dev/"
 check_command: "test -d '/Applications/Foxglove.app'"
 install_after: []
-account_required: false
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 ---

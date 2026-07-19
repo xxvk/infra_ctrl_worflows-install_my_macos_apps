@@ -2,16 +2,15 @@
 component_id: "capacities"
 name: "Capacities"
 category: "Productivity"
-tier: "option"
+tier: "optional"
 lifecycle_status: "retired_pending_cleanup"
 source: "official_web"
-delivery_method: "official-web"
+delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
 official_url: "https://capacities.io/"
 check_command: "test -d '/Applications/Capacities.app'"
 install_after: []
-account_required: true
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 ---

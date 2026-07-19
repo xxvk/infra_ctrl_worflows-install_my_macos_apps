@@ -1,23 +1,19 @@
 ---
-component_id: "obsidian-web-clipper"
-name: "Obsidian Web Clipper"
+component_id: "obsidian-web-clipper-safari"
+name: "Obsidian Web Clipper — Safari"
 category: "Browser"
 tier: "core"
 lifecycle_status: "active"
-source: "manual_and_app_store"
-delivery_method: "browser-extension-and-app-store-extension"
+source: "app_store"
+delivery_method: "app-store"
 brew_cask: null
 brew_formula: null
-official_url: "https://obsidian.md/help/web-clipper"
-check_command: null
-install_after: ["Obsidian", "Google Chrome", "Safari"]
-account_required: false
-permissions_required: ["browser access to pages selected by the user"]
+official_url: "https://apps.apple.com/us/app/obsidian-web-clipper/id6720708363"
+check_command: "test -d '/Applications/Obsidian Web Clipper.app'"
+install_after: ["Obsidian", "Safari"]
+permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 0
-download_estimate_method: "browser_extension_store_and_app_store_extension"
 ---
-
 # Obsidian Web Clipper
 
 Obsidian Web Clipper is a Core browser capability with two required targets:

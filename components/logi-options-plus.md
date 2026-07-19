@@ -1,8 +1,8 @@
 ---
-component_id: "logi-options-plus"
+component_id: "logi-options"
 name: "Logi Options+"
 category: "Hardware utilities"
-tier: "option"
+tier: "optional"
 lifecycle_status: "active"
 source: "homebrew"
 delivery_method: "homebrew-cask"
@@ -11,11 +11,8 @@ brew_formula: null
 official_url: "https://www.logitech.com/en-us/software/logi-options-plus"
 check_command: "test -d '/Applications/logioptionsplus.app'"
 install_after: []
-account_required: false
 permissions_required: ["Only permissions requested by the app and approved by the user"]
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 500000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
 # Logi Options+
 

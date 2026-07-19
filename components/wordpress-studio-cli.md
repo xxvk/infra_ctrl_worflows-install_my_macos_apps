@@ -4,21 +4,17 @@ name: "WordPress Studio CLI"
 category: "Web development CLI"
 tier: "core"
 lifecycle_status: "active"
-source: "npm_global"
+source: "official_web"
 delivery_method: "npm-global"
 brew_cask: null
 brew_formula: null
 official_url: "https://developer.wordpress.com/docs/developer-tools/studio/cli/"
 check_command: "studio"
-npm_package: "wp-studio"
 install_after: []
-account_required: true
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 50000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
+npm_package: "wp-studio"
 ---
-
 # WordPress Studio CLI
 
 Core command-line companion for WordPress Studio. It manages local Studio

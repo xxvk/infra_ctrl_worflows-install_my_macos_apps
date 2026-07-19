@@ -14,8 +14,8 @@ install_after: []
 account_required: true
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
+cli_path: "/opt/homebrew/bin/agy"
 ---
-
 # Antigravity CLI (`agy`)
 
 > [!summary] Purpose

@@ -24,7 +24,6 @@ def main() -> int:
             end = text.find("\n---\n", 4)
             body = text[end + 5:] if end >= 0 else ""
         source = "app_store" if app.get("app_store_url") else "homebrew" if app.get("brew_formula") or app.get("brew_cask") else "official_web"
-        estimate = app.get("download_estimate_bytes")
         installed = "null"
         version = "null"
         installed_at = "null"
@@ -49,9 +48,6 @@ def main() -> int:
             f"check_command: {json.dumps(app.get('check_command'))}",
             "install_after: []",
             f"source: {source}",
-            f"download_estimate_bytes: {estimate}",
-            "download_estimate_method: catalog_size_gb_planning_estimate",
-            f"account_required: {str(bool(app.get('preferred_account'))).lower()}",
             "permissions_required: []",
             "secrets_policy: Never store passwords, API keys, recovery codes, or license secrets here.",
             "---",

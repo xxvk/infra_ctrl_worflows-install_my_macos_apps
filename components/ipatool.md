@@ -11,14 +11,10 @@ brew_formula: "ipatool"
 official_url: "https://github.com/majd/ipatool"
 check_command: "ipatool"
 install_after: []
-account_required: true
 permissions_required: []
-secrets_policy: "Never store Apple passwords, two-factor codes, App Store tokens, or downloaded IPA files in the catalog, state/, Obsidian, or Git."
-download_estimate_bytes: 30000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
+secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 installed_measurement_method: "local_du"
-recommended_for_playcover_ipa: false
-known_cross_machine_status: "M4a and M4b: not usable for the required IPA workflow; do not gate PlayCover on IPATool"
+cli_path: "/opt/homebrew/opt/ipatool"
 ---
 # IPATool
 

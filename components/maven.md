@@ -11,11 +11,9 @@ brew_formula: "maven"
 official_url: "https://maven.apache.org/"
 check_command: "mvn"
 install_after: []
-account_required: false
 permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
-download_estimate_bytes: 50000000
-download_estimate_method: "catalog_size_gb_planning_estimate"
+cli_path: "/opt/homebrew/opt/maven"
 ---
 # Maven
 
