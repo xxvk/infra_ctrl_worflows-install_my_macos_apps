@@ -66,7 +66,18 @@ def compare(inventory: dict, expected_path: Path) -> dict:
             directory_mismatches.append({"account_email": exp.get("account_email", ""), "expected": exp.get("profile_directory", ""), "detected": got.get("profile_directory", "")})
         if exp.get("display_name") != got.get("display_name"):
             name_mismatches.append({"account_email": exp.get("account_email", ""), "expected": exp.get("display_name", ""), "detected": got.get("display_name", "")})
-    return {"expected": str(expected_path), "expected_count": len(expected_profiles), "detected_count": len(actual), "missing": missing, "extra": extra, "directory_mismatches": directory_mismatches, "name_mismatches": name_mismatches, "email_matching": True}
+    return {
+        "expected": str(expected_path),
+        "expected_count": len(expected_profiles),
+        "detected_count": len(actual),
+        "missing": missing,
+        "extra": extra,
+        "directory_mismatches": directory_mismatches,
+        "directory_match_is_informational": True,
+        "name_mismatches": name_mismatches,
+        "email_matching": not missing and not extra,
+        "profile_identity_rule": "account_email",
+    }
 
 
 def main() -> int:

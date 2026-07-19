@@ -1,0 +1,108 @@
+schema_version: 1
+
+# Portable desired policy only. Do not fill this file with an unrestricted
+# `defaults export`; current values and machine-specific paths belong in state.
+scope: explicit_allowlist
+source_of_truth: tracked_settings
+machine_observations: ignored_state
+desired_values_file: settings/system-preferences-values.json
+
+bootstrap_order:
+  - machine_baseline
+  - locale_and_input_sources
+  - dock_order
+  - keyboard_and_input_sources
+  - finder_and_appearance
+  - default_applications
+  - login_items
+  - final_verification
+
+preferences:
+  - id: machine-baseline
+    status: observed_state_only
+    apply_method: not_applicable
+    verify_method: scripts/macos_preferences.py
+  - id: locale-and-input-sources
+    status: observed
+    apply_method: planned_allowlisted_defaults
+    verify_method: scripts/macos_preferences.py --check
+  - id: keyboard-shortcuts-and-text-input
+    status: observed
+    apply_method: device_specific_policy
+    verify_method: hidutil_and_allowlisted_defaults
+  - id: desktop-window-screenshot
+    status: observed
+    apply_method: planned_allowlisted_defaults
+    verify_method: scripts/macos_preferences.py --check
+  - id: display-sound-power
+    status: observed_state_only
+    apply_method: planned_allowlisted_system_settings
+    verify_method: scripts/macos_preferences.py
+  - id: notifications-control-center
+    status: observed
+    apply_method: planned_allowlisted_defaults
+    verify_method: scripts/macos_preferences.py --check
+  - id: focus-screensaver
+    status: observed
+    apply_method: planned_manual_focus_and_allowlisted_defaults
+    verify_method: scripts/macos_preferences.py
+  - id: display-effects
+    status: observed_interface_limited
+    apply_method: manual_system_settings
+    verify_method: scripts/macos_preferences.py
+  - id: audio-devices
+    status: observed_state_only
+    apply_method: manual_system_settings
+    verify_method: scripts/macos_preferences.py
+  - id: default-applications
+    status: observed_partial
+    apply_method: explicit_launchservices_policy
+    verify_method: scripts/macos_preferences.py --check
+  - id: developer-environment
+    status: observed_state_only
+    apply_method: planned_toolchain_bootstrap
+    verify_method: scripts/macos_preferences.py
+  - id: network-vpn-dns
+    status: observed_state_only
+    apply_method: planned_network_policy
+    verify_method: scripts/macos_preferences.py
+  - id: security-posture
+    status: observed_state_only
+    apply_method: manual_security_settings
+    verify_method: scripts/macos_preferences.py
+  - id: browser-webapp-continuity
+    status: observed_state_only
+    apply_method: manual_browser_and_webapp_setup
+    verify_method: scripts/macos_preferences.py
+  - id: dock-order
+    policy_file: settings/dock-order.json
+    status: tracked
+    apply_method: explicit_dock_reconciliation
+    verify_method: scripts/macos_dock.py
+  - id: keyboard
+    policy_file: settings/keyboard.yaml
+    status: tracked
+    apply_method: device_specific_policy
+    verify_method: hidutil_and_listener_test
+  - id: input-sources
+    status: planned
+    apply_method: planned_allowlisted_defaults
+    verify_method: planned_input_source_check
+  - id: finder-and-appearance
+    status: tracked
+    desired_values_file: settings/system-preferences-values.json
+    apply_method: planned_allowlisted_defaults
+    verify_method: scripts/macos_preferences.py --check
+  - id: default-applications
+    status: planned
+    apply_method: explicit_application_association
+    verify_method: planned_open-test
+  - id: login-items
+    status: partial_manual_review
+    apply_method: reviewed_launchagent_or_login_item
+    verify_method: scripts/macos_startup_items.py; Apple Events required for GUI login items
+
+rules:
+  - Never persist recent-document lists, private paths, serial numbers, or secrets.
+  - Add a preference only after read, apply, and verify behavior is understood.
+  - Keep current exports and comparison results in ignored state/.

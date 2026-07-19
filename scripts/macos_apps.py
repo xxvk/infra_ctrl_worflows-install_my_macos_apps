@@ -14,7 +14,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references" / "app-catalog.json"
 STATE = ROOT / "state"
-APP_DIRS = [Path("/Applications"), Path.home() / "Applications", Path("/System/Applications")]
+APP_DIRS = [
+    Path("/Applications"),
+    Path.home() / "Applications",
+    Path.home() / "Applications" / "WebCatalog Apps",
+    Path("/System/Applications"),
+    Path.home() / "Library/Containers/io.playcover.PlayCover/Applications",
+]
 
 
 def stamp():
@@ -119,6 +125,10 @@ def detect_source(catalog_app, installed_item, brew_casks):
             check=False,
         ).returncode == 0
     detected = []
+    if catalog_app.get("delivery_method") == "webcatalog-wrapper" and "/WebCatalog Apps/" in path:
+        detected.append("webcatalog")
+    if catalog_app.get("delivery_method") == "playcover-ipa" and "io.playcover.PlayCover/Applications/" in path:
+        detected.append("playcover")
     if receipt:
         detected.append("app_store")
     if brew_match:
@@ -157,9 +167,12 @@ def detect_source(catalog_app, installed_item, brew_casks):
 def installed_apps(data=None):
     data = data or catalog()
     by_name = {}
+    by_bundle = {}
     for app in data["apps"]:
         for name in [app["name"], *app.get("aliases", [])]:
             by_name[name.casefold()] = app
+        for identifier in app.get("bundle_identifiers", []):
+            by_bundle[str(identifier).casefold()] = app
     brew_casks = installed_brew_casks()
     found = []
     for directory in APP_DIRS:
@@ -167,6 +180,8 @@ def installed_apps(data=None):
             continue
         for app in directory.glob("*.app"):
             info = app / "Contents" / "Info.plist"
+            if not info.is_file():
+                info = app / "Info.plist"
             name = app.stem
             version = None
             bundle_identifier = None
@@ -183,9 +198,11 @@ def installed_apps(data=None):
             item = {"name": name, "version": version, "path": str(app)}
             if bundle_identifier:
                 item["bundle_identifier"] = bundle_identifier
-            entry = by_name.get(name.casefold())
+            entry = by_name.get(name.casefold()) or by_bundle.get((bundle_identifier or "").casefold())
             if entry:
                 item["catalog_name"] = entry["name"]
+                if entry.get("allow_multiple_bundles"):
+                    item["allow_multiple_bundles"] = True
                 item["source"] = detect_source(entry, item, brew_casks)
             else:
                 receipt = app_store_receipt(app)
@@ -224,14 +241,35 @@ def duplicate_apps(applications):
     grouped = {}
     for item in applications:
         key = item.get("catalog_name")
+        if item.get("allow_multiple_bundles"):
+            continue
         if key:
             grouped.setdefault(key.casefold(), []).append(item)
     return [items for items in grouped.values() if len(items) > 1]
 
 
 def app_present(app, installed_names):
+    extension_id = app.get("chrome_extension_id")
+    if extension_id:
+        chrome_root = Path.home() / "Library/Application Support/Google/Chrome"
+        if chrome_root.is_dir():
+            for profile in [chrome_root / "Default", *sorted(chrome_root.glob("Profile *"))]:
+                if not profile.is_dir():
+                    continue
+                if (profile / "Extensions" / extension_id).is_dir():
+                    return True
+                for filename in ("Preferences", "Secure Preferences"):
+                    preferences = profile / filename
+                    if preferences.is_file():
+                        try:
+                            if extension_id in preferences.read_text(errors="ignore"):
+                                return True
+                        except OSError:
+                            pass
     command = app.get("check_command")
     if command:
+        if str(command).startswith("test "):
+            return subprocess.run(command, shell=True, check=False).returncode == 0
         return shutil.which(command) is not None
     names = [app["name"], *app.get("aliases", [])]
     if any(name.casefold() in installed_names for name in names):

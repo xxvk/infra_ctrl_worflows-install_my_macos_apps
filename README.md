@@ -1,6 +1,12 @@
 # Install My macOS Apps
 
-A personal Codex Skill for setting up a new Mac from a persistent app catalog. It inventories installed apps, selects a storage profile, creates an installation plan, and records follow-up tasks such as account sign-in and permissions.
+A personal Codex Skill for making a new Mac ready to use after one repository sync. It inventories installed apps, selects a storage profile, captures reusable permissions and user-preference policies, creates an installation plan, and records follow-up tasks such as account sign-in and permissions.
+
+The app catalog is only one part of the baseline. Tracked `settings/` define
+portable policy, while ignored `state/` stores current-machine observations.
+Privacy grants, credentials, tokens, and private data are never copied as
+configuration; each new Mac must visibly authorize protected access and then
+be verified.
 
 ## Requirements
 

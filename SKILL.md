@@ -7,6 +7,33 @@ description: Scan a Mac for installed applications, compare it with a persistent
 
 Use this skill from its synced source folder. Treat the catalog as the source of truth; never infer that an app is installed merely because its installer or receipt exists.
 
+## Mission: one-sync, ready-to-use Mac
+
+The purpose of this repository is reproducible Mac bootstrap: after one
+successful sync, a new Mac should reach the user's intended working state
+through a bounded sequence of scan, install, authorize, configure, and verify
+steps. This is more than an app list; it is the durable definition of the
+machine's reusable operating baseline.
+
+Keep the baseline in three layers:
+
+- Tracked policy and desired configuration: `components/`, `references/`,
+  `settings/`, `scripts/`, and this skill.
+- Ignored machine observations: `state/`, including detected versions, paths,
+  current permission observations, install logs, and cleanup measurements.
+- User-controlled secrets and grants: never export passwords, tokens, raw TCC
+  databases, or private documents. Record the required permission, reason,
+  user action, and verification result instead; the user approves the actual
+  grant on each Mac.
+
+The bootstrap order is staged: establish the machine baseline; inventory
+required permissions; export and review allowlisted user preferences; install
+Core components; request sign-ins, licenses, and device pairing; apply
+approved policies; then run a final drift audit. Do not turn a broad `defaults`
+dump or the TCC database into configuration. Every new preference or
+permission needs a named purpose, read/check method, apply method, and
+verification method.
+
 ## Required macOS permission preflight
 
 Before running any workflow that checks Chrome profiles, verify that the
@@ -23,6 +50,188 @@ ask the user to grant that permission, then retry. Never report all expected
 profiles as missing when the underlying error is `Operation not permitted`.
 The preflight reads only profile directories and account identifiers exposed in
 Local State; it must never read cookies, passwords, tokens, or Keychain data.
+
+### Permission inventory and bootstrap rule
+
+Before extracting protected system configuration, inventory the permissions
+needed by the current workflow. At minimum distinguish Full Disk Access,
+Accessibility, Input Monitoring, Screen Recording, Automation, Files and
+Folders, microphone, and camera. A requirement must state its target, purpose,
+required/optional status, System Settings path, and verification method.
+Reusable requirements belong in [`settings/privacy.yaml`](settings/privacy.yaml);
+current results belong only in ignored `state/`.
+
+Run the read-only inventory with:
+
+```sh
+python3 scripts/macos_permissions.py
+```
+
+The script verifies the Chrome `Local State` read directly and labels other
+TCC categories for manual verification. It never changes permissions.
+
+For the full machine inventory, run:
+
+```sh
+python3 scripts/macos_permissions.py
+```
+
+The resulting ignored state record contains four separate evidence layers:
+
+1. Every detected app bundle from `/Applications`, `~/Applications`, system
+   applications, WebCatalog, and PlayCover, including Bundle ID, version,
+   path, source, code-signing identity, and entitlement **keys**.
+2. Read-only TCC rows matched to Bundle IDs, with
+   `verified_granted`, `verified_denied`, `tcc_records_present`, and
+   `no_record` kept distinct. A missing row is not a denial.
+3. An App × observed-service matrix and entitlement/TCC reconciliation. An
+   entitlement indicates declared capability, never user authorization.
+4. Non-App components: Homebrew formulae/casks, LaunchAgents, LaunchDaemons,
+   privileged helper tools, network services, VPN connections, System
+   Extensions, and Background Task Management output.
+
+The scanner may report `unavailable` for `systemextensionsctl` or
+`sfltool dumpbtm`. Preserve the exact interface error; do not interpret it as
+an empty inventory. It must not use `sudo` or silently elevate.
+
+Entitlement values, notification contents, Focus rules, cookies, passwords,
+tokens, TCC database bytes, and private document contents are never persisted.
+
+macOS privacy grants are device-local TCC state. The skill may check them and
+open System Settings, but must not pretend that a raw TCC database copy,
+`tccutil` reset, or stored authorization token is a portable grant. On a new
+Mac, repeat visible authorization and then record the verification result
+locally.
+
+### User-preference extraction rule
+
+Extract preferences by an allowlist, one domain at a time. Start with the
+tracked Dock order and keyboard policy, then add input sources, Finder,
+appearance, default applications, login items, and other explicitly selected
+domains only when their values are understood and reproducible. Desired values
+belong in tracked `settings/`; raw current readings and comparisons belong in
+`state/`. Never persist recent-document lists, private paths, serial numbers,
+or secrets unless the user explicitly declares them portable.
+
+Capture the first allowlisted baseline with:
+
+```sh
+python3 scripts/macos_preferences.py
+```
+
+This is an export/check operation only. Applying a preference requires a
+separate reviewed policy entry and an explicit verification step.
+After the desired values have been reviewed, compare them with the current
+Mac using `python3 scripts/macos_preferences.py --check`.
+Applying the reviewed values requires an explicit confirmation:
+
+```sh
+python3 scripts/macos_preferences.py --apply
+python3 scripts/macos_preferences.py --check
+```
+
+The apply path is limited to the tracked allowlist and restarts Finder and
+Dock so their settings reload; it does not apply permissions, login items,
+default applications, or input-source changes.
+
+The preference scanner currently captures an allowlisted baseline for machine
+profile, locale/input sources, keyboard/HID mappings, text-input settings,
+Dock/Finder, desktop/window management, screenshots, displays, sound/power
+interfaces, notifications, Control Center, Focus database presence, and
+screensaver fields. It also records a redacted LaunchServices association
+slice and the developer environment shape: Shell, startup-file hashes, PATH
+shape, Git key names, SSH config metadata, and CLI versions. Redact private
+paths and text-substitution contents; never persist Git identity values, SSH
+contents, or credentials. `--check` compares only tracked desired values;
+unavailable interfaces remain unavailable rather than being converted to
+defaults.
+
+### Bootstrap entry point
+
+Use the ordered, read-only assessment before any new-Mac changes:
+
+```sh
+python3 scripts/bootstrap_macos.py --profile auto
+```
+
+It runs app scan, capacity-aware app plan, permission inventory, and
+preference baseline/check in order. It never installs apps, grants TCC
+permissions, enters accounts, or applies preferences. Review its generated
+`state/bootstrap-*.json` record before separately authorizing any change.
+
+Manual account, license, privacy, browser-profile, VPN, and app-configuration
+checkpoints live in [`settings/manual-actions.yaml`](settings/manual-actions.yaml).
+They are instructions and verification contracts only; never turn them into
+credential storage or automatic login.
+
+For Capacities, run the migration preflight before any cleanup:
+
+```sh
+python3 scripts/capacities_migration_inventory.py
+```
+
+It records only candidate locations, sizes, counts, and extensions. It does
+not read document contents. Keep Capacities installed until the user confirms
+export and verification are complete. After that confirmation, remove only the
+app bundle with the auditable cleanup script:
+
+```sh
+python3 scripts/capacities_cleanup.py --apply --confirm
+```
+
+The script preserves Capacities Application Support, preferences, HTTP storage,
+and logs. Support-data deletion is a separate, explicit decision.
+
+Chrome profile identity is matched by account email. Profile directory names
+such as `Profile 5`, `Profile 7`, or `Profile 9` are machine-local allocation
+details and are informational only; they must not cause a missing-account
+result or be used as the cross-machine identity key. Display names are checked
+separately against the tracked registry.
+
+Run the final read-only drift/recovery report with:
+
+```sh
+python3 scripts/bootstrap_verify.py
+```
+
+It records missing Core apps, source mismatches, permission drift,
+preference-check results, and safe rerun commands. It never applies the
+recovery commands automatically.
+
+Login Items have two separate sources. User `LaunchAgents` can be inventoried
+read-only from `~/Library/LaunchAgents`. The GUI Login Items list is queried
+through Apple Events and may require an explicit Automation permission. If
+that query fails, record the error and the LaunchAgents subset; never call a
+partial result a complete Login Items baseline.
+
+### Stale TCC authorization cleanup
+
+Use [`scripts/macos_permissions_cleanup.py`](scripts/macos_permissions_cleanup.py)
+for permissions belonging to apps that were deliberately removed. Its default
+mode is dry-run:
+
+```sh
+python3 scripts/macos_permissions_cleanup.py
+```
+
+The script includes only classified legacy/removed clients by default. Add
+`--include-manual-review` only after confirming an unlisted client is no longer
+needed. Applying a reset requires `--apply` and typing `CLEAN TCC`; it calls
+`tccutil reset` for exact service/client pairs and never removes application
+data. Re-run the permission inventory afterward. Never reset current ChatGPT,
+CUA, Perplexity, Logi Options+, or other active helper identities as part of a
+generic cleanup.
+
+The cleanup script uses the latest permission state and includes only clients
+classified as legacy/removed by default. Manual-review clients require
+`--include-manual-review`. It never deletes app data or repairs an incomplete
+uninstall; Homebrew cask cleanup and data migration are separate tasks.
+
+System Extension and Background Task discovery may be restricted by macOS:
+`systemextensionsctl list` can return an OSSystemExtensionError, while
+`sfltool dumpbtm` may require an administrator authorization context. Record
+those exact interface states as unavailable or authorization_required; do not
+interpret them as evidence that no extension or background task exists.
 
 ## Keyboard settings workflow
 
@@ -322,7 +531,7 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    python3 scripts/macos_apps.py plan --profile auto
    ```
 
-   `portable` applies below 512 GB; `expanded` applies at 512 GB or above. The planner includes `core` apps in both tiers, while apps marked `heavy` are excluded from `portable` by default.
+   `portable` applies below 512 GB; `expanded` applies at 512 GB or above. The planner includes `core` apps in both tiers, while apps marked `heavy` are excluded from `portable` by default. Large games and other entertainment packages should remain outside the compact-memory Mac profile; install them only on a separately designated expanded-memory gaming machine.
 
 3. Review the plan with the user. Select one or two apps only. Identify required free space, account/permission tasks, and any source that is not Homebrew. Do not run installations before confirmation.
 
@@ -343,6 +552,11 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    ```sh
    python3 scripts/macos_apps.py install state/PLAN.json --only "App Name"
    python3 scripts/macos_apps.py install state/PLAN.json --only "App Name" --apply
+
+   Components marked `retired_pending_cleanup` remain installed while the
+   user completes data export or migration. Do not delete their app, support
+   data, or caches during a generic scan; require a separate explicit cleanup
+   request after the data handoff is verified.
    ```
 
    The script accepts at most two `--only` values per run. It bootstraps Homebrew only with `--apply` and asks interactively first. It installs only catalog entries with a verified Homebrew cask or formula identifier. It never supplies credentials, modifies privacy settings, or silently installs an unverified DMG/PKG.
@@ -897,15 +1111,29 @@ Docker states that its Mac containers and images reside in a large disk image an
 - Use `brew` only for a cask or formula whose identifier is present in `brew_cask` or `brew_formula`. If a package fails validation, leave it in the plan as a manual task and update the catalog after checking the vendor source.
 - Use `check_command` for CLI tools so a binary already on `PATH` is correctly considered installed. Record ordered dependencies with `install_after`; for example, install `mole` after Ghostty so the user can run and review its terminal UI.
 - Use `app_store_url` for App Store software. App Store sign-in and installation remain user actions.
+- For macOS App Store installation, store `app_store_url` as a direct
+  `macappstore://itunes.apple.com/app/id<APP_ID>` URL so the workflow opens the
+  App Store application rather than a browser. Keep an HTTPS App Store URL
+  only when it is a reference page for a non-Mac target, such as a PlayCover
+  IPA source; never treat that URL as the installation path.
 - Source policy is explicit: `app_store_url` means `app_store`, `brew_cask` or
   `brew_formula` means `homebrew`, `official_url` alone means `official_web`,
   and `system_app: true` means `system`. Keep source mismatches visible in plans;
   do not silently accept a website download for an App Store-required app.
 - Prefer vendor URLs for apps without a verified cask. Add scripted direct downloads only when the vendor provides a stable, HTTPS URL and an integrity check; otherwise keep them manual.
+- Browser extensions require target-specific checks. Use the extension ID for
+  Chrome profile detection and an App Store bundle/path check for Safari
+  extensions; do not classify a browser extension as missing merely because it
+  has no top-level `.app` in `/Applications`.
 
 ## Persistent records
 
-`state/` is created beside the skill on first run and is intended to sync through iCloud. It holds dated scans, plans, and installation logs. Keep it; it is the deployment history.
+`state/` is created beside the skill on first run and is ignored machine-local
+state. It holds dated scans, plans, installation logs, current versions,
+permissions, paths, and cleanup measurements. Do not sync it through Git or
+use it as reusable catalog configuration. Persistent policies and desired
+configuration belong in tracked `settings/`, `references/`, or component
+guides.
 
 For explicit macOS local-account retirement, read
 [references/account-removal.md](references/account-removal.md). It covers the

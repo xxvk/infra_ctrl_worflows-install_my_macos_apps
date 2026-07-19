@@ -1,0 +1,50 @@
+schema_version: 1
+
+# Manual checkpoints are durable instructions, not credentials or claims that
+# the action is complete on the current machine.
+secrets_policy:
+  store_passwords: false
+  store_tokens: false
+  store_recovery_codes: false
+  store_license_keys: false
+
+checkpoints:
+  - id: app-store-sign-in
+    phase: install
+    category: account
+    action: Sign in to the Mac App Store with the user's Apple Account.
+    verify: Confirm the selected App Store apps show as installed and retain their receipt.
+    state_record: state/manual-actions-*.json
+  - id: browser-profile-sign-in
+    phase: post_install
+    category: account
+    action: Sign in to Chrome/Safari profiles and verify the expected email-to-profile mapping.
+    verify: Run the Chrome profile integrity check and extension checks.
+    forbidden_data: cookies, passwords, session tokens
+  - id: ai-account-sign-in
+    phase: post_install
+    category: account
+    action: Sign in to ChatGPT, Claude, Perplexity, and other selected AI apps.
+    verify: Confirm the intended account/workspace and required feature state.
+    forbidden_data: passwords, tokens, subscription receipts
+  - id: privacy-authorizations
+    phase: authorization
+    category: macos_privacy
+    action: Approve only the permission rows identified by the current bootstrap report.
+    verify: Re-run scripts/macos_permissions.py and compare the TCC matrix.
+  - id: vpn-and-network
+    phase: post_install
+    category: network
+    action: Sign in and connect Tailscale, ZeroTier, AdGuard VPN, or other selected clients.
+    verify: Confirm the intended connection and DNS policy without storing credentials.
+  - id: developer-licenses
+    phase: post_install
+    category: license
+    action: Accept required developer-tool licenses and complete vendor activation.
+    verify: Run the component-specific check command.
+    forbidden_data: license keys, activation tokens
+  - id: claude-third-party-inference
+    phase: post_install
+    category: app_configuration
+    action: Configure third-party inference only when explicitly selected by the user.
+    verify: Confirm the selected provider/model in the app UI; do not write provider secrets to the repo.

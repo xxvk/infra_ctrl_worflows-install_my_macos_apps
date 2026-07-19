@@ -9,7 +9,7 @@ delivery_method: "app-store"
 brew_cask: null
 brew_formula: null
 official_url: "https://apps.apple.com/jp/app/rednote/id741292507?l=en-US&platform=mac"
-app_store_url: "https://apps.apple.com/jp/app/rednote/id741292507?l=en-US&platform=mac"
+app_store_url: "macappstore://itunes.apple.com/app/id741292507"
 check_command: null
 install_after: []
 account_required: false

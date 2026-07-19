@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "description": "Confirmed portable macOS preference values from the M4B baseline.",
+  "domains": {
+    "NSGlobalDomain": {
+      "AppleInterfaceStyle": "Dark"
+    },
+    "com.apple.finder": {
+      "AppleShowAllFiles": true,
+      "FXPreferredViewStyle": "clmv"
+    },
+    "com.apple.dock": {
+      "show-recents": false,
+      "orientation": "left",
+      "tilesize": 128.0
+    }
+  },
+  "excluded_until_reviewed": [
+    "login_items",
+    "default_applications",
+    "input_sources"
+  ]
+}

@@ -7,6 +7,28 @@ policy:
   auto_grant_sensitive_permissions: false
   require_user_confirmation: true
   record_credentials_or_tokens: false
+  portable_grants: false
+  current_observations: "state/permissions-*.json"
+  reusable_requirements: "settings/privacy.yaml"
+
+bootstrap_order:
+  - inventory_required_permissions
+  - open_system_settings_for_missing_grants
+  - user_authorizes
+  - verify_and_write_machine_state
+
+verification_contract:
+  required_fields:
+    - target
+    - purpose
+    - requirement
+    - apply_method
+    - verify_method
+  forbidden_exports:
+    - raw_tcc_database
+    - passwords
+    - api_keys
+    - session_tokens
 
 permissions:
   full_disk_access:
@@ -21,6 +43,40 @@ permissions:
     desired: "ask_when_required"
   files_and_folders:
     desired: "ask_when_required"
+
+workflow_requirements:
+  - id: chrome-profile-audit
+    target: "Codex/ChatGPT host process or terminal"
+    permissions: [full_disk_access]
+    verify: "Read Chrome Local State and run scripts/chrome_profiles.py"
+  - id: chatgpt-computer-use
+    target: "ChatGPT and com.openai.sky.CUAService"
+    permissions: [accessibility, screen_recording, automation]
+    verify: "Run an explicitly requested Computer Use workflow"
+  - id: k240-listener
+    target: "keyboard-config-logi-k240 listener"
+    permissions: [input_monitoring]
+    verify: "Run the listener and test the documented function keys"
+  - id: solaar-receiver-read
+    target: "Solaar"
+    permissions: [accessibility, input_monitoring]
+    verify: "Open the receiver UI and read device battery information"
+  - id: playcover-youtube
+    target: "PlayCover and YouTube container app"
+    permissions: [files_and_folders]
+    verify: "Launch YouTube and verify the documented PlayCover settings"
+  - id: vpn-network-clients
+    target: "Tailscale, ZeroTier, and AdGuard VPN"
+    permissions: []
+    verify: "User connects the selected client and reruns network verification"
+  - id: browser-extensions
+    target: "Chrome/Safari Web Clipper"
+    permissions: [files_and_folders]
+    verify: "Clip one test page and verify the target Obsidian note"
+  - id: developer-tools
+    target: "Terminal, VS Code, Antigravity, TRAE Work, and selected CLIs"
+    permissions: [developer_tool, files_and_folders]
+    verify: "Run the component check command and a minimal project operation"
 
 data_handling:
   api_keys: "never_store"

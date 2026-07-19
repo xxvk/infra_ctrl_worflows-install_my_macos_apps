@@ -84,5 +84,10 @@ These guides are cataloged for review but are not installed automatically during
 | Logic Pro | [logic-pro.md](logic-pro.md) | Mac App Store |
 | MainStage | [mainstage.md](mainstage.md) | Mac App Store |
 | Motion | [motion.md](motion.md) | Mac App Store |
+| Capacities | [capacities.md](capacities.md) | Retired pending data cleanup |
+| Foxglove | [foxglove.md](foxglove.md) | Optional robotics development |
+| Google Docs / Sheets / Slides | [google-workspace-web-apps.md](google-workspace-web-apps.md) | Core web-app shortcuts |
+| Apple Developer | [apple-developer.md](apple-developer.md) | Mac App Store |
+| PlayCover Learning Apps | [playcover-learning-apps.md](playcover-learning-apps.md) | Optional PlayCover apps |
 
 When adding a new app guide, start from `../templates/app-component.md`, add the guide to this table, and add its relative `guide` path to the matching catalog entry.
