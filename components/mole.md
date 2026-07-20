@@ -40,13 +40,28 @@ brew install mole
 
 ## Configuration
 
-No automatic cleanup configuration is applied. If shell completion is desired, review the preview before changing shell files:
+The cross-device baseline protects Hugging Face model assets from Mole cleanup.
+Preserve existing entries and ensure this line exists in
+`~/.config/mole/whitelist`:
+
+```sh
+mkdir -p "$HOME/.config/mole"
+touch "$HOME/.config/mole/whitelist"
+grep -qxF '~/.cache/huggingface' "$HOME/.config/mole/whitelist" || \
+  printf '%s\n' '~/.cache/huggingface' >> "$HOME/.config/mole/whitelist"
+```
+
+Verify the resulting file before cleanup. Do not store the machine-local
+whitelist in tracked `state/`; recreate it on each device. If shell completion
+is desired, review the preview before changing shell files:
 
 ```sh
 mole completion --dry-run
 ```
 
-Do not enable Touch ID or write whitelist rules without reviewing exactly which paths and commands will be affected.
+Do not enable Touch ID or add other whitelist rules without reviewing exactly
+which paths and commands will be affected. The Hugging Face rule above is part
+of the approved baseline.
 
 ## Verification
 

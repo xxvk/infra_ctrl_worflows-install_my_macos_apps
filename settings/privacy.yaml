@@ -101,7 +101,7 @@ new_mac_authorization_checklist:
     required_for:
       - "K240 function-key listener"
       - "Solaar receiver/device events"
-    verify: "Run the documented K240 listener test or read device state in Solaar; do not treat a connected receiver as authorization proof."
+    verify: "Run the documented K240 listener test or read device state in Solaar; do not treat a connected keyboard as authorization proof."
     status: manual_verification_required
   - id: automation-apple-events
     category: "Automation / Apple Events"

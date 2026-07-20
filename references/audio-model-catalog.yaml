@@ -1,0 +1,301 @@
+schema_version: 1
+purpose: "Optional local ASR model weights for Japanese meeting transcription on Apple Silicon"
+baseline:
+  model_id: "mlx-community/whisper-large-v3-mlx"
+  tag: audio
+  role: comparison-baseline
+  note: "Keep installed until a user-owned Japanese meeting sample shows a better result."
+
+models:
+  - id: granite-4.0-1b-speech-mlx-8bit
+    name: "IBM Granite 4.0 1B Speech MLX 8-bit"
+    tag: audio
+    tier: optional
+    source: huggingface
+    model_id: "mlx-community/granite-4.0-1b-speech-8bit"
+    upstream_model_id: "ibm-granite/granite-4.0-1b-speech"
+    official_url: "https://huggingface.co/ibm-granite/granite-4.0-1b-speech"
+    download_url: "https://huggingface.co/mlx-community/granite-4.0-1b-speech-8bit"
+    release_date: "2026-03-06"
+    precision: 8bit
+    approximate_download_bytes: 2920000000
+    expected_runtime_ram: "6-9 GB observed on a 30-second Apple M4 smoke"
+    languages: [ja, en, de, es, fr, pt]
+    runtime: mlx-audio
+    runtime_version_tested: "0.4.5"
+    runtime_environment: "~/.local/share/python/core/.venv"
+    adapter_status: smoke-validated-text-only-not-integrated
+    timestamp_support: "none observed in mlx-audio JSON output; segments was empty"
+    install_command: "huggingface-cli download mlx-community/granite-4.0-1b-speech-8bit --local-dir ~/.cache/huggingface/hub/granite-4.0-1b-speech-8bit"
+    verify_command: "python -m mlx_audio.stt.generate --model mlx-community/granite-4.0-1b-speech-8bit --audio <audio.wav>"
+    note: "Official IBM card documents mlx-audio usage; the MLX weights are a community conversion."
+    local_validation:
+      date: "2026-07-21"
+      hardware: "Apple M4"
+      cache: "~/.cache/huggingface/hub/models--mlx-community--granite-4.0-1b-speech-8bit"
+      revision: "5ed3098fb331d0131cb2aeafdbacc19841359736"
+      sample: "30-second mono 16 kHz Japanese meeting audio"
+      processing_seconds: 6.41
+      peak_memory_gb: 7.65
+      result: passed-text-only
+
+  - id: cohere-transcribe-03-2026-mlx-8bit
+    name: "Cohere Transcribe 03-2026 MLX 8-bit"
+    tag: audio
+    tier: optional
+    source: huggingface
+    model_id: "appautomaton/cohere-asr-mlx"
+    mirror_model_id: "mlx-community/cohere-transcribe-03-2026-mlx-8bit"
+    upstream_model_id: "CohereLabs/cohere-transcribe-03-2026"
+    official_url: "https://huggingface.co/CohereLabs/cohere-transcribe-03-2026"
+    download_url: "https://huggingface.co/appautomaton/cohere-asr-mlx"
+    release_date: "2026-03-26"
+    precision: 8bit
+    approximate_download_bytes: 4130000000
+    expected_runtime_ram: "about 6.15 GB peak observed on a 30-second Apple M4 smoke"
+    languages: [ja, en, de, es, fr, it, pt, nl, pl, el, ar, vi, zh, ko]
+    runtime: mlx-speech
+    runtime_version_tested: "0.4.3"
+    runtime_environment: "~/.local/share/python/core/.venv"
+    adapter_status: smoke-validated-text-only-not-integrated
+    timestamp_support: none
+    diarization_support: none
+    install_command: "uv pip install --python ~/.local/share/python/core/.venv/bin/python mlx-speech==0.4.3"
+    verify_command: "mlx-speech asr --model cohere-asr --audio <audio.wav> --language ja"
+    note: "Use the canonical AppAutomaton runtime and weights; the mlx-community repository is a secondary mirror. No built-in diarization or timestamps."
+    local_validation:
+      date: "2026-07-21"
+      hardware: "Apple M4"
+      cache: "~/.cache/huggingface/hub/models--appautomaton--cohere-asr-mlx"
+      revision: "a6337363a26418a0d66132b140f3f479833dd8de"
+      sample: "30-second mono 16 kHz Japanese meeting audio"
+      cached_wall_seconds: 4.91
+      peak_memory_gb: 6.15
+      result: passed-text-only
+
+  - id: reazonspeech-k2-v2-int8
+    name: "ReazonSpeech-k2-v2 INT8"
+    tag: audio
+    tier: optional
+    source: huggingface
+    model_id: "reazon-research/reazonspeech-k2-v2"
+    official_url: "https://research.reazon.jp/blog/2024-08-01-ReazonSpeech.html"
+    download_url: "https://huggingface.co/reazon-research/reazonspeech-k2-v2"
+    release_date: "2024-08-01"
+    precision: int8
+    approximate_download_bytes: 775000000
+    expected_runtime_ram: "about 1.89 GB maximum RSS observed with the Core ML execution provider"
+    languages: [ja]
+    max_audio_seconds: 30
+    runtime: sherpa-onnx
+    runtime_version_tested: "1.13.4"
+    package_version_tested: "reazonspeech-k2-asr 3.0.0"
+    runtime_environment: "~/.local/share/python/core/.venv"
+    weight_format: ONNX
+    adapter_status: smoke-validated-not-integrated
+    timestamp_support: none
+    preferred_execution_provider: coreml
+    disabled_execution_providers: [cpu]
+    install_command: "uv pip install --python ~/.local/share/python/core/.venv/bin/python sherpa-onnx==1.13.4 'reazonspeech-k2-asr @ git+https://github.com/reazon-research/ReazonSpeech.git@2d4d4762e7ee294ac8e47a177ac2e9b0e8d0d43f#subdirectory=pkg/k2-asr'"
+    verify_command: "python -c 'from reazonspeech.k2.asr import load_model,transcribe,audio_from_path; print(transcribe(load_model(device=\"coreml\",precision=\"int8\",language=\"ja\"),audio_from_path(\"<audio.wav>\")).text)'"
+    note: "Japanese-specific Zipformer/RNN-T ONNX model, not MLX. Prefer the Core ML execution provider on this M4: both CPU INT8 and CPU FP32 produced a severe one-character regression on the smoke sample. Chunk long audio below the official approximately 30-second limit."
+    local_validation:
+      date: "2026-07-21"
+      hardware: "Apple M4; macOS 26.4"
+      cache: "~/.cache/huggingface/hub/models--reazon-research--reazonspeech-k2-v2"
+      revision: "291488c8151be24d7da4bf7af26e533fad96e407"
+      cache_size: "739 MiB"
+      sample: "20-second mono 16 kHz Japanese meeting audio"
+      coreml_cached_wall_seconds: 5.87
+      coreml_maximum_rss_gb: 1.89
+      coreml_result: passed-text-only
+      coreml_warning: "Context leak detected, CoreAnalytics returned false (three times per process)"
+      cpu_int8_wall_seconds: 1.89
+      cpu_int8_result: "failed-quality; output was one Japanese character"
+      cpu_fp32_wall_seconds: 2.13
+      cpu_fp32_maximum_rss_gb: 1.16
+      cpu_fp32_result: "failed-quality; output was the same one Japanese character"
+
+  - id: qwen3-asr-1.7b-mlx-8bit
+    name: "Qwen3-ASR-1.7B MLX 8-bit"
+    tag: audio
+    tier: optional
+    source: huggingface
+    model_id: "mlx-community/Qwen3-ASR-1.7B-8bit"
+    upstream_model_id: "Qwen/Qwen3-ASR-1.7B"
+    official_url: "https://huggingface.co/Qwen/Qwen3-ASR-1.7B-hf"
+    download_url: "https://huggingface.co/mlx-community/Qwen3-ASR-1.7B-8bit"
+    release_date: "2026-01-29"
+    precision: 8bit
+    approximate_download_bytes: 2460000000
+    expected_runtime_ram: "6-10 GB"
+    languages: [ja, en, zh, ko, de, fr]
+    runtime: mlx-audio
+    runtime_version_tested: "0.4.5"
+    runtime_environment: "~/.local/share/python/core/.venv"
+    adapter_status: smoke-validated-not-integrated
+    timestamp_support: "chunk-level in ASR output; character/phrase timestamps validated with Qwen3-ForcedAligner"
+    companion_aligner_model_id: "mlx-community/Qwen3-ForcedAligner-0.6B-8bit"
+    install_command: "huggingface-cli download mlx-community/Qwen3-ASR-1.7B-8bit --local-dir ~/.cache/huggingface/hub/Qwen3-ASR-1.7B-8bit"
+    verify_command: "python -m mlx_audio.stt.generate --model mlx-community/Qwen3-ASR-1.7B-8bit --audio <audio.wav>"
+    fallback_model_id: "mlx-community/Qwen3-ASR-1.7B-4bit"
+    fallback_approximate_download_bytes: 1500000000
+    note: "Use 8-bit by default on 16 GB M4; use 4-bit only after observing memory pressure."
+    local_validation:
+      date: "2026-07-21"
+      hardware: "Apple M4"
+      cache: "~/.cache/huggingface/hub/models--mlx-community--Qwen3-ASR-1.7B-8bit"
+      revision: "a8379a2e2f9e313c9292cdf1af4055ab56d50d55"
+      sample: "30-second mono 16 kHz Japanese meeting audio"
+      processing_seconds: 4.78
+      peak_memory_gb: 3.52
+      result: passed
+
+  - id: qwen3-forced-aligner-0.6b-mlx-8bit
+    name: "Qwen3 ForcedAligner 0.6B MLX 8-bit"
+    tag: audio
+    tier: companion
+    role: timestamp-alignment
+    source: huggingface
+    model_id: "mlx-community/Qwen3-ForcedAligner-0.6B-8bit"
+    upstream_model_id: "Qwen/Qwen3-ForcedAligner-0.6B-hf"
+    official_url: "https://huggingface.co/Qwen/Qwen3-ForcedAligner-0.6B-hf"
+    download_url: "https://huggingface.co/mlx-community/Qwen3-ForcedAligner-0.6B-8bit"
+    precision: 8bit
+    approximate_download_bytes: 1270000000
+    expected_runtime_ram: "about 2.43 GB peak observed on a 30-second Apple M4 smoke"
+    languages: [ja, en, zh, yue, fr, de, it, ko, pt, ru, es]
+    max_audio_seconds: 300
+    runtime: mlx-audio
+    runtime_version_tested: "0.4.5"
+    runtime_environment: "~/.local/share/python/core/.venv"
+    adapter_status: smoke-validated-not-integrated
+    timestamp_support: "character/phrase timestamps for Japanese; accepts transcript from any ASR"
+    verify_command: "python -m mlx_audio.stt.generate --model mlx-community/Qwen3-ForcedAligner-0.6B-8bit --audio <audio.wav> --text '<transcript>' --language ja --output-path <output> --format json"
+    local_validation:
+      date: "2026-07-21"
+      hardware: "Apple M4"
+      cache: "~/.cache/huggingface/hub/models--mlx-community--Qwen3-ForcedAligner-0.6B-8bit"
+      revision: "0e1a68e91d815300c7c9754b2a7639378b23db15"
+      sample: "30-second mono 16 kHz Japanese meeting audio with Qwen3-ASR transcript"
+      processing_seconds: 0.61
+      peak_memory_gb: 2.43
+      aligned_segments: 47
+      aligned_end_seconds: 29.84
+      result: passed
+
+  - id: kotoba-whisper-v2.2-coreml
+    name: "Kotoba-Whisper v2.2 Core ML"
+    tag: audio
+    tier: optional
+    source: huggingface
+    model_id: "yslinear/kotoba-whisper-v2.2-coreml"
+    upstream_model_id: "kotoba-tech/kotoba-whisper-v2.2"
+    official_url: "https://huggingface.co/kotoba-tech/kotoba-whisper-v2.2"
+    download_url: "https://huggingface.co/yslinear/kotoba-whisper-v2.2-coreml"
+    release_date: "2024-10-22"
+    precision: mixed-coreml
+    approximate_download_bytes: 1530000000
+    expected_runtime_ram: "about 3.00 GB maximum RSS observed with CPU+GPU"
+    languages: [ja]
+    runtime: whisperkit-cli
+    runtime_version_tested: "1.0.0"
+    runtime_environment: "/opt/homebrew/bin/whisperkit-cli"
+    weight_format: CoreML
+    adapter_status: smoke-validated-text-only-not-integrated
+    timestamp_support: "token-level timestamps disabled by the conversion because the distilled model has incompatible alignment heads"
+    preferred_compute_units: cpuAndGPU
+    install_command: "brew install whisperkit-cli"
+    download_command: "python -c 'from huggingface_hub import snapshot_download; print(snapshot_download(\"yslinear/kotoba-whisper-v2.2-coreml\"))'"
+    verify_command: "whisperkit-cli transcribe --model-path <snapshot>/kotoba-tech_kotoba-whisper-v2.2 --audio-path <audio.wav> --language ja --without-timestamps --audio-encoder-compute-units cpuAndGPU --text-decoder-compute-units cpuAndGPU"
+    note: "Preferred Kotoba route for Apple M4 because it keeps v2.2 and uses native Core ML. On macOS 26.4, WhisperKit's default cpuAndNeuralEngine initialization stalled after loading the encoder; CPU+GPU completed reliably. Treat the older v2.0 MLX conversion as a comparison only, and GGML/Q8 as a cross-platform fallback."
+    alternative_deployments:
+      - model_id: "kaiinui/kotoba-whisper-v2.0-mlx"
+        runtime: mlx-whisper
+        role: "optional comparison; older v2.0, not a replacement for v2.2"
+      - model_id: "0x3/kotoba-whisper-v2.2-ggml"
+        runtime: whisper.cpp
+        precision: q8_0
+        role: "cross-platform CPU fallback"
+    local_validation:
+      date: "2026-07-21"
+      hardware: "Apple M4; macOS 26.4"
+      cache: "~/.cache/huggingface/hub/models--yslinear--kotoba-whisper-v2.2-coreml"
+      revision: "57cfad413b4dde7556f4b0ee96a58c626984007c"
+      cache_size: "1.4 GiB"
+      sample: "20-second mono 16 kHz Japanese meeting audio"
+      cold_model_load_seconds: 24.09
+      cold_inference_seconds: 8.04
+      cached_wall_seconds: 6.77
+      cached_speed_factor: 2.95
+      maximum_rss_gb: 3.00
+      cpu_and_gpu_result: passed-text-only
+      cpu_and_neural_engine_result: "failed-runtime; initialization stalled for 196 seconds"
+
+rejected:
+  - id: qwen3-asr-0.6b
+    reason: "Rejected by user because Qwen3-ASR-1.7B quantized is preferred."
+  - id: fun-asr-nano-2512
+    reason: "Rejected by user because it is also from Alibaba and Qwen3-ASR is preferred."
+  - id: sensevoicesmall
+    reason: "Rejected by user because it is not Japanese-specialized and is from a smaller team."
+
+research_notes:
+  scope: "Chinese-company ASR alternatives checked for Japanese meeting transcription"
+  cache_policy:
+    path: "~/.cache/huggingface/hub"
+    classification: model_assets
+    automatic_cleanup: prohibited
+    scan_behavior: "Report total cache size and model directories; do not delete during Mole/app-cache cleanup."
+    removal: "Only through an explicit, user-confirmed model removal operation."
+  memory_estimate_assumptions:
+    workload: "one model, one audio stream, 30-60 second chunks, no concurrent ASR model"
+    meaning: "expected_runtime_ram is an average working-set estimate, not a peak or a guarantee"
+    policy: "On a 16 GB M4 keep at least 4 GB available for macOS and other apps; run only one large ASR model at a time."
+    swap_rule: "If macOS begins sustained swap during a test, switch Qwen3-ASR-1.7B from 8-bit to 4-bit or reduce chunk size."
+  average_runtime_memory:
+    - model_id: "mlx-community/whisper-large-v3-turbo"
+      average_ram: "3-4 GB"
+    - model_id: "mlx-community/whisper-large-v3-mlx"
+      average_ram: "5-6 GB"
+    - model_id: "reazon-research/reazonspeech-k2-v2"
+      average_ram: "1-2 GB"
+    - model_id: "mlx-community/granite-4.0-1b-speech-8bit"
+      average_ram: "7.65 GB peak observed on 30-second Apple M4 smoke"
+    - model_id: "mlx-community/cohere-transcribe-03-2026-mlx-8bit"
+      average_ram: "5-7 GB"
+    - model_id: "mlx-community/Qwen3-ASR-1.7B-8bit"
+      average_ram: "5-7 GB"
+    - model_id: "mlx-community/Qwen3-ASR-1.7B-4bit"
+      average_ram: "3-5 GB"
+    - model_id: "yslinear/kotoba-whisper-v2.2-coreml"
+      average_ram: "about 3.00 GB maximum RSS observed with CPU+GPU"
+  decision_rule:
+    - "Do not treat a chat model, voice API, or Chinese-only meeting benchmark as proof of Japanese ASR superiority."
+    - "A model is promoted only when it has downloadable weights, an Apple Silicon path, explicit Japanese support, and a reproducible comparison or a user-owned Japanese meeting test."
+    - "Keep mlx-community/whisper-large-v3-mlx as the baseline until the same Japanese meeting sample is scored."
+  candidates:
+    - name: "Fun-ASR-Nano-2512"
+      organization: "FunAudioLLM / Alibaba ecosystem"
+      status: rejected_by_user
+      reason: "Supports Japanese and is lightweight, but user prefers Qwen3-ASR from the same Alibaba ecosystem."
+    - name: "SenseVoiceSmall"
+      organization: "FunAudioLLM"
+      status: rejected_by_user
+      reason: "Multilingual rather than Japanese-specialized; user does not want to add it."
+    - name: "Kimi-Audio-7B"
+      organization: "Moonshot AI"
+      status: research_only
+      reason: "Strong Chinese/audio benchmarks, but no verified Japanese superiority and 7B is heavy for 16 GB M4."
+    - name: "GLM-ASR-Nano-2512"
+      organization: "Zhipu AI"
+      status: research_only
+      reason: "Strong Chinese meeting and dialect results, but official language coverage does not include Japanese."
+    - name: "DeepSeek"
+      organization: "DeepSeek"
+      status: not_a_candidate
+      reason: "No official downloadable ASR model was found; text/vision releases and app voice input are not equivalent to a local ASR checkpoint."
+    - name: "Seed-ASR / ByteDance speech APIs"
+      organization: "ByteDance / Volcano Engine"
+      status: cloud_only
+      reason: "Promising Chinese meeting API results, but no verified local M4 Japanese checkpoint."

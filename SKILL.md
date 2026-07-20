@@ -118,6 +118,52 @@ is ample. The two models can coexist without changing Python dependencies.
 Record model IDs, cache paths, measured sizes, and download timestamps in
 ignored `state/`. Do not download model weights automatically when only the
 Python package is requested; model download is a separate, size-visible step.
+Treat `~/.cache/huggingface/hub` as a model-asset directory, not disposable
+application cache. Mole and other automatic cleanup workflows must not delete
+or purge it. Scans should report its total size and model subdirectories, but
+deletion requires an explicit model-removal action. If a cleanup tool supports
+a whitelist, protect `~/.cache/huggingface` there as defense in depth.
+
+For Mole, this protection is part of the cross-device baseline. After Mole is
+installed or detected, preserve existing entries and ensure this line exists:
+
+```sh
+mkdir -p "$HOME/.config/mole"
+touch "$HOME/.config/mole/whitelist"
+grep -qxF '~/.cache/huggingface' "$HOME/.config/mole/whitelist" || \
+  printf '%s\n' '~/.cache/huggingface' >> "$HOME/.config/mole/whitelist"
+```
+
+Verify the resulting file before cleanup. This is local per-device
+configuration and should be recreated during deployment rather than stored in
+tracked `state/`.
+
+### Optional audio model catalog
+
+The tracked [`references/audio-model-catalog.yaml`](references/audio-model-catalog.yaml)
+contains optional ASR weights. These are not macOS `.app` bundles and must not
+be mixed into the App Store/Homebrew application catalog. Every such entry has
+the `audio` tag, an explicit model ID, source URL, precision, approximate
+download size, RAM envelope, and a verification command. Download at most one
+large audio model at a time on a 16 GB Mac, and keep the existing Whisper
+models as the comparison baseline until a user-owned Japanese meeting sample
+has been evaluated.
+
+For the current 16 GB M4 profile:
+
+- Prefer **8-bit** for `Qwen3-ASR-1.7B` as the quality-first default. Its MLX
+  conversion is about 2.46 GB and is the safest balance for long Japanese
+  meetings. Use the MLX 4-bit conversion (about 1.5 GB) only as a fallback when
+  memory pressure or swap is observed; do not silently replace the 8-bit model.
+- `Kotoba-Whisper-v2.2` remains the latest Kotoba v2.x release found in the
+  catalog. It is F32 and the official model is kept unquantized by default
+  because its main value is Japanese transcription plus punctuation and
+  diarization. Quantized community conversions may be used only after checking
+  their provenance and measuring Japanese accuracy; diarization dependencies
+  add a separate RAM and license review.
+- Granite 4.0 1B Speech MLX 8-bit, Cohere Transcribe 03-2026 MLX 8-bit, and
+  ReazonSpeech-k2-v2 INT8 are optional `audio` models. They are not Core app
+  installations and are never downloaded as part of a normal app bootstrap.
 
 ## Required macOS permission preflight
 
@@ -384,6 +430,14 @@ The expected receiver is Logitech `VID 0x046d`, `PID 0xc534`; the physical
 keyboard model must also be confirmed as K240, and the active input layout must
 be Japanese. The receiver identifier alone is not enough to distinguish every
 keyboard paired to that receiver.
+
+### Logitech MX Keys Mac profile
+
+When a Logitech MX Keys Mac is detected, prefer Logitech Options+ hardware
+remapping for F1/F2 and other function keys. It works at the device layer and
+avoids a custom HID listener, Fn-layer ambiguity, and Input Monitoring grants.
+Use a native Swift listener only for hardware without a reliable vendor
+configuration tool, such as the documented K240 fallback profile.
 
 The current target mapping is:
 
@@ -735,6 +789,13 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    installation, not a successful source repair. Record the cask version,
    reboot requirement, and post-reboot scan under ignored `state/`; never store
    the password or raw privileged logs.
+
+   **Logi Options+ residue rule:** After Logi Options+ has installed and passed
+   its post-reboot check, `/Applications/logioptionsplus_installer.app` is
+   removable installer residue. Keep `logioptionsplus.app`,
+   `Utilities/LogiPluginService.app`, the Driver Installer bundle, and Logi
+   support directories; they are runtime components. Record the removed path
+   and measured size under ignored `state/`.
 
 4. Execute only after explicit approval. Start with a dry run, then apply the recorded plan:
 

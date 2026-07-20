@@ -35,9 +35,19 @@ brew install --cask logi-options+
 Homebrew lists `logi-options+` as the current cask. The older `logitech-options`
 cask is deprecated and should not be used for new installations.
 
+After a successful privileged install and reboot, the temporary
+`/Applications/logioptionsplus_installer.app` may remain. It is installer
+residue, not the running application, and may be removed after verifying that
+`logioptionsplus.app`, `LogiPluginService.app`, and the Logi support directory
+are present. Keep the PluginService, Driver Installer bundle, and
+`/Library/Application Support/Logi` because Options+ uses them at runtime.
+
 ## Configuration and permissions
 
 - Open Logi Options+ and allow it to detect the connected Logitech devices.
+- Prefer Logi Options+ device-level key remapping for MX Keys Mac function
+  keys (for example, F1 → ChatGPT and F2 → Claude). This avoids a custom HID
+  listener, Fn-layer ambiguity, and Input Monitoring authorization.
 - Approve only the macOS privacy permissions requested by the app, manually in
   System Settings when prompted.
 - Do not record account credentials or permission state in the catalog.
