@@ -6,6 +6,7 @@ import json
 import os
 import plistlib
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -131,6 +132,12 @@ def detect_source(catalog_app, installed_item, brew_casks):
         detected.append("playcover")
     if receipt:
         detected.append("app_store")
+    # A vendor-published bundle identifier is portable evidence for a website
+    # build when no App Store receipt is present. It does not override a receipt.
+    website_ids = {str(value).casefold() for value in catalog_app.get("bundle_identifiers", [])}
+    if (expected_source(catalog_app) == "official_web" and not receipt and
+            (installed_item.get("bundle_identifier") or "").casefold() in website_ids):
+        detected.append("official_web")
     if brew_match:
         detected.append("homebrew")
     if pkg_match:
@@ -270,7 +277,14 @@ def app_present(app, installed_names):
     if command:
         if str(command).startswith("test "):
             return subprocess.run(command, shell=True, check=False).returncode == 0
-        return shutil.which(command) is not None
+        # Catalog checks may include a version probe (for example
+        # ``java -version``). Presence is determined by the executable token;
+        # arguments are for the component's verification step, not PATH lookup.
+        try:
+            executable = shlex.split(str(command))[0]
+        except (ValueError, IndexError):
+            executable = str(command).split()[0] if str(command).split() else ""
+        return bool(executable and shutil.which(executable))
     names = [app["name"], *app.get("aliases", [])]
     if any(name.casefold() in installed_names for name in names):
         return True

@@ -134,10 +134,11 @@
       "webcatalog_url": "https://www.notion.so/",
       "guide": "components/notion.md",
       "size_gb": 1,
-      "follow_up": [
-        "Create and verify the Notion WebCatalog wrapper",
-        "Remove the native Notion app after wrapper verification"
-      ],
+  "note": "Notion is WebCatalog-only in the baseline. Reject native, Homebrew, and Mac App Store bundles; create and verify https://www.notion.so/ as a WebCatalog wrapper before removing the old app. Retired Notion app data and caches must also be removed.",
+  "follow_up": [
+    "Create and verify the Notion WebCatalog wrapper",
+    "After verification, remove the old native/App Store Notion.app and its Notion-owned support data/caches; do not delete browser profiles or unrelated WebCatalog data"
+  ],
       "download_estimate_bytes": 1000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
@@ -476,10 +477,13 @@
         "manual_or_unknown"
       ],
       "official_url": "https://lmstudio.ai/download/bionic/latest/darwin/arm64",
+      "bundle_identifiers": [
+        "ai.elementlabs.bionic"
+      ],
       "size_gb": 2,
-      "note": "Bionic is a separate official agent app. On Apple Silicon the endpoint redirects to the signed Bionic 1.0.1-1 arm64 DMG. Retire classic LM Studio first, preserve ~/.lmstudio, and verify model routing and privacy behavior.",
+      "note": "Bionic is a separate official agent app. On Apple Silicon the endpoint redirects to the signed Bionic arm64 DMG. The current installer creates /Applications/Bionic.app. Retire classic LM Studio first, preserve ~/.lmstudio, and verify model routing and privacy behavior.",
       "follow_up": [
-        "After installation, verify /Applications/LM Bionic.app",
+        "After installation, verify /Applications/Bionic.app",
         "Verify whether local LM Studio models, LM Link, or Secure Cloud is selected",
         "Review code, document, voice, MCP, and filesystem permissions",
         "Record account and data-routing choice without storing credentials"
@@ -493,13 +497,12 @@
       "category": "AI",
       "tier": "core",
       "official_url": "https://www.perplexity.ai/personal-computer",
-      "allowed_sources": [
-        "official_web",
-        "manual_or_unknown"
-      ],
+      "bundle_identifiers": ["ai.perplexity.macv3"],
+      "allowed_sources": ["official_web"],
       "size_gb": 1,
-      "note": "Use the current official website Mac app with Personal Computer capabilities. The installed App Store 2.260428.0 build is legacy and should be replaced after the new build is verified.",
+      "note": "Only the current official website Mac app with Personal Computer capabilities is accepted. Any Mac App Store build is legacy because its Bundle ID and capability set differ; remove the legacy App Store bundle first, then install and verify the website build.",
       "follow_up": [
+        "Remove any detected legacy Mac App Store bundle before installation",
         "Sign in"
       ],
       "guide": "components/perplexity.md",
@@ -746,12 +749,10 @@
       "delivery_method": "webcatalog-wrapper",
       "allowed_sources": ["webcatalog"],
       "webcatalog_url": "https://x.com/",
-      "note": "Use X through a WebCatalog wrapper. The current App Store listing is not Mac-compatible; do not install a legacy native wrapper.",
-      "size_gb": 0,
-      "note": "The current App Store listing is not Mac-compatible (it lists iPhone/iPad/Apple TV). Use X on the web or install it as a browser web app. A legacy Mac App Store package may still exist on older Macs.",
+      "note": "X is WebCatalog-only in the baseline. Reject native and Mac App Store bundles even if they launch; create and verify https://x.com/ as a WebCatalog wrapper. Retired X app data and caches must also be removed.",
       "follow_up": [
         "Sign in",
-        "If keeping the legacy Mac wrapper, verify it still receives security updates"
+        "After the WebCatalog wrapper is verified, remove the legacy native/App Store bundle and X-owned support data/caches; never delete browser profiles or unrelated WebCatalog data"
       ],
       "guide": "components/x.md",
       "download_estimate_bytes": 0,
@@ -1498,10 +1499,25 @@
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
+      "name": "Temurin Java",
+      "category": "Developer runtime",
+      "tier": "core",
+      "brew_cask": "temurin",
+      "check_command": "java -version",
+      "official_url": "https://adoptium.net/temurin/",
+      "size_gb": 0.2,
+      "guide": "components/temurin.md",
+      "follow_up": ["Do not change the default Java runtime automatically when multiple JDKs are installed"],
+      "download_estimate_bytes": 200000000,
+      "download_estimate_method": "homebrew_cask_metadata"
+    },
+    {
       "name": "Android platform tools",
       "category": "Android tools",
       "tier": "core",
       "brew_cask": "android-platform-tools",
+      "preferred_install_method": "sdkmanager",
+      "avoid_duplicate_with": "Android command-line tools SDK platform-tools",
       "check_command": "adb",
       "official_url": "https://developer.android.com/tools/releases/platform-tools",
       "guide": "components/android-platform-tools.md",
@@ -1651,6 +1667,10 @@
       "category": "Developer tools",
       "tier": "optional",
       "official_url": "https://developer.android.com/studio/preview",
+      "brew_cask": "android-studio-preview@beta",
+      "delivery_method": "homebrew-cask",
+      "source": "homebrew",
+      "aliases": ["Android Studio Preview Beta", "Android Studio Preview"],
       "size_gb": 5,
       "follow_up": [
         "Keep separate from the stable build when testing preview features"
@@ -1683,10 +1703,14 @@
       "tier": "optional",
       "lifecycle_status": "active",
       "source": "homebrew",
+      "brew_cask": "logi-options+",
+      "delivery_method": "homebrew-cask",
       "delivery_method": "homebrew-cask",
       "brew_cask": "logi-options+",
       "official_url": "https://www.logitech.com/en-us/software/logi-options-plus",
-      "check_command": "test -d '/Applications/logioptionsplus.app'",
+      "check_command": "test -d '/Applications/logioptionsplus.app' || test -d '/Library/Application Support/Logi/LogiOptionsPlus'",
+      "reboot_required": true,
+      "installer_behavior": "homebrew_cask_privileged_installer",
       "size_gb": 0.5,
       "follow_up": [
         "Confirm the exact Logitech keyboard and mouse models",
@@ -1836,7 +1860,7 @@
       "name": "Capacities",
       "category": "Productivity",
       "tier": "optional",
-      "lifecycle_status": "retired_pending_cleanup",
+      "lifecycle_status": "retired",
       "official_url": "https://capacities.io/",
       "check_command": "test -d '/Applications/Capacities.app'",
       "bundle_identifiers": ["io.capacities.app"],

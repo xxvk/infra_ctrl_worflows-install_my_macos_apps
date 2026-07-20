@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "description": "Persistent Dock application membership and left-to-right order.",
+  "persistent_directories": [],
   "persistent_apps": [
     {
       "order": 1,

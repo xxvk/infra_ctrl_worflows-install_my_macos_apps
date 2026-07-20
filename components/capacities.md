@@ -3,7 +3,7 @@ component_id: "capacities"
 name: "Capacities"
 category: "Productivity"
 tier: "option"
-lifecycle_status: "retired_pending_cleanup"
+lifecycle_status: "retired"
 source: "official_web"
 delivery_method: "official-web"
 brew_cask: null
@@ -17,9 +17,9 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 ---
 # Capacities
 
-Capacities is no longer part of the desired application set. The app bundle is
-removed after the user's migration confirmation; its support data remains
-temporarily available for a separate cleanup decision.
+Capacities is no longer part of the desired application set. The app bundle and
+its Capacities-owned support data, preferences, HTTP storage, caches, and logs
+have been removed after explicit user confirmation.
 
-Do not delete Capacities support data during a generic app scan. Review and
-delete it only through a separate, explicit migration-cleanup decision.
+Do not recreate or reinstall Capacities during a generic app scan. Any future
+cleanup must remain scoped to Capacities-owned paths only.

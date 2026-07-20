@@ -14,7 +14,10 @@
     "com.apple.dock": {
       "show-recents": false,
       "orientation": "left",
-      "tilesize": 128.0
+      "tilesize": 128.0,
+      "launchanim": true,
+      "show-process-indicators": true,
+      "minimize-to-application": true
     }
   },
   "excluded_until_reviewed": [

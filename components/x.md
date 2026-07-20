@@ -20,6 +20,17 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 
 ## macOS delivery
 
-Use X at `https://x.com/` through a WebCatalog wrapper. The current App Store
-listing is not Mac-compatible, and this catalog does not install legacy native
-wrappers. Store the wrapper under `~/Applications/WebCatalog Apps/`.
+X is **WebCatalog-only** in this baseline. Reject native and Mac App Store
+bundles, even if they launch. Create the wrapper for `https://x.com/` with
+WebCatalog and store it under `~/Applications/WebCatalog Apps/`. Only after
+the wrapper opens and is verified may the user approve removal of the legacy
+`/Applications/X.app`. X-owned support data and caches are disposable and
+must be removed during this cleanup; never delete the user's browser profile
+or unrelated WebCatalog apps.
+
+## Cleanup rule
+
+After wrapper verification, remove the old X bundle and scan for X-specific
+WebCatalog/Application Support, cache, and container directories. Record sizes
+before deletion and remove those X-owned directories; do not retain login data
+or cache for the retired copy.

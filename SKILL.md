@@ -86,6 +86,39 @@ under ignored `state/`; never record tokens, credentials, personal audio, or
 model contents. Mole or other cleanup tools must not receive
 `~/.local/share/python` as a purge path.
 
+### Android developer environment
+
+Android command-line tools, platform-tools/ADB, Java, and the Emulator are
+Core developer dependencies. Follow [`references/environment.md`](references/environment.md)
+for architecture-specific SDK packages and AVD setup. Derive all SDK paths
+from `$(brew --prefix)`; Apple Silicon uses `arm64-v8a`, Intel uses `x86_64`.
+QEMU arrives with the Android Emulator package and is not a separate Core
+Homebrew install. `sdkmanager` is the sole owner of platform-tools/ADB for
+this workflow; if a legacy `android-platform-tools` cask is present, verify
+the SDK-managed binaries before removing only that duplicate cask. Treat
+Java/cmdline-tools cask receipts as prerequisites only:
+the environment is incomplete until `sdkmanager`, `adb`, `emulator`, and
+`avdmanager` resolve in a fresh login shell and the selected AVD is listed.
+
+### Whisper model selection
+
+The `audio` group provides `mlx-whisper`; model weights are downloaded
+separately into the user Hugging Face cache and must not be placed in the
+repository or the shared venv. Choose models by the target Mac's available
+resources:
+
+| Profile | Model | Approximate cache size | Use |
+| --- | --- | ---: | --- |
+| Resource-constrained | `mlx-community/whisper-large-v3-turbo` | 1.61 GB | Fast everyday transcription |
+| Large-RAM Mac | `mlx-community/whisper-large-v3-mlx` | 3.08 GB | Highest transcription accuracy and translation workflows |
+| Ample disk/RAM | Download both models | 4.69 GB | Keep Turbo for speed and large-v3 for quality/translation |
+
+Turbo is the default when memory is limited; large-v3 is preferred when RAM
+is ample. The two models can coexist without changing Python dependencies.
+Record model IDs, cache paths, measured sizes, and download timestamps in
+ignored `state/`. Do not download model weights automatically when only the
+Python package is requested; model download is a separate, size-visible step.
+
 ## Required macOS permission preflight
 
 Before running any workflow that checks Chrome profiles, verify that the
@@ -242,23 +275,25 @@ checkpoints live in [`settings/manual-actions.yaml`](settings/manual-actions.yam
 They are instructions and verification contracts only; never turn them into
 credential storage or automatic login.
 
-For Capacities, run the migration preflight before any cleanup:
+For Capacities, the app and its app-specific data are retired and may be
+removed after the user explicitly requests cleanup:
 
 ```sh
 python3 scripts/capacities_migration_inventory.py
 ```
 
 It records only candidate locations, sizes, counts, and extensions. It does
-not read document contents. Keep Capacities installed until the user confirms
-export and verification are complete. After that confirmation, remove only the
-app bundle with the auditable cleanup script:
+not read document contents. After the user's cleanup confirmation, remove the
+app bundle and its Capacities-owned support data with the auditable cleanup
+script:
 
 ```sh
 python3 scripts/capacities_cleanup.py --apply --confirm
 ```
 
-The script preserves Capacities Application Support, preferences, HTTP storage,
-and logs. Support-data deletion is a separate, explicit decision.
+The cleanup includes Capacities Application Support, preferences, HTTP storage,
+and logs, and records measured reclaimed space in `state/`. Do not remove
+unrelated browser profiles or other application data.
 
 Chrome profile identity is matched by account email. Profile directory names
 such as `Profile 5`, `Profile 7`, or `Profile 9` are machine-local allocation
@@ -569,6 +604,22 @@ skill. It does not automatically reorder the Dock; any future apply workflow
 must compare it with a fresh scan and explicitly request the user's approval.
 Keep only current machine observations in ignored `state/`.
 
+Dock appearance and behavior are tracked separately in
+`settings/system-preferences-values.json`. The baseline currently requires:
+
+- Dock on the left, 128 px tile size, and no Recent Applications section;
+- launch animation enabled and running-app indicators enabled;
+- minimize windows into their owning App icon (`minimize-to-application=true`),
+  so minimized-window thumbnails are not shown as separate Dock items;
+- no persistent directory stacks, including the “最近下载”/Downloads stack;
+- unspecified Dock keys remain macOS defaults unless explicitly added to the
+  baseline after review (for example, auto-hide, magnification, and minimize
+  effect are not silently inferred).
+
+Run `scripts/macos_preferences.py --check` to compare these values. Apply them
+only through the normal explicit-confirmation preference workflow, then restart
+the Dock if macOS does not reload the values immediately.
+
 ## Developer-machine Gatekeeper policy
 
 This skill is primarily used for development Macs. The default developer
@@ -614,7 +665,12 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    The scan records source evidence for catalog apps. An App Store receipt is
    checked at `Contents/_MASReceipt/receipt`; Homebrew casks are checked against
    `brew list --cask`; other bundles are reported as `manual_or_unknown`. A
-   source mismatch is a review item, not proof of malicious software.
+   source mismatch is a review item, not proof of malicious software. A cask
+   receipt alone is not proof that a usable `.app` bundle exists: some casks
+   install a privileged vendor installer and place the real app under a system
+   support directory until reboot. The final check must find the expected app
+   bundle (or the component's documented post-reboot service) and launch/verify
+   it; do not close a missing-app item merely because `brew list --cask` lists it.
 
 2. Create a plan. Use `auto` unless the user explicitly selects a capacity tier:
 
@@ -637,6 +693,48 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
    reinstall from the App Store. Never delete or replace the existing bundle
    automatically. The user must explicitly approve any reinstall and decide
    whether to remove the old copy first.
+
+   **Perplexity source rule:** Perplexity is website-only. If a detected bundle
+   contains `Contents/_MASReceipt/receipt`, it is a legacy Mac App Store build
+   and must be removed **before** downloading or installing the website build.
+   This is an explicit source-replacement exception to the general
+   “never-delete-during-scan” rule. After removal, install and verify the
+   website bundle (version, Bundle ID, launch, and permissions). Delete only
+   the old App bundle; never delete Perplexity support data or login state.
+
+   **X source rule:** X is WebCatalog-only. Native and Mac App Store X bundles
+   are rejected even when they launch. Create and verify the `https://x.com/`
+   WebCatalog wrapper under `~/Applications/WebCatalog Apps/`; only after that
+   verification may the user approve removal of `/Applications/X.app`. Never
+   remove browser or account data during this source replacement.
+
+   **Notion source rule:** Notion is WebCatalog-only. Reject native, Homebrew,
+   and Mac App Store Notion bundles even when they launch. Create and verify
+   the `https://www.notion.so/` WebCatalog wrapper under `~/Applications/WebCatalog Apps/`,
+   then move the old `/Applications/Notion.app` to Trash. The old native
+   Notion app's support data, caches, containers, and offline data are
+   disposable under this user's baseline and should be removed after the
+   WebCatalog replacement is verified. Do not delete browser profiles or
+   unrelated WebCatalog data.
+
+   **X/Notion cleanup rule:** For either WebCatalog source replacement, app
+   bundles, app-specific support data, caches, containers, and offline data for
+   the retired copy are disposable and must be removed after the replacement
+   is verified. Measure and record them in `state/`; never remove browser
+   profiles or unrelated application data.
+
+   **Privileged Homebrew cask rule (Logi Options+ and similar installers):**
+   Some Homebrew casks are installer wrappers rather than drag-and-drop `.app`
+   bundles. Run them from a visible Terminal when the installer requests
+   administrator authorization; Codex must not collect or persist the password.
+   If an old bundle is owned by `root:admin`, stop and hand off to the user for
+   the visible `sudo` password prompt before removing it. After installation,
+   inspect the expected app path and vendor support/service path, then reboot
+   when the cask caveat requires it. Only after reboot run `scan` and `plan`
+   again. A completed Homebrew transaction with no app bundle is an incomplete
+   installation, not a successful source repair. Record the cask version,
+   reboot requirement, and post-reboot scan under ignored `state/`; never store
+   the password or raw privileged logs.
 
 4. Execute only after explicit approval. Start with a dry run, then apply the recorded plan:
 

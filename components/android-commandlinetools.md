@@ -19,4 +19,8 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
 # Android command-line tools
 
-Android SDK command-line tools. Install with `brew install --cask android-commandlinetools`; choose the SDK location deliberately.
+Android SDK command-line tools. Install with
+`brew install --cask android-commandlinetools`, then use `sdkmanager` for the
+Emulator, platform-tools/ADB, Android platforms, and architecture-specific
+system image. See [`references/environment.md`](../references/environment.md)
+for the complete Apple Silicon/Intel setup and shell verification.

@@ -9,7 +9,9 @@ delivery_method: "homebrew-cask"
 brew_cask: "logi-options+"
 brew_formula: null
 official_url: "https://www.logitech.com/en-us/software/logi-options-plus"
-check_command: "test -d '/Applications/logioptionsplus.app'"
+check_command: "test -d '/Applications/logioptionsplus.app' || test -d '/Library/Application Support/Logi/LogiOptionsPlus'"
+reboot_required: true
+installer_behavior: "homebrew_cask_privileged_installer"
 install_after: []
 account_required: false
 permissions_required: ["Only permissions requested by the app and approved by the user"]
@@ -42,8 +44,15 @@ cask is deprecated and should not be used for new installations.
 
 ## Verification
 
+Homebrew may report the cask as installed while the vendor installer is still
+staging the application under `/Library/Application Support/Logi/LogiOptionsPlus`.
+The cask also requires a reboot. Do not treat `brew list --cask` alone as a
+successful application installation: after reboot confirm the app bundle is
+present, launch it once, and rerun the macOS app scan.
+
 ```sh
-test -d "/Applications/logioptionsplus.app"
+test -d "/Applications/logioptionsplus.app" || \
+  test -d "/Library/Application Support/Logi/LogiOptionsPlus"
 ```
 
 Then confirm whether both the keyboard and mouse appear in the app and whether

@@ -20,7 +20,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 
 Bionic is a separate official LM Studio agent application. On Apple Silicon,
 use the official endpoint above; it currently redirects to the signed
-`Bionic-1.0.1-1-arm64.dmg` installer. Do not substitute the classic
+`Bionic-1.0.2-3-arm64.dmg` installer (the redirect may advance over time). Do not substitute the classic
 `LM Studio.app` download.
 
 ## Local app name
@@ -51,7 +51,7 @@ until Bionic has been verified; do not delete `~/.lmstudio` automatically.
 2. Quit classic LM Studio and remove only `/Applications/LM Studio.app` (or
    uninstall its Homebrew cask).
 3. Preserve `~/.lmstudio`; it contains shared models and runtime data.
-4. Confirm `/Applications/LM Bionic.app` starts and can see the expected local model store before
+4. Confirm `/Applications/Bionic.app` starts and can see the expected local model store before
    considering the migration complete.
 
 ## Verification

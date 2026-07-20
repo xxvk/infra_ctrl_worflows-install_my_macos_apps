@@ -5,11 +5,12 @@ category: "AI"
 tier: "core"
 lifecycle_status: "active"
 source: "official_web"
-allowed_sources: ["official_web", "manual_or_unknown"]
+allowed_sources: ["official_web"]
 delivery_method: "vendor-download"
 brew_cask: null
 brew_formula: null
 official_url: "https://www.perplexity.ai/personal-computer"
+bundle_identifiers: ["ai.perplexity.macv3"]
 check_command: null
 install_after: []
 account_required: false
@@ -21,6 +22,14 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 
 ## 来源说明
 
-Perplexity 的新版 Mac app（含 Personal Computer 能力）应从官网获取。当前机器的
-`2.260428.0` App Store 版本属于旧版，不应作为最终配置；完成替换前不要删除
-用户数据或登录信息。替换后验证新 app 的版本、启动和所需权限，再移除旧 App Store 包。
+Perplexity 的 Mac app 必须从官网获取。Mac App Store 版本属于旧版：其 Bundle ID
+和能力集合不同，不接受为最终安装来源。发现 App Store receipt 时，先退出并删除
+旧 App Store bundle，再下载和安装官网版本；不要保留旧包或把它作为回滚版本。
+官网版本安装后仍需验证版本、Bundle ID、启动和所需权限。只删除旧 App bundle，
+不要删除 Perplexity 用户数据或登录信息。
+
+来源检查命令：
+
+```sh
+test ! -f "/Applications/Perplexity.app/Contents/_MASReceipt/receipt"
+```

@@ -75,6 +75,17 @@ def scan() -> dict:
                 "tile_type": tile.get("tile-type"),
             }
         )
+    directories = []
+    for order, tile in enumerate(prefs.get("persistent-others", []), start=1):
+        data = tile.get("tile-data", {})
+        file_data = data.get("file-data", {})
+        path = file_url_path(file_data.get("_CFURLString"))
+        directories.append({
+            "order": order,
+            "label": data.get("file-label"),
+            "path": path,
+            "tile_type": tile.get("tile-type"),
+        })
     return {
         "schema_version": 1,
         "captured_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -82,6 +93,7 @@ def scan() -> dict:
         "source": "defaults export com.apple.dock",
         "persistent_app_count": len(apps),
         "persistent_apps": apps,
+        "persistent_directories": directories,
     }
 
 
@@ -99,6 +111,7 @@ def reusable_config(result: dict) -> dict:
             }
             for app in result["persistent_apps"]
         ],
+        "persistent_directories": [],
     }
 
 

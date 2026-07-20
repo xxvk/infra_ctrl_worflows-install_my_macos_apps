@@ -15,7 +15,7 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | Cursor | [cursor.md](cursor.md) | Installed via Homebrew; account/settings pending |
 | GitHub Desktop | [github-desktop.md](github-desktop.md) | Installed via Homebrew; account/Git settings pending |
 | Postman | [postman.md](postman.md) | Installed via Homebrew; workspace verification pending |
-| Slack | [slack.md](slack.md) | App Store copy installed; old direct-download copy pending retirement |
+| Slack | [slack.md](slack.md) | App Store copy installed as `/Applications/Slack.app`; keep only this bundle |
 | DBeaver Community | [dbeaver-community.md](dbeaver-community.md) | Installed via Homebrew; database connections pending |
 | VLC | [vlc.md](vlc.md) | Installed via Homebrew; first-run update choice pending |
 | Cyberduck | [cyberduck.md](cyberduck.md) | Installed via Homebrew; server bookmarks pending |
@@ -48,8 +48,9 @@ The catalog remains the source of truth for install metadata; each catalog entry
 | fnm | [fnm.md](fnm.md) | Installed via Homebrew |
 | jenv | [jenv.md](jenv.md) | Installed via Homebrew |
 | Maven | [maven.md](maven.md) | Installed via Homebrew |
-| Android command-line tools | [android-commandlinetools.md](android-commandlinetools.md) | Core; installation pending |
-| Android platform tools | [android-platform-tools.md](android-platform-tools.md) | Core; installation pending |
+| Android command-line tools | [android-commandlinetools.md](android-commandlinetools.md) | Core; SDK workflow in [environment.md](../references/environment.md) |
+| Android platform tools | [android-platform-tools.md](android-platform-tools.md) | Core; ADB workflow in [environment.md](../references/environment.md) |
+| Temurin Java | [temurin.md](temurin.md) | Core; Android/Java runtime |
 | Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Installed via Homebrew |
 | Kimi | [kimi.md](kimi.md) | Installed manually; Homebrew replacement preferred |
 | Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Installed via npm |
@@ -84,7 +85,7 @@ These guides are cataloged for review but are not installed automatically during
 | Logic Pro | [logic-pro.md](logic-pro.md) | Mac App Store |
 | MainStage | [mainstage.md](mainstage.md) | Mac App Store |
 | Motion | [motion.md](motion.md) | Mac App Store |
-| Capacities | [capacities.md](capacities.md) | Retired pending data cleanup |
+| Capacities | [capacities.md](capacities.md) | Retired and removed |
 | Foxglove | [foxglove.md](foxglove.md) | Optional robotics development |
 | Google Docs / Sheets / Slides | [google-workspace-web-apps.md](google-workspace-web-apps.md) | Core web-app shortcuts |
 | Apple Developer | [apple-developer.md](apple-developer.md) | Mac App Store |
