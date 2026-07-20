@@ -26,6 +26,14 @@ Keep the baseline in three layers:
   user action, and verification result instead; the user approves the actual
   grant on each Mac.
 
+Portable expected operational state belongs in
+[`settings/bootstrap-operational-baseline.yaml`](settings/bootstrap-operational-baseline.yaml).
+This includes permission requirements, desired Login Item/LaunchAgent intent,
+DNS/SmartDNS/VPN topology, and service verification contracts. It does not
+make a current TCC grant portable, copy a startup database, or copy network
+credentials. Each new Mac must apply or authorize the intent locally and then
+write its own ignored `state/` observation for drift comparison.
+
 The bootstrap order is staged: establish the machine baseline; inventory
 required permissions; export and review allowlisted user preferences; install
 Core components; request sign-ins, licenses, and device pairing; apply
@@ -60,6 +68,12 @@ Folders, microphone, and camera. A requirement must state its target, purpose,
 required/optional status, System Settings path, and verification method.
 Reusable requirements belong in [`settings/privacy.yaml`](settings/privacy.yaml);
 current results belong only in ignored `state/`.
+
+The complete permission category registry is the
+`permission_category_matrix` in `settings/privacy.yaml`. It includes both
+TCC categories and capability-only observations such as network access. A
+matrix row is not an instruction to grant permission: authorize only the
+target and workflow named in that row, then verify the workflow visibly.
 
 Run the read-only inventory with:
 
@@ -145,6 +159,26 @@ paths and text-substitution contents; never persist Git identity values, SSH
 contents, or credentials. `--check` compares only tracked desired values;
 unavailable interfaces remain unavailable rather than being converted to
 defaults.
+
+For hardware/network interfaces that return `AuthorizationCreate() failed:
+-60008` or incomplete data in a non-admin shell, an explicitly requested
+read-only baseline may use the macOS administrator authorization dialog for
+`system_profiler`, `networksetup`, `scutil`, and `fdesetup`. Store only the
+redacted result under ignored `state/`; omit display serial numbers, Wi-Fi
+passwords, VPN credentials, certificates, and private keys. Do not use this
+path to change DNS, proxy, firewall, FileVault, or VPN settings.
+
+### Application workstyle baseline
+
+Portable application behavior is defined in
+[`settings/app-workstyle.yaml`](settings/app-workstyle.yaml). It separates
+desired policy from current machine observations and manual authorization.
+Use read-only checks first, then apply one app policy at a time. Account
+identifiers, session databases, Keychain entries, app containers, IPA files,
+private paths, and device telemetry are never portable configuration. The
+current verification set covers K240, Solaar, Claude Developer Mode,
+PlayCover YouTube, SmartDNS, Dock order, and startup listeners. GUI Login Items
+remain incomplete until Automation permission is available.
 
 ### Bootstrap entry point
 
@@ -232,6 +266,19 @@ System Extension and Background Task discovery may be restricted by macOS:
 `sfltool dumpbtm` may require an administrator authorization context. Record
 those exact interface states as unavailable or authorization_required; do not
 interpret them as evidence that no extension or background task exists.
+
+When a complete inventory is explicitly requested, the read-only commands may
+be retried through the macOS administrator authorization dialog:
+
+```sh
+osascript -e 'do shell script "/usr/bin/systemextensionsctl list" with administrator privileges'
+osascript -e 'do shell script "/usr/bin/sfltool dumpbtm" with administrator privileges'
+```
+
+Store the resulting raw observation only under ignored `state/` and record the
+exact authorization context. In the current M4B result, System Extensions
+reported `0 extension(s)` and Background Task Management returned real records;
+these are observations, not portable grants or enable/disable instructions.
 
 ## Keyboard settings workflow
 

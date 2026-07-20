@@ -58,6 +58,224 @@ permissions:
   files_and_folders:
     desired: "ask_when_required"
 
+# New-Mac authorization checklist. These are manual System Settings steps;
+# they are never copied as portable grants and remain unverified until the
+# relevant workflow succeeds on the target Mac.
+new_mac_authorization_checklist:
+  - id: full-disk-access
+    category: "Full Disk Access"
+    system_settings_path: "System Settings > Privacy & Security > Full Disk Access"
+    targets:
+      - "The actual host app running the skill's shell (Claude.app for Claude local-agent/Cowork sessions; Terminal/iTerm only for their own sessions)"
+    required_for:
+      - "Chrome profile inventory"
+      - "Protected application-data inspection"
+    verify: "Run scripts/macos_permissions.py and scripts/chrome_profiles.py; confirm the TCC database is readable and the expected profiles are matched by email."
+    status: manual_verification_required
+  - id: accessibility
+    category: "Accessibility"
+    system_settings_path: "System Settings > Privacy & Security > Accessibility"
+    targets:
+      - "ChatGPT/CUA host when an explicitly requested Computer Use workflow needs UI control"
+      - "Solaar when receiver/device UI control is required"
+    required_for:
+      - "Computer Use UI interaction"
+      - "Solaar receiver management"
+    verify: "Run the requested UI workflow and confirm it can interact with the target app; do not infer success from entitlements alone."
+    status: manual_verification_required
+  - id: screen-recording
+    category: "Screen Recording"
+    system_settings_path: "System Settings > Privacy & Security > Screen Recording"
+    targets:
+      - "ChatGPT/CUA host when an explicitly requested Computer Use workflow needs screen capture"
+    required_for:
+      - "Computer Use screen observation"
+    verify: "Run an explicitly requested Computer Use workflow and confirm a current screen view is available."
+    status: manual_verification_required
+  - id: input-monitoring
+    category: "Input Monitoring"
+    system_settings_path: "System Settings > Privacy & Security > Input Monitoring"
+    targets:
+      - "K240 keyboard listener"
+      - "Solaar when receiver events or device controls are required"
+    required_for:
+      - "K240 function-key listener"
+      - "Solaar receiver/device events"
+    verify: "Run the documented K240 listener test or read device state in Solaar; do not treat a connected receiver as authorization proof."
+    status: manual_verification_required
+  - id: automation-apple-events
+    category: "Automation / Apple Events"
+    system_settings_path: "System Settings > Privacy & Security > Automation"
+    targets:
+      - "ChatGPT/CUA host when an explicitly requested workflow controls another app"
+      - "The actual host app running the skill when GUI Login Items inventory is explicitly requested"
+    required_for:
+      - "Cross-app Computer Use actions"
+      - "Complete GUI Login Items inventory"
+    verify: "Run the explicitly requested cross-app workflow or scripts/macos_startup_items.py after authorization; never infer authorization from a bundle entitlement."
+    status: manual_verification_required
+
+# Complete category registry. This is a requirements matrix, not a request to
+# grant every permission. A new Mac must only authorize a row when a listed
+# workflow actually needs it; current results remain in state/.
+permission_category_matrix:
+  - category: "Full Disk Access"
+    settings_path: "System Settings > Privacy & Security > Full Disk Access"
+    targets: ["Actual skill execution host", "Chrome profile audit"]
+    purpose: "Read protected application metadata needed by the Chrome audit"
+    verify: "Run scripts/macos_permissions.py and scripts/chrome_profiles.py"
+    status: manual_verification_required
+  - category: "Accessibility"
+    settings_path: "System Settings > Privacy & Security > Accessibility"
+    targets: ["ChatGPT/CUA host", "Solaar"]
+    purpose: "UI control or receiver-management workflows"
+    verify: "Run the explicitly requested UI workflow"
+    status: manual_verification_required
+  - category: "Accessibility Post Events"
+    settings_path: "System Settings > Privacy & Security > Accessibility"
+    targets: ["UI automation client"]
+    purpose: "Post synthetic UI events when a workflow requires them"
+    verify: "Run the target UI action and confirm the event is received"
+    status: manual_verification_required
+  - category: "Input Monitoring"
+    settings_path: "System Settings > Privacy & Security > Input Monitoring"
+    targets: ["K240 listener", "Solaar"]
+    purpose: "Read keyboard or receiver input events"
+    verify: "Run the K240 function-key test or read the receiver in Solaar"
+    status: manual_verification_required
+  - category: "Screen Recording"
+    settings_path: "System Settings > Privacy & Security > Screen Recording"
+    targets: ["ChatGPT/CUA host"]
+    purpose: "Observe the screen during explicitly requested Computer Use"
+    verify: "Run a Computer Use workflow and confirm a current screen view"
+    status: manual_verification_required
+  - category: "Automation / Apple Events"
+    settings_path: "System Settings > Privacy & Security > Automation"
+    targets: ["ChatGPT/CUA host", "Skill execution host"]
+    purpose: "Control another app or inspect GUI Login Items"
+    verify: "Run the requested cross-app workflow or startup scan"
+    status: manual_verification_required
+  - category: "Files and Folders"
+    settings_path: "System Settings > Privacy & Security > Files and Folders"
+    targets: ["Browser extensions", "PlayCover", "Developer tools"]
+    purpose: "Access user-selected project or application files"
+    verify: "Run a minimal read/write test against the selected folder"
+    status: manual_verification_required
+  - category: "Removable Volumes"
+    settings_path: "System Settings > Privacy & Security > Files and Folders"
+    targets: ["File-transfer or device tools"]
+    purpose: "Access USB/removable media when explicitly needed"
+    verify: "Connect the approved volume and perform a read-only listing"
+    status: manual_verification_required
+  - category: "Desktop/Documents"
+    settings_path: "System Settings > Privacy & Security > Files and Folders"
+    targets: ["Skill host or selected developer tool"]
+    purpose: "Access protected Desktop or Documents folders"
+    verify: "Run the workflow against a test file in the approved folder"
+    status: manual_verification_required
+  - category: "Downloads Folder"
+    settings_path: "System Settings > Privacy & Security > Files and Folders"
+    targets: ["IPA/download/import workflow"]
+    purpose: "Read downloaded installers or IPA files"
+    verify: "Run a checksum or import test on a user-selected file"
+    status: manual_verification_required
+  - category: "Network Volumes"
+    settings_path: "System Settings > Privacy & Security > Files and Folders"
+    targets: ["Approved network-volume workflow"]
+    purpose: "Access a mounted network volume"
+    verify: "Mount the approved volume and list a test directory"
+    status: manual_verification_required
+  - category: "System Administration Files"
+    settings_path: "System Settings > Privacy & Security > Full Disk Access"
+    targets: ["Admin-only maintenance workflow"]
+    purpose: "Inspect protected system administration paths"
+    verify: "Run only the named read-only diagnostic"
+    status: manual_verification_required
+  - category: "App Bundles"
+    settings_path: "System Settings > Privacy & Security > Full Disk Access"
+    targets: ["App inventory workflow"]
+    purpose: "Inspect app bundles in protected locations"
+    verify: "Run the app inventory and compare bundle metadata"
+    status: manual_verification_required
+  - category: "Volumes"
+    settings_path: "System Settings > Privacy & Security > Full Disk Access"
+    targets: ["Approved volume inventory workflow"]
+    purpose: "Inspect approved mounted volumes"
+    verify: "Run a read-only volume inventory"
+    status: manual_verification_required
+  - category: "Camera"
+    settings_path: "System Settings > Privacy & Security > Camera"
+    targets: ["ChatGPT/CUA or video applications"]
+    purpose: "Video capture when explicitly requested"
+    verify: "Start a camera test in the requesting app"
+    status: manual_verification_required
+  - category: "Microphone"
+    settings_path: "System Settings > Privacy & Security > Microphone"
+    targets: ["Dictation, CUA, and voice applications"]
+    purpose: "Audio input when explicitly requested"
+    verify: "Run a microphone test and confirm input level"
+    status: manual_verification_required
+  - category: "Speech Recognition"
+    settings_path: "System Settings > Privacy & Security > Speech Recognition"
+    targets: ["Voice-control or transcription application"]
+    purpose: "Convert speech to text when explicitly requested"
+    verify: "Run a short speech-recognition test"
+    status: manual_verification_required
+  - category: "Contacts"
+    settings_path: "System Settings > Privacy & Security > Contacts"
+    targets: ["Contacts-aware application"]
+    purpose: "Search contacts when explicitly requested"
+    verify: "Search for a known test contact in the requesting app"
+    status: manual_verification_required
+  - category: "Calendars"
+    settings_path: "System Settings > Privacy & Security > Calendars"
+    targets: ["Calendar-aware application"]
+    purpose: "Read or create calendar events when explicitly requested"
+    verify: "Read a test calendar or create a user-approved test event"
+    status: manual_verification_required
+  - category: "Reminders"
+    settings_path: "System Settings > Privacy & Security > Reminders"
+    targets: ["Reminder-aware application"]
+    purpose: "Read or create reminders when explicitly requested"
+    verify: "Read or create a user-approved test reminder"
+    status: manual_verification_required
+  - category: "Photos"
+    settings_path: "System Settings > Privacy & Security > Photos"
+    targets: ["Photo-aware application"]
+    purpose: "Access selected Photos library items when explicitly requested"
+    verify: "Open a user-selected test photo"
+    status: manual_verification_required
+  - category: "Bluetooth"
+    settings_path: "System Settings > Privacy & Security > Bluetooth"
+    targets: ["Bluetooth device application"]
+    purpose: "Communicate with an approved Bluetooth device"
+    verify: "Connect the approved device and read its public status"
+    status: manual_verification_required
+  - category: "Location Services"
+    settings_path: "System Settings > Privacy & Security > Location Services"
+    targets: ["Location-aware application"]
+    purpose: "Use location only when explicitly requested"
+    verify: "Run the requesting app's location test"
+    status: manual_verification_required
+  - category: "Motion & Fitness"
+    settings_path: "System Settings > Privacy & Security > Motion & Fitness"
+    targets: ["Motion-aware application"]
+    purpose: "Use motion data only when explicitly requested"
+    verify: "Run the requesting app's motion-data test"
+    status: manual_verification_required
+  - category: "Developer Tools"
+    settings_path: "System Settings > Privacy & Security > Developer Tools"
+    targets: ["Terminal, IDE, or debugger"]
+    purpose: "Allow approved development and debugging workflows"
+    verify: "Run a minimal approved build or debugger operation"
+    status: manual_verification_required
+  - category: "Network Client/Server"
+    settings_path: "System Settings > Network"
+    targets: ["Developer tools and local services"]
+    purpose: "Network access is capability evidence, not a TCC grant"
+    verify: "Run the component's documented local/network health check"
+    status: capability_observation_only
+
 workflow_requirements:
   - id: chrome-profile-audit
     target: "Codex/ChatGPT host process or terminal"

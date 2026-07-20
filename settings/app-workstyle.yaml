@@ -1,0 +1,92 @@
+# Portable application workstyle policy.
+#
+# This file contains desired behavior and verification contracts only. Current
+# machine observations belong in ignored state/preferences-*.json and
+# state/startup-items-*.json. Never add account IDs, tokens, Keychain data,
+# app containers, browser sessions, or private document data here.
+
+version: 1
+
+policies:
+  - id: logitech-k240
+    component: Logitech K240
+    classification: device_specific_policy
+    source: settings/keyboards/logitech-k240-japanese-dictation.yaml
+    read:
+      - hidutil list
+      - defaults read -g AppleSelectedInputSources
+    verify:
+      - Confirm Logitech receiver VID 0x046d and PID 0xc534.
+      - Confirm the physical keyboard is K240 and Japanese input is active.
+      - Run the documented F-key foreground tests.
+    apply: Follow the K240 listener and LaunchAgent workflow in SKILL.md.
+
+  - id: solaar
+    component: Solaar
+    classification: optional_hardware_telemetry
+    source: components/solaar.md
+    current_observation: Installed at /Applications/Solaar.app; receiver access is exclusive.
+    apply: Quit Logi Options+ and OpenLogi before starting Solaar.
+    verify: Confirm the Nano Receiver and each physical device in Solaar, then read device-reported battery values.
+    exclusions:
+      - Do not persist battery percentages as cross-machine policy.
+      - Do not assume receiver identity alone proves the physical keyboard model.
+
+  - id: claude-developer-mode
+    component: Claude Desktop
+    classification: manual_app_configuration
+    source: components/claude.md
+    apply:
+      - Open Help -> Troubleshooting -> Enable Developer Mode and accept the prompt if shown.
+      - Verify the Developer menu shows Disable Developer Mode.
+      - Inspect Developer -> Configure Third-party Inference only when the user chooses Gateway/3P mode.
+      - To return to the native subscription, use Logout in Gateway/3P mode and log back in through claude.ai.
+    verify: Record only the local verification result; do not copy Claude account IDs or session configuration.
+    exclusions:
+      - Do not persist account-scoped preference keys, inference credentials, tokens, or session databases.
+
+  - id: playcover-youtube
+    component: YouTube through PlayCover
+    classification: safe_app_policy_plus_manual_import
+    source: components/youtube-playcover.md
+    safe_settings:
+      iosDeviceModel: iPad16,6
+      resolution: 2
+      customScaler: 2.0
+      bypass: true
+      playChain: false
+      injectIntrospection: false
+      enableScrollWheel: true
+      keymapping: true
+      windowWidth: 1440
+      windowHeight: 1080
+    apply: Import the verified decrypted IPA, remove PlayTools when required, then apply the safe settings through PlayCover.
+    verify: Launch YouTube and confirm playback, keyboard/mouse interaction, and the PlayCover settings above.
+    exclusions:
+      - Do not copy Keychain entries, app containers, login sessions, or IPA files into Git.
+
+  - id: smartdns
+    component: SmartDNS
+    classification: network_policy_with_manual_activation
+    source: components/smartdns.md
+    desired_policy: config/smartdns.conf
+    apply: Install the Homebrew formula, validate the config, and start the root service only after reviewing DNS fallback behavior.
+    verify:
+      - Confirm the service is running.
+      - Confirm scutil --dns shows the intended local listener before switching system DNS.
+      - Test representative international and mainland-China domains.
+    exclusions:
+      - Do not persist Wi-Fi passwords, VPN credentials, certificates, or live network addresses.
+
+  - id: dock-and-startup
+    component: Dock and startup listeners
+    classification: tracked_policy_plus_machine_observation
+    source: settings/dock-order.json
+    read:
+      - python3 scripts/macos_dock.py
+      - python3 scripts/macos_startup_items.py scan
+    apply: Apply Dock order only after explicit review; install or unload LaunchAgents separately.
+    verify: Compare Dock order and user LaunchAgents with the generated ignored state reports.
+    exclusions:
+      - GUI Login Items require Automation permission and must not be inferred from LaunchAgents alone.
+      - Do not persist private paths, recent items, or account state.

@@ -22,14 +22,32 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "state"
 DEFAULT_VALUES = Path(__file__).resolve().parents[1] / "settings/system-preferences-values.json"
 ALLOWLIST = {
-    "NSGlobalDomain": {"AppleSelectedInputSources", "AppleLocale", "AppleLanguages", "AppleICUForce24HourTime", "AppleMeasurementUnits", "AppleMetricUnits", "AppleCalendar", "AppleFirstWeekday", "AppleInterfaceStyle", "AppleAccentColor", "AppleHighlightColor", "NSNavPanelExpandedStateForSaveMode", "AppleSymbolicHotKeys", "NSUserKeyEquivalents", "NSUserDictionaryReplacementItems", "NSAutomaticSpellingCorrectionEnabled", "NSAutomaticCapitalizationEnabled", "NSAutomaticPeriodSubstitutionEnabled", "NSAutomaticTextCompletionEnabled", "NSAutomaticQuoteSubstitutionEnabled", "NSAutomaticDashSubstitutionEnabled", "com.apple.keyboard.fnState"},
-    "com.apple.finder": {"FXPreferredViewStyle", "AppleShowAllFiles", "FXDefaultSearchScope", "ShowPathbar", "ShowStatusBar", "FXEnableExtensionChangeWarning"},
+    "NSGlobalDomain": {"AppleSelectedInputSources", "AppleLocale", "AppleLanguages", "AppleICUForce24HourTime", "AppleMeasurementUnits", "AppleMetricUnits", "AppleCalendar", "AppleFirstWeekday", "AppleInterfaceStyle", "AppleAccentColor", "AppleHighlightColor", "AppleShowAllExtensions", "NSPersonNameDefaultDisplayNameOrder", "NSPersonNameDefaultShortNameFormat", "com.apple.springing.enabled", "com.apple.springing.delay", "NSNavPanelExpandedStateForSaveMode", "AppleSymbolicHotKeys", "NSUserKeyEquivalents", "NSUserDictionaryReplacementItems", "NSAutomaticSpellingCorrectionEnabled", "NSAutomaticCapitalizationEnabled", "NSAutomaticPeriodSubstitutionEnabled", "NSAutomaticTextCompletionEnabled", "NSAutomaticQuoteSubstitutionEnabled", "NSAutomaticDashSubstitutionEnabled", "com.apple.keyboard.fnState"},
+    "com.apple.finder": {"FXPreferredViewStyle", "AppleShowAllFiles", "FXDefaultSearchScope", "ShowPathbar", "ShowStatusBar", "FXEnableExtensionChangeWarning", "FK_AppCentricShowSidebar", "FXArrangeGroupViewBy", "FXICloudDriveDesktop", "FXICloudDriveDocuments", "FXRemoveOldTrashItems", "ShowExternalHardDrivesOnDesktop", "ShowHardDrivesOnDesktop", "ShowMountedServersOnDesktop", "ShowRemovableMediaOnDesktop", "ShowSidebar", "SidebarDevicesSectionDisclosedState", "SidebarPlacesSectionDisclosedState", "SidebarTagsSctionDisclosedState", "SidebariCloudDriveSectionDisclosedState"},
     "com.apple.dock": {"autohide", "tilesize", "orientation", "mineffect", "show-recents", "showhidden", "show-process-indicators", "expose-group-apps"},
     "com.apple.HIToolbox": {"AppleDictationAutoEnable"},
     "com.apple.WindowManager": {"GloballyEnabled", "AppWindowGroupingBehavior", "StageManagerHideWidgets", "AutoHide", "ShowDesktop"},
     "com.apple.screencapture": {"type", "show-thumbnail", "disable-shadow", "include-date", "location"},
     "com.apple.spaces": {"spans-displays"},
     "com.apple.screensaver": {"idleTime", "askForPassword", "askForPasswordDelay"},
+    # Calendar UI/default policy only. Calendar/account identifiers and event
+    # database metadata are deliberately excluded.
+    "com.apple.iCal": {"CalDefaultCalendar", "CalendarSidebarShown", "CalendarSidebarView", "ShowDeclinedEvents", "enableTravelAdvisoriesForAutomaticBehavior", "first minute of day time range", "first shown minute of day", "last minute of day time range", "lastViewsTimeZone", "last calendar view description"},
+    # Reminders currently exposes only window/database-adjacent state in its
+    # preference domain; no safe portable scalar policy was found.
+    "com.apple.reminders": set(),
+    "com.apple.Notes": {"ICChecklistAutoSortEnabledDefaultsKey"},
+    "com.apple.MobileSMS": {"EnableJunkFiltering", "FilterMessageRequests", "IncomingMessageAlertSpamFiltration", "DeviceForcesUnknownFiltering", "KeepMessageForDays", "SSKeepAttachments", "SSKeepMessages", "conversationListFocusFilterActionEnabled"},
+    "com.apple.Photos": {"IPXDefaultShowLibraryChooserOnLaunch", "LastKnownHasSharedLibrary", "LastKnownHasSharedLibraryPreview", "NSScrollViewShouldScrollUnderTitlebar", "allPhotosLibraryPreferredIndividualItemsColumns", "curatedLibraryInitialNavigationVersion", "curatedLibraryZoomLevel", "photosGridPreferredIndividualItemsColumns", "userDefaultsPhotosGridVersion"},
+    "com.apple.Music": {"playbackIsFullscreen", "userMaxConcurrentDownloads"},
+    "com.apple.TV": {"userMaxConcurrentDownloads"},
+    "com.apple.podcasts": set(),
+    "com.apple.Preview": {"IKImageView2_UseNSDocumentViewAlignCenter", "PDFKit2_UseNSDocumentViewAlignCenter", "PVPDFLastSidebarWidth", "PVSidebarViewModeForNewDocuments"},
+    "com.apple.TextEdit": set(),
+    "com.apple.shortcuts": {"MainViewLayoutMode"},
+    "com.apple.Automator": set(),
+    "com.apple.AppStore": {"AutoPlayVideoSetting", "UserSetAutoPlayVideoSetting"},
+    "com.apple.SoftwareUpdate": set(),
 }
 
 
@@ -119,7 +137,27 @@ def display_profile() -> dict[str, object]:
 
 
 def sound_profile() -> dict[str, object]:
-    return {"status": "unavailable", "error": "The current macOS AppleScript volume-settings interface is not available in this execution context."}
+    result = subprocess.run(["osascript", "-e", "get volume settings"], capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        return {
+            "status": "interface_limited",
+            "error": (result.stderr or result.stdout).strip(),
+            "note": "macOS volume-settings AppleScript is unavailable in this execution context; no volume state is inferred.",
+        }
+    return {"status": "verified", "raw": result.stdout.strip()}
+
+
+def battery_profile() -> dict[str, object]:
+    result = subprocess.run(["pmset", "-g", "batt"], capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        return {"status": "unavailable", "error": result.stderr.strip()}
+    lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    return {
+        "status": "verified",
+        "power_source": lines[0] if lines else None,
+        "details": lines[1:] if len(lines) > 1 else [],
+        "serial_numbers": "not_collected",
+    }
 
 
 def power_profile() -> dict[str, object]:
@@ -176,6 +214,115 @@ def notification_profile() -> dict[str, object]:
         "global": {key: values.get(key) for key in ("content_visibility", "play_forwarded_notifications_sounds", "sort_order", "summarize_previews") if key in values},
         "focus_or_dnd_data_present": bool(values.get("dnd_prefs")),
         "focus_rules": "redacted_not_exported",
+    }
+
+
+def mail_profile() -> dict[str, object]:
+    """Capture Mail UI policy without account, message, or mailbox identity data."""
+    exported = export_plist_domain("com.apple.mail")
+    if exported["status"] != "verified":
+        return exported
+    values = exported["values"]
+    viewer_keys = {
+        "CategoriesEnabled",
+        "DisplayInThreadedMode",
+        "FilterEnabled",
+        "FocusEnabled",
+        "ReadLaterEnabled",
+        "SortOrder",
+        "SortedDescending",
+    }
+    viewers = {}
+    for name in ("InboxViewerAttributes", "DraftsViewerAttributes", "FlagsViewerAttributes", "SentViewerAttributes"):
+        source = values.get(name)
+        if isinstance(source, dict):
+            viewers[name] = {key: source[key] for key in viewer_keys if key in source}
+    default_viewer = values.get("DefaultViewerState")
+    default_viewer_policy = {}
+    if isinstance(default_viewer, dict):
+        for key in ("FavoritesBarVisible", "ToolbarIsHidden", "FormatVersion"):
+            if key in default_viewer:
+                default_viewer_policy[key] = default_viewer[key]
+    top_level_policy = {}
+    for key in (
+        "FavoriteMailboxDraftsAutomaticallyAdded",
+        "FavoriteMailboxFlaggedAutomaticallyAdded",
+        "FavoriteMailboxInboxAutomaticallyAdded",
+        "FavoriteMailboxSentAutomaticallyAdded",
+        "FavoriteMailboxVIPsAutomaticallyAdded",
+        "IMAPServerPrefixesMirrorFilesystem",
+        "IndexTrash",
+        "LastSearchScopeWasAllMailboxes",
+        "MessageListNextMessageDirection",
+    ):
+        if key in values and isinstance(values[key], (bool, int, float, str)):
+            top_level_policy[key] = values[key]
+    return {
+        "status": "verified",
+        "viewer_policy": viewers,
+        "default_viewer_policy": default_viewer_policy,
+        "top_level_policy": top_level_policy,
+        "accounts": "redacted_not_exported",
+        "mailbox_identifiers": "redacted_not_exported",
+        "message_content": "not_read",
+        "search_terms": "not_exported",
+        "private_paths": "not_exported",
+    }
+
+
+def safari_profile() -> dict[str, object]:
+    """Capture Safari behavior policy without browsing data or extension storage."""
+    exported = export_plist_domain("com.apple.Safari")
+    if exported["status"] != "verified":
+        return exported
+    values = exported["values"]
+    scalar_keys = (
+        "AutoTabClusteringImmediateModeEnabled",
+        "CloudTabsOnStartPageConsent",
+        "ExtensionsEnabled",
+        "IncludeDevelopMenu",
+        "PrivateSearchEngineUsesNormalSearchEngineToggle",
+        "SearchProviderShortName",
+        "ShowSidebarInNewWindows",
+        "ShowSidebarInTopSites",
+        "SidebarBookmarksHierarchyViewPreference",
+        "SidebarSplitViewDividerPosition",
+        "SidebarViewModeIdentifierV2",
+        "SkipLoadingEnabledAppExtensionsAtLaunch",
+        "SkipLoadingEnabledWebExtensionsAtLaunch",
+        "WebKitDeveloperExtrasEnabledPreferenceKey",
+        "WebKitPreferences.developerExtrasEnabled",
+        "WebKitPreferences.invisibleMediaAutoplayNotPermitted",
+    )
+    policy = {key: values[key] for key in scalar_keys if key in values and isinstance(values[key], (bool, int, float, str))}
+    homepage = values.get("HomePage")
+    if homepage == "https://www.apple.com/startpage/":
+        policy["homepage_policy"] = "Apple start page"
+    elif homepage:
+        policy["homepage_policy"] = "custom homepage present; URL not exported"
+    reader = values.get("ReaderConfiguration")
+    reader_policy = {}
+    if isinstance(reader, dict):
+        for key in ("defaultFontSizeIndex", "fontSizeIndex", "version"):
+            if key in reader and isinstance(reader[key], (int, float, str)):
+                reader_policy[key] = reader[key]
+        families = reader.get("fontFamilyNameForLanguageTag")
+        if isinstance(families, dict):
+            reader_policy["font_family_languages"] = sorted(str(key) for key in families)
+    section_order = values.get("WBSCloudKitStartPageSectionOrder")
+    return {
+        "status": "verified",
+        "policy": policy,
+        "reader_policy": reader_policy,
+        "start_page_section_order": section_order if isinstance(section_order, list) else "not_exported",
+        "extensions": "enabled_state_and_ids_require_separate_review; extension storage not exported",
+        "history": "not_read",
+        "cookies": "not_read",
+        "passwords": "not_read",
+        "bookmarks": "contents_not_exported",
+        "tab_groups": "not_read",
+        "website_permissions": "not_exported",
+        "download_paths": "not_exported",
     }
 
 
@@ -421,14 +568,69 @@ def browser_continuity_profile() -> dict[str, object]:
             except (OSError, json.JSONDecodeError):
                 row["extensions_status"] = "unavailable"
             profiles.append(row)
+    webcatalog_directory = HOME / "Applications/WebCatalog Apps"
+    webcatalog_apps = sorted(path.stem for path in webcatalog_directory.glob("*.app")) if webcatalog_directory.is_dir() else []
+    playcover_settings = {}
+    settings_directory = HOME / "Library/Containers/io.playcover.PlayCover/App Settings"
+    safe_playcover_keys = {
+        "aspectRatio",
+        "bypass",
+        "customScaler",
+        "disableTimeout",
+        "enableScrollWheel",
+        "injectIntrospection",
+        "inverseScreenValues",
+        "iosDeviceModel",
+        "keymapping",
+        "metalHUD",
+        "noKMOnInput",
+        "notch",
+        "playChain",
+        "resolution",
+        "sensitivity",
+        "version",
+        "windowFixMethod",
+        "windowHeight",
+        "windowWidth",
+    }
+    if settings_directory.is_dir():
+        for path in sorted(settings_directory.glob("*.plist")):
+            try:
+                with path.open("rb") as stream:
+                    values = plistlib.load(stream)
+            except (OSError, plistlib.InvalidFileException, ValueError):
+                continue
+            bundle_id = values.get("bundleIdentifier")
+            if not isinstance(bundle_id, str) or not bundle_id:
+                continue
+            playcover_settings[bundle_id] = {
+                key: values[key]
+                for key in safe_playcover_keys
+                if key in values and isinstance(values[key], (bool, int, float, str))
+            }
+    browser_categories = launchservices_profile().get("categories", {})
+    browser_handlers = browser_categories.get("browser", []) if isinstance(browser_categories, dict) else []
+    default_browser = {
+        "status": "system_default_no_override",
+        "bundle_identifier": None,
+    }
+    for handler in browser_handlers:
+        if isinstance(handler, dict) and isinstance(handler.get("roles"), dict):
+            bundle_id = handler["roles"].get("LSHandlerRoleAll")
+            if bundle_id:
+                default_browser = {"status": "verified_override", "bundle_identifier": bundle_id}
+                break
     return {
         "status": "verified" if local_state.exists() else "unavailable",
         "profiles": profiles,
         "safari_obsidian_web_clipper_app": Path("/Applications/Obsidian Web Clipper.app").exists(),
-        "webcatalog_apps_directory": (HOME / "Applications/WebCatalog Apps").is_dir(),
+        "default_browser": default_browser,
+        "webcatalog_apps_directory": webcatalog_directory.is_dir(),
+        "webcatalog_apps": webcatalog_apps,
         "playcover_apps_directory": (HOME / "Applications/PlayCover").is_dir(),
+        "playcover_settings": playcover_settings,
         "enabled_state_note": "null means Chrome did not expose the enabled state in this profile file; it is not interpreted as disabled.",
-        "secrets_policy": "No cookies, passwords, tokens, history, or page content are collected.",
+        "secrets_policy": "No cookies, passwords, tokens, history, page content, account sessions, keychain data, or app-container content are collected.",
     }
 
 
@@ -496,8 +698,11 @@ def scan() -> dict[str, object]:
         "keyboard_hid_mapping": keyboard_hid_mapping(),
         "display_profile": display_profile(),
         "sound_profile": sound_profile(),
+        "battery_profile": battery_profile(),
         "power_profile": power_profile(),
         "notification_profile": notification_profile(),
+        "mail_profile": mail_profile(),
+        "safari_profile": safari_profile(),
         "control_center_profile": control_center_profile(),
         "focus_profile": focus_profile(),
         "display_effects_profile": display_effects_profile(),

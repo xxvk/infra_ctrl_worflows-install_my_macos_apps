@@ -1,0 +1,119 @@
+# Expected operational state for a new Mac.
+#
+# This is portable intent, not a copy of M4B's private machine state. Actual
+# observations remain in ignored state/. Permissions still require visible
+# authorization on every Mac; TCC database rows and authorization tokens are
+# never copied.
+
+version: 1
+
+permissions:
+  policy: "re-authorize_and_verify_on_each_mac"
+  expected_workflows:
+    - id: chrome-profile-audit
+      target: "Actual host app running the skill"
+      services: ["Full Disk Access"]
+      expected: required_for_workflow
+      verify: "Read Chrome Local State and match profiles by email"
+    - id: codex-computer-use
+      target: "ChatGPT/Codex host and CUA helper"
+      services: ["Accessibility", "Screen Recording", "Automation / Apple Events"]
+      expected: required_when_workflow_used
+      verify: "Run an explicitly requested Computer Use workflow"
+    - id: k240-listener
+      target: "keyboard-config-logi-k240"
+      services: ["Input Monitoring"]
+      expected: required_for_device_profile
+      verify: "Run the documented K240 F-key test"
+    - id: solaar
+      target: "Solaar"
+      services: ["Accessibility", "Input Monitoring"]
+      expected: required_when_solaar_used
+      verify: "Read the Nano Receiver and paired devices"
+    - id: browser-and-ipa-workflows
+      target: "Chrome/Safari Web Clipper and PlayCover"
+      services: ["Files and Folders", "Downloads Folder"]
+      expected: required_when_workflow_used
+      verify: "Run a test clip or PlayCover import"
+  forbidden_portable_data:
+    - raw_tcc_database
+    - authorization_tokens
+    - account_sessions
+
+startup:
+  policy: "restore_intent_then_verify_actual_registration"
+  gui_login_items:
+    expected_present:
+      - "Google Drive"
+      - "GeminiAppLauncher"
+    note: "Names are desired user-facing items; registration is performed by each app."
+  user_launch_agents:
+    expected_present:
+      - id: "com.xvk.install-my-macos-apps.keyboard-config-logi-k240"
+        purpose: "K240 function-key listener"
+        required: true
+      - id: "Google updater"
+        purpose: "Browser/application updates"
+        required: false
+  services:
+    - id: smartdns
+      expected: installed_stopped_by_default
+      verify: "brew services and launchctl; default check must show stopped"
+      opt_in_activation: "Only after explicit user request, start SmartDNS and switch DNS to 127.0.0.1."
+    - id: zerotier
+      expected: installed_and_available
+      verify: "ZeroTier client status; network join remains manual"
+    - id: tailscale
+      expected: installed_and_available
+      verify: "Tailscale client status; connection remains user-controlled"
+    - id: adguard-vpn
+      expected: installed_and_available
+      verify: "AdGuard VPN client status; connection remains user-controlled"
+    - id: docker-orbstack
+      expected: installed_but_not_forced_to_autostart
+      verify: "Review vendor background-task state"
+  exclusions:
+    - vendor_generated_transient_background_tasks
+    - private_launchagent_contents
+    - account_specific_login_state
+
+network:
+  expected_topology:
+    mode: public_dns_default
+    nameservers: ["1.1.1.1", "8.8.8.8"]
+    resolver_owner: macOS_network_service
+    smartdns_listener: "127.0.0.1"
+    smartdns_default: false
+    smartdns_split_policy: config/smartdns.conf
+    http_proxy: disabled
+    https_proxy: disabled
+    socks_proxy: disabled
+  vpn_intent:
+    zerotier: installed_manual_connect
+    tailscale: installed_manual_connect
+    adguard_vpn: installed_manual_connect
+  verify:
+    - "networksetup -listallnetworkservices"
+    - "scutil --dns"
+    - "scutil --nc list"
+    - "brew services list"
+  smartdns_opt_in:
+    trigger: "explicit_user_request_only"
+    activate: "sudo brew services start smartdns; networksetup -setdnsservers <service> 127.0.0.1 ::1"
+    rollback: "sudo brew services stop smartdns; networksetup -setdnsservers <service> 1.1.1.1 8.8.8.8"
+    verify: "scutil --dns and dig queries through 127.0.0.1"
+  forbidden_portable_data:
+    - wifi_passwords
+    - vpn_credentials
+    - certificates
+    - private_keys
+
+security_observations:
+  # These are current observations, not an instruction to weaken security.
+  current_m4b_observed:
+    gatekeeper: enabled
+    sip: enabled
+    mdm: not_enrolled
+    filevault: off
+    firewall: disabled
+  policy: "review_security_posture_separately_before_new_mac_bootstrap"

@@ -1,8 +1,8 @@
 # TODO
 
-- [ ] Capacities data migration: if any export or verification remains, finish
-      it before deleting the preserved Capacities support data. Review those
-      paths separately; do not delete them during a generic app scan.
+- [x] Capacities data migration: user confirmed the migration/retention
+      decision is complete and Capacities has been deleted. Do not delete any
+      remaining preserved support data during a generic app scan.
 - [x] After user confirmation, remove only `/Applications/Capacities.app` and
       preserve Capacities support data for a separate cleanup decision.
 - [x] Run the read-only Capacities migration preflight and record candidate data
@@ -17,10 +17,17 @@
 - [x] Add reviewed apply/verify handlers for `settings/system-preferences.yaml`;
       begin with Dock/Finder/appearance; keyboard and input sources remain
       device-specific and require their existing listener workflow.
-- [ ] Run the first permission and preference baseline on this Mac, review it,
-      and commit only reusable policy—not raw machine state.
-- [ ] Grant Apple Events access to the terminal/skill host if a complete GUI
+- [x] Review the generated permission and preference baselines on this Mac,
+      then promote only confirmed reusable policy—not raw machine state—into
+      tracked settings. Confirmed policy remains limited to the existing
+      `settings/system-preferences-values.json` allowlist and Dock/keyboard
+      policy; no TCC grant is portable, so `settings/privacy.yaml` remains a
+      requirements-and-manual-authorization policy only.
+- [x] Grant Apple Events access to the terminal/skill host if a complete GUI
       Login Items inventory is required; then rerun the preference baseline.
+      Resolved: the current skill execution host successfully queried System
+      Events and read `Google Drive` and `GeminiAppLauncher`; the refreshed
+      baseline now distinguishes GUI Login Items from LaunchAgents.
 - [x] Review malformed `~/Library/LaunchAgents/com.local.keyremap.plist`; it
       appears to be an older keyboard mapping and may overlap with the K240
       listener. Preserve a backup before any user-approved cleanup.
@@ -42,11 +49,17 @@
       LaunchDaemons, privileged helper tools, system extensions, network
       services, VPN connections, and background-task output. CLI identity
       mapping and per-component ownership review remain follow-up work.
-- [ ] Re-run System Extension discovery in an approved administrator context
+- [x] Re-run System Extension discovery in an approved administrator context
       if the complete extension inventory is required; preserve the current
       OSSystemExtensionError instead of treating it as an empty result.
-- [ ] Re-run Background Task Management discovery with visible administrator
+      Resolved: macOS administrator authorization returned `0 extension(s)`;
+      the raw observation is in ignored `state/`.
+- [x] Re-run Background Task Management discovery with visible administrator
       authorization if those records are required; do not automate elevation.
+      Resolved: macOS administrator authorization returned real records for
+      ZeroTier, SmartDNS, AdGuard VPN, Docker, Logi Options+, OrbStack,
+      Google, Claude, Slack, TRAE, Tailscale, and other current/system items;
+      the raw observation is in ignored `state/`.
 - [x] Classify the current unmatched TCC clients into current helpers, system
       components, current identity variants, and legacy/unlisted items; keep
       genuinely unknown clients in `manual_review`.
@@ -55,13 +68,16 @@
       identifier/team, source, detected entitlement keys, requested permission
       category hints, observed authorization status, evidence method, and
       checked timestamp. Entitlement values are not persisted.
-- [ ] Cover the complete permission category matrix: Full Disk Access;
+- [x] Cover the complete permission category matrix: Full Disk Access;
       Accessibility; Input Monitoring; Screen Recording; Automation/Apple
       Events; Files and Folders; Removable Volumes; Desktop/Documents;
       Downloads; Network Volumes; Camera; Microphone; Speech Recognition;
       Contacts; Calendars; Reminders; Photos; Bluetooth; Location Services;
       Motion & Fitness; and any additional category exposed by the current
-      macOS release.
+      macOS release. Resolved: added `permission_category_matrix` to
+      `settings/privacy.yaml`, including TCC categories, protected-folder
+      subcategories, Developer Tools, and capability-only network access;
+      added Location and Reminders service-name mappings to the scanner.
 - [x] Separate three states instead of guessing: `verified_granted`,
       `verified_denied`, and `manual_verification_required`. macOS may not
       expose a supported read API for every TCC category, so an inaccessible
@@ -91,8 +107,11 @@
       `state/permissions-*.json`; keep only reusable requirements and policy
       in tracked `settings/privacy.yaml`. Never copy the TCC database,
       credentials, tokens, MDM secrets, or private document contents.
-- [ ] Test the inventory on this M4B, review false positives, then define the
-      new-Mac authorization checklist before adding any apply automation.
+- [x] Test the inventory on this M4B, review false positives, and define the
+      new-Mac authorization checklist before adding any apply automation. The
+      current host cannot read TCC, so all five sensitive categories remain
+      `manual_verification_required` until a visible authorization and workflow
+      test is completed.
 
 ## Complete system-preference and user-workstyle baseline
 
@@ -115,6 +134,10 @@
       fields while keeping Focus rules and private schedules redacted.
 - [ ] Capture sound input/output, display scaling, refresh rate, Night Shift,
       True Tone, sleep, battery, and remaining power policies.
+      Partial observation: sleep/power policy, battery power source, audio
+      device metadata, and interface-limited Night Shift/display effects are
+      captured; current macOS execution context still does not expose actual
+      volume, physical display resolution, refresh rate, or True Tone state.
 - [x] Record display controller identity and explicitly preserve unavailable
       Night Shift/windowserver interfaces as interface-limited observations.
 - [x] Capture audio input/output device metadata without recording content or
@@ -156,11 +179,15 @@
 - [x] Capture Shell/startup-file shape, PATH size, Git config key names,
       SSH config metadata, and available CLI versions without collecting
       identities, file contents, private keys, or tokens.
-- [ ] Capture network behavior needed for bootstrap: active interfaces,
+- [x] Capture network behavior needed for bootstrap: active interfaces,
       preferred DNS split policy, proxies, VPN/Tailscale/ZeroTier intent,
       firewall/Gatekeeper/FileVault posture, and SmartDNS configuration. Keep
       Wi-Fi passwords, VPN credentials, certificates, and private keys out of
-      the repository.
+      the repository. Resolved: administrator-authorized read-only baseline
+      captured Ethernet/Thunderbolt Bridge/Wi-Fi/Tailscale services, local
+      SmartDNS `127.0.0.1`, no HTTP/HTTPS/SOCKS proxy, disconnected Tailscale,
+      VPN-client presence, SmartDNS running, Gatekeeper enabled, Firewall
+      disabled, SIP enabled, FileVault Off, and no MDM enrollment.
 - [x] Capture network service names, per-service DNS observations, proxy/VPN
       summaries, and presence of the tracked SmartDNS policy without storing
       credentials, certificates, private keys, or live address data.
@@ -174,20 +201,99 @@
       passwords, tokens, or browsing history.
 - [ ] Capture reliable Chrome extension enabled state; the current Secure
       Preferences source exposes `null` for this field.
-- [ ] Capture default browser and app-specific WebCatalog/PlayCover settings
-      through their documented checks.
-- [ ] Capture selected app-specific workstyle policies already documented by
+- [x] Capture default-browser routing and safe app-specific WebCatalog/PlayCover
+      settings through read-only checks. Current state includes WebCatalog
+      wrappers Notion/X and PlayCover settings for YouTube; browser sessions,
+      Keychain data, app containers, and account state remain excluded.
+- [x] Capture selected app-specific workstyle policies already documented by
       this skill: K240 mappings, Solaar usage, Claude Developer Mode, PlayCover
       YouTube settings, SmartDNS routing, Dock order, and startup listeners.
+      Resolved: added `settings/app-workstyle.yaml` with safe portable fields,
+      read/apply/verify contracts, and explicit exclusions for accounts,
+      sessions, Keychain, app containers, IPA files, and device telemetry.
 - [x] Define a portable-vs-machine-local classification for every preference:
       tracked desired policy, ignored current observation, interactive manual
       step, or deliberately excluded secret/private data.
 - [x] Add `--check` drift reporting before adding more apply handlers. Each
       preference must have read, apply, verify, and rollback behavior; do not
       implement a blanket `defaults import`.
-- [ ] Run the expanded baseline on this M4B, review it manually, and promote
+- [x] Run the expanded baseline on this M4B, review it manually, and promote
       only confirmed user preferences into tracked `settings/`. Keep raw
-      snapshots in ignored `state/preferences-*.json`.
+      snapshots in ignored `state/preferences-*.json`. Remaining unchecked
+      preference items are intentionally unresolved or machine-specific.
+
+## System-app preference persistence audit
+
+These are candidate settings for the built-in macOS apps. Each item must first
+be read-only inventoried on this Mac, then classified as portable policy,
+machine-local observation, manual setup, or deliberately excluded. Do not
+export account credentials, message/note/event contents, cookies, private
+paths, or library databases.
+
+- [x] Contacts: persist global person-name presentation preferences
+      (`NSPersonNameDefaultDisplayNameOrder` and
+      `NSPersonNameDefaultShortNameFormat`) separately from Person's
+      `givenName`/`familyName` fields. Added to the preference allowlist and
+      tracked desired values; iPhone display-order settings remain separate.
+- [x] Calendar: inventory safe default-calendar policy, time-zone/display
+      preferences, calendar visibility, declined-event display, travel
+      advisories, and view range. The current profile uses the last selected
+      calendar as default and shows the Monthly view in Asia/Tokyo. Account or
+      calendar identifiers, event data, and alert database contents remain
+      excluded; week-start/work-week and alert defaults need a separate
+      documented read method.
+- [x] Reminders: inventory the available preference domains for default
+      list/account policy, list sort/group, and completed-item display. The
+      current domains expose no safe portable scalar policy beyond
+      machine-local window state; do not copy Reminders databases or account
+      data. Revisit only if Apple exposes a documented preference API.
+- [x] Mail: inventory safe composer/viewer/thread/sort policy and favorite
+      mailbox behavior without exporting accounts, mailbox identifiers,
+      messages, search terms, signatures, tokens, or private paths. Current
+      account selection and signature content remain manual setup; alert
+      defaults need a separate documented read method.
+- [x] Safari: inventory safe startup/search/reader/sidebar/developer and
+      extension policy without reading history, cookies, passwords, bookmarks
+      contents, tab groups, website permissions, extension storage, or private
+      download paths. Current Safari uses Apple's start page and Google search;
+      extension enabled-state and download policy remain separate follow-ups.
+- [x] Finder: extend the baseline for sidebar visibility, desktop disk icons,
+      iCloud Desktop/Documents visibility, extension visibility, spring-loaded
+      folders, and Trash policy. Recent items, search scopes, mounted-volume
+      positions, tag contents, private paths, and window coordinates remain
+      excluded; default folder view details remain a separate follow-up.
+- [x] Notes: inventory safe account/folder/sort/display candidates and locked
+      note behavior without reading note content, titles, attachments,
+      account identifiers, or sharing metadata. The only portable scalar found
+      is checklist auto-sort (currently disabled); account/folder policy is
+      manual and Notes database data remains excluded.
+- [x] Messages: inventory safe junk/request filtering, retention, attachment
+      retention, and conversation-list Focus policy without reading message
+      content, participants, attachments, transcript databases, or account
+      identifiers. Notification/read-preview defaults need a separate
+      documented read method.
+- [x] Photos: inventory safe library/display policy, grid columns, zoom,
+      launch-library chooser, and shared-library presence without exporting
+      library paths, iCloud accounts, photo content, thumbnails, albums, faces,
+      locations, or shared-library content. Library selection and iCloud sync
+      remain manual setup on a new Mac.
+- [x] Music/TV/Podcasts: inventory safe playback/download policy. Current
+      domains expose only limited playback/download fields; library paths,
+      purchase/account state, and media metadata remain excluded.
+- [x] Preview/Quick Look/TextEdit: inventory high-value document-view fields.
+      Preview exposes safe sidebar/alignment fields; TextEdit and Quick Look
+      expose no safe scalar policy in the current allowlist. Recent files,
+      document contents, paths, and window geometry remain excluded.
+- [x] Shortcuts and Automator: inventory layout/automation presence only.
+      Shortcut actions, names, counts, and private automation data are not
+      exported; no safe Automator scalar policy was found.
+- [x] App Store and Software Update: inventory safe UI/update-policy fields.
+      The current domains expose no portable automatic-update policy; Apple ID,
+      purchases, receipts, update identifiers, and account state remain excluded.
+- [x] Add a generic, reviewed system-app preference inventory report that
+      compares the allowlisted domains against tracked policy and keeps raw
+      observations in ignored `state/`.
+      See `references/system-app-preferences-audit.md`.
 
 ## Cross-machine bootstrap readiness
 

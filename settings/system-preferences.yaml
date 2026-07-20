@@ -88,6 +88,77 @@ preferences:
     status: planned
     apply_method: planned_allowlisted_defaults
     verify_method: planned_input_source_check
+  - id: contacts-name-order
+    status: tracked
+    desired_values_file: settings/system-preferences-values.json
+    apply_method: allowlisted_global_defaults
+    verify_method: scripts/macos_preferences.py --check
+    note: "NSPersonNameDefaultDisplayNameOrder and NSPersonNameDefaultShortNameFormat affect Contacts/name presentation; they do not alter givenName/familyName stored on a Person record."
+  - id: calendar-display-and-defaults
+    status: observed_partial
+    apply_method: reviewed_allowlisted_defaults_and_manual_account_selection
+    verify_method: scripts/macos_preferences.py --check; Calendar visual check
+    note: "Track Calendar UI/default policy only; calendar IDs, account identifiers, event content, and event databases are machine/account-specific or private."
+  - id: reminders-display-and-defaults
+    status: observed_no_safe_scalar_preferences
+    apply_method: manual_account_and_app_setup
+    verify_method: Reminders visual check and account-specific workflow
+    note: "The current preference domain exposes no safe portable sort/default-list policy; do not copy Reminders databases or account data."
+  - id: mail-interface-and-compose-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_mail_defaults_and_manual_account_setup
+    verify_method: scripts/macos_preferences.py --check; Mail visual check
+    note: "Track Mail UI/thread/sort policy only; accounts, mailbox identifiers, messages, search terms, signatures, tokens, and mail databases are excluded."
+  - id: safari-behavior-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_safari_defaults_and_manual_extension_setup
+    verify_method: scripts/macos_preferences.py --check; Safari visual check
+    note: "Track browser behavior only; history, cookies, passwords, bookmarks contents, tab groups, website permissions, extension storage, and private download paths are excluded."
+  - id: finder-file-management-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_finder_defaults
+    verify_method: scripts/macos_preferences.py --check; Finder visual check
+    note: "Track Finder display/sidebar/desktop policy only; recent items, search scopes, mounted-volume positions, tag contents, private paths, and window coordinates are excluded."
+  - id: notes-display-and-checklist-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_notes_defaults_and_manual_account_setup
+    verify_method: scripts/macos_preferences.py --check; Notes visual check
+    note: "Track only safe Notes behavior policy; accounts, folders, note content, attachments, sharing, and Notes databases are excluded."
+  - id: messages-filter-and-retention-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_messages_defaults_and_manual_account_setup
+    verify_method: scripts/macos_preferences.py --check; Messages visual check
+    note: "Track filtering and retention policy only; message content, participants, attachments, transcripts, account identifiers, and Messages databases are excluded."
+  - id: photos-library-and-display-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_photos_defaults_and_manual_icloud_setup
+    verify_method: scripts/macos_preferences.py --check; Photos visual check
+    note: "Track Photos display/library policy only; library paths, iCloud accounts, photo content, thumbnails, albums, faces, locations, and shared-library content are excluded."
+  - id: media-app-playback-and-download-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_media_defaults_and_manual_account_setup
+    verify_method: scripts/macos_preferences.py --check; Music/TV/Podcasts visual check
+    note: "Track only playback/download behavior; media libraries, purchase history, account state, and content metadata are excluded."
+  - id: preview-textedit-document-display-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_document-app_defaults
+    verify_method: scripts/macos_preferences.py --check; Preview/TextEdit visual check
+    note: "Track document-view behavior only; recent files, document contents, paths, and window coordinates are excluded."
+  - id: shortcuts-automator-layout-and-automation-policy
+    status: observed_partial
+    apply_method: reviewed_allowlisted_shortcuts_defaults_and_manual_automation_setup
+    verify_method: scripts/macos_preferences.py --check; named Shortcut/Automator workflow
+    note: "Track layout and automation presence only; shortcut actions may contain secrets or private data and are not exported."
+  - id: app-store-software-update-policy
+    status: observed_partial
+    apply_method: manual_system_settings_and_app_store_setup
+    verify_method: scripts/macos_preferences.py --check; System Settings visual check
+    note: "Current domains expose no safe automatic-update policy field; do not record Apple ID, purchases, receipts, update product IDs, or account state."
+  - id: browser-wrapper-and-playcover-policy
+    status: observed_partial
+    apply_method: reviewed_webcatalog_and_playcover_settings_with_manual_account_setup
+    verify_method: scripts/macos_preferences.py --check; launch WebCatalog/PlayCover apps and run named smoke checks
+    note: "Track default-browser routing, wrapper names, and safe PlayCover app settings; never copy browser sessions, Keychain data, app containers, or account state."
   - id: finder-and-appearance
     status: tracked
     desired_values_file: settings/system-preferences-values.json

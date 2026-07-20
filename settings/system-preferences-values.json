@@ -3,7 +3,9 @@
   "description": "Confirmed portable macOS preference values from the M4B baseline.",
   "domains": {
     "NSGlobalDomain": {
-      "AppleInterfaceStyle": "Dark"
+      "AppleInterfaceStyle": "Dark",
+      "NSPersonNameDefaultDisplayNameOrder": 2,
+      "NSPersonNameDefaultShortNameFormat": 2
     },
     "com.apple.finder": {
       "AppleShowAllFiles": true,
