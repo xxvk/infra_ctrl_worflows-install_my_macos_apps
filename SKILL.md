@@ -42,6 +42,50 @@ dump or the TCC database into configuration. Every new preference or
 permission needs a named purpose, read/check method, apply method, and
 verification method.
 
+### Shared Python Core policy
+
+Python packages are managed as one tracked package set, not as individual
+macOS catalog applications. The current shared environment is:
+
+```text
+~/.local/share/python/core/.venv
+```
+
+Its source of truth is:
+
+```text
+references/python-core/pyproject.toml
+references/python-core/uv.lock
+```
+
+The runtime is Python 3.14 and the package manager is Homebrew `uv`. Keep the
+default Core small and use uv dependency groups for `audio`, `data`, `llm`,
+`agent`, and `dev`. The shared environment saves duplicate wheels across
+repos, but it is not permission to install every ML framework into one
+environment.
+
+Install or refresh only from the reviewed manifest:
+
+```sh
+cd references/python-core
+UV_PROJECT_ENVIRONMENT="$HOME/.local/share/python/core/.venv" \
+  uv sync --locked --all-groups
+```
+
+Use `--group <name>` when a workflow needs only part of the package set. Do
+not use `pip install --system` or `--break-system-packages` for this baseline.
+Do not add large optional frameworks such as `whisperx`, `pyannote.audio`,
+`ray`, `mlflow`, `llama-cpp-python`, vector databases, or multiple Agent
+frameworks to the shared environment without a separate compatibility and
+storage review. They may downgrade or replace MLX/data dependencies and should
+normally receive their own uv environment.
+
+The shared `.venv` and model caches are machine-local state, not tracked
+policy. Record package versions, download/install measurements, and timestamps
+under ignored `state/`; never record tokens, credentials, personal audio, or
+model contents. Mole or other cleanup tools must not receive
+`~/.local/share/python` as a purge path.
+
 ## Required macOS permission preflight
 
 Before running any workflow that checks Chrome profiles, verify that the

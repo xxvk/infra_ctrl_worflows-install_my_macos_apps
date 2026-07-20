@@ -1,0 +1,50 @@
+[project]
+name = "xvk-python-core"
+version = "0.1.0"
+description = "Shared Python runtime package set for local macOS workflows"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "PyYAML",
+    "httpx",
+    "pydantic",
+    "rich",
+    "python-dateutil",
+]
+
+[dependency-groups]
+audio = [
+    "mlx-whisper==0.4.3",
+]
+
+data = [
+    "pandas",
+    "polars",
+    "pyarrow",
+    "duckdb",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "jupyterlab",
+    "ipykernel",
+]
+
+llm = [
+    "mlx-lm",
+    "openai",
+]
+
+agent = [
+    "pydantic-ai",
+]
+
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "respx",
+    "hypothesis",
+    "ruff",
+    "tenacity",
+]
+
+[tool.uv]
+package = false
