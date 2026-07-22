@@ -1527,6 +1527,25 @@
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
+      "name": "scrcpy",
+      "category": "Android tools",
+      "tier": "core",
+      "brew_formula": "scrcpy",
+      "check_command": "scrcpy --version",
+      "official_url": "https://github.com/Genymobile/scrcpy",
+      "install_after": ["Android platform tools"],
+      "follow_up": [
+        "Verify `adb devices` and identify the intended Android Robot serial",
+        "Enable and authorize USB debugging or complete wireless ADB pairing manually",
+        "Run `scrcpy` only after the device connection is explicitly confirmed"
+      ],
+      "guide": "components/scrcpy.md",
+      "size_gb": 0.001,
+      "download_estimate_bytes": 20000000,
+      "download_estimate_method": "homebrew_bottle_metadata",
+      "cli_path": "/opt/homebrew/opt/scrcpy"
+    },
+    {
       "name": "Google Cloud CLI",
       "category": "Cloud CLI",
       "tier": "core",

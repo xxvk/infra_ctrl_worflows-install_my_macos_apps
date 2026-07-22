@@ -516,8 +516,23 @@ def install(args):
     measurements = []
     for app in brew_apps:
         if app.get("brew_tap"):
-            run(["brew", "tap", app["brew_tap"]], args.apply)
-        command = ["brew", "install"]
+            run([
+                "env",
+                "HOMEBREW_NO_AUTO_UPDATE=1",
+                "HOMEBREW_NO_INSTALL_UPGRADE=1",
+                "brew",
+                "tap",
+                app["brew_tap"],
+            ], args.apply)
+        # Prevent an app install from silently upgrading unrelated installed
+        # formulae/casks. Explicit dependency upgrades require confirmation.
+        command = [
+            "env",
+            "HOMEBREW_NO_AUTO_UPDATE=1",
+            "HOMEBREW_NO_INSTALL_UPGRADE=1",
+            "brew",
+            "install",
+        ]
         if app["name"].casefold() in mismatch_names:
             command.append("--force")
         if app.get("brew_cask"):

@@ -823,6 +823,18 @@ disable Gatekeeper merely to bypass an unverified or suspicious download.
 
    The script accepts at most two `--only` values per run. It bootstraps Homebrew only with `--apply` and asks interactively first. It installs only catalog entries with a verified Homebrew cask or formula identifier. It never supplies credentials, modifies privacy settings, or silently installs an unverified DMG/PKG.
 
+   **Homebrew dependency-upgrade guard:** Homebrew may otherwise upgrade an
+   existing formula while installing a new one. This skill's installer invokes
+   `brew install` with `HOMEBREW_NO_AUTO_UPDATE=1` and
+   `HOMEBREW_NO_INSTALL_UPGRADE=1`, so an install does not silently upgrade
+   unrelated packages such as an existing FFmpeg. Before an apply, record
+   relevant installed versions; if the transaction still needs a dependency
+   upgrade, stop and present the old/new versions, reason, download size, and
+   disk impact for confirmation. Run that upgrade separately only after
+   approval. Do not use a global same-major-version assumption. Read
+   [references/homebrew-install-policy.md](references/homebrew-install-policy.md)
+   for the detailed policy and temporary pin guidance.
+
    **IPATool authentication and IPA workflow:** IPATool is a Core Homebrew
    formula, but it is not a prerequisite for PlayCover. M4a and M4b verified
    that its Apple account/authentication workflow is not usable for the
