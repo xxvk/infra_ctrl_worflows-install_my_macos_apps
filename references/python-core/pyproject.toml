@@ -13,7 +13,9 @@ dependencies = [
 
 [dependency-groups]
 audio = [
+    "mlx-audio==0.4.5",
     "mlx-whisper==0.4.3",
+    "nagisa==0.3.0",
 ]
 
 data = [

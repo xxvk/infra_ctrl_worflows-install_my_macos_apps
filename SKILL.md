@@ -458,7 +458,19 @@ F12 Open macOS Screenshot.app toolbar
 
 Use native `hidutil` consumer usages for F6–F11. These mappings are local HID
 state, not iCloud settings, and can disappear after restart, logout, or a
-receiver reconnect. Reapply and verify them rather than assuming persistence.
+receiver reconnect. Reapply and verify them rather than assuming persistence:
+
+```sh
+hidutil property --set '{"UserKeyMapping":[
+  {"HIDKeyboardModifierMappingSrc":30064771135,"HIDKeyboardModifierMappingDst":3221225654},
+  {"HIDKeyboardModifierMappingSrc":30064771136,"HIDKeyboardModifierMappingDst":3221225677},
+  {"HIDKeyboardModifierMappingSrc":30064771137,"HIDKeyboardModifierMappingDst":3221225653},
+  {"HIDKeyboardModifierMappingSrc":30064771138,"HIDKeyboardModifierMappingDst":3221225698},
+  {"HIDKeyboardModifierMappingSrc":30064771139,"HIDKeyboardModifierMappingDst":3221225706},
+  {"HIDKeyboardModifierMappingSrc":30064771140,"HIDKeyboardModifierMappingDst":3221225705}
+]}'
+hidutil property --get UserKeyMapping
+```
 
 ### F1–F3, F5, and F12 native listener implementation
 

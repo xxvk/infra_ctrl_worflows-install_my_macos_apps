@@ -54,7 +54,19 @@ layout. The receiver ID alone does not uniquely identify the paired keyboard.
 
 2. Apply F6–F11 with native `hidutil` usage mappings. These mappings are
    local to the current macOS session and may need to be reapplied after a
-   restart or receiver reconnect.
+   restart or receiver reconnect. The portable mapping command is:
+
+   ```sh
+   hidutil property --set '{"UserKeyMapping":[
+     {"HIDKeyboardModifierMappingSrc":30064771135,"HIDKeyboardModifierMappingDst":3221225654},
+     {"HIDKeyboardModifierMappingSrc":30064771136,"HIDKeyboardModifierMappingDst":3221225677},
+     {"HIDKeyboardModifierMappingSrc":30064771137,"HIDKeyboardModifierMappingDst":3221225653},
+     {"HIDKeyboardModifierMappingSrc":30064771138,"HIDKeyboardModifierMappingDst":3221225698},
+     {"HIDKeyboardModifierMappingSrc":30064771139,"HIDKeyboardModifierMappingDst":3221225706},
+     {"HIDKeyboardModifierMappingSrc":30064771140,"HIDKeyboardModifierMappingDst":3221225705}
+   ]}'
+   hidutil property --get UserKeyMapping
+   ```
 
 3. F1–F3, F5, and F12 are handled by the native listener source at
    [`scripts/keyboard-config-logi-k240.swift`](scripts/keyboard-config-logi-k240.swift). It matches
