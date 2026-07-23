@@ -28,6 +28,31 @@ See [`references/configuration-layers.md`](references/configuration-layers.md)
 for merge precedence, migration rules, and the boundary between tracked
 Private configuration and secrets.
 
+## macomrade CLI
+
+The stable 0.1.0 repository-local entry point is `macomrade`:
+
+```sh
+./bin/macomrade routes
+./bin/macomrade scan apps
+./bin/macomrade plan apps --profile auto
+./bin/macomrade verify release
+```
+
+It routes the seven supported workflow families—scan, plan, apply, verify,
+drift, diagnostics, and migration—to the existing scripts without duplicating
+their behavior. `./bin/macomrade --explain ...` prints the exact compatibility
+command without executing it. The dispatcher never adds `--apply`, so the
+underlying dry-run, confirmation, verification, and rollback contract remains
+authoritative.
+
+The launcher stays repository-local for 0.1.0; no global symlink, Homebrew
+formula, npm package, or publication is implied. See
+[`references/macomrade-cli.md`](references/macomrade-cli.md) for the complete
+route and compatibility contract and
+[`references/cli-identity.json`](references/cli-identity.json) for the
+point-in-time name-collision audit.
+
 All supported mutations are registered in
 [`references/mutation-contracts.json`](references/mutation-contracts.json) and
 validated through the shared
@@ -61,7 +86,8 @@ python3 scripts/release_check.py
 ```
 
 The release check is hermetic by default and uses fixture responses for
-Homebrew, App Store receipts, TCC, defaults, and filesystem state. Run
+Homebrew, App Store receipts, TCC, defaults, filesystem state, and macomrade
+route validation. Run
 `python3 scripts/release_check.py --include-live-smoke` only when the current
 Mac integration check is needed.
 

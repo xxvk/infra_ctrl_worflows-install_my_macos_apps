@@ -11,7 +11,7 @@ python3 scripts/release_check.py
 This is the default automated quality gate. It validates the catalog,
 component documentation state boundary, configuration layers, release and
 mutation contracts, installation-source policy, Skill structure, bootstrap definition, all fixture/unit
-tests, and Python compilation. It must not inspect the user's live Applications
+tests, the macomrade route/identity contract, and Python compilation. It must not inspect the user's live Applications
 folders, invoke Homebrew, read the real TCC database, call `defaults`, or
 change external state.
 
@@ -52,6 +52,9 @@ acceptance run.
 - Clean-Mac acceptance rejects ineligible attestation, dirty or changed source,
   secret-bearing evidence, incomplete gates, and under-evidenced finalization.
   Harness tests never claim the external hardware run occurred.
+- macomrade rejects unknown or reserved routes before starting a subprocess, preserves
+  legacy argument order and exit codes, and never adds `--apply` or another
+  mutation authorization implicitly.
 
 GitHub Actions is not part of this contract unless the user explicitly changes
 the local-validation policy.

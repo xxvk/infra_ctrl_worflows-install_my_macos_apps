@@ -55,6 +55,7 @@ Do not load unrelated references.
 | Keyboard and Logitech hardware | [keyboard-and-logitech.md](references/keyboard-and-logitech.md) | Managing K240/MX Keys mappings, listeners, Solaar, or receiver battery telemetry |
 | Startup, Dock, and macOS security | [startup-dock-and-security.md](references/startup-dock-and-security.md) | Auditing Login Items, LaunchAgents, Dock order, or Gatekeeper policy |
 | Application installation | [application-installation-workflow.md](references/application-installation-workflow.md) | Scanning, planning, installing, using App Store/WebCatalog/official sources, or updating component documentation |
+| Unified CLI | [macomrade-cli.md](references/macomrade-cli.md) | Routing scan, plan, apply, verify, drift, diagnostics, or migration through the stable repository-local command |
 | Supply-chain policy | [source-policy.md](references/source-policy.md) | Reviewing taps, trust, npm versions, GitHub artifacts, vendor downloads, or decrypted IPA provenance |
 | Clean-Mac release acceptance | [clean-mac-release-acceptance.md](references/clean-mac-release-acceptance.md) | Preparing or running the unused/new-Mac 0.1.0 hardware acceptance gate |
 | Application maintenance | [application-maintenance.md](references/application-maintenance.md) | Handling GUI/CLI pairs, duplicate bundles, helper cleanup, browser downloads, Chrome profiles, GitHub CLI, Docker retirement, or catalog edits |
@@ -224,8 +225,14 @@ After substantive changes, run:
 
 ```sh
 python3 scripts/icloud_git_guard.py inspect --repo .
+./bin/macomrade validate --json
 python3 scripts/release_check.py
 ```
+
+`./bin/macomrade` is the stable repository-local entry point. Existing
+`python3 scripts/*.py` commands remain supported compatibility shims. The
+dispatcher never adds `--apply`, a confirmation phrase, a privilege, or a
+credential; a route name is not mutation authorization.
 
 Use local macOS validation as the default 0.1.0 gate. Do not create or restore
 push, pull-request, or scheduled GitHub Actions unless the user explicitly

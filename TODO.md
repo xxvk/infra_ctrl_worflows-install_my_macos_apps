@@ -204,11 +204,29 @@ silently expand the 0.1.0 release-candidate gate.
       focused Clean-Mac tests, all 95 hermetic tests, all 12 default release
       stages, and all 13 stages including current-Mac dry-run smoke; none of
       these substitute for the blocked external hardware run.
-- [ ] **RC-11 — Provide one distinct, conflict-checked CLI entry point.**
+- [x] **RC-11 — Provide one distinct, conflict-checked CLI entry point.**
       Treat `mac-ctl` as a rejected placeholder, run a naming exercise, check
       likely Homebrew/npm/GitHub/domain collisions, select a name with product
       character, and route scan, plan, apply, verify, drift, diagnostics, and
       migration commands through it while retaining compatibility shims.
+      Completed: selected the repository-local CLI name `macomrade` while
+      leaving the future product name undecided. A dated, point-in-time
+      exact-name audit covered local PATH, Homebrew formula/cask, npm, PyPI,
+      crates.io, GitHub, Mac App Store, and `.com`/`.net`; unrelated music and
+      username uses are recorded, and the audit is explicitly not trademark
+      clearance or name reservation. `MacWeave` was abandoned and the
+      intermediate `mac-comrade` spelling was superseded before release.
+      `mac-buro` and `5y-plan` are reserved, unimplemented future Easter-egg
+      commands and must currently fail before execution. Added a
+      repository-local executable, 20 declarative
+      compatibility routes across all seven required families, `--explain`,
+      machine-readable route/identity contracts, and hermetic validation.
+      Existing scripts remain callable and authoritative. The dispatcher
+      preserves arguments, cwd, standard streams, and exit codes; rejects
+      unknown routes before subprocess execution; and never adds `--apply`,
+      confirmation, privileges, or credentials. Validation passed all seven
+      focused CLI tests, all 102 hermetic tests, all 13 default release
+      stages, and all 14 stages including current-Mac dry-run smoke.
 - [ ] **RC-12 — Publish formal JSON Schemas and migration tooling.** Version
       catalog, settings, private overlay, plan, state, and diagnostic formats;
       validate before use; provide upgrade/downgrade-safe migrations and

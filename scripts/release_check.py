@@ -21,6 +21,7 @@ def build_checks(*, include_live_smoke: bool, python: str = sys.executable) -> l
         ("component-state-boundary", [python, "scripts/audit_component_frontmatter.py"]),
         ("supply-chain", [python, "scripts/supply_chain.py", "validate"]),
         ("clean-mac-acceptance", [python, "scripts/clean_mac_acceptance.py", "validate"]),
+        ("unified-cli", [python, "scripts/macomrade.py", "validate", "--json"]),
         ("configuration-layers", [python, "scripts/config_layers.py", "audit"]),
         ("release-contract", [python, "scripts/validate_release_contract.py"]),
         ("mutation-contracts", [python, "scripts/validate_mutation_contracts.py"]),

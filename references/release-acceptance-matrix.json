@@ -170,6 +170,18 @@
       ]
     },
     {
+      "id": "SUP-15",
+      "classification": "supported",
+      "capability": "Distinct repository-local macomrade CLI routing scan, plan, apply, verify, drift, diagnostics, and migration through compatibility-preserving scripts",
+      "evidence": [
+        "bin/macomrade",
+        "scripts/macomrade.py",
+        "references/cli-identity.json",
+        "references/macomrade-cli.md",
+        "tests/test_macomrade_cli.py"
+      ]
+    },
+    {
       "id": "LIM-01",
       "classification": "interface_limited",
       "capability": "TCC permission authorization and verification",
@@ -244,7 +256,7 @@
     {
       "id": "DEF-02",
       "classification": "deferred",
-      "capability": "Unified branded CLI, formal schemas/migrators, diagnostic bundle, benchmarks, and release manifest",
+      "capability": "Formal schemas/migrators, diagnostic bundle, benchmarks, and release manifest",
       "reason": "Accepted P1 release engineering work remains tracked separately.",
       "evidence": [
         "TODO.md"

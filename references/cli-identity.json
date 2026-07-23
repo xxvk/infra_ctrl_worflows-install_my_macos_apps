@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "product_name": null,
+  "product_name_status": "undecided",
+  "cli_name": "macomrade",
+  "status": "repository_local",
+  "selected_at": "2026-07-23",
+  "meaning": "An operator companion for preparing, inspecting, correcting, and maintaining a Mac through explicit plans and verified state.",
+  "retired_candidates": [
+    {
+      "name": "MacWeave",
+      "status": "abandoned_for_now",
+      "reason": "The user explicitly chose not to use this identity before release or publication."
+    },
+    {
+      "name": "mac-comrade",
+      "status": "superseded_before_release",
+      "reason": "The user selected the shorter macomrade portmanteau before release or publication."
+    }
+  ],
+  "reserved_future_commands": [
+    {
+      "name": "mac-buro",
+      "status": "reserved_unimplemented",
+      "purpose": "Future Easter-egg command; behavior is intentionally undefined."
+    },
+    {
+      "name": "5y-plan",
+      "status": "reserved_unimplemented",
+      "purpose": "Future Easter-egg command for a possible long-range planning capability; behavior is intentionally undefined."
+    }
+  ],
+  "rejected_names": [
+    {
+      "name": "mac-ctl",
+      "reason": "Generic placeholder with little product character and a high likelihood of informal collision."
+    },
+    {
+      "name": "tsumugi",
+      "reason": "Strong weaving metaphor but not self-describing as a macOS product and already broadly used as a personal and product name."
+    },
+    {
+      "name": "macsteward",
+      "reason": "Clear operational meaning but more generic and administrative than the selected identity."
+    }
+  ],
+  "collision_check": {
+    "checked_at": "2026-07-23",
+    "scope": [
+      "local PATH",
+      "Homebrew formula and cask exact name",
+      "npm exact package",
+      "PyPI exact project",
+      "crates.io exact crate",
+      "GitHub exact-name repository search and account",
+      "Mac App Store exact app name",
+      "macomrade.com registration response",
+      "macomrade.net registration response"
+    ],
+    "result": "no_exact_collision_observed",
+    "observations": {
+      "local_path": "not_found",
+      "homebrew_formula": "not_found",
+      "homebrew_cask": "not_found",
+      "npm_package": "registry_http_404",
+      "pypi_project": "registry_http_404",
+      "crates_io": "registry_http_404",
+      "github_repository_search": "zero_exact_name_results",
+      "github_account": "api_http_404",
+      "mac_app_store": "zero_exact_name_results",
+      "macomrade_com": "rdap_http_404",
+      "macomrade_net": "rdap_http_404"
+    },
+    "adjacent_observations": [
+      "A music artist and unrelated usernames use Macomrade."
+    ],
+    "limitations": "This is a point-in-time technical software/domain collision check, not a trademark clearance, reservation, registration, claim of global uniqueness, or guarantee of future availability."
+  }
+}

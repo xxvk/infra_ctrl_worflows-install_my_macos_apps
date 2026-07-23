@@ -24,6 +24,7 @@ class ReleaseCheckTests(unittest.TestCase):
         )
         ids = [check_id for check_id, _ in checks]
         self.assertIn("hermetic-tests", ids)
+        self.assertIn("unified-cli", ids)
         self.assertNotIn("live-macos-smoke", ids)
 
     def test_live_smoke_requires_explicit_flag(self) -> None:

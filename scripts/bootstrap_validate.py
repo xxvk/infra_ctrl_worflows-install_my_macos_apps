@@ -34,6 +34,8 @@ REQUIRED_FILES = [
     "references/clean-mac-acceptance.json",
     "references/clean-mac-acceptance-status.json",
     "references/clean-mac-release-acceptance.md",
+    "references/cli-identity.json",
+    "references/macomrade-cli.md",
     "references/runtime-and-developer-baseline.md",
     "references/permissions-preferences-bootstrap.md",
     "references/keyboard-and-logitech.md",
@@ -65,7 +67,9 @@ REQUIRED_FILES = [
     "scripts/component_state.py",
     "scripts/supply_chain.py",
     "scripts/clean_mac_acceptance.py",
+    "scripts/macomrade.py",
     "scripts/audit_component_frontmatter.py",
+    "bin/macomrade",
     "tests/fixtures/macos_apps/catalog.json",
     "tests/fixtures/macos_apps/command-responses.json",
     "tests/test_app_catalog_validation.py",
@@ -76,6 +80,7 @@ REQUIRED_FILES = [
     "tests/test_component_state.py",
     "tests/test_supply_chain.py",
     "tests/test_clean_mac_acceptance.py",
+    "tests/test_macomrade_cli.py",
 ]
 
 
