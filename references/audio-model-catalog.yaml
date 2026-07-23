@@ -146,7 +146,27 @@ models:
     verify_command: "python -m mlx_audio.stt.generate --model mlx-community/Qwen3-ASR-1.7B-8bit --audio <audio.wav>"
     fallback_model_id: "mlx-community/Qwen3-ASR-1.7B-4bit"
     fallback_approximate_download_bytes: 1500000000
-    note: "Use 8-bit by default on 16 GB M4; use 4-bit only after observing memory pressure."
+    alternative_precisions:
+      - model_id: "mlx-community/Qwen3-ASR-1.7B-4bit"
+        revision: "78a389c776a5483b2d0d4ea5494e11012e0d6159"
+        precision: 4bit
+        quantization: {bits: 4, group_size: 64, mode: affine}
+        model_sha256: "9848eaf7a5c1589c671b35035ac27b72e248dd0c604eacae547e7e403d29db45"
+        approximate_download_bytes: 1603101292
+        role: "disabled experiment; O17 synthetic CER regression exceeded limit"
+        local_validation: {date: "2026-07-23", cases: 3, repetitions: 2, cer: 0.051095, median_rtf: 0.440880, peak_rss_bytes: 1741799424, automatic_routing_enabled: false}
+      - model_id: "mlx-community/Qwen3-ASR-1.7B-bf16"
+        revision: "e1f6c266914abc5a46e8756e02580f834a6cf8a7"
+        precision: bf16
+        quantization: null
+        model_sha256: "2f080a3b769ae469aeaaa2dcb9e13a94141e54c9e6d5a7aa63392e0dc5a51789"
+        approximate_download_bytes: 4076206123
+        role: "smoke-validated evaluation quality ceiling"
+        local_validation: {date: "2026-07-23", cases: 3, repetitions: 2, cer: 0.000000, median_rtf: 0.592337, peak_rss_bytes: 1984937984, automatic_routing_enabled: false}
+      - precision: fp32
+        availability: unavailable
+        reason: "no pinned trusted ready-to-run MLX conversion for the same upstream model; self-conversion prohibited in O17 v1"
+    note: "Keep 8-bit as the working default on 16 GB M4. O17 synthetic evidence rejected 4-bit as an automatic memory fallback; BF16 is a quality ceiling pending the full human M10 corpus."
     local_validation:
       date: "2026-07-21"
       hardware: "Apple M4"
@@ -236,11 +256,47 @@ models:
     alternative_deployments:
       - model_id: "kaiinui/kotoba-whisper-v2.0-mlx"
         runtime: mlx-whisper
-        role: "optional comparison; older v2.0, not a replacement for v2.2"
+        revision: "1a5ac6e52394898ef8996212e849d964e0dfb9ae"
+        runtime_version_tested: "0.4.3"
+        precision: fp16
+        approximate_download_bytes: 1509130112
+        role: "smoke-validated experimental comparison; older v2.0, not a replacement for v2.2"
+        local_validation:
+          date: "2026-07-23"
+          hardware: "Apple M4; macOS 26.4"
+          result: "passed-o15-three-case-synthetic-comparison"
+          cases: 3
+          repetitions: 2
+          cer: 0.197080
+          median_rtf: 0.197180
+          peak_rss_bytes: 2063777792
+          segment_timestamps_valid: true
+          automatic_routing_enabled: false
       - model_id: "0x3/kotoba-whisper-v2.2-ggml"
         runtime: whisper.cpp
+        revision: "8c886d4a22a257f65684bea84abbf878bddb12a0"
+        runtime_version_tested: "1.9.1"
         precision: q8_0
-        role: "cross-platform CPU fallback"
+        model_file: "kotoba-whisper-v2.2-ggml-q8_0.bin"
+        model_sha256: "c4071b2f8f0129d463c6c7fd2e72c82f7276f9882a8f9cd9474e0c2b699100c4"
+        runtime_sha256: "1fbabb51a45906bd36684695de9025eab63618a6eedc26971c47fa5affc5fe49"
+        approximate_download_bytes: 818305955
+        role: "smoke-validated cross-platform low-memory CPU fallback; not integrated"
+        install_command: "brew install whisper-cpp"
+        verify_command: "whisper-cli --model <snapshot>/kotoba-whisper-v2.2-ggml-q8_0.bin --file <audio.wav> --language ja --output-json-full --no-gpu --threads 4"
+        local_validation:
+          date: "2026-07-23"
+          hardware: "Apple M4; macOS 26.4"
+          result: "passed-o16-three-case-synthetic-cpu-only-comparison"
+          cases: 3
+          repetitions: 2
+          cer: 0.313869
+          median_rtf: 1.030324
+          peak_rss_bytes: 1051623424
+          coreml_normalized_text_match: true
+          coreml_raw_exact_match_cases: 2
+          segment_timestamps_valid: true
+          automatic_routing_enabled: false
     local_validation:
       date: "2026-07-21"
       hardware: "Apple M4; macOS 26.4"

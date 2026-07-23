@@ -23,10 +23,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+from state_paths import add_state_dir_argument, resolve_state_dir
+
 
 HOME = Path.home()
 CHROME_LOCAL_STATE = HOME / "Library/Application Support/Google/Chrome/Local State"
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "state"
 APP_SCRIPT_DIR = Path(__file__).resolve().parent
 TCC_DATABASE = Path("/Library/Application Support/com.apple.TCC/TCC.db")
 
@@ -471,13 +472,14 @@ def scan() -> dict[str, object]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Read-only macOS permission prerequisite inventory")
+    add_state_dir_argument(parser)
     parser.add_argument("--output", type=Path, help="write the JSON result to this path")
     args = parser.parse_args()
     result = scan()
     output = args.output
     if output is None:
         stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
-        output = DEFAULT_OUTPUT_DIR / f"permissions-{stamp}.json"
+        output = resolve_state_dir(args.state_dir) / f"permissions-{stamp}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"output": str(output), "permissions": result["permissions"]}, ensure_ascii=False, indent=2))

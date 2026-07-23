@@ -32,6 +32,7 @@ their credentials automatically. For a network-connected robot, use the
 documented `adb pair`/`adb connect` workflow and confirm the device serial before
 viewing its screen.
 
-The current M4 baseline has scrcpy 4.1 installed. Homebrew reports FFmpeg,
-libusb, and SDL3 as runtime dependencies; do not install a second ADB copy when
-the SDK `platform-tools` workflow is already present.
+Homebrew supplies runtime dependencies such as FFmpeg, libusb, and SDL3. Do not
+install a second ADB copy when the SDK `platform-tools` workflow is already
+present. Record the detected scrcpy and dependency versions only in
+machine-local state.

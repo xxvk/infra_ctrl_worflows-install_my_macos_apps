@@ -16,7 +16,6 @@ permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 15000000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
-installed_measurement_method: "local_du"
 ---
 # Xcode
 
@@ -29,7 +28,7 @@ installed_measurement_method: "local_du"
 ## Size tracking
 
 - Planning download estimate: 15000000000 bytes (`size_gb` catalog estimate).
-- Installed footprint above is measured locally; download bytes remain `null` unless a package transfer log is available.
+- Record transfer and installed-byte measurements only in machine-local state.
 - After installation, record `download_bytes`, `installed_bytes`, `installed_version`, and `installed_at`.
 
 ## Post-install checklist
@@ -40,10 +39,3 @@ installed_measurement_method: "local_du"
 ## Notes
 
 Review account, license, privacy, and storage settings before using the app.
-
-## Local evidence (2026-07-16)
-
-- Installed path: `/Applications/Xcode.app`
-- Installed version: `26.3`
-- Installed footprint: `5317750784` bytes, measured with `du -sk`.
-- Download bytes are recorded separately; a local bundle footprint is not treated as download volume.

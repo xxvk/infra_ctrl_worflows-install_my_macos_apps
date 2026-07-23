@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "kind": "clean_mac_release_acceptance_contract",
+  "release_version": "0.1.0",
+  "eligible_machine_disposition": "unused_or_new_mac",
+  "clean_machine_attestation": "CLEAN MACHINE: UNUSED OR NEW MAC",
+  "session_update_confirmation": "UPDATE CLEAN MAC ACCEPTANCE",
+  "finalize_confirmation": "FINALIZE CLEAN MAC ACCEPTANCE",
+  "requirements": {
+    "tracked_source": "clean Git worktree at one full commit",
+    "state": "machine-local acceptance bundle",
+    "secrets": "prohibited",
+    "acceptance_effect": "accepts one machine run only; does not commit, tag, publish, or ship the release"
+  },
+  "gates": [
+    {
+      "id": "CM-01",
+      "name": "Eligible clean hardware",
+      "mode": "attested",
+      "evidence_kind": "session_attestation",
+      "required_evidence": 0,
+      "command_hint": "Initialize only on an unused or newly purchased Mac."
+    },
+    {
+      "id": "CM-02",
+      "name": "Source and iCloud Git integrity",
+      "mode": "automated",
+      "evidence_kind": "source_preflight",
+      "required_evidence": 0,
+      "command_hint": "python3 scripts/icloud_git_guard.py inspect --repo ."
+    },
+    {
+      "id": "CM-03",
+      "name": "Release definition and hermetic tests",
+      "mode": "automated",
+      "evidence_kind": "release_check_result",
+      "required_evidence": 1,
+      "command_hint": "python3 scripts/release_check.py"
+    },
+    {
+      "id": "CM-04",
+      "name": "Initial read-only bootstrap assessment",
+      "mode": "automated",
+      "evidence_kind": "bootstrap_assessment_result",
+      "required_evidence": 1,
+      "command_hint": "python3 scripts/bootstrap_macos.py --profile auto"
+    },
+    {
+      "id": "CM-05",
+      "name": "Core installation and launch verification",
+      "mode": "interactive",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_evidence": 1,
+      "command_hint": "Install serialized Core items through reviewed plans and verify every app or command."
+    },
+    {
+      "id": "CM-06",
+      "name": "Installation-source provenance",
+      "mode": "automated",
+      "evidence_kind": "supply_chain_capture_result",
+      "required_evidence": 1,
+      "command_hint": "python3 scripts/supply_chain.py capture --apply --confirm \"CAPTURE SUPPLY CHAIN STATE\""
+    },
+    {
+      "id": "CM-07",
+      "name": "Accounts, licenses, and App Store completion",
+      "mode": "interactive",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_evidence": 1,
+      "command_hint": "Complete visible sign-in and license checks without recording credentials or sessions."
+    },
+    {
+      "id": "CM-08",
+      "name": "Permissions and authorization read-back",
+      "mode": "interactive",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_evidence": 1,
+      "command_hint": "python3 scripts/macos_permissions.py"
+    },
+    {
+      "id": "CM-09",
+      "name": "Portable preferences and operational baseline",
+      "mode": "automated",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_evidence": 1,
+      "command_hint": "python3 scripts/macos_preferences.py --check"
+    },
+    {
+      "id": "CM-10",
+      "name": "Dock, Chrome, keyboard, device, and network workflows",
+      "mode": "interactive",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_evidence": 1,
+      "command_hint": "Verify every applicable device-specific workflow and record accepted exceptions."
+    },
+    {
+      "id": "CM-11",
+      "name": "Final drift check",
+      "mode": "automated",
+      "evidence_kind": "bootstrap_verify_result",
+      "required_evidence": 1,
+      "command_hint": "python3 scripts/bootstrap_verify.py"
+    },
+    {
+      "id": "CM-12",
+      "name": "Representative rollback drill",
+      "mode": "interactive",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_phases": ["install_readback", "uninstall_readback"],
+      "required_evidence": 2,
+      "command_hint": "Install, verify, uninstall, and verify absence of the drift-monitor LaunchAgent."
+    },
+    {
+      "id": "CM-13",
+      "name": "Evidence and exception review",
+      "mode": "manual_review",
+      "evidence_kind": "clean_mac_gate_evidence",
+      "required_evidence": 1,
+      "command_hint": "Review the sanitized bundle, accepted exceptions, hashes, and machine-local retention."
+    }
+  ]
+}

@@ -17,14 +17,12 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 download_estimate_bytes: 1000000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
- `example.user@example.invalid`.
+- Use the intended account from the merged Private app-catalog overlay.
 - Verify the account shown in Claude before proceeding; never store credentials or tokens here.
 - Confirm notifications, microphone, accessibility, and any requested automation permission interactively.
-- Version verified: `1.21459.0`.
-- Path: `/Applications/Claude.app`; Bundle ID: `com.anthropic.claudefordesktop`.
-- Complete VM bundle cleanup was completed after replacement; `vm_bundles/` is
-  locked with `chmod 000` and `chflags uchg` to prevent automatic re-download.
-- Claude.app was opened after installation and passed the follow-up source scan.
+- Expected path: `/Applications/Claude.app`; Bundle ID: `com.anthropic.claudefordesktop`.
+- Record detected version, permission results, source scan, and VM state only in
+  machine-local state.
 
 ## Mandatory Developer mode, third-party inference, and Local MCP verification
 
@@ -61,10 +59,9 @@ Desktop version, account type, region, and rollout status. If the setting is
 not available, mark the installation follow-up as blocked and record the
 installed version.
 
-The verified current build exposes a `Configure Third-party Inference…` page
-with a Gateway base URL, custom headers, credential kind, model discovery, and
-model list. This makes compatible third-party inference gateways possible, but
-provider compatibility still requires a real non-sensitive test. Never assume
+When `Configure Third-party Inference…` is available, it may expose a Gateway
+base URL, custom headers, credential kind, model discovery, and model list.
+Provider compatibility still requires a real non-sensitive test. Never assume
 that every OpenAI, Chinese, or other provider works without testing its
 endpoint and model response.
 
@@ -130,7 +127,7 @@ guide.
 
 - Source: Homebrew cask `claude-code`
 - CLI path: `/opt/homebrew/bin/claude`
-- Version verified: `2.1.202`
+- Verify with `claude --version` and record the result only in machine-local state.
 - Complete CLI login interactively with the intended account when first used;
   never store credentials or tokens in this guide.
 

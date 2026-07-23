@@ -16,7 +16,6 @@ permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 850700000
 download_estimate_method: "catalog_size_gb_planning_estimate"
-installed_measurement_method: "local_du"
 ---
 # Microsoft Excel
 
@@ -29,7 +28,7 @@ installed_measurement_method: "local_du"
 ## Size tracking
 
 - App Store listing download estimate: 850700000 bytes (850.7 MB; listing value checked 2026-07-16).
-- Installed footprint above is measured locally; download bytes remain `null` unless a package transfer log is available.
+- Record transfer and installed-byte measurements only in machine-local state.
 - After installation, record `download_bytes`, `installed_bytes`, `installed_version`, and `installed_at`.
 
 ## Post-install checklist
@@ -40,10 +39,3 @@ installed_measurement_method: "local_du"
 ## Notes
 
 Review account, license, privacy, and storage settings before using the app.
-
-## Local evidence (2026-07-16)
-
-- Installed path: `/Applications/Microsoft Excel.app`
-- Installed version: `16.107.1`
-- Installed footprint: `1811238912` bytes, measured with `du -sk`.
-- Download bytes are recorded separately; a local bundle footprint is not treated as download volume.

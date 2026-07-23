@@ -8,6 +8,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from config_layers import load_app_catalog
+
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references/app-catalog.json"
 
@@ -96,7 +98,7 @@ def render(value) -> str:
 
 
 def main() -> int:
-    data = json.loads(CATALOG.read_text(encoding="utf-8"))
+    data = load_app_catalog(CATALOG)
     changed = 0
     for app in data["apps"]:
         guide = app.get("guide")
@@ -111,12 +113,8 @@ def main() -> int:
         values.setdefault("name", app["name"])
         values.setdefault("category", app.get("category", ""))
         values.setdefault("tier", app.get("tier", "optional"))
-        values.setdefault("lifecycle_status", "active" if values.get("status") == "installed" else values.get("status", "planned"))
+        values.setdefault("lifecycle_status", "planned")
         values.setdefault("source", source(app))
-        values.setdefault("download_bytes", None)
-        values.setdefault("installed_bytes", None)
-        values.setdefault("installed_version", None)
-        values.setdefault("installed_at", None)
         values.setdefault("secrets_policy", "Never store passwords, API keys, recovery codes, or license secrets here.")
         standard = {
             "component_id": app.get("component_id") or slug(app["name"]),
@@ -137,7 +135,15 @@ def main() -> int:
             "download_estimate_bytes": app.get("download_estimate_bytes", int(float(app.get("size_gb", 0)) * 1_000_000_000)),
             "download_estimate_method": app.get("download_estimate_method", "catalog_size_gb_planning_estimate"),
         }
-        for extra in ("brew_tap", "npm_package", "preferred_source", "installed_measurement_method", "cli_path"):
+        for extra in (
+            "brew_tap",
+            "brew_tap_repository",
+            "brew_tap_revision",
+            "brew_trust_cask",
+            "npm_package",
+            "npm_version",
+            "cli_path",
+        ):
             if extra in app or extra in values:
                 standard[extra] = values.get(extra, app.get(extra))
         front = "---\n" + "\n".join(f"{key}: {render(standard[key])}" for key in [*REQUIRED, "download_estimate_bytes", "download_estimate_method", *[x for x in standard if x not in REQUIRED and x not in {"download_estimate_bytes", "download_estimate_method"}]]) + "\n---\n"

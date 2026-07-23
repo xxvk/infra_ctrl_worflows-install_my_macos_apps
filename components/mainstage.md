@@ -16,7 +16,6 @@ permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 3000000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
-installed_measurement_method: "local_du"
 ---
 # MainStage
 
@@ -29,7 +28,7 @@ installed_measurement_method: "local_du"
 ## Size tracking
 
 - Planning download estimate: 3000000000 bytes (`size_gb` catalog estimate).
-- Installed footprint above is measured locally; download bytes remain `null` unless a package transfer log is available.
+- Record transfer and installed-byte measurements only in machine-local state.
 - After installation, record `download_bytes`, `installed_bytes`, `installed_version`, and `installed_at`.
 
 ## Post-install checklist
@@ -39,10 +38,3 @@ installed_measurement_method: "local_du"
 ## Notes
 
 Review account, license, privacy, and storage settings before using the app.
-
-## Local evidence (2026-07-16)
-
-- Installed path: `/Applications/MainStage.app`
-- Installed version: `4.0`
-- Installed footprint: `1531428864` bytes, measured with `du -sk`.
-- Download bytes are recorded separately; a local bundle footprint is not treated as download volume.

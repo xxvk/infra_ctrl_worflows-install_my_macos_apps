@@ -3,15 +3,19 @@
 
 from __future__ import annotations
 
+import argparse
 import datetime as dt
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
+from state_paths import STATE_DIR_ENV, add_state_dir_argument, resolve_state_dir
+
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "state"
+STATE = resolve_state_dir()
 
 
 def run(command: list[str]) -> tuple[int, str, str]:
@@ -25,6 +29,12 @@ def newest(pattern: str) -> Path | None:
 
 
 def main() -> int:
+    global STATE
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_state_dir_argument(parser)
+    args = parser.parse_args()
+    STATE = resolve_state_dir(args.state_dir)
+    os.environ[STATE_DIR_ENV] = str(STATE)
     py = sys.executable
     steps = {}
     steps["app_scan"] = run([py, "scripts/macos_apps.py", "scan"])
@@ -62,7 +72,7 @@ def main() -> int:
         ],
         "policy": "Report only; no install, authorization, preference apply, or cleanup was attempted.",
     }
-    STATE.mkdir(exist_ok=True)
+    STATE.mkdir(parents=True, exist_ok=True)
     output = STATE / f"bootstrap-verify-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False, indent=2))

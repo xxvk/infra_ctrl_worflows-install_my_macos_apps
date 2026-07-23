@@ -23,7 +23,7 @@
 sudo sysadminctl -deleteUser <username>
 ```
 
-一次只处理已确认的账户列表。需要管理员认证时，在可见 Terminal 中执行，让用户自行输入密码；不得把密码传入命令、日志、Markdown 或 `state/`。
+一次只处理已确认的账户列表。需要管理员认证时，在可见 Terminal 中执行，让用户自行输入密码；不得把密码传入命令、日志、Markdown 或 machine-local state。
 
 `sysadminctl` 通常会终止目标账户进程、删除账户记录、删除主文件夹和 Public share point。不要在此之前运行宽泛的 `rm -rf /Users/*`。
 
@@ -42,4 +42,4 @@ id <remaining_admin>
 
 ## 记录
 
-写入被忽略的 `state/remove-macos-accounts-YYYYMMDD.json`：删除的用户名、主文件夹路径、执行时间、验证结果和保留的管理员账户。不要把本机当前账户列表、路径或大小写入组件 Markdown 或 catalog。
+写入 machine-local `remove-macos-accounts-YYYYMMDD.json`：删除的用户名、主文件夹路径、执行时间、验证结果和保留的管理员账户。不要把本机当前账户列表、路径或大小写入组件 Markdown 或 catalog。

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "kind": "installation_source_policy",
+  "source_classes": {
+    "official_homebrew": {
+      "risk": "medium",
+      "pinning": "Homebrew formula/cask revision and artifact checksum resolved at apply time",
+      "verification": ["brew info JSON", "package receipt or bundle", "installed version"],
+      "rollback": "brew uninstall for the exact formula or cask"
+    },
+    "third_party_homebrew": {
+      "risk": "high",
+      "pinning": "full reviewed tap commit",
+      "verification": ["exact tap remote", "exact tap HEAD", "package-scoped trust", "bundle or command"],
+      "rollback": "uninstall exact package, revoke package trust, then untap only if no other package uses it"
+    },
+    "app_store": {
+      "risk": "low",
+      "pinning": "immutable numeric App Store item ID; version remains Apple-managed",
+      "verification": ["macappstore URL", "App Store receipt", "bundle identifier and version"],
+      "rollback": "remove app bundle while preserving user data unless separately approved"
+    },
+    "npm_global": {
+      "risk": "medium",
+      "pinning": "exact package version",
+      "verification": ["npm package name", "requested version", "resolved version", "registry integrity when available"],
+      "rollback": "npm uninstall --global exact package"
+    },
+    "official_web": {
+      "risk": "high",
+      "pinning": "vendor release when stable; otherwise capture final URL and SHA-256 before install",
+      "verification": ["HTTPS vendor domain", "SHA-256", "codesign", "spctl", "bundle identifier and version"],
+      "rollback": "component-specific vendor uninstaller or narrow bundle removal"
+    },
+    "github_source": {
+      "risk": "high",
+      "pinning": "full Git commit plus artifact SHA-256",
+      "verification": ["official repository", "full commit", "artifact path", "SHA-256"],
+      "rollback": "remove generated wrapper and package while preserving unrelated dependencies"
+    },
+    "web_wrapper": {
+      "risk": "medium",
+      "pinning": "HTTPS origin and wrapper identity",
+      "verification": ["origin URL", "wrapper bundle", "account checked interactively"],
+      "rollback": "remove only the named wrapper and its owned data"
+    },
+    "browser_extension": {
+      "risk": "medium",
+      "pinning": "official store listing ID",
+      "verification": ["store origin", "extension ID", "browser profile"],
+      "rollback": "remove from the exact browser profile"
+    },
+    "decrypted_ipa": {
+      "risk": "critical",
+      "pinning": "per-file SHA-256 and bundle identifier",
+      "verification": ["Private approved source label", "explicit per-import approval", "SHA-256", "bundle identifier", "decrypted status", "PlayCover launch test"],
+      "rollback": "remove only the imported PlayCover app; preserve PlayCover and Keychain unless separately approved"
+    },
+    "system_app": {
+      "risk": "low",
+      "pinning": "macOS build",
+      "verification": ["system bundle path and identifier"],
+      "rollback": "not managed by this skill"
+    }
+  },
+  "third_party_homebrew": {
+    "debugtheworldbot/keystats": {
+      "repository": "https://github.com/debugtheworldbot/homebrew-keystats",
+      "reviewed_revision": "432771d212a4db269a37683ad707205f2fce2115",
+      "packages": ["debugtheworldbot/keystats/keystats"],
+      "trust": {"scope": "cask", "targets": ["debugtheworldbot/keystats/keystats"]},
+      "update_policy": "stop_on_revision_drift"
+    },
+    "playcover/playcover": {
+      "repository": "https://github.com/PlayCover/homebrew-playcover",
+      "reviewed_revision": "04bb422fa336c2b95bfa9962c91b5fbac30eac94",
+      "packages": ["playcover/playcover/playcover-community"],
+      "trust": {"scope": "cask", "targets": ["playcover/playcover/playcover-community"]},
+      "update_policy": "stop_on_revision_drift"
+    }
+  },
+  "observed_unmanaged_homebrew": {
+    "hudochenkov/sshpass": {
+      "repository": "https://github.com/hudochenkov/homebrew-sshpass",
+      "observed_revision": "04cf50bd8e92d3c05de13ced8eb0f71c6db2f223",
+      "installed_package": "hudochenkov/sshpass/sshpass",
+      "review_status": "catalog_or_remove"
+    },
+    "minio/stable": {
+      "repository": "https://github.com/minio/homebrew-stable",
+      "observed_revision": "5699e55ad00682057d339ef06431ad3395bb08aa",
+      "installed_package": "minio/stable/mc",
+      "review_status": "catalog_or_remove"
+    },
+    "openclaw/tap": {
+      "repository": "https://github.com/openclaw/homebrew-tap",
+      "observed_revision": "840dcb101663db4162d7d3b9d12dd7aff22eba7a",
+      "installed_package": null,
+      "review_status": "retirement_cleanup_candidate"
+    },
+    "xxvk/tap": {
+      "repository": "https://github.com/xxvk/homebrew-tap",
+      "observed_revision": "0a623b9c40d229f0d554a3f8715a8182ee71e62b",
+      "installed_package": "xxvk/tap/macos-data",
+      "review_status": "managed_by_macos_data_project"
+    }
+  },
+  "npm_globals": {
+    "wrangler": {"version": "4.91.0", "registry": "https://registry.npmjs.org/"},
+    "wp-studio": {"version": "1.15.0", "registry": "https://registry.npmjs.org/"}
+  },
+  "github_sources": {
+    "Solaar": {
+      "repository": "https://github.com/pwr-Solaar/Solaar",
+      "release": "1.1.19",
+      "revision": "4bda869542ea0b2e54f24decd4cca65113679e25",
+      "artifact": "tools/create-macos-app.sh",
+      "sha256": "00fdb57a6676cfc0b31addcf34dc76a0233c720635ced9a7a7f528e93595b563",
+      "tag_signature": "verified",
+      "signing_key": "1E32E75672D6A196"
+    }
+  },
+  "prohibited_execution": [
+    "curl pipe shell",
+    "bash process substitution from curl",
+    "GitHub refs/heads executable download",
+    "Homebrew install HEAD bootstrap",
+    "global Homebrew tap trust",
+    "HOMEBREW_NO_REQUIRE_TAP_TRUST"
+  ]
+}

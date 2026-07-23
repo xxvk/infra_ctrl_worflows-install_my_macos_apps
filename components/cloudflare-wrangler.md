@@ -17,6 +17,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 download_estimate_bytes: 100000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 npm_package: "wrangler"
+npm_version: "4.91.0"
 ---
 # Cloudflare Wrangler
 
@@ -29,7 +30,7 @@ The official installation path is a global npm package. Homebrew does not
 provide the installation source used by this catalog entry.
 
 ```sh
-npm install --global wrangler
+npm install --global wrangler@4.91.0
 wrangler --version
 ```
 

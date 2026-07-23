@@ -1,5 +1,258 @@
 # TODO
 
+Product-level scope, release status, acceptance gates, and candidate ideas live
+in [`references/release-roadmap.md`](references/release-roadmap.md) and
+[`references/product-ideas.md`](references/product-ideas.md). This file tracks
+implementation details; an unchecked item is not automatically assigned to a
+release.
+
+## 0.1.0 release-candidate work
+
+The repository remains in its current iCloud Drive location. Moving it out of
+iCloud is not a product task. Instead, the implementation must treat
+iCloud/File Provider behavior as a supported operating constraint.
+
+The following list is the accepted release backlog. It contains exactly 20
+items and is divided by release impact so accepted enhancements do not
+silently expand the 0.1.0 release-candidate gate.
+
+### P0 — blocks a validated 0.1.0 release candidate
+
+- [x] **RC-01 — Add iCloud-aware Git integrity protection without relocating
+      the repository.** Detect `dataless`, evicted, incomplete, or unreadable
+      Git objects and required working files before Git-dependent operations;
+      document and verify “Keep Downloaded” for the repository; stop safely
+      instead of interpreting unavailable data as deletion or corruption;
+      provide materialize/retry and fresh-clone recovery paths; and verify with
+      `git fsck --full`, `git status`, and `git diff --check` when files are
+      locally available.
+      Resolved: added `scripts/icloud_git_guard.py`, 11 hermetic tests, the
+      grouped/explicit-apply/exact-fallback download workflow, runtime
+      capability detection for modern macOS where `fileproviderctl`
+      advertises no `materialize` command, and the copy-first recovery guide
+      in `references/icloud-git-integrity.md`. On this iCloud-backed submodule,
+      the guard resolved the parent gitdir, found 323 remaining `dataless`
+      objects after the grouped request, materialized them with `brctl`,
+      rechecked 809 critical paths with zero findings, and then passed
+      `git status --short`, `git diff --check`, and `git fsck --full`.
+      Finder **Keep Downloaded** remains a visible manual preference; absence
+      of `dataless` is the supported CLI read-back.
+- [x] **RC-02 — Move runtime `state/` to truly machine-local storage.** Default
+      to `~/Library/Application Support/install-macos-apps/state/<machine-id>/`,
+      support an explicit `--state-dir` or environment override, retain a
+      compatibility locator in the repository, and migrate all existing state
+      copy-first with count/hash/read-back verification before any source
+      cleanup.
+      Resolved: added the machine-scoped resolver and command/environment
+      overrides, migrated 651 files (40,209,928 logical bytes) copy-first,
+      verified every destination with SHA-256, and recorded the verified
+      machine-local migration manifest. After the exact
+      `REMOVE VERIFIED LEGACY STATE` confirmation, the cleanup transaction
+      re-hashed both sides, removed all 651 manifest-bound legacy files, and
+      preserved only tracked `state/README.md` and `state/locator.json`.
+- [x] **RC-03 — Separate public engine, Git-tracked private configuration,
+      machine state, and secrets without losing existing configuration.**
+      Preserve every currently tracked configuration value and its behavior;
+      introduce a tracked Private overlay for existing and future
+      user-approved identifiers/preferences; keep runtime observations
+      machine-local; keep passwords, tokens, private keys, raw TCC databases,
+      and session material outside Git; add deterministic merge precedence and
+      backward-compatible migration tests.
+      Foundation complete: added tracked `Private/manifest.json`,
+      `scripts/config_layers.py`, fixture tests, secret-key/path guards, and
+      `references/configuration-layers.md`. Existing personal values remain in
+      their historical tracked paths; migrate consumers one at a time before
+      marking RC-03 complete. Migrated Chrome profiles through a compatibility
+      locator and moved ChatGPT/Claude account preferences into the layered
+      Private app-catalog overlay without changing generated plan behavior.
+      Migrated Dock order and confirmed allowlisted macOS preference values to
+      tracked Private files while retaining compatible `settings/` locators
+      and redirecting Dock save plus preference check/apply consumers. Migrated
+      personal keyboard selection, dictation preferences, and the K240 device
+      mapping to tracked Private YAML with strict compatibility locators and
+      manifest audit coverage. Moved the intended GitHub CLI account identifier
+      out of its public component guide and into the existing Private
+      app-catalog overlay. Removed the stale tracked M4B security snapshot after
+      verifying that per-machine security results already live in ignored local
+      preference reports; the public baseline now contains only a new-Mac
+      inspection and decision contract.
+- [x] **RC-04 — Freeze the 0.1.0 release-candidate contract.** Maintain one
+      acceptance matrix for supported, interface-limited, deferred, and
+      deliberately excluded behavior; require evidence for each supported
+      capability; and keep `VERSION` at `0.1.0` while the roadmap status is
+      `release_candidate`.
+      Resolved: added one canonical 28-row JSON matrix with all four
+      classifications, 12 evidence-backed supported capabilities, and explicit
+      behavior boundaries. `scripts/validate_release_contract.py` now binds the
+      matrix to `VERSION=0.1.0`, the roadmap's `release_candidate` status,
+      unique IDs, complete classification coverage, repository-contained
+      evidence paths, and mandatory evidence for every supported row; three
+      hermetic tests and the local smoke gate cover valid, missing-evidence,
+      and version/status-drift cases.
+- [x] **RC-05 — Split the 1,445-line `SKILL.md` into a concise entry point and
+      focused references.** Keep trigger, safety, routing, and mandatory
+      workflow rules in `SKILL.md`; move domain procedures into directly
+      linked reference files; avoid deep reference chains; and verify that no
+      existing rule or configuration is lost.
+      Resolved: reduced the entry point from 1,495 to 243 lines while retaining
+      the operating contract, four configuration layers, mandatory seven-step
+      workflow, transaction contract, catalog/documentation rules, validation,
+      and safety rules. Moved the detailed procedures into six directly linked,
+      single-level domain references with contents sections. Added
+      `scripts/validate_skill_structure.py` plus hermetic tests to enforce the
+      500-line ceiling, all routes, preserved domain anchors, and local-link
+      integrity; the coverage review found only intentionally superseded
+      pre-RC-02/03 state paths, identifiers, and configuration locations.
+- [x] **RC-06 — Establish a hermetic automated test system.** Add fixture-based
+      unit and contract tests for catalog/schema validation, source/version
+      detection, planning, migration, and command rendering; fake Homebrew,
+      App Store, TCC, defaults, and filesystem responses; prove dry-run makes
+      zero external changes; test negative and interrupted paths; and test
+      repeat apply for idempotency without requiring a live configured Mac.
+      Keep the complete suite available through one local release-check entry
+      point. GitHub Actions is not part of the 0.1.0 release gate unless the
+      user explicitly changes the local-validation policy.
+      Resolved: added static app/platform fixtures and 20 new contracts for
+      catalog errors, source/version detection, filesystem inventory, portable
+      planning, deterministic tap/install rendering, Homebrew/App Store
+      evidence, read-only TCC/defaults behavior, dry-run zero process
+      execution, invalid/oversized targets, interrupted apply, and repeated
+      idempotent package-manager commands. Existing migration tests retain
+      conflict, unavailable-source, preview, and exact-confirmation coverage.
+      `scripts/release_check.py` is now the single entry point: eight hermetic
+      stages by default and an explicit ninth live-mac smoke stage only with
+      `--include-live-smoke`. The final run passed all 58 tests, both modes,
+      Skill validation, and diff checks without hosted CI.
+- [x] **RC-07 — Give every mutation one transaction contract.** Standardize
+      `inspect → plan → confirm → apply → verify → record`, with stable action
+      IDs, exact targets, backups or rollback notes, typed confirmation for
+      destructive/high-impact actions, interruption recovery, idempotency, and
+      read-back evidence.
+      Resolved: registered all supported mutation actions in one
+      machine-validated contract registry with exact targets, risk,
+      confirmation, verification, recording, rollback, interruption, and
+      idempotency semantics. Every implementation now both declares and emits
+      its stable action ID; Capacities and Skill-runtime removal gained exact
+      typed confirmation tokens. Added the reusable contract/hash helper,
+      validator, reference, acceptance-matrix evidence, bootstrap/release-check
+      integration, and seven focused tests. Final validation passed all 65
+      hermetic tests, all nine default release-check stages, and all ten stages
+      including the current-Mac dry-run smoke.
+- [x] **RC-08 — Remove current-machine state from component documentation.**
+      Store desired/reusable facts in tracked component/config documents and
+      detected versions, paths, timestamps, grants, measurements, and install
+      status only in machine-local state; strengthen audits so ambiguous
+      `installed`/`verified` prose cannot produce a false clean result; migrate
+      existing documents without dropping reusable installation know-how.
+      Resolved: copied 174 historical findings from 129 component guides into
+      three timestamped machine-local migration records with exact source
+      hashes, lines, codes, and text before normalization. Removed local
+      evidence blocks, completed checkboxes, versions, measurements, state
+      links, current-status tables, and machine-scoped lifecycle claims while
+      preserving source, configuration, verification, and rollback know-how.
+      Added the component-state boundary reference, 21st mutation contract,
+      runtime audit/migration tool, frontmatter/release-check integration, and
+      eight focused tests. Refactored the template and all known
+      enrichment/repair generators so runtime observations cannot be written
+      back into tracked guides. Final validation passed 129 guides with zero
+      violations, all 73 hermetic tests, all ten default release-check stages,
+      and all eleven stages including current-Mac dry-run smoke.
+- [x] **RC-09 — Complete a supply-chain and installation-source audit.**
+      Inventory and classify Homebrew taps/trust, App Store URLs, npm globals,
+      `curl | shell`, GitHub branch downloads, official installers, PlayCover,
+      IPA, and decrypted-package sources; pin versions/commits and verify
+      hashes/signatures where supported; record provenance and rollback; and
+      isolate high-risk personal sources from the reusable public core.
+      Completed: classified all 130 catalog entries into ten source classes;
+      pinned KeyStats and PlayCover to reviewed tap commits and package-scoped
+      cask trust; pinned Wrangler and WordPress Studio CLI npm versions; pinned
+      Solaar's signed 1.1.19 release artifact to a full commit and SHA-256; and
+      removed all active mutable network-to-shell paths, including automatic
+      Homebrew bootstrap. Decrypted-IPA source labels now live only in tracked
+      `Private/`, with no direct URL. Added source policy, static/live audit,
+      provenance in install records, the 22nd mutation contract, and
+      machine-local supply-chain capture. M4b read-back matched both managed
+      taps and npm versions; four other taps are explicitly inventoried as
+      observed-unmanaged with dispositions rather than silently authorized.
+      Final validation passed 130 source records, 129 component guides with
+      zero machine-state violations, 82 hermetic tests, all eleven default
+      release stages, and all twelve stages including live macOS dry-run smoke.
+
+### P1 — blocks changing 0.1.0 from release candidate to shipped
+
+- [ ] **RC-10 — Pass a genuine Clean-Mac release acceptance run.** Prepare the
+      deterministic checklist, evidence bundle, rollback drill, and acceptance
+      script now; mark the hardware run `blocked_external` until an unused/new
+      Mac is available (tentatively September); do not represent three
+      previously configured Macs as clean-machine evidence.
+      Status: `blocked_external`; tooling preparation is complete. Added a
+      machine-validated 13-gate contract, tracked status, operator checklist,
+      and machine-local acceptance session state machine. Initialization
+      requires the exact unused/new-Mac attestation and a clean full Git
+      commit. Evidence is JSON-only, secret-key checked, path/email redacted,
+      copied into a bounded bundle, and recorded with source and bundle
+      SHA-256. Gate-specific semantic validators reject generic pass JSON:
+      automated gates must match their real result structures, interactive
+      gates use a typed evidence envelope, and CM-12 requires distinct install
+      and uninstall phases. Finalization rejects changed source, changed
+      contract, pending, blocked, failed, under-evidenced, missing, malformed,
+      or tampered evidence and explicitly leaves publication unauthorized.
+      CM-12 requires a real drift-monitor
+      install/read-back/uninstall/read-back rollback drill. The remaining work
+      is only the genuine hardware execution and review; current M4 machines
+      must not initialize an eligible session. Tooling validation passed 13
+      focused Clean-Mac tests, all 95 hermetic tests, all 12 default release
+      stages, and all 13 stages including current-Mac dry-run smoke; none of
+      these substitute for the blocked external hardware run.
+- [ ] **RC-11 — Provide one distinct, conflict-checked CLI entry point.**
+      Treat `mac-ctl` as a rejected placeholder, run a naming exercise, check
+      likely Homebrew/npm/GitHub/domain collisions, select a name with product
+      character, and route scan, plan, apply, verify, drift, diagnostics, and
+      migration commands through it while retaining compatibility shims.
+- [ ] **RC-12 — Publish formal JSON Schemas and migration tooling.** Version
+      catalog, settings, private overlay, plan, state, and diagnostic formats;
+      validate before use; provide upgrade/downgrade-safe migrations and
+      fixtures; and preserve unknown fields when safe.
+- [ ] **RC-13 — Generate a redacted diagnostic bundle.** Collect versions,
+      checks, failure classes, policy hashes, and bounded logs while
+      deterministically excluding secrets, account/session data, private
+      filenames/content, raw TCC databases, and credentials; show a manifest
+      and redaction preview before export.
+- [ ] **RC-14 — Add repeatable performance and resource benchmarks.** Measure
+      cold/warm inventory, plan, validation, drift, and migration time plus
+      peak memory, output size, and state growth on representative machine
+      roles; define regression budgets and keep benchmark fixtures
+      deterministic.
+- [ ] **RC-15 — Generate a Release Manifest automatically.** Bind version,
+      commit, schema versions, catalog/config hashes, supported macOS and
+      architecture matrix, test/benchmark results, known limitations, and
+      artifact provenance into a reproducible manifest; generating it does not
+      authorize committing, tagging, pushing, or publishing.
+
+### P2 — accepted 0.1.x enhancements; do not block 0.1.0
+
+- [ ] **RC-16 — Add composable machine-role Profiles.** Define reusable roles
+      such as compact workstation, developer, robotics, content, and
+      high-memory/game Mac; support explicit inheritance/overrides and explain
+      why each component or policy is selected.
+- [ ] **RC-17 — Generate human-friendly HTML and TUI audit reports.** Present
+      desired-versus-observed state, confidence, risk, source mismatch,
+      permissions, capacity, drift, and next actions; keep JSON as the
+      machine-readable source and avoid embedding secrets.
+- [ ] **RC-18 — Define Chinese, Japanese, and English localization plus
+      accessibility requirements.** Externalize user-facing text, test locale
+      and encoding behavior, provide VoiceOver/keyboard/color-contrast rules
+      for reports and the future native app, and keep command IDs stable across
+      languages.
+- [ ] **RC-19 — Define an App Adapter SDK before adapters proliferate.**
+      Specify detection, source, install, permission, configuration, verify,
+      cleanup, rollback, redaction, risk, and test-fixture interfaces; include
+      capability/version negotiation and one reference adapter.
+- [ ] **RC-20 — Add a low-noise scheduled Drift Monitor.** Run read-only,
+      deduplicate unchanged findings, apply severity/confidence thresholds and
+      cooldowns, protect battery and privacy, emit actionable summaries, and
+      require a separate explicit workflow for every repair.
+
 - [x] Capacities data migration: user confirmed the migration/retention
       decision is complete and Capacities has been deleted. Do not delete any
       remaining preserved support data during a generic app scan.
@@ -132,8 +385,9 @@
       rule details.
 - [x] Capture Focus/DND database presence and screen-lock/screensaver policy
       fields while keeping Focus rules and private schedules redacted.
-- [ ] Capture sound input/output, display scaling, refresh rate, Night Shift,
-      True Tone, sleep, battery, and remaining power policies.
+- Deferred beyond 0.1.0 (`interface_limited`): capture sound input/output,
+      display scaling, refresh rate, Night Shift, True Tone, sleep, battery,
+      and remaining power policies.
       Partial observation: sleep/power policy, battery power source, audio
       device metadata, and interface-limited Night Shift/display effects are
       captured; current macOS execution context still does not expose actual
@@ -144,9 +398,10 @@
       storing device serial numbers.
 - [x] Parse battery/AC sleep, display-off, hibernate, wake, and power
       management parameters into structured machine-local profiles.
-- [ ] Capture current display identity/resolution, sound volume/mute state,
-      and power-management output as machine-local observations without
-      storing serial numbers.
+- Deferred beyond 0.1.0 (`interface_limited`): capture current display
+      identity/resolution and sound volume/mute state as machine-local
+      observations without storing serial numbers. Power-management output is
+      already captured.
 - [x] Capture default applications and file/URL associations for browser,
       mail, terminal, editor, images, video, PDF, archives, SSH, Git, and
       common development file types. Store bundle identifiers, not volatile
@@ -199,8 +454,9 @@
 - [x] Capture Chrome extension IDs/names/versions, Safari Web Clipper presence,
       and WebCatalog/PlayCover directory presence. Never export cookies,
       passwords, tokens, or browsing history.
-- [ ] Capture reliable Chrome extension enabled state; the current Secure
-      Preferences source exposes `null` for this field.
+- Deferred beyond 0.1.0 (`interface_limited`): capture reliable Chrome
+      extension enabled state; the current Secure Preferences source exposes
+      `null` for this field.
 - [x] Capture default-browser routing and safe app-specific WebCatalog/PlayCover
       settings through read-only checks. Current state includes WebCatalog
       wrappers Notion/X and PlayCover settings for YouTube; browser sessions,
@@ -526,20 +782,17 @@ review before promoting any item into an implementation task.
       task. Documents both the Apple-Account-escrow path (recommended) and
       the manual-recovery-key path, and is explicit that no script here
       ever generates, displays, or stores the recovery key.
-- [x] Add CI/lint checks across the growing script and catalog set (128+
+- [x] Add local lint/smoke checks across the growing script and catalog set (128+
       catalog entries, a dozen-plus Python scripts) to catch malformed
       files before they land — similar in spirit to the stray-backslash
       corruption found and fixed in `com.local.keyremap.plist` this session.
-      Resolved in two parts: (1) `tests/smoke.sh` already extended (backlog
-      item 6 follow-up) to `py_compile` every `scripts/*.py` file and
-      `plutil -lint` every LaunchAgent plist template, including rendered
-      output; (2) added `.github/workflows/smoke.yml` running that same
-      script on `macos-latest` for push/PR/manual dispatch, since this
-      submodule has a real GitHub remote
-      (`xxvk/infra_ctrl_worflows-install_my_macos_apps`). The workflow is
-      untested against actual GitHub Actions infrastructure -- it has not
-      been pushed, only locally reviewed -- since commits/pushes are the
-      user's own action per this skill's Safety rules.
+      Resolved by extending `tests/smoke.sh` to `py_compile` every
+      `scripts/*.py` file and `plutil -lint` every LaunchAgent plist template,
+      including rendered output. The previously added hosted
+      `.github/workflows/smoke.yml` was removed after real runs proved that it
+      added private macOS-runner billing/availability failure modes without
+      validating the target Mac. Local macOS validation is the accepted
+      0.1.0 quality gate; a unified local release-check remains part of RC-06.
 - [x] Add a JSON Schema validation script for `references/app-catalog.json`
       (required fields, source consistency) as the catalog grows past 128
       entries, to prevent manual-edit data corruption.

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: dock.save-baseline
 """Scan and persist the current user's macOS Dock application order."""
 
 from __future__ import annotations
@@ -13,6 +14,9 @@ import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import unquote, urlparse
+
+from config_layers import resolve_config_path
+from state_paths import add_state_dir_argument, resolve_state_dir
 
 
 def dock_preferences() -> dict:
@@ -119,10 +123,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Save the current user's persistent Dock apps and order."
     )
+    add_state_dir_argument(parser)
     parser.add_argument(
         "--output",
         type=Path,
-        help="JSON output path; defaults to state/dock-scan-YYYYmmdd-HHMMSS.json",
+        help="JSON output path; defaults to machine-local dock-scan-YYYYmmdd-HHMMSS.json",
     )
     parser.add_argument(
         "--config",
@@ -132,7 +137,7 @@ def main() -> int:
     parser.add_argument(
         "--save-config",
         action="store_true",
-        help="Write the reusable config to settings/dock-order.json.",
+        help="Write the reusable config through settings/dock-order.json to the tracked Private target.",
     )
     args = parser.parse_args()
 
@@ -144,8 +149,7 @@ def main() -> int:
 
     root = Path(__file__).resolve().parents[1]
     output = args.output or (
-        root
-        / "state"
+        resolve_state_dir(args.state_dir)
         / f"dock-scan-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     )
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -155,10 +159,13 @@ def main() -> int:
     if args.save_config:
         config = root / "settings" / "dock-order.json"
     if config:
+        if config.is_file():
+            config = resolve_config_path(config, root=root)
         config.parent.mkdir(parents=True, exist_ok=True)
         config.write_text(
             json.dumps(reusable_config(result), ensure_ascii=False, indent=2) + "\n"
         )
+        result["action_id"] = "dock.save-baseline"
 
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

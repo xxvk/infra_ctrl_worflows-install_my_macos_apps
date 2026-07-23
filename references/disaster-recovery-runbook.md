@@ -18,7 +18,9 @@
 python3 scripts/bootstrap_macos.py --profile auto
 ```
 
-确认 `state/bootstrap-*.json` 生成成功，并将该文件手动复制到仓库之外的安全位置（例如导出到密码管理器的安全笔记，或另一台设备）——`state/` 本身被 git 忽略，机器丢失后这份记录也会一并丢失，必须手动带出。
+通过 `python3 scripts/state_paths.py path` 定位并确认
+`bootstrap-*.json` 生成成功，再将该文件手动复制到另一台安全设备。
+运行状态位于 machine-local Application Support，机器丢失后不会通过本仓库恢复。
 
 ## 第 1 步：取回仓库
 
@@ -28,7 +30,18 @@ python3 scripts/bootstrap_macos.py --profile auto
 git clone --recurse-submodules <XVK_PM 仓库地址>
 ```
 
-确认 `workflows/infra_ctrl_worflows/install_my_macos_apps/` 子模块内容完整（`git submodule status` 无 `-` 前缀）。
+在运行 `git submodule status` 之前，先进入 skill 目录并执行：
+
+```sh
+python3 scripts/icloud_git_guard.py inspect --repo .
+```
+
+若不是 `ready`，按
+[`icloud-git-integrity.md`](icloud-git-integrity.md) 先完成 grouped
+materialize、复检和只读 Git verification。不要把 `dataless` 当成损坏，也
+不要迁出 iCloud 或删除 `.git`。通过后再确认
+`workflows/infra_ctrl_worflows/install_my_macos_apps/` 子模块内容完整
+（`git submodule status` 无 `-` 前缀）。
 
 ## 第 2 步：联网
 
@@ -40,7 +53,8 @@ git clone --recurse-submodules <XVK_PM 仓库地址>
 python3 scripts/bootstrap_macos.py --profile auto
 ```
 
-这一步跑 App 扫描、容量感知安装计划、权限清单、偏好基线/对比，全部只读，不安装、不改权限、不改偏好。产出 `state/bootstrap-*.json`，把它和第 0 步留下的旧基线并排比较，确认新机器的起点状态被完整记录。
+这一步跑 App 扫描、容量感知安装计划、权限清单、偏好基线/对比，全部只读，不安装、不改权限、不改偏好。产出 machine-local
+`bootstrap-*.json`，把它和第 0 步留下的旧基线并排比较。
 
 ## 第 4 步：账号与密码管理器优先建立
 
@@ -52,8 +66,9 @@ python3 scripts/bootstrap_macos.py --profile auto
 
 ```sh
 python3 scripts/macos_apps.py plan --profile auto
-python3 scripts/macos_apps.py install state/PLAN.json --only "App Name"
-python3 scripts/macos_apps.py install state/PLAN.json --only "App Name" --apply
+STATE_DIR="$(python3 scripts/state_paths.py path)"
+python3 scripts/macos_apps.py install "$STATE_DIR/PLAN.json" --only "App Name"
+python3 scripts/macos_apps.py install "$STATE_DIR/PLAN.json" --only "App Name" --apply
 ```
 
 一次最多两个 `--only`；Homebrew CLI 类批量最多 5 个；GUI/App Store/需要账号许可证的一次一个。参见 SKILL.md 中列出的所有例外流程（Claude VM 清理、YouTube PlayCover、Bionic 重命名等），不要在这份 runbook 里重复展开。
@@ -73,8 +88,9 @@ python3 scripts/macos_preferences.py --check   # 复核 apply 结果
 ## 第 7 步：Dock、键盘、Chrome Profile 等设备/机器相关配置
 
 ```sh
-python3 scripts/macos_dock.py --save-config    # 对比 settings/dock-order.json
-python3 scripts/chrome_profiles.py --expected config/chrome-profiles.json --output state/chrome-profiles-inventory.json
+python3 scripts/macos_dock.py --save-config    # 更新 Private/dock-order.json
+python3 scripts/chrome_profiles.py --expected Private/chrome-profiles.json \
+  --output "$(python3 scripts/state_paths.py path)/chrome-profiles-inventory.json"
 ```
 
 键盘 K240 profile 按 [SKILL.md 的 Keyboard settings workflow](../SKILL.md#keyboard-settings-workflow) 单独走，包含前台验证 F1/F2/F3/F5/F12 和 Input Monitoring 授权。
@@ -92,4 +108,6 @@ python3 scripts/bootstrap_verify.py
 - 任何一步失败，先记录失败步骤和原始报错，不要用 `sudo`/`--force` 之类的方式强行绕过。
 - 权限类失败几乎总是 TCC/Full Disk Access 没授予正确的宿主进程（见第 6 步）。
 - App 缺失但来源标记为 `store_unavailable`，参考 SKILL.md 中「App Store workflow」第 5 条的处理方式，不要用官网下载静默替代。
-- 全部记录只进 `state/`；恢复完成后，把哪些配置值得提升为 tracked `settings/` 留给用户人工审阅（这也是仓库既有的 [「审阅并只提交可复用策略」原则](../TODO.md)）。
+- 全部记录只进 machine-local state；恢复完成后，把哪些配置值得提升为
+  tracked `settings/` 留给用户人工审阅（这也是仓库既有的
+  [「审阅并只提交可复用策略」原则](../TODO.md)）。

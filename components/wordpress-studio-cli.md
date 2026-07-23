@@ -11,6 +11,7 @@ brew_formula: null
 official_url: "https://developer.wordpress.com/docs/developer-tools/studio/cli/"
 check_command: "studio"
 npm_package: "wp-studio"
+npm_version: "1.15.0"
 install_after: []
 account_required: true
 permissions_required: []
@@ -29,16 +30,14 @@ sites and supports account-backed workflows such as Studio Sync and previews.
 The preferred reproducible package installation is:
 
 ```sh
-npm install --global wp-studio
+npm install --global wp-studio@1.15.0
 studio --help
 ```
 
-WordPress also provides an official installer script. Use it only when npm is
-not suitable:
-
-```sh
-curl -fsSL https://wordpress.studio/install.sh | bash
-```
+WordPress also publishes a streamed shell installer, but this skill does not
+execute network responses directly in a shell. If npm becomes unsuitable,
+download the installer to a local file, inspect it, record its SHA-256, and
+request a separate source-policy review before execution.
 
 Do not run both installation methods on the same Mac without first checking
 which `studio` executable is active.

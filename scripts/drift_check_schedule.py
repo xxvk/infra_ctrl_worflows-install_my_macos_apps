@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action IDs: drift-schedule.install, drift-schedule.uninstall
 """Schedule the existing read-only drift checks as a weekly user LaunchAgent.
 
 This never changes preferences or permissions itself. It only installs a
@@ -68,7 +69,7 @@ def status() -> dict[str, object]:
 def install(apply: bool) -> dict[str, object]:
     rendered = render_plist()
     if not apply:
-        return {"apply_requested": False, "would_write": str(DESTINATION), "preview": rendered}
+        return {"action_id": "drift-schedule.install", "apply_requested": False, "would_write": str(DESTINATION), "preview": rendered}
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     DESTINATION.parent.mkdir(parents=True, exist_ok=True)
     DESTINATION.write_text(rendered)
@@ -77,6 +78,7 @@ def install(apply: bool) -> dict[str, object]:
         capture_output=True, text=True, check=False,
     )
     return {
+        "action_id": "drift-schedule.install",
         "apply_requested": True,
         "written": str(DESTINATION),
         "launchctl_bootstrap": {
@@ -89,16 +91,16 @@ def install(apply: bool) -> dict[str, object]:
 
 def uninstall(apply: bool) -> dict[str, object]:
     if not DESTINATION.is_file():
-        return {"apply_requested": apply, "status": "not_installed"}
+        return {"action_id": "drift-schedule.uninstall", "apply_requested": apply, "status": "not_installed"}
     if not apply:
-        return {"apply_requested": False, "would_remove": str(DESTINATION)}
+        return {"action_id": "drift-schedule.uninstall", "apply_requested": False, "would_remove": str(DESTINATION)}
     subprocess.run(
         ["launchctl", "bootout", f"gui/{os.getuid()}/{LABEL}"],
         capture_output=True, text=True, check=False,
     )
     backup = DESTINATION.with_suffix(DESTINATION.suffix + f".removed-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}")
     shutil.move(str(DESTINATION), str(backup))
-    return {"apply_requested": True, "unloaded": True, "backup_path": str(backup)}
+    return {"action_id": "drift-schedule.uninstall", "apply_requested": True, "unloaded": True, "backup_path": str(backup)}
 
 
 def main() -> int:

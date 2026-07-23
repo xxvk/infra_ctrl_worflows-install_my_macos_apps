@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: tcc.reset
 """Review and selectively remove stale macOS TCC authorization records.
 
 The default action is a dry-run. Applying a reset requires --apply and an
@@ -18,9 +19,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from backup_precondition_check import print_precondition_warning
+from state_paths import add_state_dir_argument, resolve_state_dir
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE_DIR = ROOT / "state"
+STATE_DIR = resolve_state_dir()
 SERVICE_COMMANDS = {
     "kTCCServiceAccessibility": "Accessibility",
     "kTCCServiceAppleEvents": "AppleEvents",
@@ -101,16 +103,23 @@ def apply(rows: list[dict[str, object]]) -> dict[str, object]:
             "result": "reset_requested" if result.returncode == 0 else "failed",
             "stderr": result.stderr.strip(),
         })
-    return {"applied_at": dt.datetime.now(dt.timezone.utc).isoformat(), "results": results}
+    return {
+        "action_id": "tcc.reset",
+        "applied_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "results": results,
+    }
 
 
 def main() -> int:
+    global STATE_DIR
     parser = argparse.ArgumentParser(description="Review and selectively reset stale macOS TCC records")
+    add_state_dir_argument(parser)
     parser.add_argument("--state", type=Path, help="permissions state JSON; defaults to the newest state record")
     parser.add_argument("--client", help="limit review to one exact TCC client bundle ID")
     parser.add_argument("--include-manual-review", action="store_true", help="include unlisted/current-variant candidates; still requires confirmation")
     parser.add_argument("--apply", action="store_true", help="reset candidate TCC records after confirmation")
     args = parser.parse_args()
+    STATE_DIR = resolve_state_dir(args.state_dir)
     state_path = args.state or latest_state()
     state = json.loads(state_path.read_text())
     rows = candidates(state, args.include_manual_review, args.client)
@@ -129,6 +138,7 @@ def main() -> int:
         print("Cancelled; no changes made.")
         return 0
     result = apply(actionable)
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
     output = STATE_DIR / f"permissions-cleanup-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     output.write_text(json.dumps({"source_state": str(state_path), **result}, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"output": str(output), **result}, ensure_ascii=False, indent=2))

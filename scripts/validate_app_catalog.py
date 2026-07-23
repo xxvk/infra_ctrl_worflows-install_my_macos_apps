@@ -21,7 +21,7 @@ REQUIRED_FIELDS = ["name", "category", "tier", "guide"]
 VALID_TIERS = {"core", "optional", "heavy"}
 
 
-def validate(catalog: dict) -> list[str]:
+def validate(catalog: dict, root: Path = ROOT) -> list[str]:
     errors = []
     apps = catalog.get("apps")
     if not isinstance(apps, list):
@@ -46,7 +46,7 @@ def validate(catalog: dict) -> list[str]:
             seen_names[name] = index
 
         guide = app.get("guide")
-        if guide and not (ROOT / guide).is_file():
+        if guide and not (root / guide).is_file():
             errors.append(f"{label}: guide path '{guide}' does not exist")
 
         has_source = any([

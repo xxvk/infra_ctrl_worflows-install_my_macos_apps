@@ -2,7 +2,7 @@
 
 Documentation only — no script here reads or exports bookmark contents.
 `scripts/chrome_profiles.py` already matches Chrome profiles to accounts by
-email (see `config/chrome-profiles.json`); this fills the one gap that
+email (see `Private/chrome-profiles.json`); this fills the one gap that
 leaves open: the bookmarks *inside* each matched profile.
 
 ## Where bookmarks actually live

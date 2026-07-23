@@ -5,11 +5,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from config_layers import load_app_catalog
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> int:
-    data = json.loads((ROOT / "references/app-catalog.json").read_text(encoding="utf-8"))
+    data = load_app_catalog()
     changed = 0
     for app in data["apps"]:
         if app.get("tier") != "core" or not app.get("guide"):
@@ -25,16 +27,6 @@ def main() -> int:
             body = text[end + 5:] if end >= 0 else ""
         source = "app_store" if app.get("app_store_url") else "homebrew" if app.get("brew_formula") or app.get("brew_cask") else "official_web"
         estimate = app.get("download_estimate_bytes")
-        installed = "null"
-        version = "null"
-        installed_at = "null"
-        for line in text.splitlines():
-            if line.startswith("installed_bytes:"):
-                installed = line.split(":", 1)[1].strip()
-            elif line.startswith("installed_version:"):
-                version = line.split(":", 1)[1].strip()
-            elif line.startswith("installed_at:"):
-                installed_at = line.split(":", 1)[1].strip()
         front = "\n".join([
             "---",
             f"component_id: {json.dumps(app['name'].lower().replace(' ', '-'))}",

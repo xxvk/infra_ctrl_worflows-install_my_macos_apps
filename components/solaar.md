@@ -10,6 +10,11 @@ brew_cask: null
 brew_formula: null
 official_url: "https://pwr-solaar.github.io/Solaar/installation/"
 check_command: "test -d '/Applications/Solaar.app'"
+github_repository: "https://github.com/pwr-Solaar/Solaar"
+github_release: "1.1.19"
+github_revision: "4bda869542ea0b2e54f24decd4cca65113679e25"
+github_artifact: "tools/create-macos-app.sh"
+artifact_sha256: "00fdb57a6676cfc0b31addcf34dc76a0233c720635ced9a7a7f528e93595b563"
 install_after: []
 account_required: false
 permissions_required: ["Any macOS permission requested by the generated app must be approved manually"]
@@ -46,7 +51,12 @@ the Solaar project supplies the Python package and macOS wrapper script:
 ```sh
 brew install hidapi gtk+3 pygobject3 pipx
 pipx install --system-site-packages solaar
-bash <(curl -fsSL https://raw.githubusercontent.com/pwr-Solaar/Solaar/refs/heads/master/tools/create-macos-app.sh)
+curl -fL \
+  https://raw.githubusercontent.com/pwr-Solaar/Solaar/4bda869542ea0b2e54f24decd4cca65113679e25/tools/create-macos-app.sh \
+  -o /tmp/solaar-create-macos-app.sh
+echo "00fdb57a6676cfc0b31addcf34dc76a0233c720635ced9a7a7f528e93595b563  /tmp/solaar-create-macos-app.sh" \
+  | shasum -a 256 -c -
+bash /tmp/solaar-create-macos-app.sh
 ```
 
 This should create:
@@ -70,7 +80,7 @@ diversion features do not.
 - Record battery readings as approximate, device-reported observations.
 - Interpret `Battery Level: 30% (next reported 5%)` as current 30%; `5%` is a
   future reporting threshold.
-- Save current names, readings, and timestamps only in ignored `state/`.
+- Save current names, readings, and timestamps only in machine-local state.
 
 ## Verification
 

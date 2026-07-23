@@ -2,11 +2,46 @@
 
 A personal Codex Skill for making a new Mac ready to use after one repository sync. It inventories installed apps, selects a storage profile, captures reusable permissions and user-preference policies, creates an installation plan, and records follow-up tasks such as account sign-in and permissions.
 
+Current target version: **0.1.0** (`release_candidate`)
+
+`VERSION` is the version source of truth. The 0.1.0 release-candidate
+capability baseline, committed 0.2.0–0.7.0 scope, undecided 0.8.0–0.9.0
+slots, and 1.0 native macOS product vision are defined in
+[`references/release-roadmap.md`](references/release-roadmap.md). Product-level
+candidates are kept separately in
+[`references/product-ideas.md`](references/product-ideas.md).
+The single frozen 0.1.0 behavior boundary is
+[`references/release-acceptance-matrix.json`](references/release-acceptance-matrix.json);
+validate it locally with `python3 scripts/validate_release_contract.py`.
+
 The app catalog is only one part of the baseline. Tracked `settings/` define
-portable policy, while ignored `state/` stores current-machine observations.
-Privacy grants, credentials, tokens, and private data are never copied as
-configuration; each new Mac must visibly authorize protected access and then
-be verified.
+portable policy. The Git-tracked `Private/` overlay is reserved for
+user-approved personal configuration and remains synchronized through Git;
+existing tracked values stay in place until each consumer has a tested,
+backward-compatible migration. Runtime state now lives in machine-local Application Support storage;
+the tracked `state/` directory is only a compatibility locator. Privacy
+grants, passwords, tokens, private keys, session material, and private document
+contents are never copied as configuration; each new Mac must visibly
+authorize protected access and then be verified.
+
+See [`references/configuration-layers.md`](references/configuration-layers.md)
+for merge precedence, migration rules, and the boundary between tracked
+Private configuration and secrets.
+
+All supported mutations are registered in
+[`references/mutation-contracts.json`](references/mutation-contracts.json) and
+validated through the shared
+[`mutation transaction contract`](references/mutation-transaction-contract.md).
+Tracked component guides are protected by the
+[`component documentation state boundary`](references/component-state-boundary.md);
+detected versions, paths, timestamps, measurements, grants, and completion
+results stay in machine-local state.
+
+`SKILL.md` is the concise execution and safety entry point. Detailed procedures
+are split into six directly linked domain references and loaded only when the
+current task needs them. `python3 scripts/validate_skill_structure.py` enforces
+the entry-point size limit, required routes, preserved domain sections, and
+local-link integrity.
 
 ## Requirements
 
@@ -15,12 +50,60 @@ be verified.
 - Homebrew for automatic Homebrew cask/formula installs
 - Codex Chrome extension only when managing an official website download in Chrome
 
+## Local validation policy
+
+The 0.1.0 release candidate uses local macOS validation, not GitHub Actions, as
+its default quality gate:
+
+```sh
+python3 scripts/icloud_git_guard.py inspect --repo .
+python3 scripts/release_check.py
+```
+
+The release check is hermetic by default and uses fixture responses for
+Homebrew, App Store receipts, TCC, defaults, and filesystem state. Run
+`python3 scripts/release_check.py --include-live-smoke` only when the current
+Mac integration check is needed.
+
+`tests/smoke.sh` validates the catalog and Python scripts, lints LaunchAgent
+templates, and exercises read-only or dry-run paths against the current Mac.
+It never authorizes an install, changes TCC permissions, or replaces a genuine
+clean-Mac acceptance run. The previous automatically triggered
+`macos-latest` workflow was removed because an ephemeral GitHub runner cannot
+represent this repository's real application, account, hardware, permission,
+Dock, or system-preference state and adds private-repository runner cost
+without becoming release evidence.
+
+Do not add a push, pull-request, or scheduled GitHub Actions workflow for this
+skill unless the user explicitly changes this policy. See
+[`references/testing-contract.md`](references/testing-contract.md) for the
+hermetic/live boundary and required negative contracts.
+
+## iCloud-backed Git preflight
+
+This repository intentionally remains in iCloud Drive. Before `git status`,
+`git diff`, `git fsck`, commit preparation, submodule operations, or other
+Git-dependent work, run:
+
+```sh
+python3 scripts/icloud_git_guard.py inspect --repo .
+```
+
+The command understands this skill's submodule `.git` pointer and stops before
+Git opens an evicted object. If materialization is required, use the plan-first
+workflow in
+[`references/icloud-git-integrity.md`](references/icloud-git-integrity.md).
+Never interpret `dataless` as deletion or corruption, never repair Git before
+materialization, and never relocate the repository as a workaround.
+
 ## Keyboard configuration entry
 
-Keyboard settings are managed from [`settings/keyboard.yaml`](settings/keyboard.yaml).
+Keyboard settings are managed from
+[`Private/keyboard.yaml`](Private/keyboard.yaml). The historical
+`settings/keyboard.yaml` path is a compatibility locator.
 The device-specific K240 profile is:
 
-[`settings/keyboards/logitech-k240-japanese-dictation.yaml`](settings/keyboards/logitech-k240-japanese-dictation.yaml)
+[`Private/keyboards/logitech-k240-japanese-dictation.yaml`](Private/keyboards/logitech-k240-japanese-dictation.yaml)
 
 The current Logitech K240 Japanese-keyboard policy is:
 
@@ -173,7 +256,8 @@ Command twice rather than treating F5 as a Dictation key.
 
 These keyboard settings are machine-local. They are not treated as iCloud
 synced configuration. Durable policy belongs in `settings/`; current device
-facts and test logs belong in ignored `state/` or the local log directory.
+facts and test logs belong in the resolved machine-local state directory or
+the local log directory.
 
 ### Logitech K240/M212 battery status
 
@@ -183,7 +267,7 @@ Logi Options+ and OpenLogi may not recognize this legacy pairing. Solaar is the
 optional next test; its macOS support is limited and its device-reported battery
 values must be confirmed from each selected device's details pane. See
 [`components/solaar.md`](components/solaar.md) for the GitHub-based installation
-flow. Keep current readings in ignored `state/`, not in this durable README.
+flow. Keep current readings in machine-local state, not in this durable README.
 
 ### Audit and selectively disable startup items
 
@@ -206,7 +290,9 @@ records are reported for review rather than deleted automatically.
 
 ## Start safely
 
-Run every command from this directory. These commands only inspect the Mac and write local records under `state/`:
+Run every command from this directory. These commands only inspect the Mac and
+write records under the directory returned by
+`python3 scripts/state_paths.py path`:
 
 ```sh
 python3 scripts/macos_apps.py scan
@@ -243,32 +329,61 @@ installs are reported as `manual_or_unknown`. Review `source_mismatches` in the
 plan before reinstalling. For example, Slack and Telegram must have an App Store
 receipt; a mismatch only produces a prompt and never deletes the existing app.
 
+Before applying an installation, validate
+[`references/source-policy.md`](references/source-policy.md):
+
+```sh
+python3 scripts/supply_chain.py validate
+python3 scripts/supply_chain.py inspect
+```
+
+The installer refuses mutable network-to-shell Homebrew bootstrap, unpinned npm
+globals, and third-party tap drift. Decrypted IPA sources require separate
+Private approval and per-file verification.
+
+The 0.1.0 Clean-Mac harness is ready, but its real hardware run remains
+`blocked_external`. Validate the harness on any Mac; initialize a session only
+on unused or newly purchased hardware:
+
+```sh
+python3 scripts/clean_mac_acceptance.py validate
+python3 scripts/clean_mac_acceptance.py status
+```
+
+See
+[`references/clean-mac-release-acceptance.md`](references/clean-mac-release-acceptance.md)
+for the 13-gate workflow. Previously configured Macs cannot satisfy CM-01.
+
 `portable` applies below 512 GB; `expanded` applies at 512 GB or more. Review the generated plan before choosing one or two apps to install.
 
 ```sh
-python3 scripts/macos_apps.py install state/PLAN.json --only "App Name"
-python3 scripts/macos_apps.py install state/PLAN.json --only "App Name" --apply
+STATE_DIR="$(python3 scripts/state_paths.py path)"
+python3 scripts/macos_apps.py install "$STATE_DIR/PLAN.json" --only "App Name"
+python3 scripts/macos_apps.py install "$STATE_DIR/PLAN.json" --only "App Name" --apply
 ```
 
 The first command is a dry run. `--apply` makes external changes and must be used only after explicit review. GUI apps must be opened and checked after installation.
 
 Approved Homebrew CLI recommendations may be installed in batches of up to five. GUI apps and App Store/website installs remain one at a time so each can be opened, authenticated, and verified separately.
 
-Catalog entries may include a `minimum_version` and `preferred_account`. The
-plan reports versions below the recorded floor as `version_issues`; account
-values are prompts only and never include passwords, tokens, or recovery codes.
+Merged catalog entries may include a `minimum_version` and a
+`preferred_account` from `Private/app-catalog-overlay.json`. The plan reports
+versions below the recorded floor as `version_issues`; account values are
+prompts only and never include passwords, tokens, or recovery codes.
 
 GUI installation and CLI installation are tracked separately. When a GUI app
 has a CLI, the skill verifies `command -v` and the declared version, and only
 creates a documented link after explicit confirmation. It never guesses a
 symlink from an app bundle.
 
-Every Core component guide must record measured `download_bytes` and
-`installed_bytes`; `size_gb` in the catalog is only a planning estimate. Run
-`python3 scripts/audit_core_catalog.py` to find missing guides, measurements,
-or App Store/CLI metadata.
+Every Core component guide keeps only planning estimates and reusable
+installation know-how; `size_gb` in the catalog is only a planning estimate.
+Measured `download_bytes` and `installed_bytes` belong in machine-local install
+records. Run `python3 scripts/audit_core_catalog.py` and
+`python3 scripts/audit_component_frontmatter.py` to find missing guides,
+metadata, or state-boundary violations.
 
-LM Studio Bionic is the active Core application for this Mac. Classic LM Studio
+LM Studio Bionic is the desired Core application. Classic LM Studio
 is retired because both applications use the same `llmster` daemon and cannot
 run their local backends concurrently. Keep shared `~/.lmstudio` model data
 until Bionic has been verified; retirement does not imply deleting that data.
@@ -300,12 +415,20 @@ python3 scripts/docker_desktop_cleanup.py remove --confirm "REMOVE DOCKER DESKTO
 
 ## Local records
 
-`state/` is intentionally ignored by Git. It contains machine-specific app paths, storage information, and deployment history; keep it locally for continuity but do not commit it.
+Runtime records are stored under
+`~/Library/Application Support/install-macos-apps/state/<hashed-machine-id>/`.
+Resolve the exact path with `python3 scripts/state_paths.py path`. The tracked
+`state/README.md` and `state/locator.json` contain no machine observations.
+See
+[`references/machine-local-state.md`](references/machine-local-state.md) for
+override, migration, verification, and source-cleanup rules.
 
 The expected Chrome Profile mapping is intentionally tracked in
-[`config/chrome-profiles.json`](config/chrome-profiles.json), so a new Mac can
+[`Private/chrome-profiles.json`](Private/chrome-profiles.json), so a new Mac can
 compare its local inventory with the seven expected Profile directories and
 account emails. It contains account identifiers only; never add passwords,
 tokens, recovery codes, or Passkey data.
+The historical `config/chrome-profiles.json` path is a compatibility locator
+and remains accepted by `scripts/chrome_profiles.py`.
 
 See [SKILL.md](SKILL.md) for the complete Codex workflow and safety rules.

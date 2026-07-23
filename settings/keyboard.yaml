@@ -1,25 +1,3 @@
-# Main entry point for persistent keyboard policy.
-# Device-specific rules are selected from this file. This describes the target
-# state; actual detection and verification results belong in state/.
-
-profiles:
-  - file: "keyboards/logitech-k240-japanese-dictation.yaml"
-    when:
-      manufacturer: "Logitech"
-      transport: "USB_receiver"
-      receiver_vendor_id: "0x046d"
-      receiver_product_id: "0xc534"
-      keyboard_model: "K240"
-      keyboard_layout: "ja-JP"
-    apply: "keyboards/logitech-k240-japanese-dictation.yaml"
-
-default_profile: "keyboards/logitech-k240-japanese-dictation.yaml"
-
-dictation:
-  enabled: true
-  microphone_source: "automatic"
-  auto_punctuation: true
-  languages:
-    - "zh-Hans"
-    - "ja-JP"
-    - "en-US"
+schema_version: 1
+kind: tracked_private_config_locator
+private_path: Private/keyboard.yaml

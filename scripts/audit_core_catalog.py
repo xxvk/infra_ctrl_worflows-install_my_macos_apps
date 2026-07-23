@@ -5,12 +5,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from config_layers import load_app_catalog
+
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references/app-catalog.json"
 
 
 def main() -> int:
-    data = json.loads(CATALOG.read_text(encoding="utf-8"))
+    data = load_app_catalog(CATALOG)
     core = [app for app in data["apps"] if app.get("tier") == "core"]
     missing_guides, cli_review = [], []
     for app in core:
@@ -27,7 +29,7 @@ def main() -> int:
         "missing_guides": missing_guides,
         "machine_measurements_in_guides": [],
         "app_store_cli_metadata_review": cli_review,
-        "size_note": "Current-machine measurements belong in ignored state/ install records, not component Markdown.",
+        "size_note": "Current-machine measurements belong in machine-local install records, not component Markdown.",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if not missing_guides and not cli_review else 1

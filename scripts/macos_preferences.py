@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: preferences.apply
 """Capture an allowlisted, read-only macOS preference baseline."""
 
 from __future__ import annotations
@@ -17,9 +18,11 @@ import xml.etree.ElementTree as ET
 from xml.parsers.expat import ExpatError
 from pathlib import Path
 
+from config_layers import resolve_config_path
+from state_paths import add_state_dir_argument, resolve_state_dir
+
 HOME = Path.home()
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "state"
 DEFAULT_VALUES = Path(__file__).resolve().parents[1] / "settings/system-preferences-values.json"
 ALLOWLIST = {
     "NSGlobalDomain": {"AppleSelectedInputSources", "AppleLocale", "AppleLanguages", "AppleICUForce24HourTime", "AppleMeasurementUnits", "AppleMetricUnits", "AppleCalendar", "AppleFirstWeekday", "AppleInterfaceStyle", "AppleAccentColor", "AppleHighlightColor", "AppleShowAllExtensions", "NSPersonNameDefaultDisplayNameOrder", "NSPersonNameDefaultShortNameFormat", "com.apple.springing.enabled", "com.apple.springing.delay", "NSNavPanelExpandedStateForSaveMode", "AppleSymbolicHotKeys", "NSUserKeyEquivalents", "NSUserDictionaryReplacementItems", "NSAutomaticSpellingCorrectionEnabled", "NSAutomaticCapitalizationEnabled", "NSAutomaticPeriodSubstitutionEnabled", "NSAutomaticTextCompletionEnabled", "NSAutomaticQuoteSubstitutionEnabled", "NSAutomaticDashSubstitutionEnabled", "com.apple.keyboard.fnState"},
@@ -725,7 +728,8 @@ def _memory_bytes() -> int | None:
 
 
 def apply_values() -> list[dict[str, object]]:
-    desired = json.loads(DEFAULT_VALUES.read_text())
+    desired_path = resolve_config_path(DEFAULT_VALUES, root=ROOT)
+    desired = json.loads(desired_path.read_text())
     changed = []
     for domain, values in desired.get("domains", {}).items():
         for key, value in values.items():
@@ -749,23 +753,31 @@ def apply_values() -> list[dict[str, object]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Capture an allowlisted macOS preference baseline")
+    add_state_dir_argument(parser)
     parser.add_argument("--output", type=Path, help="write the JSON result to this path")
     parser.add_argument("--check", action="store_true", help="compare the capture with tracked desired values")
     parser.add_argument("--apply", action="store_true", help="apply tracked values after explicit confirmation")
     args = parser.parse_args()
     if args.apply:
-        print("This will change only the tracked values in settings/system-preferences-values.json and restart Finder and Dock.")
+        print("This will apply only the tracked values from Private/system-preferences-values.json and restart Finder and Dock.")
         if input("Type APPLY to continue: ").strip() != "APPLY":
             print("Cancelled; no changes made.")
             return 0
-        print(json.dumps({"apply": apply_values()}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {"action_id": "preferences.apply", "apply": apply_values()},
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
     result = scan()
-    output = args.output or DEFAULT_OUTPUT_DIR / f"preferences-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+    output = args.output or resolve_state_dir(args.state_dir) / f"preferences-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     report = {"output": str(output), "domains": result["domains"], "dock_order": result["dock_order"], "login_items": result["login_items"], "user_launch_agents": result["user_launch_agents"]}
     if args.check:
-        desired = json.loads(DEFAULT_VALUES.read_text())
+        desired_path = resolve_config_path(DEFAULT_VALUES, root=ROOT)
+        desired = json.loads(desired_path.read_text())
         mismatches = []
         for domain, expected in desired.get("domains", {}).items():
             actual = result["domains"].get(domain, {}).get("values", {})

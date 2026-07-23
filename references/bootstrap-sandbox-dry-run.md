@@ -17,7 +17,7 @@ flag to actually change anything:
 | `macos_apps.py install` | prints the plan | `--apply` |
 | `macos_preferences.py` | `--check` only compares | `--apply` |
 | `docker_desktop_cleanup.py` | `inspect` | `remove --confirm '...'` |
-| `capacities_cleanup.py` | no flags | `--apply --confirm` |
+| `capacities_cleanup.py` | no flags | `--apply --confirm "REMOVE CAPACITIES APP"` |
 | `macos_permissions_cleanup.py` | no flags | `--apply` + typed `CLEAN TCC` |
 | `dotfiles_sync.py link` | no flags | `--apply` |
 | `drift_check_schedule.py install`/`uninstall` | no flags | `--apply` |

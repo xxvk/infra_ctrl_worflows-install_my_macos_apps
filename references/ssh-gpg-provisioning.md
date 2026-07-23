@@ -3,7 +3,7 @@
 This is a documentation-only reference. No script here reads, generates,
 exports, or persists actual key material — private keys, passphrases, and
 `.pem` file contents are permanently out of scope for this skill and must
-never appear in `state/`, `settings/`, Markdown, or Git.
+never appear in machine-local state, `settings/`, Markdown, or Git.
 
 ## What this Mac's read-only scan already tells you
 
@@ -19,7 +19,7 @@ its contents or any key file. A one-time manual inspection of this Mac
   `~/.ssh/` (e.g. under per-project folders on Desktop), rather than the
   conventional single default identity under `~/.ssh/`. The exact current
   project paths are machine-specific and are intentionally not recorded
-  here; see ignored `state/` if a dated snapshot is ever needed.
+  here; see machine-local state if a dated snapshot is ever needed.
 - An `ssh-agent` socket exists under `~/.ssh/agent/`, but no password
   manager currently supplies SSH-agent forwarding (this user's declared
   secrets source is the system/iCloud Keychain, not 1Password or similar).
@@ -83,4 +83,4 @@ today depends on GPG, and adding it unasked would be scope creep.
 - [ ] If GPG signing is in use, `git log --show-signature -1` on a fresh
       commit shows a valid signature.
 - [ ] No `.pem` file, private key, or passphrase was ever written to this
-      repository's tracked files or to ignored `state/`.
+      repository's tracked files or to machine-local state.

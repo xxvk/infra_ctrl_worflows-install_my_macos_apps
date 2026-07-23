@@ -6,6 +6,15 @@ cd "$ROOT"
 
 python3 -m json.tool references/app-catalog.json >/dev/null
 python3 scripts/validate_app_catalog.py >/dev/null
+python3 scripts/config_layers.py audit >/dev/null
+python3 scripts/validate_release_contract.py >/dev/null
+python3 scripts/validate_skill_structure.py >/dev/null
+python3 -m unittest tests/test_chrome_profiles.py >/dev/null
+python3 -m unittest tests/test_config_layers.py >/dev/null
+python3 -m unittest tests/test_icloud_git_guard.py >/dev/null
+python3 -m unittest tests/test_release_contract.py >/dev/null
+python3 -m unittest tests/test_skill_structure.py >/dev/null
+python3 -m unittest tests/test_state_migration.py >/dev/null
 # Compile-check every tracked script, not a hand-maintained subset --
 # a script added later is covered automatically instead of silently skipped.
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/install-macos-apps-pycache" \
@@ -52,15 +61,21 @@ python3 scripts/macos_printers.py >/dev/null
 
 python3 - <<'PY'
 import json
+import sys
 from pathlib import Path
 
-scan = json.loads(sorted(Path("state").glob("scan-*.json"))[-1].read_text())
-plan = json.loads(sorted(Path("state").glob("plan-*.json"))[-1].read_text())
+sys.path.insert(0, "scripts")
+from state_paths import resolve_state_dir
+
+state = resolve_state_dir()
+scan = json.loads(sorted(state.glob("scan-*.json"))[-1].read_text())
+plan = json.loads(sorted(state.glob("plan-*.json"))[-1].read_text())
 assert all("source" in app for app in scan["applications"]), "scan lacks source evidence"
 assert "source_mismatches" in plan, "plan lacks source mismatch report"
 PY
 
-PLAN="$(ls -t state/plan-*.json | head -n 1)"
+STATE_DIR="$(python3 scripts/state_paths.py path)"
+PLAN="$(find "$STATE_DIR" -maxdepth 1 -name 'plan-*.json' -print0 | xargs -0 ls -t | head -n 1)"
 APP="$(python3 - "$PLAN" <<'PY'
 import json
 import sys

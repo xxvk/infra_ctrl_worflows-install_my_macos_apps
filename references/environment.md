@@ -75,5 +75,5 @@ emulator -avd kirara-api-35 -no-snapshot-load
 ```
 
 Record package versions, measured download/install bytes, selected ABI, AVD
-name, and verification timestamps under ignored `state/`. Never commit SDK
+name, and verification timestamps under machine-local state. Never commit SDK
 licenses, emulator snapshots, device data, or credentials.

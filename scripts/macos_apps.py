@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: apps.install
 """Create and apply auditable, capacity-aware macOS app plans."""
 import argparse
 import datetime as dt
@@ -12,9 +13,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+from config_layers import load_app_catalog
+from state_paths import add_state_dir_argument, resolve_state_dir
+from supply_chain import provenance_for
+
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references" / "app-catalog.json"
-STATE = ROOT / "state"
+STATE = resolve_state_dir()
 APP_DIRS = [
     Path("/Applications"),
     Path.home() / "Applications",
@@ -29,7 +34,7 @@ def stamp():
 
 
 def write_record(prefix, value):
-    STATE.mkdir(exist_ok=True)
+    STATE.mkdir(parents=True, exist_ok=True)
     path = STATE / f"{prefix}-{stamp()}.json"
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     return path
@@ -41,7 +46,7 @@ def update_guide_measurement(app, measurement):
 
 
 def catalog():
-    return json.loads(CATALOG.read_text())
+    return load_app_catalog(CATALOG)
 
 
 def installed_brew_casks():
@@ -399,7 +404,9 @@ def plan(args):
             tap = f" (after brew tap {app['brew_tap']})" if app.get('brew_tap') else ""
             delivery = f"brew install {app['brew_formula']}{tap}"
         elif app.get("npm_package"):
-            delivery = f"npm install --global {app['npm_package']}"
+            package = app["npm_package"]
+            version = app.get("npm_version")
+            delivery = f"npm install --global {package}@{version}" if version else f"npm install --global {package}"
         else:
             delivery = app.get("app_store_url") or app.get("official_url", "no source recorded")
         print(f"- {app['name']}: {delivery}")
@@ -429,6 +436,88 @@ def run(command, apply):
     print("+", " ".join(command))
     if apply:
         subprocess.run(command, check=True)
+
+
+def install_commands(app, *, force=False):
+    """Render deterministic external commands for one catalog app."""
+    commands = []
+    if app.get("brew_tap"):
+        commands.append([
+            "env",
+            "HOMEBREW_NO_AUTO_UPDATE=1",
+            "HOMEBREW_NO_INSTALL_UPGRADE=1",
+            "brew",
+            "tap",
+            app["brew_tap"],
+        ])
+    if app.get("brew_trust_cask"):
+        commands.append([
+            "env",
+            "HOMEBREW_NO_AUTO_UPDATE=1",
+            "brew",
+            "trust",
+            "--cask",
+            app["brew_trust_cask"],
+        ])
+    if app.get("brew_cask") or app.get("brew_formula"):
+        command = [
+            "env",
+            "HOMEBREW_NO_AUTO_UPDATE=1",
+            "HOMEBREW_NO_INSTALL_UPGRADE=1",
+            "brew",
+            "install",
+        ]
+        if force:
+            command.append("--force")
+        if app.get("brew_cask"):
+            command.extend(["--cask", app["brew_cask"]])
+        else:
+            command.append(app["brew_formula"])
+        commands.append(command)
+    elif app.get("npm_package"):
+        version = app.get("npm_version")
+        if not version:
+            raise ValueError(f"{app['name']}: npm_version must be pinned")
+        commands.append(["npm", "install", "--global", f"{app['npm_package']}@{version}"])
+    return commands
+
+
+def verify_tap_source(app, *, runner=subprocess.run):
+    """Stop when a third-party tap differs from the reviewed remote or commit."""
+    tap = app.get("brew_tap")
+    expected_remote = app.get("brew_tap_repository")
+    expected_revision = app.get("brew_tap_revision")
+    if not tap or not expected_remote or not expected_revision:
+        return None
+    repository = runner(
+        ["brew", "--repository", tap],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
+    remote = runner(
+        ["git", "-C", repository, "remote", "get-url", "origin"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
+    revision = runner(
+        ["git", "-C", repository, "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
+    if remote != expected_remote or revision != expected_revision:
+        raise RuntimeError(
+            f"{app['name']}: third-party tap drift; expected "
+            f"{expected_remote}@{expected_revision}, observed {remote}@{revision}"
+        )
+    return {
+        "tap": tap,
+        "repository": remote,
+        "revision": revision,
+        "status": "verified",
+    }
 
 
 def path_size(path):
@@ -472,7 +561,7 @@ def install(args):
     plan_data = json.loads(plan_file.read_text())
     # A source correction is an install target too: the app may already exist,
     # but must be replaced/reinstalled from the catalog's preferred source.
-    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))["apps"]
+    catalog = load_app_catalog(CATALOG)["apps"]
     catalog_by_name = {}
     for app in catalog:
         for label in [app["name"], *app.get("aliases", [])]:
@@ -508,41 +597,27 @@ def install(args):
     if not args.apply:
         print("DRY RUN — nothing will be installed. Re-run with --apply after review.")
     if brew_apps and not shutil.which("brew"):
-        print("Homebrew is not installed.")
-        run(["/bin/bash", "-c", "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"], args.apply)
-        if args.apply:
-            print("Restart the shell if Homebrew is not yet on PATH, then rerun this command.")
-            return
+        raise SystemExit(
+            "Homebrew is required for this plan. Automatic network-to-shell "
+            "bootstrap is disabled; install Homebrew through a separately "
+            "reviewed bootstrap procedure, then rerun."
+        )
     measurements = []
     for app in brew_apps:
-        if app.get("brew_tap"):
-            run([
-                "env",
-                "HOMEBREW_NO_AUTO_UPDATE=1",
-                "HOMEBREW_NO_INSTALL_UPGRADE=1",
-                "brew",
-                "tap",
-                app["brew_tap"],
-            ], args.apply)
         # Prevent an app install from silently upgrading unrelated installed
         # formulae/casks. Explicit dependency upgrades require confirmation.
-        command = [
-            "env",
-            "HOMEBREW_NO_AUTO_UPDATE=1",
-            "HOMEBREW_NO_INSTALL_UPGRADE=1",
-            "brew",
-            "install",
-        ]
-        if app["name"].casefold() in mismatch_names:
-            command.append("--force")
-        if app.get("brew_cask"):
-            command.extend(["--cask", app["brew_cask"]])
-        else:
-            command.append(app["brew_formula"])
-        cache_path = brew_cache_path(app)
+        commands = install_commands(
+            app,
+            force=app["name"].casefold() in mismatch_names,
+        )
+        cache_path = brew_cache_path(app) if args.apply else None
         before_download = path_size(cache_path) if cache_path else 0
         started = dt.datetime.now().astimezone().isoformat()
-        run(command, args.apply)
+        tap_verification = None
+        for command in commands:
+            run(command, args.apply)
+            if args.apply and command[-2:] == ["tap", app.get("brew_tap")]:
+                tap_verification = verify_tap_source(app)
         after_download = path_size(cache_path) if cache_path else 0
         measurement = {
             "app": app["name"],
@@ -551,13 +626,18 @@ def install(args):
             "download_bytes": max(after_download - before_download, 0) or after_download,
             "installed_bytes": installed_size(app) if args.apply else 0,
             "status": "installed" if args.apply else "dry_run",
+            "provenance": {
+                **provenance_for(app),
+                "tap_verification": tap_verification,
+            },
         }
         measurements.append(measurement)
         update_guide_measurement(app, measurement)
     for app in npm_apps:
-        command = ["npm", "install", "--global", app["npm_package"]]
+        commands = install_commands(app)
         started = dt.datetime.now().astimezone().isoformat()
-        run(command, args.apply)
+        for command in commands:
+            run(command, args.apply)
         measurement = {
             "app": app["name"],
             "started_at": started,
@@ -565,6 +645,7 @@ def install(args):
             "download_bytes": None,
             "installed_bytes": installed_size(app) if args.apply else 0,
             "status": "installed" if args.apply else "dry_run",
+            "provenance": provenance_for(app),
         }
         measurements.append(measurement)
         update_guide_measurement(app, measurement)
@@ -572,7 +653,8 @@ def install(args):
         print("\nManual/App Store items (not downloaded automatically):")
         for app in manual_apps:
             print(f"- {app['name']}: {app.get('app_store_url') or app.get('official_url') or 'source missing'}")
-    log = {"executed_at": dt.datetime.now().astimezone().isoformat(), "plan": str(plan_file), "apply": args.apply,
+    log = {"action_id": "apps.install",
+           "executed_at": dt.datetime.now().astimezone().isoformat(), "plan": str(plan_file), "apply": args.apply,
            "homebrew_items": [app["name"] for app in brew_apps],
            "npm_items": [app["name"] for app in npm_apps],
            "manual_items": [app["name"] for app in manual_apps],
@@ -582,7 +664,9 @@ def install(args):
 
 
 def main():
+    global STATE
     parser = argparse.ArgumentParser(description=__doc__)
+    add_state_dir_argument(parser)
     sub = parser.add_subparsers(required=True)
     scan_parser = sub.add_parser("scan", help="Inventory Applications folders")
     scan_parser.set_defaults(func=scan)
@@ -595,6 +679,7 @@ def main():
     install_parser.add_argument("--apply", action="store_true", help="Make changes; omit for dry run")
     install_parser.set_defaults(func=install)
     args = parser.parse_args()
+    STATE = resolve_state_dir(args.state_dir)
     args.func(args)
 
 

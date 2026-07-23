@@ -21,4 +21,4 @@ cli_path: "/opt/homebrew/opt/btop"
 # btop
 
 - CLI path: `/opt/homebrew/bin/btop`
-- Version verified: `1.4.7`
+- Verify with `btop --version`; record the detected version only in machine-local state.

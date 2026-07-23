@@ -16,7 +16,6 @@ permissions_required: []
 secrets_policy: "Never store passwords, API keys, recovery codes, or license secrets here."
 download_estimate_bytes: 5000000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
-installed_measurement_method: "local_du"
 ---
 # Android Studio Preview
 
@@ -39,10 +38,3 @@ installed_measurement_method: "local_du"
 ## Notes
 
 Review account, license, privacy, and storage settings before using the app.
-
-## Local evidence (2026-07-16)
-
-- Installed path: `/Applications/Android Studio Preview.app`
-- Installed version: `2025.3`
-- Installed footprint: `3222032384` bytes, measured with `du -sk`.
-- Download bytes are not available from the original installation record; the planning estimate remains separate.

@@ -16,9 +16,7 @@ permissions_required: []
 secrets_policy: "Never store YouTube passwords, recovery codes, or session tokens in the catalog, state/, Obsidian, or Git."
 download_estimate_bytes: 300000000
 download_estimate_method: "tested_decrypted_ipa_size_estimate"
-installed_measurement_method: "local_du"
 bundle_identifier: "com.google.ios.youtube"
-preferred_source: "approved-private-source.invalid IPA Library"
 ---
 # YouTube (PlayCover)
 
@@ -28,12 +26,12 @@ YouTube app rather than the browser site.
 
 ## IPA source
 
-Use the current YouTube entry in the already configured `approved-private-source.invalid` IPA
-Library (or another explicitly approved, reputable decrypted-IPA source).
+Use only the approved decrypted-IPA source label stored in the tracked
+`Private/app-catalog-overlay.json` configuration.
 IPATool is not a prerequisite: M4a and M4b verified that its Apple account
 workflow is not usable for this PlayCover acquisition. Do not hard-code a
 direct IPA download URL in the catalog: source links and versions change. A
-validated test package was named:
+historically tested package was named:
 
 ```text
 com.google.ios.youtube-21.28.3-Decrypted.ipa

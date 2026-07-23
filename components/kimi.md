@@ -21,8 +21,8 @@ preferred_source: "homebrew-cask"
 # Kimi
 
 AI desktop application from Moonshot AI. The preferred reproducible source is
-the Homebrew cask `kimi`; the current bundle was installed manually and should
-be treated as a source-mismatch until it is explicitly replaced.
+the Homebrew cask `kimi`. If a scan finds a manual copy, report a source
+mismatch and replace it only after explicit approval and account verification.
 
 ## Installation
 

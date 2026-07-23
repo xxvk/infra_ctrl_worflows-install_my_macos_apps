@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "apps": [
+    {
+      "name": "Fixture Brew",
+      "category": "Developer tools",
+      "tier": "core",
+      "brew_cask": "fixture-brew",
+      "brew_tap": "example/tools",
+      "guide": "components/fixture-brew.md",
+      "size_gb": 0.1,
+      "minimum_version": "2.0.0"
+    },
+    {
+      "name": "Fixture Store",
+      "category": "Productivity",
+      "tier": "core",
+      "app_store_url": "macappstore://itunes.apple.com/app/id123456789",
+      "guide": "components/fixture-store.md",
+      "size_gb": 0.2
+    },
+    {
+      "name": "Fixture Website",
+      "category": "Utilities",
+      "tier": "optional",
+      "official_url": "https://example.com/download",
+      "bundle_identifiers": [
+        "com.example.website"
+      ],
+      "guide": "components/fixture-website.md",
+      "size_gb": 0.3
+    },
+    {
+      "name": "Fixture Heavy",
+      "category": "Creative",
+      "tier": "heavy",
+      "brew_cask": "fixture-heavy",
+      "guide": "components/fixture-heavy.md",
+      "size_gb": 10.0
+    }
+  ]
+}

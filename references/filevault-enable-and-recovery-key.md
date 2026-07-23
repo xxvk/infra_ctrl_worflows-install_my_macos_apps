@@ -31,7 +31,7 @@ generates, displays, stores, or transmits it.** Decide *before* running
    Keychain; the Keychain itself does not have a "secure note" feature the
    way third-party managers do, so consider the Notes app with a
    passcode-locked note, or a physically printed copy in a safe). It must
-   never be written into this repository, `state/`, or any Markdown file.
+   never be written into this repository, machine-local state, or any Markdown file.
 
 ## Enabling (GUI path, preferred)
 

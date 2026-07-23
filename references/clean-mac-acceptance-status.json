@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "kind": "clean_mac_release_acceptance_status",
+  "release_version": "0.1.0",
+  "tooling_status": "ready",
+  "hardware_run_status": "blocked_external",
+  "reason": "No unused or newly purchased Mac is currently available. Three previously configured Macs are not eligible evidence.",
+  "eligible_result": "A finalized machine-local acceptance session from an unused or new Mac.",
+  "publication_effect": "None. A passing session does not authorize commit, tag, push, release, or App Store publication."
+}

@@ -16,9 +16,7 @@ permissions_required: []
 secrets_policy: "Never store Apple passwords, two-factor codes, App Store tokens, or downloaded IPA files in the catalog, state/, Obsidian, or Git."
 download_estimate_bytes: 30000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
-installed_measurement_method: "local_du"
 recommended_for_playcover_ipa: false
-known_cross_machine_status: "M4a and M4b: not usable for the required IPA workflow; do not gate PlayCover on IPATool"
 ---
 # IPATool
 
@@ -76,10 +74,10 @@ IPATool downloads an App Store package, which may be encrypted. A successful
 download is not proof that PlayCover can run it, and this workflow is known to
 be unusable on M4a/M4b. Do not use it as a prerequisite for YouTube.
 
-For PlayCover, use the current decrypted YouTube IPA from the configured
-`approved-private-source.invalid` IPA Library (or another explicitly approved, reputable IPA
-source), verify the bundle identifier and decrypted status, then import it in
-PlayCover. Never silently install modified or unverified IPA files.
+For PlayCover, use only the approved decrypted-IPA source label from
+`Private/app-catalog-overlay.json`, verify the bundle identifier and decrypted
+status, then import it in PlayCover. Never silently install modified or
+unverified IPA files.
 
 ## Verification and cleanup
 

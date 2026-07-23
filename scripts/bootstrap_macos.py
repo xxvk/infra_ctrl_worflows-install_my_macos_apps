@@ -6,14 +6,16 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import re
 import subprocess
 import sys
 from pathlib import Path
 
+from state_paths import STATE_DIR_ENV, add_state_dir_argument, resolve_state_dir
+
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "state"
 
 
 def run_step(name: str, command: list[str], allow_failure: bool = False) -> dict[str, object]:
@@ -33,8 +35,11 @@ def run_step(name: str, command: list[str], allow_failure: bool = False) -> dict
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run a read-only, ordered Mac bootstrap assessment")
+    add_state_dir_argument(parser)
     parser.add_argument("--profile", default="auto", help="storage profile passed to the app planner")
     args = parser.parse_args()
+    state_dir = resolve_state_dir(args.state_dir)
+    os.environ[STATE_DIR_ENV] = str(state_dir)
     py = sys.executable
     steps = [
         run_step("tracked_definition_validation", [py, "scripts/bootstrap_validate.py"]),
@@ -57,8 +62,8 @@ def main() -> int:
             "Run the final verification phase.",
         ],
     }
-    STATE.mkdir(exist_ok=True)
-    output = STATE / f"bootstrap-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+    state_dir.mkdir(parents=True, exist_ok=True)
+    output = state_dir / f"bootstrap-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"output": str(output), "steps": steps}, ensure_ascii=False, indent=2))
     return 0 if all(step["status"] in {"passed", "review_required"} for step in steps) else 1

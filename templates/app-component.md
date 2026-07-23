@@ -43,7 +43,8 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 - [ ] Run the dry run with no external changes.
 - [ ] Obtain explicit approval before download or installation.
 - [ ] Install using the verified delivery method.
-- [ ] Record `download_bytes`, `installed_bytes`, version, and timestamps in frontmatter and the install log.
+- [ ] Record `download_bytes`, `installed_bytes`, detected version, paths,
+      timestamps, and pass/fail only in the machine-local install record.
 
 ### Command or user action
 
@@ -56,7 +57,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 ## Configuration
 
 - [ ] Create or update: `<configuration path>`
-- [ ] If shell environment is required, add one labelled idempotent block to the active shell startup file; preserve unrelated lines and record a backup in `state/`.
+- [ ] If shell environment is required, add one labelled idempotent block to the active shell startup file; preserve unrelated lines and record a backup in machine-local state.
 - [ ] Apply required settings:
 
 ```ini
@@ -65,7 +66,8 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 
 - [ ] Preserve unrelated user settings.
 - [ ] Never automate sign-in, license entry, VPN approval, device management, or privacy permissions.
-- [ ] Record non-secret configuration choices in `completion_notes` or this document.
+- [ ] Record reusable non-secret desired configuration in this document;
+      record this Mac's apply result only in machine-local state.
 
 ## Verification
 
@@ -79,7 +81,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 
 - [ ] Confirm the configured behavior works.
 - [ ] Re-run the macOS app scan.
-- [ ] Set `verification_status: passed` and record `verified_at`.
+- [ ] Record verification status and timestamp only in machine-local state.
 
 ## Follow-up
 
@@ -92,7 +94,11 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 
 ## Evidence and notes
 
-- Install record: `<state/install-YYYYMMDD-HHMMSS.json>`
-- Scan record: `<state/scan-YYYYMMDD-HHMMSS.json>`
-- Source checked: `<URL and date>`
-- Notes: <non-secret observations>
+- Install record: `<machine-local-state>/install-YYYYMMDD-HHMMSS.json`
+- Scan record: `<machine-local-state>/scan-YYYYMMDD-HHMMSS.json`
+- Source reference: `<official URL>`
+- Reusable notes: <installation, configuration, verification, or rollback know-how>
+
+Never paste a machine-local record, completed checkbox, detected version,
+installed path, measurement, permission grant, or timestamp back into this
+tracked guide.

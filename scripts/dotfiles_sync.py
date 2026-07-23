@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+# Mutation action ID: dotfiles.link
 """Symlink-based dotfiles reproduction.
 
 Reads tracked files from dotfiles/home/<relative-path> and links them to
-$HOME/<relative-path>. Never copies file contents into state/ or anywhere
+$HOME/<relative-path>. Never copies file contents into machine-local state or anywhere
 else; never overwrites an existing non-symlink destination without backing
 it up first. See dotfiles/README.md for the population convention.
 """
@@ -66,7 +67,7 @@ def link(apply: bool) -> dict[str, object]:
         destination.symlink_to(tracked)
         action["applied"] = True
         actions.append(action)
-    return {"apply_requested": apply, "actions": actions}
+    return {"action_id": "dotfiles.link", "apply_requested": apply, "actions": actions}
 
 
 def main() -> int:

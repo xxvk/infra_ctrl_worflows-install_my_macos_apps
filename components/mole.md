@@ -18,25 +18,16 @@ download_estimate_bytes: 10000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 cli_path: "/opt/homebrew/opt/mole"
 ---
-ry | `/opt/homebrew/bin/mole` |
-| Download recorded | 4,403,200 bytes |
-| Installed size recorded | 9,224,192 bytes (~8.8 MiB) |
-| Binary | `/opt/homebrew/bin/mole` |
-| Account needed | no |
-| Permissions | Review each sudo/Touch ID request interactively |
+# Mole
+
+Mole is the Core disk-maintenance CLI. Install it after Ghostty, preview every
+cleanup, and preserve the tracked Hugging Face exclusion.
 
 ## Installation
-
-- [x] Confirmed missing during the 2026-07-15 scan.
-- [x] Confirmed Ghostty was installed first.
-- [x] Dry run completed.
-- [x] Installed with the verified Homebrew formula:
 
 ```sh
 brew install mole
 ```
-
-- [x] Installed version: `1.46.0`.
 
 ## Configuration
 
@@ -71,9 +62,7 @@ mole --version
 mole --help
 ```
 
-- [x] Binary path verified: `/opt/homebrew/bin/mole`.
-- [x] Version verified: `1.46.0`.
-- [x] Help output confirms the supported cleanup commands.
+- [ ] Confirm the binary, version output, and supported cleanup commands.
 - [ ] Run the first review inside Ghostty and inspect every candidate before confirming any deletion.
 
 ## Safe operating procedure
@@ -108,6 +97,5 @@ Review the dry run before any `mole remove` action. Uninstalling the tool does n
 
 ## Evidence and notes
 
-- Install record: [`state/install-20260715-132537.json`](../state/install-20260715-132537.json)
-- Scan record: [`state/scan-20260715-132109.json`](../state/scan-20260715-132109.json)
-- Notes: Installation succeeded after one permission-review timeout. No cleanup command has been run.
+Write detected version, path, byte measurements, cleanup results, and timestamps
+only to machine-local state.

@@ -20,6 +20,9 @@ cli_path: "/opt/homebrew/opt/zoxide"
 ---
 # zoxide
 
-- CLI path: `/opt/homebrew/bin/zoxide`
-- Version verified: `0.10.0`
+Install with `brew install zoxide`. Verify with `zoxide --version` and record
+the detected version only in machine-local state. Configure the shell hook
+separately and preserve unrelated shell startup content.
+
+- Expected CLI path: `/opt/homebrew/bin/zoxide`
 - Shell integration remains a separate user choice.

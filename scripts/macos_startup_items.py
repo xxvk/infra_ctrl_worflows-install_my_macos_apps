@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: startup-items.disable
 """Scan and selectively disable macOS user login items and startup agents.
 
 The scan is intentionally broader than the removal operation: Background Task
@@ -170,7 +171,7 @@ def interactive_review() -> int:
             changed.append(str(row["name"]))
         elif row["kind"] == "launch_agent":
             changed.append(disable_agent(row))
-    print(json.dumps({"disabled": changed, "data_preserved": True}, ensure_ascii=False, indent=2))
+    print(json.dumps({"action_id": "startup-items.disable", "disabled": changed, "data_preserved": True}, ensure_ascii=False, indent=2))
     return 0
 
 

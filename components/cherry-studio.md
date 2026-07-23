@@ -20,5 +20,5 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 
 ## Retirement status
 
-Cherry Studio is retired for this machine. Do not reinstall it unless the
+Cherry Studio is retired from the reusable baseline. Do not reinstall it unless the
 catalog is explicitly reactivated.

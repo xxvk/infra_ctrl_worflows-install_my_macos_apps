@@ -22,14 +22,13 @@
         "manual_or_unknown"
       ],
       "minimum_version": "26.707.72221",
-      "preferred_account": "xxvk@outlook.com",
       "account_verification": "ui_account_menu",
       "guide": "components/chatgpt.md",
       "size_gb": 1,
       "note": "Official website download and Homebrew cask are both accepted. Future installs must be at least version 26.707.72221.",
       "follow_up": [
-        "Sign in with xxvk@outlook.com",
-        "Verify the email shown in the ChatGPT account menu is xxvk@outlook.com",
+        "Sign in with {preferred_account}",
+        "Verify the email shown in the ChatGPT account menu is {preferred_account}",
         "Confirm the installed version is at least 26.707.72221",
         "Review microphone, notifications, and accessibility permissions"
       ],
@@ -43,11 +42,10 @@
       "brew_cask": "claude",
       "official_url": "https://claude.ai/download",
       "guide": "components/claude.md",
-      "preferred_account": "example.user@example.invalid",
       "account_verification": "ui_account_menu",
       "size_gb": 1,
       "follow_up": [
-        "Sign in with the Google account example.user@example.invalid",
+        "Sign in with the Google account {preferred_account}",
         "Confirm the Google account shown in Claude before continuing",
         "Review permissions",
         "Review Claude Desktop Developer settings and verify required Local MCP servers",
@@ -238,7 +236,8 @@
       "guide": "components/github-cli.md",
       "follow_up": [
         "Run `gh auth status`",
-        "If no active account is shown, complete `gh auth login` interactively"
+        "If no active account is shown, complete `gh auth login` interactively",
+        "Verify the active account is {preferred_account}"
       ],
       "download_estimate_bytes": 50000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate",
@@ -779,8 +778,11 @@
       "name": "KeyStats",
       "category": "System tools",
       "tier": "core",
-      "brew_cask": "keystats",
+      "brew_cask": "debugtheworldbot/keystats/keystats",
       "brew_tap": "debugtheworldbot/keystats",
+      "brew_tap_repository": "https://github.com/debugtheworldbot/homebrew-keystats",
+      "brew_tap_revision": "432771d212a4db269a37683ad707205f2fce2115",
+      "brew_trust_cask": "debugtheworldbot/keystats/keystats",
       "official_url": "https://keystats.vercel.app/",
       "size_gb": 0.1,
       "follow_up": [
@@ -853,7 +855,11 @@
       "name": "PlayCover",
       "category": "Compatibility",
       "tier": "core",
-      "brew_cask": "PlayCover/playcover/playcover-community",
+      "brew_cask": "playcover/playcover/playcover-community",
+      "brew_tap": "playcover/playcover",
+      "brew_tap_repository": "https://github.com/PlayCover/homebrew-playcover",
+      "brew_tap_revision": "04bb422fa336c2b95bfa9962c91b5fbac30eac94",
+      "brew_trust_cask": "playcover/playcover/playcover-community",
       "official_url": "https://github.com/PlayCover/PlayCover",
       "size_gb": 1,
       "follow_up": [
@@ -869,12 +875,11 @@
       "tier": "core",
       "delivery_method": "playcover-ipa",
       "allowed_sources": ["playcover"],
-      "app_store_url": "https://apps.apple.com/app/youtube/id544007664",
+      "ios_app_store_url": "https://apps.apple.com/app/youtube/id544007664",
       "official_url": "https://www.youtube.com/",
       "bundle_identifiers": [
         "com.google.ios.youtube"
       ],
-      "preferred_source": "approved-private-source.invalid IPA Library",
       "install_after": [
         "PlayCover"
       ],
@@ -1575,6 +1580,7 @@
       "category": "Cloud CLI",
       "tier": "core",
       "npm_package": "wrangler",
+      "npm_version": "4.91.0",
       "check_command": "wrangler",
       "official_url": "https://developers.cloudflare.com/workers/wrangler/install/",
       "guide": "components/cloudflare-wrangler.md",
@@ -1588,6 +1594,7 @@
       "category": "Web development CLI",
       "tier": "core",
       "npm_package": "wp-studio",
+      "npm_version": "1.15.0",
       "check_command": "studio",
       "official_url": "https://developer.wordpress.com/docs/developer-tools/studio/cli/",
       "guide": "components/wordpress-studio-cli.md",
@@ -1750,6 +1757,11 @@
       "brew_cask": null,
       "brew_formula": null,
       "official_url": "https://pwr-solaar.github.io/Solaar/installation/",
+      "github_repository": "https://github.com/pwr-Solaar/Solaar",
+      "github_release": "1.1.19",
+      "github_revision": "4bda869542ea0b2e54f24decd4cca65113679e25",
+      "github_artifact": "tools/create-macos-app.sh",
+      "artifact_sha256": "00fdb57a6676cfc0b31addcf34dc76a0233c720635ced9a7a7f528e93595b563",
       "check_command": "test -d '/Applications/Solaar.app'",
       "size_gb": 0.2,
       "follow_up": [

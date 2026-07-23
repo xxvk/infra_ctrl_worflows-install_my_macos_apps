@@ -38,7 +38,7 @@ checkpoints:
     verify: Confirm internet connectivity (e.g. reach apple.com and
       github.com) before continuing to scripts/bootstrap_macos.py or any
       install step.
-    state_record: state/manual-actions-*.json
+    state_record: machine-local-state/manual-actions-*.json
   - id: secrets-manager-availability
     phase: bootstrap
     category: account
@@ -46,13 +46,13 @@ checkpoints:
       it for any other sign-in checkpoint in this file.
     verify: Open the Passwords app (or System Settings > Passwords) and
       confirm previously saved entries from other Apple devices are present.
-    state_record: state/manual-actions-*.json
+    state_record: machine-local-state/manual-actions-*.json
   - id: app-store-sign-in
     phase: install
     category: account
     action: Sign in to the Mac App Store with the user's Apple Account.
     verify: Confirm the selected App Store apps show as installed and retain their receipt.
-    state_record: state/manual-actions-*.json
+    state_record: machine-local-state/manual-actions-*.json
   - id: browser-profile-sign-in
     phase: post_install
     category: account

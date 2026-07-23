@@ -1,8 +1,8 @@
 # Portable application workstyle policy.
 #
 # This file contains desired behavior and verification contracts only. Current
-# machine observations belong in ignored state/preferences-*.json and
-# state/startup-items-*.json. Never add account IDs, tokens, Keychain data,
+# machine observations belong in machine-local preferences-*.json and
+# startup-items-*.json. Never add account IDs, tokens, Keychain data,
 # app containers, browser sessions, or private document data here.
 
 version: 1
@@ -11,7 +11,7 @@ policies:
   - id: logitech-k240
     component: Logitech K240
     classification: device_specific_policy
-    source: settings/keyboards/logitech-k240-japanese-dictation.yaml
+    source: Private/keyboards/logitech-k240-japanese-dictation.yaml
     read:
       - hidutil list
       - defaults read -g AppleSelectedInputSources
@@ -25,7 +25,7 @@ policies:
     component: Solaar
     classification: optional_hardware_telemetry
     source: components/solaar.md
-    current_observation: Installed at /Applications/Solaar.app; receiver access is exclusive.
+    operational_constraint: Logitech receiver access is exclusive between competing device-management applications.
     apply: Quit Logi Options+ and OpenLogi before starting Solaar.
     verify: Confirm the Nano Receiver and each physical device in Solaar, then read device-reported battery values.
     exclusions:
@@ -81,7 +81,7 @@ policies:
   - id: dock-and-startup
     component: Dock and startup listeners
     classification: tracked_policy_plus_machine_observation
-    source: settings/dock-order.json
+    source: Private/dock-order.json
     read:
       - python3 scripts/macos_dock.py
       - python3 scripts/macos_startup_items.py scan

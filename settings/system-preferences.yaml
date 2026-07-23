@@ -5,7 +5,7 @@ schema_version: 1
 scope: explicit_allowlist
 source_of_truth: tracked_settings
 machine_observations: ignored_state
-desired_values_file: settings/system-preferences-values.json
+desired_values_file: Private/system-preferences-values.json
 
 bootstrap_order:
   - machine_baseline
@@ -75,12 +75,12 @@ preferences:
     apply_method: manual_browser_and_webapp_setup
     verify_method: scripts/macos_preferences.py
   - id: dock-order
-    policy_file: settings/dock-order.json
+    policy_file: Private/dock-order.json
     status: tracked
     apply_method: explicit_dock_reconciliation
     verify_method: scripts/macos_dock.py
   - id: keyboard
-    policy_file: settings/keyboard.yaml
+    policy_file: Private/keyboard.yaml
     status: tracked
     apply_method: device_specific_policy
     verify_method: hidutil_and_listener_test
@@ -90,7 +90,7 @@ preferences:
     verify_method: planned_input_source_check
   - id: contacts-name-order
     status: tracked
-    desired_values_file: settings/system-preferences-values.json
+    desired_values_file: Private/system-preferences-values.json
     apply_method: allowlisted_global_defaults
     verify_method: scripts/macos_preferences.py --check
     note: "NSPersonNameDefaultDisplayNameOrder and NSPersonNameDefaultShortNameFormat affect Contacts/name presentation; they do not alter givenName/familyName stored on a Person record."
@@ -161,7 +161,7 @@ preferences:
     note: "Track default-browser routing, wrapper names, and safe PlayCover app settings; never copy browser sessions, Keychain data, app containers, or account state."
   - id: finder-and-appearance
     status: tracked
-    desired_values_file: settings/system-preferences-values.json
+    desired_values_file: Private/system-preferences-values.json
     apply_method: planned_allowlisted_defaults
     verify_method: scripts/macos_preferences.py --check
   - id: default-applications
@@ -176,4 +176,4 @@ preferences:
 rules:
   - Never persist recent-document lists, private paths, serial numbers, or secrets.
   - Add a preference only after read, apply, and verify behavior is understood.
-  - Keep current exports and comparison results in ignored state/.
+  - Keep current exports and comparison results in machine-local state.

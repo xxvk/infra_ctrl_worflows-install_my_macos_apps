@@ -1,0 +1,37 @@
+{
+  "homebrew": {
+    "list_cask_stdout": "fixture-brew\n",
+    "cache_path": "/fixture/cache/fixture-brew.pkg"
+  },
+  "defaults": {
+    "NSGlobalDomain": {
+      "AppleLocale": "ja_JP",
+      "AppleShowAllExtensions": true,
+      "NSUserDictionaryReplacementItems": [
+        {
+          "replace": "private",
+          "with": "redacted"
+        }
+      ],
+      "UntrackedKey": "must_not_escape_allowlist"
+    }
+  },
+  "tcc": [
+    {
+      "service": "kTCCServiceMicrophone",
+      "client": "com.example.fixture",
+      "client_type": 0,
+      "auth_value": 2,
+      "auth_reason": 4,
+      "last_modified": 1700000000
+    },
+    {
+      "service": "kTCCServiceCamera",
+      "client": "com.example.unmatched",
+      "client_type": 0,
+      "auth_value": 0,
+      "auth_reason": 4,
+      "last_modified": 1700000001
+    }
+  ]
+}

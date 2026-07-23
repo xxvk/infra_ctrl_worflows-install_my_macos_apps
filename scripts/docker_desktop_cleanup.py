@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: docker-desktop.remove-data
 """Inspect and, with an explicit confirmation token, remove Docker Desktop data only."""
 import argparse
 import datetime as dt
@@ -124,7 +125,7 @@ def command_remove(args):
                 shutil.rmtree(path)
             else:
                 path.unlink()
-    print(json.dumps({"removed_at": dt.datetime.now().astimezone().isoformat(), "preflight": report, "postflight": inspect()}, ensure_ascii=False, indent=2))
+    print(json.dumps({"action_id": "docker-desktop.remove-data", "removed_at": dt.datetime.now().astimezone().isoformat(), "preflight": report, "postflight": inspect()}, ensure_ascii=False, indent=2))
 
 
 def main():

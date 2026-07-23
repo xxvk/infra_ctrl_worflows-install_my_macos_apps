@@ -1,7 +1,7 @@
 # Expected operational state for a new Mac.
 #
 # This is portable intent, not a copy of M4B's private machine state. Actual
-# observations remain in ignored state/. Permissions still require visible
+# observations remain in machine-local state. Permissions still require visible
 # authorization on every Mac; TCC database rows and authorization tokens are
 # never copied.
 
@@ -108,12 +108,22 @@ network:
     - certificates
     - private_keys
 
-security_observations:
-  # These are current observations, not an instruction to weaken security.
-  current_m4b_observed:
-    gatekeeper: enabled
-    sip: enabled
-    mdm: not_enrolled
-    filevault: off
-    firewall: disabled
-  policy: "review_security_posture_separately_before_new_mac_bootstrap"
+security:
+  policy: "inspect_current_state_then_review_before_new_mac_bootstrap"
+  observation_source: "machine-local preferences-*.json security_profile"
+  required_checks:
+    - gatekeeper
+    - sip
+    - mdm_enrollment
+    - filevault
+    - firewall
+  decision_contract:
+    gatekeeper: "keep_enabled_unless_a_separate_explicit_exception_is_approved"
+    sip: "keep_enabled_unless_a_separate_explicit_exception_is_approved"
+    mdm_enrollment: "organization_controlled_never_auto_change"
+    filevault: "review_and_authorize_per_mac_never_copy_recovery_material"
+    firewall: "review_and_authorize_per_mac"
+  forbidden_portable_data:
+    - current_machine_security_observations
+    - filevault_recovery_keys
+    - mdm_enrollment_secrets

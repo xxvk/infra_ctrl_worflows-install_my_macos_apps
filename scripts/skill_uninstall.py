@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: skill-runtime.uninstall
 """Uninstall/rollback this skill's own footprint from the current Mac.
 
 Default is a dry-run preview; every removal requires --apply. This never
@@ -26,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from skill_footprint_inventory import inventory, KNOWN_SUPPORT_PATHS, KNOWN_LOG_PATHS
 
 HOME = Path.home()
+CONFIRM_UNINSTALL = "UNINSTALL SKILL RUNTIME"
 
 
 def _timestamp() -> str:
@@ -88,10 +90,14 @@ def uninstall_dotfiles_symlinks(apply: bool) -> list[dict[str, object]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apply", action="store_true", help="actually remove; default is dry-run preview")
+    parser.add_argument("--confirm", default="", help=f'exact token: "{CONFIRM_UNINSTALL}"')
     parser.add_argument("--remove-logs", action="store_true", help="also remove ~/Library/Logs/install_my_macos_apps (kept by default)")
     args = parser.parse_args()
+    if args.apply and args.confirm != CONFIRM_UNINSTALL:
+        parser.error(f'--apply requires --confirm "{CONFIRM_UNINSTALL}"')
 
     result = {
+        "action_id": "skill-runtime.uninstall",
         "apply_requested": args.apply,
         "launch_agents": uninstall_launch_agents(args.apply),
         "support_and_logs": uninstall_support_paths(args.apply, args.remove_logs),

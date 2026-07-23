@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Add local version/footprint evidence to non-Core component guides."""
+"""Report local version/footprint evidence without editing tracked guides."""
 from __future__ import annotations
 
-import datetime as dt
 import json
 import plistlib
-import re
 import subprocess
 from pathlib import Path
+
+from config_layers import load_app_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references/app-catalog.json"
@@ -31,17 +31,10 @@ def local_apps() -> list[dict]:
     return found
 
 
-def replace_field(text: str, key: str, value: object) -> str:
-    rendered = json.dumps(value, ensure_ascii=False) if value is not None else "null"
-    updated, count = re.subn(rf"^{re.escape(key)}:.*$", f"{key}: {rendered}", text, count=1, flags=re.MULTILINE)
-    return updated if count else text.replace("---\n", f"---\n{key}: {rendered}\n", 1)
-
-
 def main() -> int:
-    data = json.loads(CATALOG.read_text(encoding="utf-8"))
+    data = load_app_catalog(CATALOG)
     installed = local_apps()
-    today = dt.date.today().isoformat()
-    changed = 0
+    observations = []
     for app in data["apps"]:
         if app.get("tier") == "core" or not app.get("guide"):
             continue
@@ -49,31 +42,27 @@ def main() -> int:
         hit = next((x for x in installed if x["name"] in aliases), None)
         if not hit:
             continue
-        path = ROOT / app["guide"]
-        if not path.is_file():
-            continue
-        text = path.read_text(encoding="utf-8")
-        text = replace_field(text, "status", "installed")
-        text = replace_field(text, "installed_bytes", hit["bytes"])
-        text = replace_field(text, "installed_version", hit["version"])
-        text = replace_field(text, "installed_at", today)
-        text = replace_field(text, "installed_measurement_method", "local_du")
-        if app["name"] == "Brave Browser":
-            text = replace_field(text, "download_bytes", 151494656)
-            text = replace_field(text, "download_measurement_method", "homebrew_install_log")
-        evidence = (
-            f"\n## Local evidence ({today})\n\n"
-            f"- Installed path: `{hit['path']}`\n"
-            f"- Installed version: `{hit['version'] or 'unknown'}`\n"
-            f"- Installed footprint: `{hit['bytes'] if hit['bytes'] is not None else 'unknown'}` bytes, measured with `du -sk`.\n"
-            f"- Download bytes are recorded separately; a local bundle footprint is not treated as download volume.\n"
+        observations.append(
+            {
+                "name": app["name"],
+                "guide": app["guide"],
+                "detected_path": hit["path"],
+                "detected_version": hit["version"],
+                "installed_bytes": hit["bytes"],
+            }
         )
-        if "## Local evidence (" not in text:
-            text = text.rstrip() + "\n" + evidence
-        path.write_text(text, encoding="utf-8")
-        changed += 1
-    CATALOG.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Enriched {changed} installed non-Core guides")
+    print(
+        json.dumps(
+            {
+                "mode": "read_only_machine_observation",
+                "tracked_files_written": False,
+                "observations": observations,
+                "state_policy": "Persist this output only in machine-local state.",
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
     return 0
 
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action ID: openclaw.remove-leftovers
 """Inspect and explicitly remove standalone OpenClaw leftovers."""
 from __future__ import annotations
 import argparse, json, shutil, subprocess
@@ -47,7 +48,7 @@ def main() -> int:
         if item["exists"]:
             shutil.rmtree(item["path"], ignore_errors=True)
             removed.append(item["path"])
-    print(json.dumps({"removed": removed, "preserved": ["Hermes project files", "Kimi Desktop application and other data"]}, indent=2, ensure_ascii=False))
+    print(json.dumps({"action_id": "openclaw.remove-leftovers", "removed": removed, "preserved": ["Hermes project files", "Kimi Desktop application and other data"]}, indent=2, ensure_ascii=False))
     return 0
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Mutation action IDs: claude-vm.remove-images, claude-vm.remove-bundle, claude-vm.lock, claude-vm.unlock
 """Inspect or reclaim Claude Desktop's local-agent VM images safely."""
 import argparse
 import json
@@ -59,7 +60,7 @@ def remove(args):
         if path.exists():
             path.unlink()
             deleted.append(str(path))
-    print(json.dumps({"deleted": deleted, "remaining_bundle_bytes": size(BUNDLE), "issue_url": ISSUE_URL}, ensure_ascii=False, indent=2))
+    print(json.dumps({"action_id": "claude-vm.remove-images", "deleted": deleted, "remaining_bundle_bytes": size(BUNDLE), "issue_url": ISSUE_URL}, ensure_ascii=False, indent=2))
 
 
 def remove_bundle(args):
@@ -71,7 +72,7 @@ def remove_bundle(args):
     deleted_bytes = size(BUNDLE)
     if BUNDLE.exists():
         shutil.rmtree(BUNDLE)
-    print(json.dumps({"deleted_bundle": str(BUNDLE), "deleted_bytes": deleted_bytes, "exists": BUNDLE.exists(), "issue_url": ISSUE_URL}, ensure_ascii=False, indent=2))
+    print(json.dumps({"action_id": "claude-vm.remove-bundle", "deleted_bundle": str(BUNDLE), "deleted_bytes": deleted_bytes, "exists": BUNDLE.exists(), "issue_url": ISSUE_URL}, ensure_ascii=False, indent=2))
 
 
 def lock(args):
@@ -83,7 +84,7 @@ def lock(args):
     target.mkdir(parents=True, exist_ok=True)
     os.chmod(target, 0)
     subprocess.run(["chflags", "uchg", str(target)], check=True)
-    print(f"Locked {target}; Claude Cowork/local-agent VM recreation will fail until unlock.")
+    print(json.dumps({"action_id": "claude-vm.lock", "status": "locked", "target": str(target)}, ensure_ascii=False, indent=2))
 
 
 def unlock(_args):
@@ -91,7 +92,7 @@ def unlock(_args):
     subprocess.run(["chflags", "nouchg", str(target)], check=False)
     if target.exists():
         os.chmod(target, 0o700)
-    print(f"Unlocked {target}; restart Claude before using local-agent features.")
+    print(json.dumps({"action_id": "claude-vm.unlock", "status": "unlocked", "target": str(target)}, ensure_ascii=False, indent=2))
 
 
 def main():

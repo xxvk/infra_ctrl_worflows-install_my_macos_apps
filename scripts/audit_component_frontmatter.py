@@ -5,6 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from component_state import audit as audit_component_state
+from config_layers import load_app_catalog
+
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references/app-catalog.json"
 
@@ -28,7 +31,7 @@ def frontmatter(path: Path) -> tuple[set[str], bool]:
 
 
 def main() -> int:
-    data = json.loads(CATALOG.read_text(encoding="utf-8"))
+    data = load_app_catalog(CATALOG)
     failures = []
     catalog_guides = set()
     for app in data["apps"]:
@@ -52,9 +55,19 @@ def main() -> int:
         keys, valid = frontmatter(path)
         if not valid or REQUIRED - keys:
             failures.append({"guide": str(path.relative_to(ROOT)), "issue": "unlinked_or_invalid_component", "fields": sorted(REQUIRED - keys)})
-    result = {"required_fields": sorted(REQUIRED), "checked_catalog_guides": len(catalog_guides), "failures": failures}
+    machine_state = audit_component_state()
+    result = {
+        "required_fields": sorted(REQUIRED),
+        "checked_catalog_guides": len(catalog_guides),
+        "failures": failures,
+        "machine_state_boundary": {
+            key: value
+            for key, value in machine_state.items()
+            if key != "findings" or value
+        },
+    }
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 1 if failures else 0
+    return 1 if failures or machine_state["status"] != "passed" else 0
 
 
 if __name__ == "__main__":

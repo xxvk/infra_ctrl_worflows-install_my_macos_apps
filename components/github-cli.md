@@ -18,22 +18,16 @@ download_estimate_bytes: 50000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 cli_path: "/opt/homebrew/opt/gh"
 ---
-Expected installed size | Not recorded; installed before per-app byte measurement was added |
-| Config path(s) | GitHub CLI keyring/config managed by `gh` |
-| Account needed | yes |
-| Permissions | none beyond the scopes explicitly granted during login |
+# GitHub CLI (gh)
+
+Use the Homebrew formula for the CLI and the system keyring for authentication.
+Account and scope are verified separately on every Mac.
 
 ## Installation
-
-- [x] Confirmed missing during the 2026-07-15 scan.
-- [x] Dry run completed.
-- [x] Installed with the verified Homebrew formula:
 
 ```sh
 brew install gh
 ```
-
-- [x] Installed version: `2.96.0`.
 
 ## Configuration
 
@@ -43,7 +37,10 @@ Run the interactive login yourself; do not paste tokens into deployment records:
 gh auth login
 ```
 
-The completed setup uses HTTPS and the active account `xxvk`. Authentication is stored in the system keyring. The verified scopes were `gist`, `read:org`, `repo`, and `workflow`.
+Resolve the intended account from the merged
+`Private/app-catalog-overlay.json` entry for `GitHub CLI (gh)` and compare it
+with `gh auth status`. Authentication belongs in the system keyring; never
+copy its token into Git or infer live authorization from this guide.
 
 ## Verification
 
@@ -53,10 +50,8 @@ gh --version
 gh auth status
 ```
 
-- [x] Binary path verified: `/opt/homebrew/bin/gh`.
-- [x] Version verified: `2.96.0`.
-- [x] Active GitHub account verified through the system keyring.
-- [x] `repo` scope verified for private repository operations.
+- [ ] Confirm `command -v gh` resolves to the intended Homebrew installation.
+- [ ] Confirm the active account and only the scopes required for the planned operation.
 
 ## Follow-up
 
@@ -68,7 +63,7 @@ gh auth status
 To remove the active login without deleting repositories:
 
 ```sh
-gh auth logout -h github.com -u xxvk
+gh auth logout -h github.com -u <github-account>
 ```
 
 To remove the CLI itself:
@@ -79,7 +74,6 @@ brew uninstall gh
 
 ## Evidence and notes
 
-- Install record: [`state/install-20260715-120605.json`](../state/install-20260715-120605.json)
-- Verification record: GitHub CLI auth status verified 2026-07-15
-- Scan record: [`state/scan-20260715-120647.json`](../state/scan-20260715-120647.json)
-- Notes: No token, password, recovery code, or license secret is stored in this guide.
+Write version, resolved path, authentication result, scopes, and timestamps only
+to machine-local state. Never record a token, password, recovery code, or
+license secret.

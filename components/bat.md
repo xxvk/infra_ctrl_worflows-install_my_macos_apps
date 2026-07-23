@@ -21,4 +21,4 @@ cli_path: "/opt/homebrew/opt/bat"
 # bat
 
 - CLI path: `/opt/homebrew/bin/bat`
-- Version verified: `0.26.1`
+- Verify with `bat --version`; record the detected version only in machine-local state.

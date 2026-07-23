@@ -1,13 +1,5 @@
 {
   "schema_version": 1,
-  "description": "Expected Chrome profiles for deployment. Contains account identifiers only; never add passwords, tokens, recovery codes, or Passkey data.",
-  "profiles": [
-    {"profile_directory": "Default", "display_name": "Example Profile 12", "account_email": "example.user@example.invalid", "account_verified": false},
-    {"profile_directory": "Profile 1", "display_name": "Example Profile 9", "account_email": "example.user@example.invalid", "account_verified": false},
-    {"profile_directory": "Profile 3", "display_name": "Example Profile 3", "account_email": "example.user@example.invalid", "account_verified": false},
-    {"profile_directory": "Profile 4", "display_name": "Example Profile 1", "account_email": "example.user@example.invalid", "account_verified": false},
-    {"profile_directory": "Profile 5", "display_name": "Example Profile 2", "account_email": "example.user@example.invalid", "account_verified": false},
-    {"profile_directory": "Profile 6", "display_name": "Example Profile 8", "account_email": "example.user@example.invalid", "account_verified": false},
-    {"profile_directory": "Profile 7", "display_name": "Example Profile 5", "account_email": "example.user@example.invalid", "account_verified": false}
-  ]
+  "kind": "tracked_private_config_locator",
+  "private_path": "Private/chrome-profiles.json"
 }

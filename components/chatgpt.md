@@ -17,7 +17,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 download_estimate_bytes: 1000000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 ---
-nd sign in with the intended account: `xxvk@outlook.com`.
+- Sign in with the intended account from the merged Private app-catalog overlay.
 - Open the account/avatar menu and verify the displayed email exactly.
 - Keep the installed version at or above the baseline recorded in this guide.
 - Never store passwords, API keys, recovery codes, or tokens here.
@@ -29,5 +29,5 @@ Review microphone, notifications, screen recording, or accessibility requests on
 ## Verification
 
 - [ ] App opens without a security warning.
-- [ ] Account email is `xxvk@outlook.com`.
+- [ ] Account email matches the merged `preferred_account`.
 - [ ] Version is not below the recorded baseline.

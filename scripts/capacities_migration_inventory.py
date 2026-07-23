@@ -3,14 +3,16 @@
 
 from __future__ import annotations
 
+import argparse
 import collections
 import datetime as dt
 import json
 from pathlib import Path
 
+from state_paths import add_state_dir_argument, resolve_state_dir
+
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "state"
 HOME = Path.home()
 CANDIDATES = [
     Path("/Applications/Capacities.app"),
@@ -53,6 +55,9 @@ def inspect(path: Path) -> dict[str, object]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_state_dir_argument(parser)
+    args = parser.parse_args()
     result = {
         "schema_version": 1,
         "captured_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -61,8 +66,9 @@ def main() -> int:
         "policy": "No Capacities document contents were read, moved, exported, or deleted.",
         "next_action": "User must export/verify required data before app or support-data cleanup.",
     }
-    STATE.mkdir(exist_ok=True)
-    output = STATE / f"capacities-migration-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+    state_dir = resolve_state_dir(args.state_dir)
+    state_dir.mkdir(parents=True, exist_ok=True)
+    output = state_dir / f"capacities-migration-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"output": str(output), "paths": result["paths"]}, ensure_ascii=False, indent=2))
     return 0

@@ -13,7 +13,7 @@ Because this repository lives under iCloud Drive
 catalog, `settings/*.yaml`, `templates/`, `dotfiles/home/*`, this skill's
 scripts themselves — syncs to every Mac signed into the same Apple Account
 with iCloud Drive enabled for this folder, independent of any Git push/pull.
-Editing `settings/dock-order.json` on Mac A makes the new desired value
+Editing `Private/dock-order.json` on Mac A makes the new desired value
 visible on Mac B as soon as iCloud finishes syncing.
 
 **What does not propagate**: applying that change. iCloud sync moves the
@@ -24,13 +24,13 @@ corresponding `--apply`/`--check` command.
 ## The actual reconciliation loop
 
 1. Change a tracked policy value on one Mac (e.g. edit
-   `settings/dock-order.json`, `settings/keyboard.yaml`, or
-   `settings/system-preferences-values.json`).
+   `Private/dock-order.json`, `Private/keyboard.yaml`, or
+   `Private/system-preferences-values.json`).
 2. iCloud Drive syncs the file to every other Mac (no action needed).
 3. On each other Mac, run the matching `--check`:
    - `python3 scripts/macos_preferences.py --check`
    - `python3 scripts/macos_dock.py` (compare against
-     `settings/dock-order.json`)
+     `Private/dock-order.json`)
    - `python3 scripts/bootstrap_verify.py` for the full picture
 4. Review the reported drift and run the corresponding `--apply` on that
    Mac after confirming it's still wanted there — some tracked values are
@@ -47,11 +47,11 @@ corresponding `--apply`/`--check` command.
 Some tracked settings are legitimately per-Mac, not a target to force
 identical everywhere:
 
-- `settings/keyboard.yaml`'s K240 profile only applies to a Mac with that
+- `Private/keyboard.yaml`'s K240 profile only applies to a Mac with that
   physical receiver attached.
 - Capacity-tier app selection (`portable` vs `expanded` in
   `macos_apps.py plan --profile`) depends on that Mac's actual disk size.
-- Machine-local observations in ignored `state/` are never meant to
+- Machine-local observations under Application Support are never meant to
   converge across Macs at all — by design, they never leave the Mac that
   produced them.
 

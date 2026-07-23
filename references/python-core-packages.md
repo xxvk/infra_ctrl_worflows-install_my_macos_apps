@@ -99,5 +99,5 @@ Core 包创建重复 `.venv`。如果只需要部分能力，可以使用
 `uv sync --locked --group audio --group llm` 等命令。
 
 安装脚本应记录 `download_bytes`、`installed_bytes`、版本和时间到 ignored
-`state/`，与 Skill 对 Core 组件的测量规则一致；密码、token、Hugging Face
+machine-local state，与 Skill 对 Core 组件的测量规则一致；密码、token、Hugging Face
 凭据和个人音频不得写入 catalog、Markdown 或 Git。

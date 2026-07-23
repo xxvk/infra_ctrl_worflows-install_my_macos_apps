@@ -71,7 +71,10 @@ The repository's *files* sync via iCloud Drive, but the repository's *Git
 history* does not — those are two different mechanisms carrying the same
 working tree. A merge conflict from concurrent iCloud sync and a local
 `git commit` on two Macs is possible and is a Git/iCloud interaction issue,
-not something this skill's scripts detect or resolve. If both channels are
-in use on more than one Mac at a time, prefer treating Git as the source of
-truth and pause iCloud sync of this specific folder during active editing
-on a second machine, or use only one channel per Mac at a time.
+not automatically resolved by this skill. The repository remains in iCloud.
+Before Git-dependent operations, run
+[`scripts/icloud_git_guard.py`](../scripts/icloud_git_guard.py) and follow
+[`icloud-git-integrity.md`](icloud-git-integrity.md) if File Provider has
+evicted Git data. Treat Git as the history source of truth, finish one editing
+session before beginning another Mac's session, allow iCloud to settle, and
+never interpret a `dataless` object as deletion or corruption.

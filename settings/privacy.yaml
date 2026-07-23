@@ -8,7 +8,7 @@ policy:
   require_user_confirmation: true
   record_credentials_or_tokens: false
   portable_grants: false
-  current_observations: "state/permissions-*.json"
+  current_observations: "machine-local-state/permissions-*.json"
   reusable_requirements: "settings/privacy.yaml"
 
 bootstrap_order:
@@ -117,7 +117,7 @@ new_mac_authorization_checklist:
 
 # Complete category registry. This is a requirements matrix, not a request to
 # grant every permission. A new Mac must only authorize a row when a listed
-# workflow actually needs it; current results remain in state/.
+# workflow actually needs it; current results remain in machine-local state.
 permission_category_matrix:
   - category: "Full Disk Access"
     settings_path: "System Settings > Privacy & Security > Full Disk Access"

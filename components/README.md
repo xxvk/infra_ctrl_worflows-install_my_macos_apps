@@ -1,64 +1,67 @@
-# Installed Components
+# Component guides
 
 These guides are the operational companion to `references/app-catalog.json`.
 The catalog remains the source of truth for install metadata; each catalog entry links to its detailed installation, configuration, and verification guide here.
 
-| Component | Guide | Current status |
+This index describes desired lifecycle and reproducible source only. Installation
+and verification status belongs to machine-local state.
+
+| Component | Guide | Desired role / source |
 |---|---|---|
-| ChatGPT | [chatgpt.md](chatgpt.md) | Installed; account and version verification required |
-| Claude | [claude.md](claude.md) | Installed via Homebrew; VM images reclaimed before replacement |
-| Google Chrome | [google-chrome.md](google-chrome.md) | Installed via Homebrew; Codex extension preflight pending |
+| ChatGPT | [chatgpt.md](chatgpt.md) | Core; Homebrew; verify account per Mac |
+| Claude | [claude.md](claude.md) | Core; Homebrew; inspect VM policy per Mac |
+| Google Chrome | [google-chrome.md](google-chrome.md) | Core; Homebrew; profile verification required |
 | Obsidian Web Clipper | [obsidian-web-clipper.md](obsidian-web-clipper.md) | Core; Chrome extension and Safari extension required |
-| Tailscale | [tailscale.md](tailscale.md) | Installed via Mac App Store; connection pending |
-| Notion | [notion.md](notion.md) | Retired; use the Notion web version or web app; desktop app and cache cleanup pending |
-| Visual Studio Code | [visual-studio-code.md](visual-studio-code.md) | Installed via Homebrew; extensions/settings pending |
-| Cursor | [cursor.md](cursor.md) | Installed via Homebrew; account/settings pending |
-| GitHub Desktop | [github-desktop.md](github-desktop.md) | Installed via Homebrew; account/Git settings pending |
-| Postman | [postman.md](postman.md) | Installed via Homebrew; workspace verification pending |
-| Slack | [slack.md](slack.md) | App Store copy installed as `/Applications/Slack.app`; keep only this bundle |
-| DBeaver Community | [dbeaver-community.md](dbeaver-community.md) | Installed via Homebrew; database connections pending |
-| VLC | [vlc.md](vlc.md) | Installed via Homebrew; first-run update choice pending |
-| Cyberduck | [cyberduck.md](cyberduck.md) | Installed via Homebrew; server bookmarks pending |
-| LM Studio | [lm-studio.md](lm-studio.md) | Installed via Homebrew; model storage pending |
-| WebCatalog | [webcatalog.md](webcatalog.md) | Installed via Homebrew; web-app wrappers pending |
-| TypeScript | [typescript.md](typescript.md) | Installed via Homebrew; project-local versions may differ |
-| fd | [fd.md](fd.md) | Installed via Homebrew |
-| fzf | [fzf.md](fzf.md) | Installed via Homebrew; shell integration optional |
-| bat | [bat.md](bat.md) | Installed via Homebrew |
-| eza | [eza.md](eza.md) | Installed via Homebrew |
-| zoxide | [zoxide.md](zoxide.md) | Installed via Homebrew; shell integration optional |
-| yq | [yq.md](yq.md) | Installed via Homebrew |
-| httpie | [httpie.md](httpie.md) | Installed via Homebrew |
-| wget | [wget.md](wget.md) | Installed via Homebrew |
-| tree | [tree.md](tree.md) | Installed via Homebrew |
-| btop | [btop.md](btop.md) | Installed via Homebrew |
-| git-lfs | [git-lfs.md](git-lfs.md) | Installed via Homebrew; Git config pending |
-| direnv | [direnv.md](direnv.md) | Installed via Homebrew; shell hook pending |
-| just | [just.md](just.md) | Installed via Homebrew |
-| shellcheck | [shellcheck.md](shellcheck.md) | Installed via Homebrew |
-| shfmt | [shfmt.md](shfmt.md) | Installed via Homebrew |
-| pre-commit | [pre-commit.md](pre-commit.md) | Installed via Homebrew |
-| cmake | [cmake.md](cmake.md) | Installed via Homebrew |
-| ninja | [ninja.md](ninja.md) | Installed via Homebrew |
-| pkgconf | [pkgconf.md](pkgconf.md) | Installed via Homebrew |
-| Obsidian | [obsidian.md](obsidian.md) | Installed via Homebrew; vault verification pending |
-| GitHub CLI (`gh`) | [github-cli.md](github-cli.md) | Installed and authenticated |
-| Ghostty | [ghostty.md](ghostty.md) | Installed and configured |
-| deno | [deno.md](deno.md) | Installed via Homebrew |
-| fnm | [fnm.md](fnm.md) | Installed via Homebrew |
-| jenv | [jenv.md](jenv.md) | Installed via Homebrew |
-| Maven | [maven.md](maven.md) | Installed via Homebrew |
+| Tailscale | [tailscale.md](tailscale.md) | Core; Mac App Store; connect per Mac |
+| Notion | [notion.md](notion.md) | Retired; use the web version or web app |
+| Visual Studio Code | [visual-studio-code.md](visual-studio-code.md) | Core; Homebrew; reusable settings apply separately |
+| Cursor | [cursor.md](cursor.md) | Core; Homebrew; verify account per Mac |
+| GitHub Desktop | [github-desktop.md](github-desktop.md) | Core; Homebrew; verify account and Git settings per Mac |
+| Postman | [postman.md](postman.md) | Core; Homebrew; verify workspace per Mac |
+| Slack | [slack.md](slack.md) | Core; Mac App Store; retain one verified bundle |
+| DBeaver Community | [dbeaver-community.md](dbeaver-community.md) | Core; Homebrew; connections are per Mac |
+| VLC | [vlc.md](vlc.md) | Core; Homebrew; review first-run update choice |
+| Cyberduck | [cyberduck.md](cyberduck.md) | Core; Homebrew; bookmarks apply separately |
+| LM Studio | [lm-studio.md](lm-studio.md) | Retired; Bionic is the replacement |
+| WebCatalog | [webcatalog.md](webcatalog.md) | Core; Homebrew; wrappers apply separately |
+| TypeScript | [typescript.md](typescript.md) | Core; Homebrew; project-local versions may differ |
+| fd | [fd.md](fd.md) | Core; Homebrew |
+| fzf | [fzf.md](fzf.md) | Core; Homebrew; shell integration optional |
+| bat | [bat.md](bat.md) | Core; Homebrew |
+| eza | [eza.md](eza.md) | Core; Homebrew |
+| zoxide | [zoxide.md](zoxide.md) | Core; Homebrew; shell integration optional |
+| yq | [yq.md](yq.md) | Core; Homebrew |
+| httpie | [httpie.md](httpie.md) | Core; Homebrew |
+| wget | [wget.md](wget.md) | Core; Homebrew |
+| tree | [tree.md](tree.md) | Core; Homebrew |
+| btop | [btop.md](btop.md) | Core; Homebrew |
+| git-lfs | [git-lfs.md](git-lfs.md) | Core; Homebrew; Git config applies separately |
+| direnv | [direnv.md](direnv.md) | Core; Homebrew; shell hook applies separately |
+| just | [just.md](just.md) | Core; Homebrew |
+| shellcheck | [shellcheck.md](shellcheck.md) | Core; Homebrew |
+| shfmt | [shfmt.md](shfmt.md) | Core; Homebrew |
+| pre-commit | [pre-commit.md](pre-commit.md) | Core; Homebrew |
+| cmake | [cmake.md](cmake.md) | Core; Homebrew |
+| ninja | [ninja.md](ninja.md) | Core; Homebrew |
+| pkgconf | [pkgconf.md](pkgconf.md) | Core; Homebrew |
+| Obsidian | [obsidian.md](obsidian.md) | Core; Homebrew; verify vault per Mac |
+| GitHub CLI (`gh`) | [github-cli.md](github-cli.md) | Core; Homebrew; authenticate per Mac |
+| Ghostty | [ghostty.md](ghostty.md) | Core; Homebrew; tracked visual baseline |
+| deno | [deno.md](deno.md) | Core; Homebrew |
+| fnm | [fnm.md](fnm.md) | Core; Homebrew |
+| jenv | [jenv.md](jenv.md) | Core; Homebrew |
+| Maven | [maven.md](maven.md) | Core; Homebrew |
 | Android command-line tools | [android-commandlinetools.md](android-commandlinetools.md) | Core; SDK workflow in [environment.md](../references/environment.md) |
 | Android platform tools | [android-platform-tools.md](android-platform-tools.md) | Core; ADB workflow in [environment.md](../references/environment.md) |
 | scrcpy | [scrcpy.md](scrcpy.md) | Core; Android Robot remote display/control |
 | Temurin Java | [temurin.md](temurin.md) | Core; Android/Java runtime |
-| Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Installed via Homebrew |
-| Kimi | [kimi.md](kimi.md) | Installed manually; Homebrew replacement preferred |
-| Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Installed via npm |
+| Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Core; Homebrew |
+| Kimi | [kimi.md](kimi.md) | Core; Homebrew cask preferred |
+| Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Core; npm |
 | WordPress Studio CLI | [wordpress-studio-cli.md](wordpress-studio-cli.md) | Core; official npm package |
-| mole | [mole.md](mole.md) | Installed; first cleanup review pending |
+| mole | [mole.md](mole.md) | Core; Homebrew; review every cleanup |
 | Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
-| Antigravity CLI | [antigravity-cli.md](antigravity-cli.md) | Replacement for retired Gemini CLI; installation pending |
+| Antigravity CLI | [antigravity-cli.md](antigravity-cli.md) | Core replacement for retired Gemini CLI |
 
 ## Optional components
 

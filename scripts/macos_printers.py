@@ -6,19 +6,19 @@ across machines -- it reflects whatever network/USB printer is physically
 reachable from this Mac, often identified by a LAN IP address. Per this
 skill's data classification (see SKILL.md), that is a machine-local
 observation, not tracked policy: this script only writes a dated
-state/printers-*.json record. It never adds, removes, or configures a
+machine-local `printers-*.json` record. It never adds, removes, or configures a
 printer.
 """
 
 from __future__ import annotations
 
+import argparse
 import datetime as dt
 import json
 import subprocess
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "state"
+from state_paths import add_state_dir_argument, resolve_state_dir
 
 
 def _run(args: list[str]) -> str:
@@ -56,9 +56,13 @@ def scan() -> dict[str, object]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_state_dir_argument(parser)
+    args = parser.parse_args()
     result = scan()
-    STATE.mkdir(exist_ok=True)
-    output = STATE / f"printers-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+    state_dir = resolve_state_dir(args.state_dir)
+    state_dir.mkdir(parents=True, exist_ok=True)
+    output = state_dir / f"printers-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"state_file": str(output), **result}, ensure_ascii=False, indent=2))
     return 0

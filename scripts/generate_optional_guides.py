@@ -2,10 +2,11 @@
 """Create lightweight guides for every non-Core catalog item."""
 from __future__ import annotations
 
-import datetime as dt
 import json
 import re
 from pathlib import Path
+
+from config_layers import load_app_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "references/app-catalog.json"
@@ -35,8 +36,7 @@ def delivery(app: dict, kind: str) -> str:
 
 
 def main() -> int:
-    data = json.loads(CATALOG.read_text(encoding="utf-8"))
-    now = dt.date.today().isoformat()
+    data = load_app_catalog(CATALOG)
     created = 0
     for app in data["apps"]:
         if app.get("tier") == "core":
@@ -83,8 +83,8 @@ secrets_policy: Never store passwords, API keys, recovery codes, or license secr
 ## Size tracking
 
 - Planning download estimate: {estimate} bytes (`size_gb` catalog estimate).
-- Actual download and installed footprint remain `null` until installation is performed and measured.
-- After installation, record `download_bytes`, `installed_bytes`, `installed_version`, and `installed_at`.
+- Actual download, installed footprint, detected version, paths, and timestamps
+  belong only in machine-local state.
 
 ## Post-install checklist
 

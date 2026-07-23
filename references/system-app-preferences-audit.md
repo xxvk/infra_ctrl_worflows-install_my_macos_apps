@@ -1,7 +1,7 @@
 # System App Preference Audit
 
 This is the portable-policy boundary for built-in macOS applications. The
-machine's current values are written to ignored `state/preferences-*.json` by
+machine's current values are written to machine-local `preferences-*.json` by
 `scripts/macos_preferences.py`; only confirmed values belong in tracked
 `settings/system-preferences-values.json`.
 

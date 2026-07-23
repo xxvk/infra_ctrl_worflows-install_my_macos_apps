@@ -12,6 +12,8 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
+from config_layers import ConfigurationLayerError, resolve_config_path
+
 
 def local_state_path() -> Path:
     return Path.home() / "Library/Application Support/Google/Chrome/Local State"
@@ -50,8 +52,9 @@ def inspect(path: Path) -> dict:
 
 def compare(inventory: dict, expected_path: Path) -> dict:
     try:
-        expected = json.loads(expected_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+        resolved_expected_path = resolve_config_path(expected_path)
+        expected = json.loads(resolved_expected_path.read_text(encoding="utf-8"))
+    except (ConfigurationLayerError, OSError, json.JSONDecodeError) as exc:
         return {"error": str(exc)}
     actual = inventory.get("profiles", [])
     expected_profiles = expected.get("profiles", [])
@@ -67,7 +70,12 @@ def compare(inventory: dict, expected_path: Path) -> dict:
         if exp.get("display_name") != got.get("display_name"):
             name_mismatches.append({"account_email": exp.get("account_email", ""), "expected": exp.get("display_name", ""), "detected": got.get("display_name", "")})
     return {
-        "expected": str(expected_path),
+        "expected": str(resolved_expected_path),
+        "expected_locator": (
+            str(expected_path)
+            if resolved_expected_path.resolve() != expected_path.resolve()
+            else None
+        ),
         "expected_count": len(expected_profiles),
         "detected_count": len(actual),
         "missing": missing,

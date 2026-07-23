@@ -1,5 +1,7 @@
 # Local deployment history and machine inventory
-state/
+state/*
+!state/README.md
+!state/locator.json
 
 # Python bytecode
 **/__pycache__/
