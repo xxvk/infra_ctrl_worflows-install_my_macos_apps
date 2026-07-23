@@ -25,6 +25,8 @@ class ReleaseCheckTests(unittest.TestCase):
         ids = [check_id for check_id, _ in checks]
         self.assertIn("hermetic-tests", ids)
         self.assertIn("unified-cli", ids)
+        self.assertIn("schema-contract", ids)
+        self.assertIn("diagnostic-bundle", ids)
         self.assertNotIn("live-macos-smoke", ids)
 
     def test_live_smoke_requires_explicit_flag(self) -> None:
@@ -51,6 +53,7 @@ class ReleaseCheckTests(unittest.TestCase):
             runner=runner,
         )
         self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["schema_version"], 1)
         self.assertEqual(result["checks_run"], 2)
         self.assertEqual(result["results"][-1]["stderr"], "failure")
         self.assertEqual(runner.call_count, 2)

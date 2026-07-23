@@ -27,6 +27,12 @@ authorize protected access and then be verified.
 See [`references/configuration-layers.md`](references/configuration-layers.md)
 for merge precedence, migration rules, and the boundary between tracked
 Private configuration and secrets.
+The six versioned JSON contracts, Draft 2020-12 registry, validation-before-use
+boundaries, and non-destructive migration procedure are documented in
+[`references/schema-and-migration.md`](references/schema-and-migration.md).
+Support diagnostics use an allowlisted, bounded, preview-first ZIP workflow;
+see
+[`references/redacted-diagnostic-bundle.md`](references/redacted-diagnostic-bundle.md).
 
 ## macomrade CLI
 
@@ -36,6 +42,7 @@ The stable 0.1.0 repository-local entry point is `macomrade`:
 ./bin/macomrade routes
 ./bin/macomrade scan apps
 ./bin/macomrade plan apps --profile auto
+./bin/macomrade verify schemas
 ./bin/macomrade verify release
 ```
 
@@ -82,12 +89,13 @@ its default quality gate:
 
 ```sh
 python3 scripts/icloud_git_guard.py inspect --repo .
+python3 scripts/schema_contract.py validate-tracked
 python3 scripts/release_check.py
 ```
 
 The release check is hermetic by default and uses fixture responses for
-Homebrew, App Store receipts, TCC, defaults, filesystem state, and macomrade
-route validation. Run
+Homebrew, App Store receipts, TCC, defaults, filesystem state, formal JSON
+contracts/migrations, and macomrade route validation. Run
 `python3 scripts/release_check.py --include-live-smoke` only when the current
 Mac integration check is needed.
 

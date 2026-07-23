@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 from config_layers import load_app_catalog
+from schema_contract import SchemaContractError, load_and_validate
 from state_paths import add_state_dir_argument, resolve_state_dir
 from supply_chain import provenance_for
 
@@ -36,6 +37,8 @@ def stamp():
 def write_record(prefix, value):
     STATE.mkdir(parents=True, exist_ok=True)
     path = STATE / f"{prefix}-{stamp()}.json"
+    if isinstance(value, dict) and "schema_version" not in value:
+        value = {"schema_version": 1, **value}
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     return path
 
@@ -310,6 +313,7 @@ def choose_profile(requested):
 def scan(_args):
     applications = installed_apps()
     result = {
+        "schema_version": 1,
         "generated_at": dt.datetime.now().astimezone().isoformat(),
         "computer_name": os.uname().nodename,
         "macos_version": subprocess.run(["sw_vers", "-productVersion"], capture_output=True, text=True).stdout.strip(),
@@ -558,7 +562,10 @@ def installed_size(app):
 
 def install(args):
     plan_file = Path(args.plan).expanduser().resolve()
-    plan_data = json.loads(plan_file.read_text())
+    try:
+        plan_data = load_and_validate(plan_file, "app-plan")
+    except SchemaContractError as exc:
+        raise SystemExit(str(exc)) from exc
     # A source correction is an install target too: the app may already exist,
     # but must be replaced/reinstalled from the catalog's preferred source.
     catalog = load_app_catalog(CATALOG)["apps"]

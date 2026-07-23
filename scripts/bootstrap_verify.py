@@ -11,6 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from schema_contract import SchemaContractError, load_and_validate
 from state_paths import STATE_DIR_ENV, add_state_dir_argument, resolve_state_dir
 
 
@@ -44,7 +45,10 @@ def main() -> int:
     plan_path = newest("plan-*.json")
     permission_path = newest("permissions-*.json")
     preference_path = newest("preferences-*.json")
-    plan = json.loads(plan_path.read_text()) if plan_path else {}
+    try:
+        plan = load_and_validate(plan_path, "app-plan") if plan_path else {}
+    except SchemaContractError as exc:
+        plan = {"schema_validation_error": str(exc)}
     permissions = json.loads(permission_path.read_text()) if permission_path else {}
     preference_output = {}
     try:

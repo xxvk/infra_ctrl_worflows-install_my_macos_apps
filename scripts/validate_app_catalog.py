@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Structural validation for references/app-catalog.json.
+"""Semantic validation for references/app-catalog.json.
 
-Hand-rolled (no jsonschema dependency) since the catalog's actual shape is
-simpler than a general JSON Schema: a flat list of app entries with a small
-set of required fields and cross-field consistency rules. Read-only; never
-edits the catalog. Run after any manual catalog edit, per SKILL.md's
-catalog maintenance section.
+The formal JSON Schema validates the versioned structural envelope. This
+read-only validator complements it with catalog-specific cross-field rules
+such as source consistency, duplicate names, and guide-file existence. Run
+both after any manual catalog edit.
 """
 
 from __future__ import annotations

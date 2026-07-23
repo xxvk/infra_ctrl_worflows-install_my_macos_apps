@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "mode": "hermetic",
+  "checks_run": 1,
+  "results": [
+    {
+      "id": "fixture",
+      "command": [
+        "python3",
+        "fixture.py"
+      ],
+      "returncode": 0,
+      "status": "passed"
+    }
+  ]
+}

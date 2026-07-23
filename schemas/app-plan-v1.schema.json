@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/app-plan-v1.schema.json",
+  "title": "macomrade application plan v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "profile",
+    "missing",
+    "source_mismatches"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile": {
+      "enum": [
+        "portable",
+        "expanded"
+      ]
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "tier"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "enum": [
+              "core",
+              "optional"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "source_mismatches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "app"
+        ],
+        "properties": {
+          "app": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-07-23T00:00:00+09:00",
+  "profile": "portable",
+  "missing": [
+    {
+      "name": "Fixture App",
+      "tier": "core",
+      "future_field": {
+        "preserve": true
+      }
+    }
+  ],
+  "source_mismatches": [],
+  "future_top_level": "preserve"
+}

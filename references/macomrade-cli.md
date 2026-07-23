@@ -58,9 +58,13 @@ Examples:
 ./bin/macomrade apply apps "$PLAN" --only "App Name" --apply
 ./bin/macomrade verify baseline
 ./bin/macomrade verify release
+./bin/macomrade verify schemas
 ./bin/macomrade drift baseline
 ./bin/macomrade diagnostics permissions
+./bin/macomrade diagnostics schemas
+./bin/macomrade diagnostics bundle --output /path/to/diagnostics.zip
 ./bin/macomrade migration state inspect
+./bin/macomrade migration schema app-plan /path/to/legacy-plan.json --to 1
 ```
 
 Use `./bin/macomrade routes --json` for the complete machine-readable route
@@ -88,6 +92,17 @@ code. It does not duplicate their implementation.
 Unknown command families or targets fail before a subprocess starts. Arguments
 after the family and target pass through unchanged, so existing automation can
 migrate incrementally and compare `--explain` output before switching.
+
+Schema migration is also only a route. It remains preview-only unless the
+underlying command receives its explicit apply flag, separate output path, and
+exact confirmation. See
+[`schema-and-migration.md`](schema-and-migration.md).
+
+Diagnostic preview and export are deliberately separate routes. Preview with
+`diagnostics bundle`; export with `apply diagnostic-bundle` only after
+reviewing the manifest and redaction report. The dispatcher never adds the
+required `--apply` or exact confirmation. See
+[`redacted-diagnostic-bundle.md`](redacted-diagnostic-bundle.md).
 
 ## Reserved future commands
 

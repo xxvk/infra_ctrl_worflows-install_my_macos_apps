@@ -28,6 +28,8 @@ REQUIRED_ACTION_IDS = {
     "skill-runtime.uninstall", "startup-items.disable", "dock.save-baseline",
     "component-state.migrate", "supply-chain.capture",
     "clean-mac.session-update", "clean-mac.finalize",
+    "schema.migrate-write",
+    "diagnostics.export",
 }
 
 

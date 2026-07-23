@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "kind": "json_schema_registry",
+  "dialect": "https://json-schema.org/draft/2020-12/schema",
+  "formats": {
+    "catalog": {
+      "current_version": 1,
+      "schema": "schemas/catalog-v1.schema.json",
+      "tracked_examples": [
+        "references/app-catalog.json",
+        "tests/fixtures/macos_apps/catalog.json"
+      ]
+    },
+    "settings": {
+      "current_version": 1,
+      "schema": "schemas/settings-v1.schema.json",
+      "tracked_examples": [
+        "settings/dock-order.json",
+        "settings/system-preferences-values.json",
+        "Private/dock-order.json",
+        "Private/system-preferences-values.json"
+      ]
+    },
+    "private-overlay": {
+      "current_version": 1,
+      "schema": "schemas/private-overlay-v1.schema.json",
+      "tracked_examples": [
+        "Private/app-catalog-overlay.json"
+      ]
+    },
+    "app-plan": {
+      "current_version": 1,
+      "schema": "schemas/app-plan-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/app-plan-v1.json"
+      ]
+    },
+    "state-record": {
+      "current_version": 1,
+      "schema": "schemas/state-record-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/state-record-v1.json"
+      ]
+    },
+    "diagnostic-result": {
+      "current_version": 1,
+      "schema": "schemas/diagnostic-result-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/diagnostic-result-v1.json"
+      ]
+    },
+    "diagnostic-bundle": {
+      "current_version": 1,
+      "schema": "schemas/diagnostic-bundle-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/diagnostic-bundle-v1.json"
+      ]
+    }
+  },
+  "migration_policy": {
+    "supported_versions": [
+      0,
+      1
+    ],
+    "upgrade_0_to_1": "Add schema_version: 1 and preserve every existing field.",
+    "downgrade_1_to_0": "Remove only schema_version after explicit downgrade authorization.",
+    "write_mode": "Preview by default; applied migration writes a separate non-conflicting output and verifies its hash."
+  }
+}

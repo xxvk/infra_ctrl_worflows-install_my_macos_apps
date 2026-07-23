@@ -227,15 +227,47 @@ silently expand the 0.1.0 release-candidate gate.
       confirmation, privileges, or credentials. Validation passed all seven
       focused CLI tests, all 102 hermetic tests, all 13 default release
       stages, and all 14 stages including current-Mac dry-run smoke.
-- [ ] **RC-12 — Publish formal JSON Schemas and migration tooling.** Version
+- [x] **RC-12 — Publish formal JSON Schemas and migration tooling.** Version
       catalog, settings, private overlay, plan, state, and diagnostic formats;
       validate before use; provide upgrade/downgrade-safe migrations and
       fixtures; and preserve unknown fields when safe.
-- [ ] **RC-13 — Generate a redacted diagnostic bundle.** Collect versions,
+      Completed: published six Draft 2020-12 schemas and a tracked registry;
+      added a standard-library validator that fails closed on unsupported
+      schema keywords; validate catalog, Private overlay, generated plans, and
+      release diagnostics before use; and version all newly generated app
+      scan/plan/install records. Added reversible v0/v1 migration that changes
+      only `schema_version`, preserves unknown nested fields, previews by
+      default, requires a separate output and exact
+      `WRITE SCHEMA MIGRATION` confirmation, writes atomically, refuses
+      conflicts, and verifies SHA-256 read-back. Exposed schema list,
+      validation, and migration through three `macomrade` routes and registered
+      the 25th mutation contract. Validation passed 111 hermetic tests, all 14
+      default release stages, and all 15 stages including current-Mac dry-run
+      smoke with state redirected through the supported environment override.
+- [x] **RC-13 — Generate a redacted diagnostic bundle.** Collect versions,
       checks, failure classes, policy hashes, and bounded logs while
       deterministically excluding secrets, account/session data, private
       filenames/content, raw TCC databases, and credentials; show a manifest
       and redaction preview before export.
+      Completed: added an allowlist-only collector with six controlled
+      read-only checks, six public policy hashes, normalized failure classes,
+      4096-byte stdout/stderr limits, strict structured/text redaction, a
+      Draft 2020-12 payload schema, and an exact in-memory payload preview.
+      The bundle excludes arbitrary files, Private values and paths,
+      machine-local records, account/session/host fields, credentials, home
+      paths, URL queries, and raw TCC data. Dirty-source provenance records
+      only status/count plus hashes of the exact implementation files, never
+      Git filenames or diffs. Export requires a new `.zip`, `--apply`, and
+      exact `EXPORT REDACTED DIAGNOSTICS`; an atomic hard-link publish prevents
+      TOCTOU overwrite, then exact members, manifest hashes, payload schema,
+      and sensitive-pattern checks are repeated on read-back. Added preview,
+      validation, and export `macomrade` routes plus the 26th mutation
+      contract. Independent forward testing found and drove fixes for dirty
+      provenance, overwrite races, incomplete human preview, output-path
+      privacy, and permissive schema fields. Validation passed 122 hermetic
+      tests, all 15 default release stages, all 16 stages including current-Mac
+      dry-run smoke, and a real temporary ZIP export/read-back; no artifact was
+      retained or shared.
 - [ ] **RC-14 — Add repeatable performance and resource benchmarks.** Measure
       cold/warm inventory, plan, validation, drift, and migration time plus
       peak memory, output size, and state growth on representative machine

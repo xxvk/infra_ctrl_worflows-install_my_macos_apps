@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-07-23T00:00:00Z",
+  "record_type": "fixture_state",
+  "future_state_field": {
+    "preserve": true
+  }
+}

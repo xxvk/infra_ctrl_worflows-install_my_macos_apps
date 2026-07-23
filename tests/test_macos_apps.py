@@ -239,6 +239,9 @@ class InstallTransactionTests(unittest.TestCase):
         path.write_text(
             json.dumps(
                 {
+                    "schema_version": 1,
+                    "generated_at": "2026-07-23T00:00:00+09:00",
+                    "profile": "portable",
                     "missing": [fixture_catalog()["apps"][0]],
                     "source_mismatches": [],
                 }
@@ -246,6 +249,25 @@ class InstallTransactionTests(unittest.TestCase):
             encoding="utf-8",
         )
         return path
+
+    def test_invalid_plan_stops_before_external_command(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            plan = root / "invalid.json"
+            plan.write_text(
+                json.dumps({"missing": [], "source_mismatches": []}),
+                encoding="utf-8",
+            )
+            with mock.patch.object(macos_apps.subprocess, "run") as run:
+                with self.assertRaisesRegex(SystemExit, "schema_version"):
+                    macos_apps.install(
+                        argparse.Namespace(
+                            plan=str(plan),
+                            only=["Fixture Brew"],
+                            apply=False,
+                        )
+                    )
+            run.assert_not_called()
 
     def test_dry_run_executes_no_external_command(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

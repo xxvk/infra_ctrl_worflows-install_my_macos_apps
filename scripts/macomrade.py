@@ -51,11 +51,14 @@ ROUTES = (
     Route("scan", "all", "scripts/bootstrap_macos.py", (), False, "run the ordered read-only bootstrap assessment"),
     Route("plan", "apps", "scripts/macos_apps.py", ("plan",), False, "build a capacity-aware application plan"),
     Route("apply", "apps", "scripts/macos_apps.py", ("install",), True, "dry-run or explicitly apply an application plan"),
+    Route("apply", "diagnostic-bundle", "scripts/diagnostic_bundle.py", ("export",), True, "export a reviewed redacted diagnostic ZIP"),
     Route("apply", "preferences", "scripts/macos_preferences.py", (), True, "dry-run or explicitly apply tracked preferences"),
     Route("verify", "baseline", "scripts/bootstrap_verify.py", (), False, "run final baseline read-back"),
     Route("verify", "release", "scripts/release_check.py", (), False, "run the local release gate"),
     Route("verify", "clean-mac", "scripts/clean_mac_acceptance.py", ("validate",), False, "validate the Clean-Mac harness"),
     Route("verify", "supply-chain", "scripts/supply_chain.py", ("validate",), False, "validate installation-source policy"),
+    Route("verify", "schemas", "scripts/schema_contract.py", ("validate-tracked",), False, "validate registered JSON contracts"),
+    Route("verify", "diagnostic-bundle", "scripts/diagnostic_bundle.py", ("validate",), False, "validate the diagnostic bundle contract"),
     Route("drift", "baseline", "scripts/bootstrap_verify.py", (), False, "compare current Mac with the baseline"),
     Route("drift", "supply-chain", "scripts/supply_chain.py", ("inspect",), False, "inspect source and package-manager drift"),
     Route("diagnostics", "release", "scripts/release_check.py", (), False, "run deterministic release diagnostics"),
@@ -63,7 +66,10 @@ ROUTES = (
     Route("diagnostics", "supply-chain", "scripts/supply_chain.py", ("inspect",), False, "inspect source diagnostics"),
     Route("diagnostics", "state", "scripts/state_paths.py", ("info",), False, "explain machine-local state resolution"),
     Route("diagnostics", "clean-mac", "scripts/clean_mac_acceptance.py", ("status",), False, "show Clean-Mac acceptance status"),
+    Route("diagnostics", "schemas", "scripts/schema_contract.py", ("list",), False, "list registered JSON contracts"),
+    Route("diagnostics", "bundle", "scripts/diagnostic_bundle.py", ("preview",), False, "preview a bounded redacted diagnostic bundle"),
     Route("migration", "state", "scripts/migrate_state.py", (), True, "inspect, materialize, migrate, or clean legacy state"),
+    Route("migration", "schema", "scripts/schema_contract.py", ("migrate",), True, "preview or write a JSON schema-version migration"),
 )
 
 

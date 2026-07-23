@@ -23,7 +23,7 @@ Run:
 python3 scripts/validate_mutation_contracts.py
 ```
 
-The validator requires all 24 supported mutation entry points, all contract
+The validator requires all 26 supported mutation entry points, all contract
 fields, unique IDs, implementation declarations, runtime-emitted action IDs,
 and source-visible exact tokens for high-risk actions. Add a registry entry
 and tests before adding a new mutation.

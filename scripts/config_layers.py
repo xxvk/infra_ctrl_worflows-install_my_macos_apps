@@ -10,6 +10,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from schema_contract import SchemaContractError, load_and_validate
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "Private" / "manifest.json"
@@ -128,8 +130,11 @@ def load_app_catalog(
     base_path: Path = DEFAULT_CATALOG,
     overlay_path: Path = DEFAULT_CATALOG_OVERLAY,
 ) -> dict[str, Any]:
-    base = load_json(base_path)
-    overlay = load_json(overlay_path)
+    try:
+        base = load_and_validate(base_path, "catalog")
+        overlay = load_and_validate(overlay_path, "private-overlay")
+    except SchemaContractError as exc:
+        raise ConfigurationLayerError(str(exc)) from exc
     if not isinstance(base, dict) or not isinstance(overlay, dict):
         raise ConfigurationLayerError("app catalog layers must be JSON objects")
     return apply_app_catalog_overlay(base, overlay)

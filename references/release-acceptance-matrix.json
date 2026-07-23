@@ -182,6 +182,35 @@
       ]
     },
     {
+      "id": "SUP-16",
+      "classification": "supported",
+      "capability": "Draft 2020-12 JSON contracts for catalog, settings, Private overlay, plan, state, and diagnostics with validation-before-use and non-destructive v0/v1 migrations",
+      "evidence": [
+        "schemas/catalog-v1.schema.json",
+        "schemas/settings-v1.schema.json",
+        "schemas/private-overlay-v1.schema.json",
+        "schemas/app-plan-v1.schema.json",
+        "schemas/state-record-v1.schema.json",
+        "schemas/diagnostic-result-v1.schema.json",
+        "references/schema-registry.json",
+        "references/schema-and-migration.md",
+        "scripts/schema_contract.py",
+        "tests/test_schema_contract.py"
+      ]
+    },
+    {
+      "id": "SUP-17",
+      "classification": "supported",
+      "capability": "Allowlisted redacted diagnostic ZIP with versions, bounded logs, failure classes, public policy hashes, preview manifest, exact export confirmation, and ZIP read-back verification",
+      "evidence": [
+        "scripts/diagnostic_bundle.py",
+        "schemas/diagnostic-bundle-v1.schema.json",
+        "tests/fixtures/schema_contract/diagnostic-bundle-v1.json",
+        "references/redacted-diagnostic-bundle.md",
+        "tests/test_diagnostic_bundle.py"
+      ]
+    },
+    {
       "id": "LIM-01",
       "classification": "interface_limited",
       "capability": "TCC permission authorization and verification",
@@ -256,7 +285,7 @@
     {
       "id": "DEF-02",
       "classification": "deferred",
-      "capability": "Formal schemas/migrators, diagnostic bundle, benchmarks, and release manifest",
+      "capability": "Benchmarks and release manifest",
       "reason": "Accepted P1 release engineering work remains tracked separately.",
       "evidence": [
         "TODO.md"

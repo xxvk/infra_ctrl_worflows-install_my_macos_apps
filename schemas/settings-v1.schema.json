@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/settings-v1.schema.json",
+  "title": "macomrade portable settings v1",
+  "type": "object",
+  "required": [
+    "schema_version"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "type": "string"
+    },
+    "private_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domains": {
+      "type": "object"
+    },
+    "persistent_apps": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "persistent_directories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "kind",
+        "private_path"
+      ]
+    },
+    {
+      "required": [
+        "domains"
+      ]
+    },
+    {
+      "required": [
+        "persistent_apps"
+      ]
+    }
+  ],
+  "additionalProperties": true
+}

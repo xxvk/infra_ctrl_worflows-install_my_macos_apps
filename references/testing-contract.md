@@ -11,7 +11,7 @@ python3 scripts/release_check.py
 This is the default automated quality gate. It validates the catalog,
 component documentation state boundary, configuration layers, release and
 mutation contracts, installation-source policy, Skill structure, bootstrap definition, all fixture/unit
-tests, the macomrade route/identity contract, and Python compilation. It must not inspect the user's live Applications
+tests, the formal JSON Schema registry and migrations, the macomrade route/identity contract, and Python compilation. It must not inspect the user's live Applications
 folders, invoke Homebrew, read the real TCC database, call `defaults`, or
 change external state.
 
@@ -55,6 +55,13 @@ acceptance run.
 - macomrade rejects unknown or reserved routes before starting a subprocess, preserves
   legacy argument order and exit codes, and never adds `--apply` or another
   mutation authorization implicitly.
+- Registered JSON examples validate before use; unsupported schema keywords
+  fail closed; migrations preserve unknown fields, preview without writing,
+  require exact confirmation for a separate output, and refuse conflicts.
+- Diagnostic collection is allowlisted and bounded; redaction removes
+  credential/account/host fields and sensitive text; preview writes nothing;
+  export requires exact confirmation, refuses overwrite, and verifies ZIP
+  members and manifest hashes on read-back.
 
 GitHub Actions is not part of this contract unless the user explicitly changes
 the local-validation policy.

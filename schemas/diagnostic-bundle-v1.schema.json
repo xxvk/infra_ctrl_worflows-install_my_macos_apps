@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/diagnostic-bundle-v1.schema.json",
+  "title": "macomrade redacted diagnostic bundle v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "captured_at",
+    "product",
+    "platform",
+    "checks",
+    "failure_classes",
+    "policy_hashes",
+    "redaction"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "redacted_diagnostic_bundle"
+    },
+    "captured_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "product": {
+      "type": "object",
+      "required": [
+        "version",
+        "cli_version",
+        "source"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cli_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "guard",
+            "revision",
+            "worktree_status",
+            "change_count",
+            "implementation_hashes"
+          ],
+          "properties": {
+            "guard": {
+              "enum": [
+                "ready",
+                "unavailable"
+              ]
+            },
+            "revision": {
+              "type": "string"
+            },
+            "worktree_status": {
+              "enum": [
+                "clean",
+                "dirty",
+                "unavailable"
+              ]
+            },
+            "change_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "implementation_hashes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "sha256",
+                  "bytes",
+                  "status"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "sha256": {
+                    "type": "string"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "status": {
+                    "enum": [
+                      "hashed_without_content",
+                      "missing"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "platform": {
+      "type": "object",
+      "required": [
+        "macos_version",
+        "architecture",
+        "python_version",
+        "homebrew_version"
+      ],
+      "properties": {
+        "macos_version": {
+          "type": "string"
+        },
+        "architecture": {
+          "type": "string"
+        },
+        "python_version": {
+          "type": "string"
+        },
+        "homebrew_version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "returncode",
+          "command",
+          "failure_class",
+          "log"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed"
+            ]
+          },
+          "returncode": {
+            "type": "integer"
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "failure_class": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "log": {
+            "type": "object",
+            "required": [
+              "stdout_tail",
+              "stderr_tail",
+              "stdout_bytes",
+              "stderr_bytes",
+              "truncated"
+            ],
+            "properties": {
+              "stdout_tail": {
+                "type": "string"
+              },
+              "stderr_tail": {
+                "type": "string"
+              },
+              "stdout_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "stderr_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "failure_classes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "class",
+          "count",
+          "check_ids"
+        ],
+        "properties": {
+          "class": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "check_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "policy_hashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256",
+          "bytes",
+          "status"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "hashed_without_content",
+              "missing"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "required": [
+        "applied",
+        "counts",
+        "excluded_categories",
+        "log_limit_bytes",
+        "source_scope"
+      ],
+      "properties": {
+        "applied": {
+          "const": true
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "excluded_categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "log_limit_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

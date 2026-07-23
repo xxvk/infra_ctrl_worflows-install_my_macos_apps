@@ -56,6 +56,8 @@ Do not load unrelated references.
 | Startup, Dock, and macOS security | [startup-dock-and-security.md](references/startup-dock-and-security.md) | Auditing Login Items, LaunchAgents, Dock order, or Gatekeeper policy |
 | Application installation | [application-installation-workflow.md](references/application-installation-workflow.md) | Scanning, planning, installing, using App Store/WebCatalog/official sources, or updating component documentation |
 | Unified CLI | [macomrade-cli.md](references/macomrade-cli.md) | Routing scan, plan, apply, verify, drift, diagnostics, or migration through the stable repository-local command |
+| JSON Schema and migration | [schema-and-migration.md](references/schema-and-migration.md) | Validating or migrating catalog, settings, Private overlay, plan, state, or diagnostic JSON |
+| Redacted diagnostic bundle | [redacted-diagnostic-bundle.md](references/redacted-diagnostic-bundle.md) | Previewing or exporting a bounded support ZIP without credentials, private content, machine state, or raw TCC data |
 | Supply-chain policy | [source-policy.md](references/source-policy.md) | Reviewing taps, trust, npm versions, GitHub artifacts, vendor downloads, or decrypted IPA provenance |
 | Clean-Mac release acceptance | [clean-mac-release-acceptance.md](references/clean-mac-release-acceptance.md) | Preparing or running the unused/new-Mac 0.1.0 hardware acceptance gate |
 | Application maintenance | [application-maintenance.md](references/application-maintenance.md) | Handling GUI/CLI pairs, duplicate bundles, helper cleanup, browser downloads, Chrome profiles, GitHub CLI, Docker retirement, or catalog edits |
@@ -226,6 +228,7 @@ After substantive changes, run:
 ```sh
 python3 scripts/icloud_git_guard.py inspect --repo .
 ./bin/macomrade validate --json
+./bin/macomrade verify schemas
 python3 scripts/release_check.py
 ```
 

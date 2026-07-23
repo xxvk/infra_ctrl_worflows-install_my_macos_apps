@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/diagnostic-result-v1.schema.json",
+  "title": "macomrade release diagnostic result v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "mode",
+    "checks_run",
+    "results"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "hermetic",
+        "live_macos"
+      ]
+    },
+    "checks_run": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "command",
+          "returncode",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "returncode": {
+            "type": "integer"
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

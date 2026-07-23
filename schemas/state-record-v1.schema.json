@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/state-record-v1.schema.json",
+  "title": "macomrade machine-local state record v1",
+  "description": "A versioned envelope for heterogeneous machine observations. Record-specific semantic validators remain authoritative.",
+  "type": "object",
+  "required": [
+    "schema_version"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    }
+  },
+  "additionalProperties": true
+}

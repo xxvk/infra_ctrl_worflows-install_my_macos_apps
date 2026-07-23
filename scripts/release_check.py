@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
+from schema_contract import SchemaContractError, schema_for, validate_instance
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -22,6 +24,8 @@ def build_checks(*, include_live_smoke: bool, python: str = sys.executable) -> l
         ("supply-chain", [python, "scripts/supply_chain.py", "validate"]),
         ("clean-mac-acceptance", [python, "scripts/clean_mac_acceptance.py", "validate"]),
         ("unified-cli", [python, "scripts/macomrade.py", "validate", "--json"]),
+        ("schema-contract", [python, "scripts/schema_contract.py", "validate-tracked"]),
+        ("diagnostic-bundle", [python, "scripts/diagnostic_bundle.py", "validate"]),
         ("configuration-layers", [python, "scripts/config_layers.py", "audit"]),
         ("release-contract", [python, "scripts/validate_release_contract.py"]),
         ("mutation-contracts", [python, "scripts/validate_mutation_contracts.py"]),
@@ -76,12 +80,22 @@ def run_checks(
         results.append(row)
         if completed.returncode != 0:
             break
-    return {
+    result = {
+        "schema_version": 1,
         "status": "passed" if results and all(row["status"] == "passed" for row in results) else "failed",
         "mode": "live_macos" if any(row["id"] == "live-macos-smoke" for row in results) else "hermetic",
         "checks_run": len(results),
         "results": results,
     }
+    try:
+        schema, _entry = schema_for("diagnostic-result", root=root)
+        errors = validate_instance(result, schema)
+    except SchemaContractError as exc:
+        errors = [str(exc)]
+    if errors:
+        result["status"] = "failed"
+        result["schema_errors"] = errors
+    return result
 
 
 def main() -> int:

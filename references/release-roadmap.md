@@ -88,6 +88,11 @@ The 0.1.0 baseline includes:
   Homebrew installation, source-mismatch reporting, and post-install checks;
 - repository-local `macomrade` CLI routing scan, plan, apply, verify, drift,
   diagnostics, and migration while retaining script compatibility;
+- Draft 2020-12 JSON contracts for catalog, settings, Private overlay, plan,
+  state, and diagnostics, with validation-before-use and reversible v0/v1
+  migration tooling;
+- allowlisted redacted diagnostic ZIPs with bounded logs, failure classes,
+  public policy hashes, preview manifests, and verified guarded export;
 - tracked desired policy separated from ignored per-machine observations;
 - reusable macOS permission requirements plus read-only application, TCC,
   helper, service, extension, and background-task inventory;
@@ -113,6 +118,8 @@ The release-candidate artifact map is:
 | --- | --- |
 | App inventory, plan, install | `references/app-catalog.json`, `components/`, `scripts/macos_apps.py` |
 | Unified CLI | `bin/macomrade`, `scripts/macomrade.py`, `references/macomrade-cli.md`, `references/cli-identity.json` |
+| JSON contracts and migration | `schemas/`, `references/schema-registry.json`, `scripts/schema_contract.py`, `references/schema-and-migration.md` |
+| Redacted diagnostics | `scripts/diagnostic_bundle.py`, `schemas/diagnostic-bundle-v1.schema.json`, `references/redacted-diagnostic-bundle.md` |
 | Bootstrap and drift | `scripts/bootstrap_macos.py`, `scripts/bootstrap_validate.py`, `scripts/bootstrap_verify.py` |
 | iCloud-backed Git integrity | `scripts/icloud_git_guard.py`, `references/icloud-git-integrity.md`, `tests/test_icloud_git_guard.py` |
 | Machine-local runtime state | `scripts/state_paths.py`, `scripts/migrate_state.py`, `state/locator.json`, `references/machine-local-state.md` |

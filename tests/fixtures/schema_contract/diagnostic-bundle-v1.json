@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "kind": "redacted_diagnostic_bundle",
+  "captured_at": "2026-07-23T00:00:00Z",
+  "product": {
+    "version": "0.1.0",
+    "cli_version": "macomrade 0.1.0",
+    "source": {
+      "guard": "ready",
+      "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "worktree_status": "clean",
+      "change_count": 0,
+      "implementation_hashes": [
+        {
+          "path": "scripts/diagnostic_bundle.py",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 100,
+          "status": "hashed_without_content"
+        }
+      ]
+    }
+  },
+  "platform": {
+    "macos_version": "27.0",
+    "architecture": "arm64",
+    "python_version": "3.14.6",
+    "homebrew_version": "Homebrew 5.0.0"
+  },
+  "checks": [
+    {
+      "id": "fixture",
+      "status": "passed",
+      "returncode": 0,
+      "failure_class": null,
+      "command": [
+        "python3",
+        "fixture.py"
+      ],
+      "log": {
+        "stdout_tail": "",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "truncated": false
+      }
+    }
+  ],
+  "failure_classes": [],
+  "policy_hashes": [
+    {
+      "path": "settings/privacy.yaml",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bytes": 100,
+      "status": "hashed_without_content"
+    }
+  ],
+  "redaction": {
+    "applied": true,
+    "counts": {},
+    "excluded_categories": [
+      "credentials",
+      "account and session data",
+      "private filenames and content",
+      "raw TCC databases"
+    ],
+    "log_limit_bytes": 4096,
+    "source_scope": "Controlled commands and public tracked policy hashes only."
+  }
+}

@@ -41,6 +41,48 @@ class MacomradeTests(unittest.TestCase):
             ],
         )
 
+    def test_schema_routes_are_explicit_and_do_not_authorize_writes(self) -> None:
+        self.assertEqual(
+            macomrade.command_for(
+                macomrade.route_index()[("verify", "schemas")],
+                [],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/schema_contract.py",
+                "validate-tracked",
+            ],
+        )
+        migration = macomrade.command_for(
+            macomrade.route_index()[("migration", "schema")],
+            ["app-plan", "/tmp/plan.json", "--to", "1"],
+            python="/fixture/python",
+        )
+        self.assertNotIn("--apply", migration)
+
+    def test_diagnostic_preview_and_export_are_separate_routes(self) -> None:
+        preview = macomrade.command_for(
+            macomrade.route_index()[("diagnostics", "bundle")],
+            [],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            preview,
+            [
+                "/fixture/python",
+                "scripts/diagnostic_bundle.py",
+                "preview",
+            ],
+        )
+        export = macomrade.command_for(
+            macomrade.route_index()[("apply", "diagnostic-bundle")],
+            ["--output", "/tmp/diagnostics.zip"],
+            python="/fixture/python",
+        )
+        self.assertNotIn("--apply", export)
+        self.assertEqual(export[-2:], ["--output", "/tmp/diagnostics.zip"])
+
     def test_apply_route_never_adds_apply_flag(self) -> None:
         route = macomrade.route_index()[("apply", "apps")]
         command = macomrade.command_for(route, ["/tmp/plan.json", "--only", "VLC"])

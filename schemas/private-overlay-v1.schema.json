@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/private-overlay-v1.schema.json",
+  "title": "macomrade private application overlay v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "apps"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "app_catalog_private_overlay"
+    },
+    "apps": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    }
+  },
+  "additionalProperties": true
+}
