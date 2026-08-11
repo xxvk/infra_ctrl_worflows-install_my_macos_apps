@@ -77,6 +77,13 @@
       "packages": ["playcover/playcover/playcover-community"],
       "trust": {"scope": "cask", "targets": ["playcover/playcover/playcover-community"]},
       "update_policy": "stop_on_revision_drift"
+    },
+    "xdevplatform/tap": {
+      "repository": "https://github.com/xdevplatform/homebrew-tap",
+      "reviewed_revision": "58d30f39afe2eff87c683be40b53f246f00efc89",
+      "packages": ["xdevplatform/tap/xurl"],
+      "trust": {"scope": "cask", "targets": ["xdevplatform/tap/xurl"]},
+      "update_policy": "stop_on_revision_drift"
     }
   },
   "observed_unmanaged_homebrew": {
@@ -110,6 +117,15 @@
     "wp-studio": {"version": "1.15.0", "registry": "https://registry.npmjs.org/"}
   },
   "github_sources": {
+    "tamnd/x-cli": {
+      "repository": "https://github.com/tamnd/x-cli",
+      "release": "v0.5.0",
+      "revision": "ff9aa9e77c415b724c115a0ee8f7a978784c9b68",
+      "artifact": "x_0.5.0_darwin_arm64.tar.gz",
+      "sha256": "6de9cde491c10aa9455f37e73beaba9b469e58de93940ba8db1aeca2ee77a705",
+      "tag_signature": "verified",
+      "checksum_signature_identity": "https://github.com/tamnd/x-cli/.github/workflows/release.yml@refs/tags/v0.5.0"
+    },
     "Solaar": {
       "repository": "https://github.com/pwr-Solaar/Solaar",
       "release": "1.1.19",

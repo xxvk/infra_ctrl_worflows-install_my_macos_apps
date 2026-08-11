@@ -17,6 +17,7 @@ and verification status belongs to machine-local state.
 | Visual Studio Code | [visual-studio-code.md](visual-studio-code.md) | Core; Homebrew; reusable settings apply separately |
 | Cursor | [cursor.md](cursor.md) | Core; Homebrew; verify account per Mac |
 | GitHub Desktop | [github-desktop.md](github-desktop.md) | Core; Homebrew; verify account and Git settings per Mac |
+| Sourcetree | [sourcetree.md](sourcetree.md) | Core; Homebrew; embedded Git and multiple hosting accounts |
 | Postman | [postman.md](postman.md) | Core; Homebrew; verify workspace per Mac |
 | Slack | [slack.md](slack.md) | Core; Mac App Store; retain one verified bundle |
 | DBeaver Community | [dbeaver-community.md](dbeaver-community.md) | Core; Homebrew; connections are per Mac |
@@ -46,6 +47,8 @@ and verification status belongs to machine-local state.
 | pkgconf | [pkgconf.md](pkgconf.md) | Core; Homebrew |
 | Obsidian | [obsidian.md](obsidian.md) | Core; Homebrew; verify vault per Mac |
 | GitHub CLI (`gh`) | [github-cli.md](github-cli.md) | Core; Homebrew; authenticate per Mac |
+| tamnd/x-cli (`x`) | [tamnd-x-cli.md](tamnd-x-cli.md) | Core; free, strictly read-only X access; pinned GitHub release |
+| Mermaid CLI (`mmdc`) | [mermaid-cli.md](mermaid-cli.md) | Core; Homebrew; Mermaid-to-SVG/PNG/PDF rendering |
 | Ghostty | [ghostty.md](ghostty.md) | Core; Homebrew; tracked visual baseline |
 | deno | [deno.md](deno.md) | Core; Homebrew |
 | fnm | [fnm.md](fnm.md) | Core; Homebrew |
@@ -81,6 +84,7 @@ These guides are cataloged for review but are not installed automatically during
 | Cherry Studio | [cherry-studio.md](cherry-studio.md) | Optional multi-model and Agent workbench |
 | Logi Options+ | [logi-options-plus.md](logi-options-plus.md) | Homebrew Cask |
 | Solaar | [solaar.md](solaar.md) | GitHub source; Homebrew dependencies |
+| xurl | [xurl.md](xurl.md) | Optional official X API CLI; credits and OAuth required for API calls |
 | Affinity | [affinity.md](affinity.md) | Official website |
 | CapCut | [capcut.md](capcut.md) | Mac App Store |
 | Compressor | [compressor.md](compressor.md) | Mac App Store |

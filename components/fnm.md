@@ -23,13 +23,28 @@ Fast Node.js version manager. Install with `brew install fnm`; review shell inte
 
 ## Activation
 
-`~/.zshrc` currently contains the recommended initializer:
+Activate the default Node version in Zsh by adding exactly one labelled
+initializer to `~/.zshrc`:
 
 ```sh
-eval "$(fnm env --use-on-cd)"
+# install-macos-apps: fnm Node version manager
+eval "$(fnm env --shell zsh)"
 ```
 
-Open a fresh shell and verify `fnm --version`. The initializer may create
+In a fresh shell, install and select the shared baseline:
+
+```sh
+fnm install 24 --use
+fnm default 24
+node --version
+```
+
+`fnm env --use-on-cd` is optional: it reads `.node-version`, `.nvmrc`,
+and supported `package.json` engine settings when changing directories. Do
+not enable it for the global-stable baseline unless explicitly chosen, and do
+not activate nvm in the same shell startup path.
+
+Fnm may create
 state under `~/.local/state/fnm_multishells`; if that directory is not writable,
 fix ownership/permissions only after inspecting the cause. Do not duplicate the
 initializer block.

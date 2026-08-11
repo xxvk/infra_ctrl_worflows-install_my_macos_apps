@@ -226,6 +226,26 @@
       "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
+      "name": "Sourcetree",
+      "aliases": [
+        "SourceTree"
+      ],
+      "category": "Developer tools",
+      "tier": "core",
+      "brew_cask": "sourcetree",
+      "official_url": "https://www.sourcetreeapp.com/",
+      "guide": "components/sourcetree.md",
+      "size_gb": 0.2,
+      "follow_up": [
+        "Select Sourcetree's embedded Git unless a repository requires a reviewed system Git version",
+        "Add each GitHub account interactively and never persist OAuth tokens or passwords in Git",
+        "Configure user.name, user.email, and signing settings per repository",
+        "Use distinct SSH keys and host aliases, or separately scoped HTTPS credentials, for repositories owned by different GitHub accounts"
+      ],
+      "download_estimate_bytes": 200000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
       "name": "GitHub CLI (gh)",
       "category": "Developer tools",
       "tier": "core",
@@ -242,6 +262,86 @@
       "download_estimate_bytes": 50000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate",
       "cli_path": "/opt/homebrew/opt/gh"
+    },
+    {
+      "name": "tamnd/x-cli",
+      "aliases": [
+        "x",
+        "X CLI"
+      ],
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "source": "github",
+      "delivery_method": "github-source",
+      "brew_cask": null,
+      "brew_formula": null,
+      "official_url": "https://tamnd.github.io/x-cli/",
+      "github_repository": "https://github.com/tamnd/x-cli",
+      "github_release": "v0.5.0",
+      "github_revision": "ff9aa9e77c415b724c115a0ee8f7a978784c9b68",
+      "github_artifact": "x_0.5.0_darwin_arm64.tar.gz",
+      "artifact_sha256": "6de9cde491c10aa9455f37e73beaba9b469e58de93940ba8db1aeca2ee77a705",
+      "check_command": "x version",
+      "size_gb": 0.01,
+      "guide": "components/tamnd-x-cli.md",
+      "follow_up": [
+        "Verify unauthenticated reads before enabling the guest tier",
+        "Use the guest tier only when a deeper public timeline is required",
+        "Import browser session cookies only after explicit approval for a session-only read",
+        "Use optional xurl only when an official API endpoint or account write is actually required"
+      ],
+      "download_estimate_bytes": 6509623,
+      "download_estimate_method": "release_asset_size_v0.5.0"
+    },
+    {
+      "name": "Mermaid CLI",
+      "aliases": [
+        "mermaid-cli",
+        "mmdc"
+      ],
+      "category": "Developer CLI",
+      "tier": "core",
+      "brew_formula": "mermaid-cli",
+      "check_command": "mmdc --version",
+      "official_url": "https://github.com/mermaid-js/mermaid-cli",
+      "guide": "components/mermaid-cli.md",
+      "size_gb": 0.5,
+      "follow_up": [
+        "Install the formula-pinned chrome-headless-shell with the bundled Puppeteer browser manager",
+        "Verify `mmdc --version` resolves from the Homebrew formula",
+        "Render one bounded SVG from stdin and verify the output contains an SVG element",
+        "Keep Puppeteer browser caches machine-local and measure them separately from the formula",
+        "Do not commit generated diagrams automatically"
+      ],
+      "download_estimate_bytes": 500000000,
+      "download_estimate_method": "formula_plus_puppeteer_browser_planning_estimate",
+      "cli_path": "/opt/homebrew/opt/mermaid-cli"
+    },
+    {
+      "name": "xurl",
+      "aliases": [
+        "X API CLI"
+      ],
+      "category": "Developer tools",
+      "tier": "optional",
+      "brew_cask": "xdevplatform/tap/xurl",
+      "brew_tap": "xdevplatform/tap",
+      "brew_tap_repository": "https://github.com/xdevplatform/homebrew-tap",
+      "brew_tap_revision": "58d30f39afe2eff87c683be40b53f246f00efc89",
+      "brew_trust_cask": "xdevplatform/tap/xurl",
+      "check_command": "xurl --version",
+      "official_url": "https://github.com/xdevplatform/xurl",
+      "size_gb": 0.02,
+      "guide": "components/xurl.md",
+      "follow_up": [
+        "Create and configure an X Developer app only when API access is required",
+        "Complete OAuth interactively and keep ~/.xurl local and secret",
+        "Verify the active app, user, scopes, and API credit budget before requests",
+        "Require a reviewed plan and explicit confirmation before follow, unfollow, posting, or other write endpoints"
+      ],
+      "download_estimate_bytes": 20000000,
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "Postman",

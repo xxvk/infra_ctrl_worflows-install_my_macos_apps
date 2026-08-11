@@ -21,7 +21,7 @@ class SupplyChainTests(unittest.TestCase):
     def test_repository_policy_passes(self) -> None:
         result = supply_chain.validate()
         self.assertEqual(result["status"], "passed", json.dumps(result["errors"], indent=2))
-        self.assertEqual(result["apps"], 130)
+        self.assertEqual(result["apps"], 134)
 
     def test_source_classification_covers_critical_boundaries(self) -> None:
         self.assertEqual(
