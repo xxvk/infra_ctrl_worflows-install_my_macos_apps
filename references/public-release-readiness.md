@@ -226,6 +226,16 @@ contact email, fictional test/example emails and paths, a synthetic token
 fixture, credential-redaction fixtures/documentation, and decrypted-IPA safety
 terminology without a tracked private source URL.
 
+On 2026-08-14, after a separate exact-name collision and migration review, the
+owner explicitly authorized renaming the public repository from
+`xxvk/infra_ctrl_worflows-install_my_macos_apps` to `xxvk/macomrade`. GitHub
+preserved visibility, `main`, description, topics, Issues, Projects, and the
+Apache-2.0 license result. Anonymous page and HTTPS Git checks passed on the new
+URL; the old page redirected to the new repository and the old Git URL returned
+the same `main` commit. The old name must not be reused because doing so would
+break GitHub's redirect. No product-name, trademark, tag, Release, package, or
+local-directory rename was implied.
+
 Prepare a recoverable private archive before any history rewrite or remote
 replacement. A same-remote history rewrite and a sanitized new public origin
 have different URL, stars, issue, redirect, and rollback implications; select

@@ -5,7 +5,7 @@ A personal Codex Skill for making a new Mac ready to use after one repository sy
 Current target version: **0.1.0** (`release_candidate`)
 
 The reviewed source repository is public at
-[`xxvk/infra_ctrl_worflows-install_my_macos_apps`](https://github.com/xxvk/infra_ctrl_worflows-install_my_macos_apps).
+[`xxvk/macomrade`](https://github.com/xxvk/macomrade).
 Public availability does not imply a stable tag, GitHub Release, packaged CLI,
 or completion of the genuine Clean-Mac acceptance gate.
 

@@ -69,13 +69,12 @@ shell merely to satisfy a prerequisite.
 
 These commands clone files and write temporary JSON evidence under `/tmp`, but
 they do not install or remove applications, change settings, request protected
-permissions, invoke `sudo`, or contact an App Store account. Until the
-repository becomes public, cloning the URL still requires authorized GitHub
-access.
+permissions, invoke `sudo`, or contact an App Store account. The public clone
+requires no GitHub account or repository credential.
 
 ```sh
-git clone https://github.com/xxvk/infra_ctrl_worflows-install_my_macos_apps.git
-cd infra_ctrl_worflows-install_my_macos_apps
+git clone https://github.com/xxvk/macomrade.git
+cd macomrade
 export MACOMRADE_PUBLIC_ONLY=1
 export INSTALL_MY_MACOS_APPS_STATE_DIR=/tmp/macomrade-public-quickstart
 

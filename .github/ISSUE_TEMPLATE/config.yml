@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Private security report
-    url: https://github.com/xxvk/infra_ctrl_worflows-install_my_macos_apps/security/policy
+    url: https://github.com/xxvk/macomrade/security/policy
     about: Report vulnerabilities, unsafe mutations, credential exposure, private-data disclosure, or redaction bypass privately. Read SECURITY.md first.
   - name: Public support safety contract
-    url: https://github.com/xxvk/infra_ctrl_worflows-install_my_macos_apps/blob/main/references/public-support-safety.md
+    url: https://github.com/xxvk/macomrade/blob/main/references/public-support-safety.md
     about: Review what may be shared publicly and how diagnostic evidence must be handled.

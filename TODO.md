@@ -450,6 +450,55 @@ this list does not authorize a GitHub visibility change.
       terminology. No tag, GitHub Release, version bump, or package publication
       was performed.
 
+### Post-publication follow-ups
+
+- [x] **PUB-F01 — Review the public repository name before renaming it.**
+      Evaluate whether
+      `infra_ctrl_worflows-install_my_macos_apps` should be retained or replaced,
+      including the apparent `worflows` spelling, public discoverability,
+      memorability, scope accuracy, and alignment with the `macomrade` CLI and
+      the still-undecided product name. Compare candidate names and check GitHub,
+      package-manager, domain, App Store, and trademark collisions where
+      relevant. Before any rename, inventory and plan updates for the Git remote,
+      parent-repository submodule URL/path, badges, documentation links, clone
+      examples, issue/release links, local checkouts, redirects, and automation;
+      define rollback and anonymous web/HTTPS Git read-back. A completed review
+      does not authorize changing the GitHub repository name.
+
+      Review snapshot on 2026-08-14: recommend `xxvk/macomrade`. The current
+      name is long, narrower than the repository's actual lifecycle scope, and
+      contains the apparent `worflows` spelling error. `macomrade` already owns
+      the stable CLI and public documentation identity; `macomrade-macos` and
+      `macomrade-bootstrap` add redundant scope, while the superseded
+      `mac-comrade` spelling is less compact. Refreshed exact-name checks found
+      no GitHub repository or account, Homebrew formula/cask, npm, PyPI,
+      crates.io, RubyGems, or Japan Mac App Store collision; `.com` and `.net`
+      RDAP returned not found. These are point-in-time technical checks, not
+      trademark or domain-registration clearance. Apple's published trademark
+      guidance requires separate caution before treating the name as a product
+      or App Store identity.
+
+      The rename surface is bounded: five files in this repository contain the
+      current public URL/name, and the parent repository `.gitmodules` contains
+      the submodule URL. The local submodule path may remain unchanged. GitHub
+      redirects normal web and Git traffic after a rename, but the old name must
+      not be reused; GitHub Action references do not redirect. This repository
+      currently has no checked-in Actions workflow. If authorized, update the
+      child `origin`, parent `.gitmodules`, public clone examples, README and
+      issue-form links; run the release gate; push both repositories as separate
+      transactions; then verify new and redirected pages plus anonymous HTTPS
+      clone/fetch.
+
+      Completed on 2026-08-14 after explicit owner authorization. GitHub renamed
+      the existing Public repository to `xxvk/macomrade` while retaining `main`,
+      description, topics, and repository settings. Both the new and redirected
+      old page returned HTTP 200, and anonymous HTTPS Git returned the same
+      `cf19842` commit from both URLs. The child remote, public links, clone
+      example, and parent `.gitmodules` URL were updated; the local submodule
+      directory remains unchanged. Validation and exact new-URL clone read-back
+      remain required before pushing the documentation update. No tag, Release,
+      package, product-name, or App Store identity was created.
+
 - [x] Capacities data migration: user confirmed the migration/retention
       decision is complete and Capacities has been deleted. Do not delete any
       remaining preserved support data during a generic app scan.
