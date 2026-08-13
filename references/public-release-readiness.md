@@ -14,27 +14,28 @@
 
 ## Purpose
 
-Version 0.1.1 prepares the source repository for public discovery, cloning,
-inspection, contribution, and safe personal reuse. Public source availability
-is separate from declaring the product stable, shipping a native app, or
-claiming that every Mac can be configured without manual authorization.
+Version 0.1.1 prepared the source repository for public discovery, cloning,
+inspection, contribution, and safe personal reuse. The owner explicitly
+authorized the final visibility transaction on 2026-08-14. Public source
+availability is separate from declaring the product stable, shipping a native
+app, or claiming that every Mac can be configured without manual authorization.
 
-Changing GitHub visibility is the final transaction, not the first step. Until
-all publication gates pass and the user explicitly authorizes that exact remote
-change, the repository remains Private and `VERSION` remains unchanged.
+Changing GitHub visibility remains a separately authorized final transaction,
+not a side effect of validation. The completed transaction did not change
+`VERSION`, create a tag, or create a GitHub Release.
 
 ## Current blockers
 
-The in-place `Private/` overlay is Git-ignored, all reviewed historical private
-values have been removed or replaced, and the Apache-2.0 governance surface is
-present, and the public onboarding contract has a tested public-only quick
-start and structured public support forms now enforce the issue, disclosure,
-and diagnostic-sharing boundary. Repository visibility remains unchanged. The
-release-manifest preview now binds the candidate inputs without publication
-authority. The repeatable PUB-09 harness is present; its exact-commit result is
-stored only in machine-local state after a clean candidate run. PUB-10 remains:
-an explicitly authorized
-visibility transaction with genuine anonymous GitHub read-back.
+PUB-01 through PUB-10 are complete. Commit
+`f490fe4028e04f7513708f029ba57b360c320a80` is public on `main`; anonymous page,
+HTTPS Git, repository API, default-branch, license, object-integrity,
+public-only configuration, and 23-stage release-gate read-backs passed on
+2026-08-14. No `Private/` file exists in the public tree or reachable history.
+
+There is no remaining blocker to public source access. This does not clear the
+separate genuine Clean-Mac acceptance requirement, promote 0.1.0 from
+`release_candidate`, or authorize a version bump, tag, GitHub Release, package,
+or App Store submission.
 
 Continue to treat the repeatable publication scan as evidence requiring human
 classification. A passing pattern scan is necessary but cannot by itself
@@ -133,10 +134,10 @@ path.
 The summary is written under the machine-local
 `public-clone-rehearsals/` state directory and contains no command output,
 credentials, personal paths, or publication authority. Temporary clone files
-are removed after the run. Because the remote is still Private, local
-`file://` transport is an honest credential-free isolation rehearsal, not an
-anonymous GitHub clone. PUB-10 must still verify unauthenticated HTTPS access
-after a separately confirmed visibility change.
+are removed after the run. Before publication, local `file://` transport is an
+honest credential-free isolation rehearsal, not anonymous GitHub proof. After
+publication, repeat the same boundaries through unauthenticated HTTPS as part
+of the visibility-transaction read-back.
 
 ## Selected history strategy
 
@@ -176,7 +177,8 @@ stored under machine-local Application Support with owner-only permissions.
 The original `origin` URL was restored after `git filter-repo`. On 2026-08-14,
 the cleaned `main` and `trae-dev` refs were pushed with exact
 `--force-with-lease` expectations and read back from GitHub; no PR refs were
-present. No GitHub visibility change, tag, or release has occurred.
+present. The later PUB-10 transaction made the existing repository public
+without another history rewrite. No tag or GitHub Release has been created.
 
 History rewriting changed every affected commit ID. The local and remote branch
 rewrite is complete. Any future history rewrite remains a separate explicit
@@ -184,9 +186,9 @@ authorization point and must use force-with-lease against verified remote refs.
 
 The owner selected Apache-2.0. `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`,
 `CODE_OF_CONDUCT.md`, `CHANGELOG.md`, and `THIRD_PARTY_NOTICES.md` are present
-and checked by the bootstrap and publication-audit contracts. This completes
-the governance gate but does not change repository visibility or authorize a
-release.
+and checked by the bootstrap and publication-audit contracts. This completed
+the governance gate before PUB-10; governance validation did not itself change
+repository visibility or authorize a release.
 
 ## Visibility-change transaction
 
@@ -202,6 +204,25 @@ inspect remote and candidate commit
 → record the public commit and manifest
 ```
 
+The owner explicitly authorized this transaction on 2026-08-14 for
+`xxvk/infra_ctrl_worflows-install_my_macos_apps`. The exact candidate
+`f490fe4028e04f7513708f029ba57b360c320a80` was pushed and read back from
+`refs/heads/main`; GitHub reported `PUBLIC`. An isolated environment with a
+fresh HOME, no GitHub token, disabled credential prompts, and no global Git
+configuration received HTTP 200 from the repository page and cloned the full
+HTTPS repository. Its HEAD matched the candidate, `Private/` was absent, the
+worktree remained clean, `git fsck --full` passed, and all 23 hermetic checks
+passed.
+
+The anonymous GitHub API read-back reported `private: false`, visibility
+`public`, default branch `main`, and Apache-2.0. Issues and Projects were
+enabled; Wiki was disabled; description, homepage, and topics were empty. The
+post-publication path/category-only audit found zero current or historical
+`Private/` files. Its five pattern categories were manually classified as the
+approved public contact email, fictional test/example emails and paths, a
+synthetic token fixture, credential-redaction fixtures/documentation, and
+decrypted-IPA safety terminology without a tracked private source URL.
+
 Prepare a recoverable private archive before any history rewrite or remote
 replacement. A same-remote history rewrite and a sanitized new public origin
 have different URL, stars, issue, redirect, and rollback implications; select
@@ -210,7 +231,8 @@ private remote merely to simplify publication.
 
 ## Non-goals
 
-- 0.1.1 does not publish the repository automatically.
+- Repository automation does not publish or change visibility automatically;
+  the completed 0.1.1 transaction was explicitly authorized.
 - It does not make personal configuration public.
 - It does not require hosted GitHub Actions; local macOS validation remains the
   release authority unless the user changes that policy separately.

@@ -384,7 +384,7 @@ this list does not authorize a GitHub visibility change.
       remain in machine-local Application Support. On 2026-08-14, `main` and
       `trae-dev` were updated with exact `--force-with-lease` expectations and
       read back successfully; no PR refs were present. Repository visibility
-      remains unchanged.
+      remained unchanged at this gate and was changed later under PUB-10.
 - [x] **PUB-05 — Add open-source governance.** Obtain an explicit license
       decision—Apache-2.0 is the recommended candidate—then add the license,
       required third-party notices, security policy, contribution guide, code
@@ -393,7 +393,8 @@ this list does not authorize a GitHub visibility change.
       Completed on 2026-08-14: the owner selected Apache-2.0. `LICENSE`,
       `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`,
       and `THIRD_PARTY_NOTICES.md` are present and enforced by bootstrap and
-      publication-audit tests. Repository visibility remains unchanged.
+      publication-audit tests. Visibility remained unchanged at this gate and
+      was changed later under PUB-10.
 - [x] **PUB-06 — Build public onboarding.** Add audience and support scope,
       supported macOS/architecture matrix, prerequisites, ten-minute read-only
       quick start, private-overlay setup, permissions, known limitations,
@@ -429,14 +430,25 @@ this list does not authorize a GitHub visibility change.
       Completed on 2026-08-14 with a repeatable credential-free local clone
       harness. It requires a clean exact commit, forces public-only mode with a
       fresh HOME and external temporary state, runs the full release gate plus
-      the documented quick start, and fails on a Private overlay, personal output
-      markers, or clone drift. Genuine anonymous GitHub access remains PUB-10
-      because repository visibility is still Private.
-- [ ] **PUB-10 — Execute the visibility transaction only after confirmation.**
+      the documented quick start, and fails on a Private overlay, personal
+      output markers, or clone drift. Genuine anonymous GitHub access was
+      subsequently verified under PUB-10.
+- [x] **PUB-10 — Execute the visibility transaction only after confirmation.**
       Prepare a recoverable private archive and rollback; show the exact remote,
       candidate commit, history strategy, and settings diff; obtain explicit
       authorization; change visibility once; verify anonymous web/Git access,
       repository metadata, and post-publication privacy checks.
+      Completed on 2026-08-14 after explicit owner authorization. Commit
+      `f490fe4028e04f7513708f029ba57b360c320a80` was pushed and read back from
+      `main`, and the existing GitHub repository changed from Private to Public.
+      An isolated no-credential environment received HTTP 200, anonymously
+      cloned the full repository at the exact commit, found no `Private/`,
+      passed `git fsck --full` and all 23 release checks, and read back public
+      API metadata. The post-publication audit found zero current/history
+      Private files; all five pattern categories were manually classified as
+      approved public contact details, fictional fixtures, or safety-policy
+      terminology. No tag, GitHub Release, version bump, or package publication
+      was performed.
 
 - [x] Capacities data migration: user confirmed the migration/retention
       decision is complete and Capacities has been deleted. Do not delete any

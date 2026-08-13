@@ -156,6 +156,11 @@ unused hardware is available.
 
 Status: **committed**
 
+Execution: **all ten public-source gates completed on 2026-08-14**. The
+existing GitHub repository is public at candidate commit `f490fe4`; anonymous
+page, HTTPS Git, API metadata, privacy, and 23-stage release-gate read-backs
+passed. `VERSION` remains 0.1.0 and no tag or GitHub Release was created.
+
 Prepare this repository for safe public discovery and reuse without exposing
 the author's personal cross-Mac configuration. This is a patch release because
 it packages, documents, and governs the existing 0.1 capability domain rather
@@ -175,9 +180,9 @@ rehearsal, and a separately authorized visibility transaction with anonymous
 read-back. The complete contract is
 [`public-release-readiness.md`](public-release-readiness.md).
 
-This scope does not change the repository visibility, `VERSION`, release tag,
-or current local-validation policy by itself. Public GitHub visibility is the
-final explicitly authorized transaction after all gates pass.
+This scope did not change repository visibility, `VERSION`, release tag, or the
+local-validation policy by itself. Public GitHub visibility was applied later
+as the final explicitly authorized transaction after all gates passed.
 
 ## 0.2.0 — memory-backed storage management
 

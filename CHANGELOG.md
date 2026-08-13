@@ -28,6 +28,9 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 
 ### Changed
 
+- The reviewed source repository is now public at candidate commit `f490fe4`;
+  anonymous page, HTTPS clone, API metadata, privacy, and release-gate
+  read-backs passed. This did not create a tag or GitHub Release.
 - Personal `Private/` configuration is synchronized by iCloud Drive and ignored
   by Git; a public-only clone operates without it.
 - `MACOMRADE_PUBLIC_ONLY=1` can now suppress an existing local Private
