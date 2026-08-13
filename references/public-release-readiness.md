@@ -216,12 +216,15 @@ passed.
 
 The anonymous GitHub API read-back reported `private: false`, visibility
 `public`, default branch `main`, and Apache-2.0. Issues and Projects were
-enabled; Wiki was disabled; description, homepage, and topics were empty. The
-post-publication path/category-only audit found zero current or historical
-`Private/` files. Its five pattern categories were manually classified as the
-approved public contact email, fictional test/example emails and paths, a
-synthetic token fixture, credential-redaction fixtures/documentation, and
-decrypted-IPA safety terminology without a tracked private source URL.
+enabled; Wiki was disabled; homepage was empty. A post-publication optimization
+then added the reviewed safety-first macOS lifecycle description and eleven
+discoverability topics covering macOS setup/automation, Homebrew,
+configuration management, developer tooling, Python, Codex, and bootstrap.
+The path/category-only audit found zero current or historical `Private/` files.
+Its five pattern categories were manually classified as the approved public
+contact email, fictional test/example emails and paths, a synthetic token
+fixture, credential-redaction fixtures/documentation, and decrypted-IPA safety
+terminology without a tracked private source URL.
 
 Prepare a recoverable private archive before any history rewrite or remote
 replacement. A same-remote history rewrite and a sanitized new public origin
