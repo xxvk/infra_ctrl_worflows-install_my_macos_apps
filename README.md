@@ -15,18 +15,18 @@ The single frozen 0.1.0 behavior boundary is
 validate it locally with `python3 scripts/validate_release_contract.py`.
 
 The app catalog is only one part of the baseline. Tracked `settings/` define
-portable policy. The Git-tracked `Private/` overlay is reserved for
-user-approved personal configuration and remains synchronized through Git;
-existing tracked values stay in place until each consumer has a tested,
-backward-compatible migration. Runtime state now lives in machine-local Application Support storage;
+portable public policy. The local `Private/` overlay is reserved for
+user-approved personal configuration, remains synchronized through iCloud
+Drive, and is ignored by Git. Sanitized templates live under
+[`examples/private/`](examples/private/). Runtime state now lives in machine-local Application Support storage;
 the tracked `state/` directory is only a compatibility locator. Privacy
 grants, passwords, tokens, private keys, session material, and private document
 contents are never copied as configuration; each new Mac must visibly
 authorize protected access and then be verified.
 
 See [`references/configuration-layers.md`](references/configuration-layers.md)
-for merge precedence, migration rules, and the boundary between tracked
-Private configuration and secrets.
+for merge precedence, migration rules, and the boundary between local Private
+configuration and secrets.
 The six versioned JSON contracts, Draft 2020-12 registry, validation-before-use
 boundaries, and non-destructive migration procedure are documented in
 [`references/schema-and-migration.md`](references/schema-and-migration.md).
@@ -82,6 +82,19 @@ local-link integrity.
 - Homebrew for automatic Homebrew cask/formula installs
 - Codex Chrome extension only when managing an official website download in Chrome
 
+## Governance
+
+This project is licensed under [Apache License 2.0](LICENSE). Before
+contributing or reporting a problem, read the
+[contribution guide](CONTRIBUTING.md), [security policy](SECURITY.md), and
+[code of conduct](CODE_OF_CONDUCT.md). Release-facing changes are summarized
+in the [changelog](CHANGELOG.md); bundled third-party material and notice
+requirements are tracked in [third-party notices](THIRD_PARTY_NOTICES.md).
+
+The presence of an open-source license does not imply that this private
+repository has already been published or that the 0.1.0 release candidate has
+been declared stable.
+
 ## Local validation policy
 
 The 0.1.0 release candidate uses local macOS validation, not GitHub Actions, as
@@ -132,12 +145,13 @@ materialization, and never relocate the repository as a workaround.
 
 ## Keyboard configuration entry
 
-Keyboard settings are managed from
-[`Private/keyboard.yaml`](Private/keyboard.yaml). The historical
-`settings/keyboard.yaml` path is a compatibility locator.
-The device-specific K240 profile is:
-
-[`Private/keyboards/logitech-k240-japanese-dictation.yaml`](Private/keyboards/logitech-k240-japanese-dictation.yaml)
+Keyboard settings are managed from the local, Git-ignored
+`Private/keyboard.yaml`. The historical `settings/keyboard.yaml` path is a
+compatibility locator. Start from the public
+[`keyboard overlay example`](examples/private/keyboard.yaml) and
+[`device profile example`](examples/private/keyboards/example-keyboard.yaml).
+The active device-specific profile remains under `Private/keyboards/` and is
+never required by a public clone.
 
 The current Logitech K240 Japanese-keyboard policy is:
 

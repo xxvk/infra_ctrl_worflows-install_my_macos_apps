@@ -24,18 +24,16 @@ change, the repository remains Private and `VERSION` remains unchanged.
 
 ## Current blockers
 
-The `Private/` layer contains personal cross-Mac configuration, including
-account identifiers. It now remains beside the engine for iCloud Drive sync and
-is ignored by Git. Removing it from the current Git index is insufficient
-because prior commits retain its contents. The repository also does not yet
-contain a license, security policy, contribution guide, code of conduct, or
-changelog.
+The in-place `Private/` overlay is Git-ignored, all reviewed historical private
+values have been removed or replaced, and the Apache-2.0 governance surface is
+present. Repository visibility remains unchanged. The remaining gates are
+PUB-06 through PUB-10: public onboarding, the public safety and issue contract,
+the release manifest, an independent anonymous-clone rehearsal, and an
+explicitly authorized visibility transaction with read-back.
 
-Before publication, inspect both the current tree and all reachable history for
-credentials, identifiers, private URLs, machine paths, decrypted-package
-provenance, personal profile names, and organization-specific operational
-details. A pattern scan is only one source of evidence; every flagged file and
-history result needs classification.
+Continue to treat the repeatable publication scan as evidence requiring human
+classification. A passing pattern scan is necessary but cannot by itself
+authorize publication.
 
 ## Repeatable publication inventory
 
@@ -153,10 +151,11 @@ History rewriting changed every affected commit ID. The local and remote branch
 rewrite is complete. Any future history rewrite remains a separate explicit
 authorization point and must use force-with-lease against verified remote refs.
 
-The recommended license candidate is Apache-2.0 because it includes an express
-patent grant, but choosing and adding a license remains a separate explicit
-owner decision. Do not represent the repository as open source before a license
-is actually present.
+The owner selected Apache-2.0. `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`,
+`CODE_OF_CONDUCT.md`, `CHANGELOG.md`, and `THIRD_PARTY_NOTICES.md` are present
+and checked by the bootstrap and publication-audit contracts. This completes
+the governance gate but does not change repository visibility or authorize a
+release.
 
 ## Visibility-change transaction
 

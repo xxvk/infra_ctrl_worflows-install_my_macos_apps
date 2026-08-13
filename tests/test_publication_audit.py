@@ -22,6 +22,22 @@ class PublicationAuditTests(unittest.TestCase):
         self.assertEqual(result["status"], "passed", result["errors"])
         self.assertGreaterEqual(result["pattern_count"], 5)
 
+    def test_public_governance_surface_is_complete(self) -> None:
+        policy = publication_audit.load_policy()
+        self.assertEqual(
+            set(policy["governance_files"]),
+            {
+                "LICENSE",
+                "SECURITY.md",
+                "CONTRIBUTING.md",
+                "CODE_OF_CONDUCT.md",
+                "CHANGELOG.md",
+                "THIRD_PARTY_NOTICES.md",
+            },
+        )
+        result = publication_audit.scan_current_tree(ROOT, [], policy)
+        self.assertEqual(result["missing_governance_files"], [])
+
     def test_current_tree_findings_never_copy_sensitive_values(self) -> None:
         secret_email = "private-person@example.invalid"
         secret_token = "ghp_abcdefghijklmnopqrstuvwxyz123456"

@@ -13,6 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     "SKILL.md",
     "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "CHANGELOG.md",
+    "THIRD_PARTY_NOTICES.md",
     "state/README.md",
     "state/locator.json",
     "examples/private/manifest.json",

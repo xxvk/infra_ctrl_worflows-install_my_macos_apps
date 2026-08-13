@@ -3,7 +3,7 @@
   "kind": "macomrade_publication_audit_policy",
   "large_file_bytes": 5242880,
   "private_prefixes": ["Private/"],
-  "governance_files": ["LICENSE", "SECURITY.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "CHANGELOG.md"],
+  "governance_files": ["LICENSE", "SECURITY.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "CHANGELOG.md", "THIRD_PARTY_NOTICES.md"],
   "generated_prefixes": ["build/", "dist/", "reports/", "artifacts/"],
   "artifact_suffixes": [".app", ".dmg", ".ipa", ".pkg", ".tar", ".zip"],
   "sensitive_patterns": [

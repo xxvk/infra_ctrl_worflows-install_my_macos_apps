@@ -378,11 +378,15 @@ this list does not authorize a GitHub visibility change.
       `trae-dev` were updated with exact `--force-with-lease` expectations and
       read back successfully; no PR refs were present. Repository visibility
       remains unchanged.
-- [ ] **PUB-05 — Add open-source governance.** Obtain an explicit license
+- [x] **PUB-05 — Add open-source governance.** Obtain an explicit license
       decision—Apache-2.0 is the recommended candidate—then add the license,
       required third-party notices, security policy, contribution guide, code
       of conduct, and changelog. Until then, do not call the repository open
       source.
+      Completed on 2026-08-14: the owner selected Apache-2.0. `LICENSE`,
+      `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`,
+      and `THIRD_PARTY_NOTICES.md` are present and enforced by bootstrap and
+      publication-audit tests. Repository visibility remains unchanged.
 - [ ] **PUB-06 — Build public onboarding.** Add audience and support scope,
       supported macOS/architecture matrix, prerequisites, ten-minute read-only
       quick start, private-overlay setup, permissions, known limitations,
