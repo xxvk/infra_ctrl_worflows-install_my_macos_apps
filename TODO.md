@@ -494,10 +494,14 @@ this list does not authorize a GitHub visibility change.
       description, topics, and repository settings. Both the new and redirected
       old page returned HTTP 200, and anonymous HTTPS Git returned the same
       `cf19842` commit from both URLs. The child remote, public links, clone
-      example, and parent `.gitmodules` URL were updated; the local submodule
-      directory remains unchanged. Validation and exact new-URL clone read-back
-      remain required before pushing the documentation update. No tag, Release,
-      package, product-name, or App Store identity was created.
+      example, and parent `.gitmodules` working-tree URL were updated; the local
+      submodule directory remains unchanged. The documentation commit
+      `9afd3ea` was pushed through the new origin, then a no-credential clone
+      from the new URL passed all 23 checks with no `Private/` or worktree drift;
+      the old Git URL resolved to the same commit. The parent `.gitmodules`
+      update remains uncommitted because that file already contains a separate
+      staged `agent-recipes` change. No tag, Release, package, product-name, or
+      App Store identity was created.
 
 - [x] Capacities data migration: user confirmed the migration/retention
       decision is complete and Capacities has been deleted. Do not delete any
