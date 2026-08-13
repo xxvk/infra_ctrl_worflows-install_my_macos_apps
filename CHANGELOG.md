@@ -11,6 +11,18 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 - Apache License 2.0, security policy, contribution guide, code of conduct, and
   third-party notice policy.
 - Fictional public templates for personal configuration.
+- Public onboarding with a ten-minute non-mutating quick start, explicit
+  public-only catalog mode, platform matrix, privacy boundary, rollback, and
+  troubleshooting guidance.
+- Structured bug and feature forms, a pull-request safety checklist, and a
+  public/private support contract for responsible disclosure and diagnostic
+  sharing.
+- Deterministic, schema-validated release-manifest preview binding source,
+  public policy, validation, benchmark, limitations, and source provenance
+  while keeping all publication authority false.
+- Credential-free, public-only exact-commit clone rehearsal covering the
+  hermetic release gate, documented quick start, Private-overlay absence, and
+  clean-clone read-back without authorizing publication.
 - Machine-role profiles, localization catalogs, App Adapter contracts,
   performance budgets, audit reports, and a low-noise drift monitor.
 
@@ -18,6 +30,8 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 
 - Personal `Private/` configuration is synchronized by iCloud Drive and ignored
   by Git; a public-only clone operates without it.
+- `MACOMRADE_PUBLIC_ONLY=1` can now suppress an existing local Private
+  app-catalog overlay during public evaluation and clone rehearsals.
 - Core Node.js and npm-global ownership is pinned to fnm-managed Node 24.
 - Reachable Git history was rewritten to remove personal configuration and
   reviewed private identifiers before public release.

@@ -1,8 +1,15 @@
 # Android SDK and emulator environment
 
 Android command-line tooling is a Core developer environment, not just a GUI
-app. Homebrew supplies Java and the command-line tools; `sdkmanager` supplies
-the Emulator, ADB, Android platforms, and system images.
+app. Homebrew supplies Java and the command-line tools. Command-line tools 22
+and newer introduce `android sdk` as the preferred package-management surface
+and mark `sdkmanager` deprecated; the latter remains the compatibility path for
+the established license and deterministic install workflow below.
+
+The first `android` invocation downloads and unpacks its embedded CLI and shows
+the Android SDK terms and metrics notice. Treat this as a network-visible
+bootstrap step on a new Mac. Do not automate acceptance of changed terms; keep
+metrics disabled when the installed CLI supports a non-interactive opt-out.
 
 For a complete Emulator workflow, `sdkmanager` is the single owner of
 `platform-tools`/ADB. Do not install the standalone Homebrew
@@ -61,12 +68,19 @@ echo no | avdmanager create avd \
 Verify the environment in a fresh login shell:
 
 ```sh
-command -v java sdkmanager adb emulator avdmanager
+command -v java android sdkmanager adb emulator avdmanager
 java -version
+android --sdk="$ANDROID_SDK_ROOT" sdk list '*'
 sdkmanager --list | sed -n '1,20p'
 emulator -list-avds
 adb version
 ```
+
+`android sdk list '*'` is the preferred read-only inventory and also reports
+available updates. Keep the `sdkmanager` check while legacy license/install
+automation remains in use. Migrate mutation commands only after testing their
+prompt, terms, metrics, package-name, and unattended-execution behavior on a
+clean machine.
 
 Start only when an Android workflow is in scope:
 

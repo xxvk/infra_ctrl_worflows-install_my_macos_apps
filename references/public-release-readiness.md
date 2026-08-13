@@ -7,6 +7,7 @@
 - [Repeatable publication inventory](#repeatable-publication-inventory)
 - [Target repository model](#target-repository-model)
 - [Publication gates](#publication-gates)
+- [Independent clone rehearsal](#independent-clone-rehearsal)
 - [Selected history strategy](#selected-history-strategy)
 - [Visibility-change transaction](#visibility-change-transaction)
 - [Non-goals](#non-goals)
@@ -26,10 +27,14 @@ change, the repository remains Private and `VERSION` remains unchanged.
 
 The in-place `Private/` overlay is Git-ignored, all reviewed historical private
 values have been removed or replaced, and the Apache-2.0 governance surface is
-present. Repository visibility remains unchanged. The remaining gates are
-PUB-06 through PUB-10: public onboarding, the public safety and issue contract,
-the release manifest, an independent anonymous-clone rehearsal, and an
-explicitly authorized visibility transaction with read-back.
+present, and the public onboarding contract has a tested public-only quick
+start and structured public support forms now enforce the issue, disclosure,
+and diagnostic-sharing boundary. Repository visibility remains unchanged. The
+release-manifest preview now binds the candidate inputs without publication
+authority. The repeatable PUB-09 harness is present; its exact-commit result is
+stored only in machine-local state after a clean candidate run. PUB-10 remains:
+an explicitly authorized
+visibility transaction with genuine anonymous GitHub read-back.
 
 Continue to treat the repeatable publication scan as evidence requiring human
 classification. A passing pattern scan is necessary but cannot by itself
@@ -106,6 +111,32 @@ accidental-disclosure risks. Publish sanitized example files instead.
     explicitly authorize the exact GitHub repository, change visibility once,
     verify anonymous web and Git access, inspect repository metadata, and
     immediately re-run public privacy checks.
+
+## Independent clone rehearsal
+
+Run PUB-09 only from a clean candidate commit:
+
+```sh
+./bin/macomrade diagnostics public-clone
+```
+
+The harness first runs the iCloud Git preflight and refuses a dirty source. It
+then creates a non-local temporary clone of the exact commit, assigns a fresh
+temporary HOME and state directory, disables Git credential prompts and
+inherited global configuration, removes credential-bearing environment
+channels, and forces `MACOMRADE_PUBLIC_ONLY=1`. Inside that clone it runs the
+complete hermetic release check and every command in the documented read-only
+quick start. It fails if a `Private/` directory appears, the clone becomes
+dirty, or command output contains an email address or absolute macOS user-home
+path.
+
+The summary is written under the machine-local
+`public-clone-rehearsals/` state directory and contains no command output,
+credentials, personal paths, or publication authority. Temporary clone files
+are removed after the run. Because the remote is still Private, local
+`file://` transport is an honest credential-free isolation rehearsal, not an
+anonymous GitHub clone. PUB-10 must still verify unauthenticated HTTPS access
+after a separately confirmed visibility change.
 
 ## Selected history strategy
 

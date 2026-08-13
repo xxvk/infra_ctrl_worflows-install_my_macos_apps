@@ -55,6 +55,7 @@ Examples:
 ./bin/macomrade scan apps
 ./bin/macomrade scan adapters --adapter wechat
 ./bin/macomrade scan monitor
+./bin/macomrade plan apps --profile auto
 ./bin/macomrade plan apps --profile auto --roles auto,developer,robotics
 ./bin/macomrade plan adapters --adapter claude-vm
 ./bin/macomrade apply apps "$PLAN" --only "App Name"
@@ -70,6 +71,8 @@ Examples:
 ./bin/macomrade diagnostics benchmark --operation inventory --operation plan
 ./bin/macomrade diagnostics report /path/to/bootstrap-verify.json --format html --output /path/to/report.html
 ./bin/macomrade diagnostics publication
+./bin/macomrade diagnostics release-manifest
+./bin/macomrade diagnostics public-clone
 ./bin/macomrade diagnostics bundle --output /path/to/diagnostics.zip
 ./bin/macomrade migration state inspect
 ./bin/macomrade migration schema app-plan /path/to/legacy-plan.json --to 1
@@ -111,6 +114,19 @@ Diagnostic preview and export are deliberately separate routes. Preview with
 reviewing the manifest and redaction report. The dispatcher never adds the
 required `--apply` or exact confirmation. See
 [`redacted-diagnostic-bundle.md`](redacted-diagnostic-bundle.md).
+
+Release-manifest generation is also preview-only. It binds source, schemas,
+public policy, validation, benchmark, limitations, and source-only provenance,
+but writes no artifact and keeps commit, tag, push, release, and visibility
+authority false. See [`release-manifest.md`](release-manifest.md).
+
+The public-clone diagnostic requires a clean source commit, creates a
+non-local temporary clone with a new HOME, disables credential prompts and
+global Git configuration, forces public-only configuration, runs the complete
+hermetic release gate and documented read-only quick start, and records only a
+machine-local summary. While the GitHub repository remains Private, this is a
+credential-free local-transport rehearsal—not proof of anonymous network
+access. The final GitHub read-back remains a separate authorized transaction.
 
 Role selection only changes the contents of the current application plan. App
 adapter routes inspect metadata and prepare a handoff; there is intentionally

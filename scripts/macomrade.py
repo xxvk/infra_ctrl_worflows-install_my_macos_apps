@@ -75,6 +75,8 @@ ROUTES = (
     Route("diagnostics", "benchmark", "scripts/performance_benchmark.py", ("run",), False, "measure bounded local performance and resource cost"),
     Route("diagnostics", "report", "scripts/audit_report.py", (), False, "render an accessible audit report from existing JSON"),
     Route("diagnostics", "publication", "scripts/publication_audit.py", ("inspect",), False, "inventory current and historical public-release risks without matched values"),
+    Route("diagnostics", "release-manifest", "scripts/release_manifest.py", ("preview",), False, "build a deterministic non-authorizing release manifest preview"),
+    Route("diagnostics", "public-clone", "scripts/public_clone_rehearsal.py", ("run",), False, "rehearse an exact public-only clone without inherited credentials"),
     Route("diagnostics", "bundle", "scripts/diagnostic_bundle.py", ("preview",), False, "preview a bounded redacted diagnostic bundle"),
     Route("migration", "state", "scripts/migrate_state.py", (), True, "inspect, materialize, migrate, or clean legacy state"),
     Route("migration", "schema", "scripts/schema_contract.py", ("migrate",), True, "preview or write a JSON schema-version migration"),

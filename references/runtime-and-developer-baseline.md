@@ -30,10 +30,10 @@ as the single frozen 0.1.0 behavior contract. Do not describe an
 making release-status claims, run `python3 scripts/validate_release_contract.py`;
 every supported row must retain existing repository evidence.
 
-Read [`product-ideas.md`](product-ideas.md) when
-evaluating the undecided 0.8.0 or 0.9.0 slots. Ideas and portfolios in that
-file are candidates, not commitments; assign one to the roadmap only after the
-user explicitly selects it.
+Read [`product-ideas.md`](product-ideas.md) when evaluating the undecided 0.9.0
+slot. Version 0.8.0 is committed to WeChat group lifecycle management. Ideas
+and portfolios in the idea pool are candidates, not commitments; assign one to
+the roadmap only after the user explicitly selects it.
 
 Version changes, Git tags, releases, and App Store submissions are separate
 actions. Update `VERSION` only when the release scope and acceptance gates are

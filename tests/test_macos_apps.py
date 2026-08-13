@@ -141,6 +141,33 @@ class AppCatalogAndSourceTests(unittest.TestCase):
 
 
 class PlanningAndCommandTests(unittest.TestCase):
+    def test_plan_without_roles_defaults_to_auto_base_capacity(self) -> None:
+        selection = {
+            "roles": ["base", "compact"],
+            "requested_roles": ["auto"],
+            "selected_apps": ["Fixture Store"],
+            "excluded_apps": [],
+            "reasons": {"Fixture Store": ["base"]},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp)
+            with mock.patch.object(macos_apps, "STATE", state):
+                with mock.patch.object(macos_apps, "CATALOG", FIXTURE):
+                    with mock.patch.object(macos_apps, "catalog", side_effect=fixture_catalog):
+                        with mock.patch.object(macos_apps, "installed_apps", return_value=[]):
+                            with mock.patch.object(macos_apps, "storage_gb", return_value=256.0):
+                                with mock.patch.object(macos_apps.machine_roles, "load_roles", return_value={}):
+                                    with mock.patch.object(
+                                        macos_apps.machine_roles,
+                                        "resolve",
+                                        return_value=selection,
+                                    ) as resolve:
+                                        macos_apps.plan(argparse.Namespace(profile="portable"))
+            result = json.loads(next(state.glob("plan-*.json")).read_text(encoding="utf-8"))
+        self.assertEqual([item["name"] for item in result["missing"]], ["Fixture Store"])
+        self.assertEqual(result["role_selection"], selection)
+        self.assertEqual(resolve.call_args.args[2], ["auto"])
+
     def test_role_plan_uses_resolved_core_plus_role_selection(self) -> None:
         selection = {
             "roles": ["base", "developer"],
@@ -171,6 +198,18 @@ class PlanningAndCommandTests(unittest.TestCase):
         self.assertEqual(resolve.call_args.kwargs["storage_gb"], 256.0)
 
     def test_portable_plan_excludes_heavy_and_reports_version_issue(self) -> None:
+        selection = {
+            "roles": ["base", "compact"],
+            "requested_roles": ["auto"],
+            "selected_apps": [
+                "Fixture Brew",
+                "Fixture Store",
+                "Fixture Website",
+                "Fixture Heavy",
+            ],
+            "excluded_apps": [],
+            "reasons": {},
+        }
         installed = [
             {
                 "name": "Fixture Brew",
@@ -187,7 +226,9 @@ class PlanningAndCommandTests(unittest.TestCase):
                     with mock.patch.object(macos_apps, "catalog", side_effect=fixture_catalog):
                         with mock.patch.object(macos_apps, "installed_apps", return_value=installed):
                             with mock.patch.object(macos_apps, "storage_gb", return_value=256.0):
-                                macos_apps.plan(argparse.Namespace(profile="portable"))
+                                with mock.patch.object(macos_apps.machine_roles, "load_roles", return_value={}):
+                                    with mock.patch.object(macos_apps.machine_roles, "resolve", return_value=selection):
+                                        macos_apps.plan(argparse.Namespace(profile="portable"))
             plan = json.loads(next(state.glob("plan-*.json")).read_text())
         self.assertEqual(plan["profile"], "portable")
         self.assertEqual(

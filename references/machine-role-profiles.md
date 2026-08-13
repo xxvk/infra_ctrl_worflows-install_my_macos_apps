@@ -30,7 +30,7 @@ The initial roles are:
 | --- | --- |
 | base | Active Core applications and portable baseline policy. |
 | compact / expanded | Capacity classification selected by auto. |
-| developer | Cursor, Xcode, and xurl beyond Core. |
+| developer | Xcode and xurl beyond Core. Cursor remains manually selectable Optional software. |
 | robotics | Inherits developer; adds Android Studio, Android File Transfer, and Foxglove; excludes Android Studio Preview. |
 | content | Explicit creative audio, video, and design applications. |
 | gaming | Optional PlayCover learning/gaming applications. |
@@ -42,10 +42,14 @@ explanation in the generated plan.
 
 ## Planning
 
-Existing plans without a roles argument preserve the legacy all-active
-behavior. Use roles deliberately for a Core-plus-role plan:
+Plans without a roles argument default to `auto`: Core plus the detected
+`compact` or `expanded` capacity role. Optional applications are never selected
+merely because they are active. Use roles deliberately for a Core-plus-role
+plan, or use `--include-app Cursor` when Cursor is wanted on one machine:
 
+    ./bin/macomrade plan apps --profile auto
     ./bin/macomrade plan apps --profile auto --roles auto,developer,robotics
+    ./bin/macomrade plan apps --profile auto --include-app Cursor
     ./bin/macomrade plan apps --profile auto --roles auto,content
     ./bin/macomrade diagnostics roles --roles auto,developer --storage-gb 256
 

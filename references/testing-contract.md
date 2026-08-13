@@ -73,6 +73,10 @@ acceptance run.
 - Publication inventory records paths, categories, and counts only; matched
   sensitive text is never copied, and no finding authorizes visibility or
   history changes.
+- Public-clone rehearsal requires a clean exact commit, strips inherited
+  credential channels, forces public-only configuration, writes runtime state
+  outside the clone, and fails if `Private/`, personal output markers, or a
+  dirty clone appears. Local transport is not anonymous GitHub proof.
 - Diagnostic collection is allowlisted and bounded; redaction removes
   credential/account/host fields and sensitive text; preview writes nothing;
   export requires exact confirmation, refuses overwrite, and verifies ZIP

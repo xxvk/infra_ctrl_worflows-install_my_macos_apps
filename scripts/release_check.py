@@ -31,6 +31,8 @@ def build_checks(*, include_live_smoke: bool, python: str = sys.executable) -> l
         ("performance-budgets", [python, "scripts/performance_benchmark.py", "validate"]),
         ("drift-monitor", [python, "scripts/drift_monitor.py", "validate"]),
         ("publication-audit-policy", [python, "scripts/publication_audit.py", "validate"]),
+        ("release-manifest", [python, "scripts/release_manifest.py", "validate"]),
+        ("public-clone-rehearsal", [python, "scripts/public_clone_rehearsal.py", "validate"]),
         ("diagnostic-bundle", [python, "scripts/diagnostic_bundle.py", "validate"]),
         ("configuration-layers", [python, "scripts/config_layers.py", "audit"]),
         ("release-contract", [python, "scripts/validate_release_contract.py"]),

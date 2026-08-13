@@ -32,6 +32,8 @@ class ReleaseCheckTests(unittest.TestCase):
         self.assertIn("performance-budgets", ids)
         self.assertIn("drift-monitor", ids)
         self.assertIn("publication-audit-policy", ids)
+        self.assertIn("release-manifest", ids)
+        self.assertIn("public-clone-rehearsal", ids)
         self.assertIn("diagnostic-bundle", ids)
         self.assertNotIn("live-macos-smoke", ids)
 

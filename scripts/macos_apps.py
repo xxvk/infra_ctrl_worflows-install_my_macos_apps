@@ -389,37 +389,25 @@ def plan(args):
         for value in (item["name"], item.get("bundle_identifier", ""))
         if value
     }
-    requested_roles = getattr(args, "roles", None)
-    role_selection = None
-    if requested_roles:
-        try:
-            role_selection = machine_roles.resolve(
-                machine_roles.load_roles(),
-                data,
-                [item for item in requested_roles.split(",") if item],
-                storage_gb=storage_gb(),
-                include_apps=getattr(args, "include_app", []),
-                exclude_apps=getattr(args, "exclude_app", []),
-            )
-        except machine_roles.MachineRoleError as exc:
-            raise SystemExit(f"Machine-role selection failed: {exc}") from exc
-        selected_names = set(role_selection["selected_apps"])
-        selected = [
-            app for app in data["apps"]
-            if app["name"] in selected_names
-            and app.get("lifecycle_status") != "retired"
-            and not (app["tier"] == "heavy" and profile == "portable")
-        ]
-    else:
-        # Preserve the pre-role planner behavior for existing callers. Passing
-        # --roles is an explicit opt-in to Core-plus-role selection.
-        selected = []
-        for app in data["apps"]:
-            if app.get("lifecycle_status") == "retired":
-                continue
-            if app["tier"] == "heavy" and profile == "portable":
-                continue
-            selected.append(app)
+    requested_roles = getattr(args, "roles", None) or "auto"
+    try:
+        role_selection = machine_roles.resolve(
+            machine_roles.load_roles(),
+            data,
+            [item for item in requested_roles.split(",") if item],
+            storage_gb=storage_gb(),
+            include_apps=getattr(args, "include_app", []),
+            exclude_apps=getattr(args, "exclude_app", []),
+        )
+    except machine_roles.MachineRoleError as exc:
+        raise SystemExit(f"Machine-role selection failed: {exc}") from exc
+    selected_names = set(role_selection["selected_apps"])
+    selected = [
+        app for app in data["apps"]
+        if app["name"] in selected_names
+        and app.get("lifecycle_status") != "retired"
+        and not (app["tier"] == "heavy" and profile == "portable")
+    ]
     missing = [app for app in selected if not app_present(app, installed_names)]
     mismatches = []
     for item in source_mismatches(installed):
@@ -799,10 +787,11 @@ def main():
     plan_parser.add_argument("--profile", choices=["auto", "portable", "expanded"], default="auto")
     plan_parser.add_argument(
         "--roles",
-        help="Comma-separated composable roles; use auto for base plus capacity role. Omitting preserves legacy all-active planning.",
+        default="auto",
+        help="Comma-separated composable roles; defaults to auto for base plus compact/expanded capacity role.",
     )
-    plan_parser.add_argument("--include-app", action="append", default=[], help="Explicitly include one catalog app with --roles")
-    plan_parser.add_argument("--exclude-app", action="append", default=[], help="Explicitly exclude one catalog app with --roles")
+    plan_parser.add_argument("--include-app", action="append", default=[], help="Explicitly include one catalog app in this plan")
+    plan_parser.add_argument("--exclude-app", action="append", default=[], help="Explicitly exclude one catalog app from this plan")
     plan_parser.set_defaults(func=plan)
     install_parser = sub.add_parser("install", help="Install Homebrew-cask items from a saved plan")
     install_parser.add_argument("plan", help="Path to a generated plan JSON")

@@ -279,11 +279,18 @@ silently expand the 0.1.0 release-candidate gate.
       per-Mac baseline. A real five-operation two-pass sample passed its
       declared budgets. Drift's normal mismatch exit is measured, not mistaken
       for a benchmark execution failure.
-- [ ] **RC-15 — Generate a Release Manifest automatically.** Bind version,
+- [x] **RC-15 — Generate a Release Manifest automatically.** Bind version,
       commit, schema versions, catalog/config hashes, supported macOS and
       architecture matrix, test/benchmark results, known limitations, and
       artifact provenance into a reproducible manifest; generating it does not
       authorize committing, tagging, pushing, or publishing.
+      Completed on 2026-08-14: added a Draft 2020-12 release-manifest schema,
+      tracked fixture, deterministic generator, stable diagnostics route, and
+      release-gate validation. A real preview bound 14 schemas, 10 public
+      inputs, all 22 hermetic checks, and a passing five-operation benchmark.
+      Its only blocker was the expected dirty worktree containing this
+      uncommitted implementation. Commit, tag, push, release, and visibility
+      authority all remained false.
 
 ### P2 — accepted 0.1.x enhancements; do not block 0.1.0
 
@@ -387,22 +394,44 @@ this list does not authorize a GitHub visibility change.
       `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`,
       and `THIRD_PARTY_NOTICES.md` are present and enforced by bootstrap and
       publication-audit tests. Repository visibility remains unchanged.
-- [ ] **PUB-06 — Build public onboarding.** Add audience and support scope,
+- [x] **PUB-06 — Build public onboarding.** Add audience and support scope,
       supported macOS/architecture matrix, prerequisites, ten-minute read-only
       quick start, private-overlay setup, permissions, known limitations,
       uninstall/rollback, and troubleshooting without personal assumptions.
-- [ ] **PUB-07 — Lock the public safety and issue contract.** Keep dry-run and
+      Completed on 2026-08-14: added `references/public-onboarding.md`, a
+      README entry point, bootstrap coverage, and three documentation
+      contracts. Live rehearsal found that an author checkout could still load
+      its local Private app-catalog overlay, so `MACOMRADE_PUBLIC_ONLY=1` and a
+      regression test were added. A repeated scan and plan wrote only temporary
+      state, produced no private account prompts, and made no system changes.
+- [x] **PUB-07 — Lock the public safety and issue contract.** Keep dry-run and
       exact confirmations, prohibit secret/private-state uploads, add issue and
       responsible-disclosure guidance, and define safe redacted diagnostics for
       public support.
-- [ ] **PUB-08 — Complete RC-15 Release Manifest.** Bind the candidate version,
+      Completed on 2026-08-14: added structured redacted bug and feature forms,
+      disabled blank issues, added a pull-request safety checklist, and linked
+      README, contribution, and security entry points to one tested public
+      support contract. Diagnostic preview, exact local export, archive review,
+      and separate sharing approval remain distinct; no repository command
+      uploads, emails, or publishes an artifact.
+- [x] **PUB-08 — Complete RC-15 Release Manifest.** Bind the candidate version,
       commit, schema/policy hashes, supported platform matrix, local validation,
       benchmark summary, known limitations, and artifact provenance without
       authorizing commit, tag, release, or publication.
-- [ ] **PUB-09 — Rehearse an independent anonymous clone.** Clone the exact
+      Completed on 2026-08-14 through RC-15. Preview is reproducible for the
+      same evidence set, writes no artifact, exposes exact blockers, and cannot
+      authorize any Git or GitHub mutation. Regenerate after committing the
+      candidate so `dirty_worktree` can clear before PUB-09.
+- [x] **PUB-09 — Rehearse an independent anonymous clone.** Clone the exact
       sanitized candidate without private credentials, run all hermetic checks
       and the read-only quick start, and prove that no personal overlay is
       required, fetched, generated, or committed.
+      Completed on 2026-08-14 with a repeatable credential-free local clone
+      harness. It requires a clean exact commit, forces public-only mode with a
+      fresh HOME and external temporary state, runs the full release gate plus
+      the documented quick start, and fails on a Private overlay, personal output
+      markers, or clone drift. Genuine anonymous GitHub access remains PUB-10
+      because repository visibility is still Private.
 - [ ] **PUB-10 — Execute the visibility transaction only after confirmation.**
       Prepare a recoverable private archive and rollback; show the exact remote,
       candidate commit, history strategy, and settings diff; obtain explicit
@@ -966,3 +995,81 @@ review before promoting any item into an implementation task.
       which would have reformatted the entire 1974-line file). Validator now
       reports 0 errors across all 128 entries; `bootstrap_validate.py` still
       passes.
+
+## 0.3.0 — Browser bookmarks and reading lists
+
+These tasks implement the committed 0.3.0 roadmap after the 0.2.0 storage and
+decision-memory foundation is available. They do not authorize reading private
+browser data or modifying a live profile before the relevant preview and
+confirmation contracts exist.
+
+- [ ] **BR-01 — Verify supported read-only data sources.** Document current
+      Safari bookmark/Reading List and Chrome bookmark interfaces, profile and
+      account boundaries, required permissions, native sync behavior, and the
+      supported export fallback. Do not rely on cookies, history, passwords,
+      session databases, or undocumented cloud credentials.
+- [ ] **BR-02 — Define the browser-item schema and privacy boundary.** Model
+      source browser/profile, collection, canonical URL, title, tags, intended
+      lifecycle, confidence, decision expiry, and conflict evidence. Keep
+      private URLs, account mappings, exports, and observations out of tracked
+      public configuration.
+- [ ] **BR-03 — Build fixture-first read-only adapters.** Add sanitized Safari
+      and Chrome fixtures and tests before implementing live inventory. A scan
+      must preserve browser/profile boundaries and make zero browser changes.
+- [ ] **BR-04 — Implement explainable URL normalization and duplicate review.**
+      Remove only proven tracking parameters, retain semantically meaningful
+      parameters, avoid cross-identity merges, and show the evidence behind
+      every duplicate group.
+- [ ] **BR-05 — Add taxonomy and decision memory.** Support inbox, project,
+      reference, read-later, archive, and user-defined classifications; suppress
+      unchanged reviewed items until their next review date.
+- [ ] **BR-06 — Add export, plan, and transaction-safe apply.** Produce a
+      restorable pre-change export, exact move/merge/archive/delete preview,
+      item-scoped confirmation, interruption-safe execution, rollback where
+      supported, and browser-visible read-back.
+- [ ] **BR-07 — Expose the workflow through macomrade and accessible reports.**
+      Add scan, review, plan, apply, verify, and history routes with redacted
+      JSON plus localized HTML/TUI presentation.
+- [ ] **BR-08 — Complete live multi-profile acceptance.** Verify Safari and
+      Chrome behavior on representative profiles, repeat-run idempotency,
+      conflict handling, backup restoration, and all 0.3.0 acceptance gates.
+
+## 0.8.0 — WeChat group lifecycle
+
+These tasks implement the committed 0.8.0 roadmap independently from the
+0.6.0 WeChat storage adapter. Message content, membership graphs, and group
+identifiers are private data; no task below authorizes database decryption,
+message sending, or silent shared-state changes.
+
+- [ ] **WG-01 — Audit supported WeChat interfaces and constraints.** Determine
+      what the current macOS client can expose through visible UI, supported
+      exports, accessibility, and user-driven handoff. Record unsupported
+      operations instead of patching or decrypting WeChat databases.
+- [ ] **WG-02 — Define the privacy and shared-impact threat model.** Classify
+      group names, member lists, account identifiers, activity observations,
+      annotations, and message-derived data; define what remains Private,
+      machine-local, transient, or prohibited.
+- [ ] **WG-03 — Define the group-lifecycle schema.** Model purpose, category,
+      user role, attention policy, retention intent, confidence, next review,
+      proposed action, reversibility, and whether other members can observe the
+      action.
+- [ ] **WG-04 — Build a fixture-first read-only inventory adapter.** Use
+      fictional groups and deterministic tests; prove that scan mode sends no
+      messages and changes no membership, name, notification, pin, or history.
+- [ ] **WG-05 — Add taxonomy, review queues, and decision memory.** Support
+      work, project, customer, family, community, information feed, temporary,
+      and archive categories plus user-defined policy and review expiry.
+- [ ] **WG-06 — Publish an exact write-capability and risk matrix.** Separate
+      local annotations from mute, pin, rename/remark, leave, dissolve,
+      invite/remove-member, and history operations; require item-scoped
+      confirmation for every supported mutation.
+- [ ] **WG-07 — Implement supported GUI actions and manual handoffs.** Use
+      visible automation only where reliable, stop at credentials or security
+      confirmation, and return a precise manual step for unsupported actions.
+- [ ] **WG-08 — Add read-back, audit, and privacy-safe reporting.** Verify live
+      WeChat-visible results without retaining message bodies or sensitive
+      payloads in tracked files or diagnostic bundles.
+- [ ] **WG-09 — Complete live acceptance without social side effects.** Test
+      read-only inventory first, then owner-approved low-risk settings on test
+      groups; prove repeat-run idempotency and all 0.8.0 acceptance gates before
+      enabling consequential membership actions.

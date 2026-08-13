@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/release-manifest-v1.schema.json",
+  "title": "macomrade release manifest v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "status", "blockers", "candidate", "source", "schemas", "public_inputs", "platform_support", "validation", "benchmark", "known_limitations", "artifacts", "authority", "manifest_sha256"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "macomrade_release_manifest"},
+    "status": {"enum": ["candidate", "review_required"]},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "candidate": {
+      "type": "object",
+      "required": ["version", "release_status"],
+      "properties": {"version": {"type": "string", "minLength": 1}, "release_status": {"type": "string", "minLength": 1}},
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["commit", "worktree", "change_count"],
+      "properties": {"commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "worktree": {"enum": ["clean", "dirty"]}, "change_count": {"type": "integer", "minimum": 0}},
+      "additionalProperties": false
+    },
+    "schemas": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["kind", "version", "path", "sha256", "bytes"], "properties": {"kind": {"type": "string"}, "version": {"type": "integer"}, "path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "bytes": {"type": "integer", "minimum": 0}}, "additionalProperties": false}},
+    "public_inputs": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["path", "sha256", "bytes"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "bytes": {"type": "integer", "minimum": 0}}, "additionalProperties": false}},
+    "platform_support": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["host", "status", "boundary"], "properties": {"host": {"type": "string"}, "status": {"type": "string"}, "boundary": {"type": "string"}}, "additionalProperties": false}},
+    "validation": {"type": "object", "required": ["status", "mode", "checks_run", "checks"], "properties": {"status": {"type": "string"}, "mode": {"type": "string"}, "checks_run": {"type": "integer", "minimum": 0}, "checks": {"type": "array", "items": {"type": "object", "required": ["id", "status"], "properties": {"id": {"type": "string"}, "status": {"type": "string"}}, "additionalProperties": false}}}, "additionalProperties": false},
+    "benchmark": {"type": "object", "required": ["status", "baseline_present", "operations"], "properties": {"status": {"type": "string"}, "baseline_present": {"type": "boolean"}, "operations": {"type": "array", "items": {"type": "object"}}}, "additionalProperties": false},
+    "known_limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "artifacts": {"type": "object", "required": ["distribution", "files", "provenance"], "properties": {"distribution": {"const": "source_only"}, "files": {"type": "array"}, "provenance": {"type": "string"}}, "additionalProperties": false},
+    "authority": {"type": "object", "required": ["commit_authorized", "tag_authorized", "push_authorized", "release_authorized", "visibility_change_authorized"], "properties": {"commit_authorized": {"const": false}, "tag_authorized": {"const": false}, "push_authorized": {"const": false}, "release_authorized": {"const": false}, "visibility_change_authorized": {"const": false}}, "additionalProperties": false},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

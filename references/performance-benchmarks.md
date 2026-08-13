@@ -51,6 +51,7 @@ change Mac configuration, install software, or publish a release.
 ## Boundary
 
 Do not run expensive all-operation sampling repeatedly on battery. Do not use
-benchmark records as a reason to skip full validation. A release manifest may
-consume the bounded summary in a later RC-15 task, but generating a benchmark
-never commits, tags, pushes, or releases the repository.
+benchmark records as a reason to skip full validation. The RC-15 release
+manifest consumes only the bounded latest summary and never includes the state
+path or raw benchmark record. Generating either artifact never commits, tags,
+pushes, or releases the repository.

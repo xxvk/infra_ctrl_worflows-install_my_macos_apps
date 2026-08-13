@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -64,11 +65,14 @@ class StatePathTests(unittest.TestCase):
     def test_runtime_writers_do_not_default_to_repository_state(self) -> None:
         allowed = {"migrate_state.py"}
         offenders = []
+        repository_state = re.compile(
+            r"\b(?:ROOT|REPO_ROOT|PROJECT_ROOT|SKILL_ROOT)\s*/\s*['\"]state['\"]"
+        )
         for path in sorted((ROOT / "scripts").glob("*.py")):
             if path.name in allowed:
                 continue
             text = path.read_text(encoding="utf-8")
-            if 'ROOT / "state"' in text or '/ "state"' in text:
+            if repository_state.search(text):
                 offenders.append(path.name)
         self.assertEqual(offenders, [])
 

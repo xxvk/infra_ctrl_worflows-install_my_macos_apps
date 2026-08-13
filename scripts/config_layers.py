@@ -6,9 +6,10 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import os
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from schema_contract import SchemaContractError, load_and_validate
 
@@ -17,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "Private" / "manifest.json"
 DEFAULT_CATALOG = ROOT / "references" / "app-catalog.json"
 DEFAULT_CATALOG_OVERLAY = ROOT / "Private" / "app-catalog-overlay.json"
+PUBLIC_ONLY_ENV = "MACOMRADE_PUBLIC_ONLY"
 FORBIDDEN_KEYS = {
     "api_key",
     "access_token",
@@ -36,6 +38,16 @@ APP_CATALOG_OVERLAY_KIND = "app_catalog_private_overlay"
 
 class ConfigurationLayerError(RuntimeError):
     pass
+
+
+def public_only_enabled(environ: Mapping[str, str] | None = None) -> bool:
+    environment = os.environ if environ is None else environ
+    return environment.get(PUBLIC_ONLY_ENV, "").strip().casefold() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
 
 
 def load_json(path: Path) -> Any:
@@ -132,12 +144,15 @@ def apply_app_catalog_overlay(base: dict[str, Any], overlay: dict[str, Any]) -> 
 def load_app_catalog(
     base_path: Path = DEFAULT_CATALOG,
     overlay_path: Path = DEFAULT_CATALOG_OVERLAY,
+    *,
+    environ: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
     try:
         base = load_and_validate(base_path, "catalog")
     except SchemaContractError as exc:
         raise ConfigurationLayerError(str(exc)) from exc
-    if not overlay_path.is_file():
+    default_overlay = overlay_path.expanduser().resolve() == DEFAULT_CATALOG_OVERLAY.resolve()
+    if (default_overlay and public_only_enabled(environ)) or not overlay_path.is_file():
         if not isinstance(base, dict):
             raise ConfigurationLayerError("app catalog base must be a JSON object")
         return base
@@ -211,10 +226,14 @@ def audit_manifest(
     manifest_path: Path = DEFAULT_MANIFEST,
     *,
     root: Path = ROOT,
+    environ: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
     manifest_path = manifest_path.expanduser().resolve()
     expected_default = (root / "Private" / "manifest.json").resolve()
-    if manifest_path == expected_default and not manifest_path.is_file():
+    explicit_public_only = (
+        manifest_path == DEFAULT_MANIFEST.resolve() and public_only_enabled(environ)
+    )
+    if explicit_public_only or (manifest_path == expected_default and not manifest_path.is_file()):
         return {
             "status": "valid",
             "mode": "public_only",
@@ -222,7 +241,11 @@ def audit_manifest(
             "overlay_count": 0,
             "checked_overlays": [],
             "missing_optional_overlays": [],
-            "sync_policy": "No iCloud Private overlay is present; public defaults are active.",
+            "sync_policy": (
+                "Private overlays are disabled by MACOMRADE_PUBLIC_ONLY."
+                if explicit_public_only
+                else "No iCloud Private overlay is present; public defaults are active."
+            ),
             "secrets_policy": "Secrets never belong in Git or Private configuration.",
         }
     manifest = load_json(manifest_path)

@@ -4,9 +4,14 @@ A personal Codex Skill for making a new Mac ready to use after one repository sy
 
 Current target version: **0.1.0** (`release_candidate`)
 
+New users should begin with the
+[`public onboarding and ten-minute read-only quick start`](references/public-onboarding.md).
+It requires no application installation, protected macOS permission, Apple ID,
+or administrator password.
+
 `VERSION` is the version source of truth. The 0.1.0 release-candidate
-capability baseline, committed 0.2.0–0.7.0 scope, undecided 0.8.0–0.9.0
-slots, and 1.0 native macOS product vision are defined in
+capability baseline, committed 0.2.0–0.8.0 scope, undecided 0.9.0 slot, and
+1.0 native macOS product vision are defined in
 [`references/release-roadmap.md`](references/release-roadmap.md). Product-level
 candidates are kept separately in
 [`references/product-ideas.md`](references/product-ideas.md).
@@ -27,12 +32,14 @@ authorize protected access and then be verified.
 See [`references/configuration-layers.md`](references/configuration-layers.md)
 for merge precedence, migration rules, and the boundary between local Private
 configuration and secrets.
-The six versioned JSON contracts, Draft 2020-12 registry, validation-before-use
+The registered versioned JSON contracts, Draft 2020-12 registry, validation-before-use
 boundaries, and non-destructive migration procedure are documented in
 [`references/schema-and-migration.md`](references/schema-and-migration.md).
 Support diagnostics use an allowlisted, bounded, preview-first ZIP workflow;
 see
 [`references/redacted-diagnostic-bundle.md`](references/redacted-diagnostic-bundle.md).
+Before opening an issue or sharing any artifact, follow the
+[`public support and safety contract`](references/public-support-safety.md).
 
 ## macomrade CLI
 
@@ -44,6 +51,8 @@ The stable 0.1.0 repository-local entry point is `macomrade`:
 ./bin/macomrade plan apps --profile auto
 ./bin/macomrade verify schemas
 ./bin/macomrade verify release
+./bin/macomrade diagnostics release-manifest
+./bin/macomrade diagnostics public-clone
 ```
 
 It routes the seven supported workflow families—scan, plan, apply, verify,
@@ -471,11 +480,12 @@ See
 [`references/machine-local-state.md`](references/machine-local-state.md) for
 override, migration, verification, and source-cleanup rules.
 
-The expected Chrome Profile mapping is intentionally tracked in
-[`Private/chrome-profiles.json`](Private/chrome-profiles.json), so a new Mac can
-compare its local inventory with the seven expected Profile directories and
-account emails. It contains account identifiers only; never add passwords,
-tokens, recovery codes, or Passkey data.
+The expected Chrome Profile mapping belongs in the Git-ignored local
+`Private/chrome-profiles.json`, initialized from the fictional
+[`public Chrome profile example`](examples/private/chrome-profiles.json). A new
+Mac can compare its local inventory with the user-approved account mapping
+without publishing those identifiers. Never add passwords, tokens, recovery
+codes, or Passkey data.
 The historical `config/chrome-profiles.json` path is a compatibility locator
 and remains accepted by `scripts/chrome_profiles.py`.
 

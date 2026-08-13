@@ -20,6 +20,12 @@ passwords, cookies, private keys, raw TCC databases, private documents, or a
 complete home-directory archive. Use the repository's redacted diagnostic
 preview workflow when diagnostic evidence is necessary.
 
+The public/private reporting decision and diagnostic sharing boundary are
+defined in
+[`references/public-support-safety.md`](references/public-support-safety.md).
+When in doubt, report privately and begin with an evidence category rather than
+an attachment.
+
 Reports are handled on a best-effort basis. Receipt, severity, remediation,
 embargo, and disclosure timing will be coordinated privately; this policy does
 not promise a fixed response or release deadline.

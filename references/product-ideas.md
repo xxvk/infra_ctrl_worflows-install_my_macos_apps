@@ -85,9 +85,13 @@ offers increasingly useful but still bounded automation.
 
 ## Selection record
 
+The owner directly assigned **WeChat group lifecycle management** to 0.8.0 on
+2026-08-14. It is a committed roadmap capability rather than an unselected item
+from the twenty-candidate pool. Version 0.9.0 remains undecided.
+
 When the user selects an idea:
 
-1. assign it explicitly to `0.8.0` or `0.9.0` in `release-roadmap.md`;
+1. assign it explicitly to an undecided version slot in `release-roadmap.md`;
 2. change its roadmap status from `undecided` to `committed`;
 3. define user promise, non-goals, architecture, safety boundaries, migration,
    and measurable acceptance gates;

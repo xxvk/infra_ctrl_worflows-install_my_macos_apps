@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "macomrade_release_manifest",
+  "status": "candidate",
+  "blockers": [],
+  "candidate": {"version": "0.1.0", "release_status": "release_candidate"},
+  "source": {"commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "worktree": "clean", "change_count": 0},
+  "schemas": [{"kind": "catalog", "version": 1, "path": "schemas/catalog-v1.schema.json", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bytes": 100}],
+  "public_inputs": [{"path": "VERSION", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bytes": 6}],
+  "platform_support": [{"host": "apple_silicon_public_macos", "status": "primary_release_candidate", "boundary": "Fixture boundary."}],
+  "validation": {"status": "passed", "mode": "hermetic", "checks_run": 1, "checks": [{"id": "fixture", "status": "passed"}]},
+  "benchmark": {"status": "passed", "baseline_present": false, "operations": []},
+  "known_limitations": ["Fixture limitation."],
+  "artifacts": {"distribution": "source_only", "files": [], "provenance": "Fixture source provenance."},
+  "authority": {"commit_authorized": false, "tag_authorized": false, "push_authorized": false, "release_authorized": false, "visibility_change_authorized": false},
+  "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

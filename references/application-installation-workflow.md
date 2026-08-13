@@ -33,6 +33,11 @@ Load this reference only when the current task uses this domain. Its rules were 
    python3 scripts/macos_apps.py plan --profile auto
    ```
 
+   Omitting `--roles` defaults to `auto`: active Core applications plus the
+   capacity role (`compact` below 512 GB, `expanded` at 512 GB or above).
+   Optional applications enter a plan only through an explicit role or
+   `--include-app`; the planner does not default to all active Optional items.
+
    `portable` applies below 512 GB; `expanded` applies at 512 GB or above. The planner includes `core` apps in both tiers, while apps marked `heavy` are excluded from `portable` by default. Large games and other entertainment packages should remain outside the compact-memory Mac profile; install them only on a separately designated expanded-memory gaming machine.
 
 3. Review the plan with the user. Select one or two apps only. Identify required free space, account/permission tasks, and any source that is not Homebrew. Do not run installations before confirmation.
@@ -470,4 +475,3 @@ The audit must pass for every catalog-linked guide and every other Markdown
 file under `components/` except `README.md`. A failed audit blocks the
 workflow until the frontmatter is repaired. Routine scans and upgrades must
 not rewrite frontmatter or body text.
-

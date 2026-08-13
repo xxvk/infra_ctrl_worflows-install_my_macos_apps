@@ -13,6 +13,10 @@ local-first, privacy-bounded, preview-before-mutation behavior.
   unredacted command output.
 - Report security-sensitive findings through `SECURITY.md`, not a public issue.
 
+Use the repository's structured issue forms and read
+[`references/public-support-safety.md`](references/public-support-safety.md)
+before sharing command output or diagnostic evidence.
+
 ## Development workflow
 
 Use macOS and Python 3. Make one focused change, update tests and relevant

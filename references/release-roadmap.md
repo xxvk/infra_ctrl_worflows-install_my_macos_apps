@@ -12,7 +12,7 @@
 - [0.5.0 — SSH key lifecycle](#050--ssh-key-lifecycle)
 - [0.6.0 — application-specific storage adapters](#060--application-specific-storage-adapters)
 - [0.7.0 — photo review and cleanup](#070--photo-review-and-cleanup)
-- [0.8.0 — undecided](#080--undecided)
+- [0.8.0 — WeChat group lifecycle](#080--wechat-group-lifecycle)
 - [0.9.0 — undecided](#090--undecided)
 - [1.0.0 — native macOS product](#100--native-macos-product)
 - [Product idea pool](product-ideas.md)
@@ -254,11 +254,20 @@ The first implementation must:
 
 Status: **committed; rules to be designed**
 
-Create a privacy-preserving information architecture for bookmarks and
-read-later items across browser profiles. Define identity, duplicate URL
-normalization, canonical title, folder/tag taxonomy, stale-link review,
-archive/delete boundaries, profile/account ownership, exports, and conflict
-handling before implementing writes.
+Create a privacy-preserving information architecture and repeatable review
+workflow for bookmarks and read-later items across Safari, Chrome, and their
+separate profiles. Define item identity, canonical URL and title, duplicate and
+tracking-parameter normalization, folder/tag taxonomy, inbox/project/reference
+classification, stale-link review, archive/delete boundaries, profile/account
+ownership, exports, and conflict handling before implementing writes.
+
+The system should remember reviewed decisions so unchanged links are not
+repeatedly presented. Portable rules may be tracked, but account identifiers,
+private URLs, exported collections, and per-profile observations belong in the
+Git-ignored Private layer or machine-local state according to their content.
+Obsidian or another durable knowledge source may receive an explicitly
+promoted item; browser collections are not silently treated as canonical
+knowledge.
 
 Do not ingest cookies, history, tokens, or private URLs by default. Prefer
 browser-native sync and export APIs; require a redacted preview before any
@@ -266,6 +275,18 @@ merge, move, archive, or deletion.
 
 This is distinct from the 0.1.0 documentation-only migration reference:
 0.3.0 introduces reviewed classification and lifecycle behavior.
+
+### 0.3.0 acceptance gates
+
+- Inventory keeps browser, profile, account, and collection boundaries visible.
+- URL normalization can identify duplicates without discarding meaningful
+  query parameters or merging private and public identities.
+- Every move, merge, archive, or delete plan has a restorable export and exact
+  preview; scan and classification modes make no browser changes.
+- Re-running an unchanged inventory suppresses already reviewed decisions
+  until their configured review date.
+- Post-apply verification reads the browser-visible result and reports any
+  item that could not be reconciled.
 
 ## 0.4.0 — notes lifecycle
 
@@ -322,14 +343,52 @@ No model may permanently delete photos without a visible selection and final
 confirmation. The design must account for iCloud deletions propagating to all
 devices and distinguish Optimize Storage from deleting library assets.
 
-## 0.8.0 — undecided
+## 0.8.0 — WeChat group lifecycle
 
-Status: **undecided**
+Status: **committed; rules to be designed**
 
-No product capability is assigned to this version. Candidate directions are
-kept in [`product-ideas.md`](product-ideas.md). Assign one only after explicit
-user selection and then define its scope, non-goals, safety model, and
-acceptance gates here.
+Create a private, local-first control plane for organizing WeChat groups by
+purpose and lifecycle. The product should help classify groups such as work,
+project, customer, family, community, information feed, temporary event, and
+archive; record the user's role and intent; review pin and notification state;
+identify inactive or duplicate-purpose groups; and maintain an actionable
+queue for keep, mute, unpin, rename/remark, archive-reference, or leave.
+
+This is not the 0.6.0 WeChat storage adapter. Version 0.6.0 manages local disk
+usage owned by WeChat; 0.8.0 manages the user's communication topology and
+attention. The two may share the App Adapter SDK and identity model, but their
+plans, permissions, evidence, and confirmations remain separate.
+
+Use supported WeChat interfaces, user-approved exports, or visible GUI
+automation. Do not decrypt or patch WeChat databases, bypass application
+security, ingest message bodies by default, send messages, or infer sensitive
+relationships from content. Group names, member lists, account identifiers,
+message-derived summaries, and activity snapshots are private data and must
+not enter the public repository.
+
+Leaving or dissolving a group, removing or inviting a member, deleting local
+history, renaming a shared group, or changing a setting visible to other
+members is never automatic. Each such action requires an exact preview,
+separate confirmation, and visible read-back. The first release may remain a
+read-only inventory and decision queue when WeChat exposes no reliable,
+supported write interface.
+
+### 0.8.0 acceptance gates
+
+- A read-only inventory can associate each reviewed group with purpose,
+  ownership/role, attention policy, retention intent, confidence, and next
+  review date without storing message bodies in tracked files.
+- Generic taxonomy and safety policy are portable; account and group identity
+  mappings remain in the Git-ignored Private layer, while observations remain
+  machine-local.
+- The decision queue distinguishes private local annotations from actions that
+  change shared WeChat state and explains who may observe each proposed action.
+- Scan and plan modes send no messages and change no memberships, names,
+  notifications, pins, or history.
+- Every supported write is item-scoped, explicitly confirmed, read back from
+  WeChat, and recorded without retaining sensitive payload content.
+- Unsupported actions produce a manual handoff instead of database mutation or
+  a false success result.
 
 ## 0.9.0 — undecided
 
@@ -352,7 +411,7 @@ integrates the proven 0.x workflows into a coherent product:
 - explainable recommendations backed by short-term observations and long-term
   user decisions;
 - review queues for storage, browser knowledge, notes, SSH metadata,
-  application adapters, and photos;
+  application adapters, WeChat groups, and photos;
 - preview, confirmation, progress, rollback, and measured-result views;
 - local-first operation with no credential collection and no destructive
   default;

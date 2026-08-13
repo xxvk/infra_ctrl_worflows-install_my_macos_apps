@@ -12,7 +12,7 @@
 ## Scope
 
 The 0.1.0 and accepted 0.1.x contracts publish versioned JSON Schemas for
-thirteen portable or
+fourteen portable or
 machine-readable boundaries:
 
 | Kind | Current schema | Primary use |
@@ -30,6 +30,7 @@ machine-readable boundaries:
 | `performance-budget` | `schemas/performance-budget-v1.schema.json` | Repeatable local benchmark budgets and regression thresholds |
 | `drift-monitor-policy` | `schemas/drift-monitor-policy-v1.schema.json` | Low-noise monitor power, cooldown, confidence, and schedule policy |
 | `publication-audit-policy` | `schemas/publication-audit-policy-v1.schema.json` | Path/count-only public-release inventory and sensitive-pattern policy |
+| `release-manifest` | `schemas/release-manifest-v1.schema.json` | Deterministic candidate inputs, validation, benchmark, provenance, and non-authority |
 
 This work does not claim that every YAML settings file is JSON. The existing
 keyboard and policy YAML files retain their conservative, workflow-specific

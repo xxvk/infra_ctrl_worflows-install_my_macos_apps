@@ -126,6 +126,12 @@ python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto
 ```
 
+The default plan resolves the `auto` machine role: active Core applications
+plus `compact` below 512 GB or `expanded` at 512 GB and above. Optional
+applications appear only through an explicitly requested role or
+`--include-app`; omitting `--roles` must never restore the former all-active
+Optional behavior.
+
 Use `portable` below 512 GB and `expanded` at 512 GB or above unless the
 user explicitly chooses another profile. Review missing items, source
 mismatches, version issues, disk impact, dependencies, account reminders,

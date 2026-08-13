@@ -24,7 +24,7 @@
     "developer": {
       "description_key": "role.developer.description",
       "inherits": ["base"],
-      "include_apps": ["Cursor", "Xcode", "xurl"],
+      "include_apps": ["Xcode", "xurl"],
       "exclude_apps": []
     },
     "robotics": {

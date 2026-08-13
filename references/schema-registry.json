@@ -99,6 +99,13 @@
       "tracked_examples": [
         "settings/publication-audit-policy.json"
       ]
+    },
+    "release-manifest": {
+      "current_version": 1,
+      "schema": "schemas/release-manifest-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/release-manifest-v1.json"
+      ]
     }
   },
   "migration_policy": {

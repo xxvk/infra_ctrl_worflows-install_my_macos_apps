@@ -38,7 +38,7 @@ class ConfigurationLayerTests(unittest.TestCase):
     def test_repository_icloud_private_manifest_is_valid_when_present(self) -> None:
         if not config_layers.DEFAULT_MANIFEST.is_file():
             self.skipTest("public-only checkout has no iCloud Private overlay")
-        result = config_layers.audit_manifest()
+        result = config_layers.audit_manifest(environ={})
         self.assertEqual(result["status"], "valid")
         self.assertEqual(result["overlay_count"], 6)
         self.assertEqual(
@@ -117,6 +117,13 @@ class ConfigurationLayerTests(unittest.TestCase):
             )
 
             self.assertEqual(result["apps"][0]["name"], "Public")
+
+    def test_public_only_environment_ignores_existing_private_overlay(self) -> None:
+        result = config_layers.load_app_catalog(
+            environ={"MACOMRADE_PUBLIC_ONLY": "1"},
+        )
+        base = config_layers.load_json(config_layers.DEFAULT_CATALOG)
+        self.assertEqual(result, base)
 
     def test_legacy_locator_resolves_to_icloud_private_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

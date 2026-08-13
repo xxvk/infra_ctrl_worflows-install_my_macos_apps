@@ -69,6 +69,15 @@ class MachineRoleTests(unittest.TestCase):
         result = machine_roles.validate()
         self.assertEqual(result["status"], "passed", result["errors"])
 
+    def test_real_developer_role_does_not_auto_include_cursor(self) -> None:
+        selection = machine_roles.resolve(
+            machine_roles.load_roles(),
+            machine_roles.load_app_catalog(),
+            ["auto", "developer"],
+            storage_gb=256,
+        )
+        self.assertNotIn("Cursor", selection["selected_apps"])
+
     def test_roles_inherit_and_explain_selected_apps(self) -> None:
         selection = machine_roles.resolve(
             roles(),

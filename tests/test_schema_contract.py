@@ -23,8 +23,11 @@ class SchemaContractTests(unittest.TestCase):
     def test_every_registered_tracked_example_validates(self) -> None:
         result = schema_contract.validate_tracked()
         self.assertEqual(result["status"], "passed", result["errors"])
-        self.assertEqual(result["formats"], 13)
-        self.assertGreaterEqual(result["examples"], 19)
+        self.assertGreaterEqual(result["formats"], 14)
+        self.assertGreaterEqual(result["examples"], 20)
+        self.assertTrue(
+            any(row["kind"] == "release-manifest" for row in result["results"])
+        )
 
     def test_plan_rejects_missing_version_and_wrong_field_type(self) -> None:
         missing_version = json.loads((FIXTURES / "app-plan-v0.json").read_text())

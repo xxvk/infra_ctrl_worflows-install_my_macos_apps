@@ -317,12 +317,14 @@
       ]
     },
     {
-      "id": "DEF-02",
-      "classification": "deferred",
-      "capability": "Automatic release manifest",
-      "reason": "The remaining accepted P1 release-engineering output is tracked separately.",
+      "id": "SUP-21",
+      "classification": "supported",
+      "capability": "Deterministic schema-validated release-manifest preview binding source, public inputs, validation, benchmark, limitations, and non-authority",
       "evidence": [
-        "TODO.md"
+        "scripts/release_manifest.py",
+        "schemas/release-manifest-v1.schema.json",
+        "references/release-manifest.md",
+        "tests/test_release_manifest.py"
       ]
     },
     {

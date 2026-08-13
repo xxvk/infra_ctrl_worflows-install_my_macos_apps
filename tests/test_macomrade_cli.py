@@ -118,6 +118,38 @@ class MacomradeTests(unittest.TestCase):
         self.assertNotIn("publish", command)
         self.assertNotIn("rewrite", command)
 
+    def test_release_manifest_route_is_preview_only(self) -> None:
+        command = macomrade.command_for(
+            macomrade.route_index()[("diagnostics", "release-manifest")],
+            [],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            command,
+            ["/fixture/python", "scripts/release_manifest.py", "preview"],
+        )
+        self.assertNotIn("--apply", command)
+        self.assertNotIn("publish", command)
+
+    def test_public_clone_route_does_not_authorize_publication(self) -> None:
+        command = macomrade.command_for(
+            macomrade.route_index()[("diagnostics", "public-clone")],
+            ["--state-dir", "/tmp/public-clone-state"],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            command,
+            [
+                "/fixture/python",
+                "scripts/public_clone_rehearsal.py",
+                "run",
+                "--state-dir",
+                "/tmp/public-clone-state",
+            ],
+        )
+        self.assertNotIn("publish", command)
+        self.assertNotIn("--apply", command)
+
     def test_diagnostic_preview_and_export_are_separate_routes(self) -> None:
         preview = macomrade.command_for(
             macomrade.route_index()[("diagnostics", "bundle")],

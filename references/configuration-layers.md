@@ -27,6 +27,12 @@ iCloud with the rest of `Private/`, never through Git. A public clone without
 that directory is valid and uses public defaults; `examples/private/` contains
 fictional copyable templates.
 
+Set `MACOMRADE_PUBLIC_ONLY=1` for an explicit public-only app-catalog run even
+when a local `Private/` directory exists. This is the public onboarding and
+anonymous-clone rehearsal boundary: the base catalog is validated and loaded,
+but the Private app-catalog overlay is ignored. It does not delete, rename, or
+inspect the overlay.
+
 The application catalog uses `Private/app-catalog-overlay.json`, merged by
 stable app name. Public follow-up text may contain `{preferred_account}`;
 `scripts/config_layers.py` requires the corresponding Private value and renders
