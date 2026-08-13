@@ -31,8 +31,9 @@ four layers:
 
 1. Public policy and engine: `components/`, `references/`, `settings/`,
    `scripts/`, and this entry point.
-2. Git-tracked personal configuration: `Private/`; identifiers and approved
-   preferences may sync, but secrets may not.
+2. iCloud-synced personal configuration: `Private/`; the directory stays next
+   to the engine for one-folder portability but is ignored by Git. Identifiers
+   and approved preferences may sync through iCloud; secrets may not.
 3. Machine-local observations: resolve with
    `python3 scripts/state_paths.py path`.
 4. Secrets and grants: Keychain or another user-controlled store; never Git.
@@ -61,6 +62,14 @@ Do not load unrelated references.
 | Supply-chain policy | [source-policy.md](references/source-policy.md) | Reviewing taps, trust, npm versions, GitHub artifacts, vendor downloads, or decrypted IPA provenance |
 | Clean-Mac release acceptance | [clean-mac-release-acceptance.md](references/clean-mac-release-acceptance.md) | Preparing or running the unused/new-Mac 0.1.0 hardware acceptance gate |
 | Application maintenance | [application-maintenance.md](references/application-maintenance.md) | Handling GUI/CLI pairs, duplicate bundles, helper cleanup, browser downloads, Chrome profiles, GitHub CLI, Docker retirement, or catalog edits |
+| X read and account operations | [x-cli-operations.md](references/x-cli-operations.md) | Finding X users, reading recent posts, choosing `x` versus official `xurl`, or preparing a confirmed follow/unfollow operation |
+| Machine-role Profiles | [machine-role-profiles.md](references/machine-role-profiles.md) | Building a role-based application plan or explaining role inheritance and overrides |
+| Localization and accessibility | [localization-accessibility.md](references/localization-accessibility.md) | Adding user-facing text, terminal/HTML reports, or locale/accessibility behavior |
+| App Adapter SDK | [app-adapter-sdk.md](references/app-adapter-sdk.md) | Adding or running WeChat, Claude VM, or future application lifecycle adapters |
+| Performance and resources | [performance-benchmarks.md](references/performance-benchmarks.md) | Measuring command time, memory, output, state growth, or regression budgets |
+| Accessible audit reports | [audit-reports.md](references/audit-reports.md) | Rendering a terminal or HTML audit view from existing JSON evidence |
+| Low-noise Drift Monitor | [drift-monitor.md](references/drift-monitor.md) | Running or scheduling deduplicated, battery-aware read-only drift checks |
+| Public repository release | [public-release-readiness.md](references/public-release-readiness.md) | Auditing, separating personal configuration, licensing, rehearsing, or changing repository visibility |
 | Local macOS account removal | [account-removal.md](references/account-removal.md) | Retiring a local account through preflight, visible authorization, deletion, and post-delete verification |
 
 App-specific installation and verification details live in the catalog entry's
@@ -163,8 +172,9 @@ workflow permits it, and stop on mismatch.
 ### 7. Record and re-scan
 
 Write versions, paths, timestamps, grants, measurements, command output, and
-completion evidence only to machine-local state. Keep reusable intent in
-tracked policy or `Private/`. Re-run the relevant scan/check and leave an
+completion evidence only to machine-local state. Keep reusable public intent in
+tracked policy and personal intent in iCloud-synced, Git-ignored `Private/`.
+Re-run the relevant scan/check and leave an
 explicit unresolved item when verification is incomplete.
 
 ## Mutation contract
@@ -194,7 +204,8 @@ interruption, idempotency, and record contracts. Run
 ## Catalog and documentation contract
 
 `references/app-catalog.json` is installation metadata source of truth.
-`Private/app-catalog-overlay.json` supplies approved personal fields. Keep
+The iCloud-synced `Private/app-catalog-overlay.json` supplies approved personal
+fields when present; public-only clones operate without it. Keep
 catalog names stable, declare the intended source, link a component guide, and
 run catalog/frontmatter audits after edits.
 

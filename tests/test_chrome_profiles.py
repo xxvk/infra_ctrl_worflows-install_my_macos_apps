@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hermetic compatibility tests for the tracked Chrome profile registry."""
+"""Hermetic compatibility tests for the iCloud Private Chrome profile registry."""
 
 from __future__ import annotations
 
@@ -16,6 +16,8 @@ import chrome_profiles  # noqa: E402
 
 class ChromeProfileConfigurationTests(unittest.TestCase):
     def test_legacy_locator_and_private_path_have_identical_policy(self) -> None:
+        if not (ROOT / "Private" / "chrome-profiles.json").is_file():
+            self.skipTest("public-only checkout has no personal Chrome registry")
         inventory = {
             "profiles": [
                 {

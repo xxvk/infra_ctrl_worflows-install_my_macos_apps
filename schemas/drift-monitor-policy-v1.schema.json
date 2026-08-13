@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/drift-monitor-policy-v1.schema.json",
+  "title": "macomrade low-noise drift monitor policy v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "min_battery_percent", "minimum_confidence", "cooldown_hours", "max_summary_findings", "schedule"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "macomrade_drift_monitor_policy"},
+    "min_battery_percent": {"type": "integer", "minimum": 1},
+    "minimum_confidence": {"type": "number", "minimum": 0},
+    "cooldown_hours": {
+      "type": "object",
+      "required": ["low", "medium", "high"],
+      "properties": {
+        "low": {"type": "integer", "minimum": 1},
+        "medium": {"type": "integer", "minimum": 1},
+        "high": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "max_summary_findings": {"type": "integer", "minimum": 1},
+    "schedule": {
+      "type": "object",
+      "required": ["weekday", "hour", "minute"],
+      "properties": {
+        "weekday": {"type": "integer", "minimum": 1},
+        "hour": {"type": "integer", "minimum": 0},
+        "minute": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

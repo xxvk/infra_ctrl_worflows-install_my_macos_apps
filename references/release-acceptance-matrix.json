@@ -35,9 +35,9 @@
     {
       "id": "SUP-03",
       "classification": "supported",
-      "capability": "Public, tracked Private, machine-state, and secret configuration boundaries",
+      "capability": "Public, iCloud Private, machine-state, and secret configuration boundaries",
       "evidence": [
-        "Private/manifest.json",
+        "examples/private/manifest.json",
         "scripts/config_layers.py",
         "references/configuration-layers.md",
         "tests/test_config_layers.py"
@@ -68,7 +68,7 @@
       "classification": "supported",
       "capability": "Allowlisted macOS preference capture, comparison, and explicitly confirmed application",
       "evidence": [
-        "Private/system-preferences-values.json",
+        "examples/private/system-preferences-values.json",
         "settings/system-preferences.yaml",
         "scripts/macos_preferences.py"
       ]
@@ -78,9 +78,9 @@
       "classification": "supported",
       "capability": "Dock, startup-item, Chrome-profile, and device-specific K240 desired-state workflows",
       "evidence": [
-        "Private/dock-order.json",
-        "Private/chrome-profiles.json",
-        "Private/keyboard.yaml",
+        "examples/private/dock-order.json",
+        "examples/private/chrome-profiles.json",
+        "examples/private/keyboard.yaml",
         "scripts/macos_dock.py",
         "scripts/macos_startup_items.py",
         "scripts/chrome_profiles.py"
@@ -211,6 +211,40 @@
       ]
     },
     {
+      "id": "SUP-18",
+      "classification": "supported",
+      "capability": "Repeatable local cold/warm performance and resource benchmarks with absolute and regression budgets",
+      "evidence": [
+        "settings/performance-budgets.json",
+        "scripts/performance_benchmark.py",
+        "references/performance-benchmarks.md",
+        "tests/test_performance_benchmark.py"
+      ]
+    },
+    {
+      "id": "SUP-19",
+      "classification": "supported",
+      "capability": "Localized accessible terminal and static HTML audit views derived from existing read-only JSON evidence",
+      "evidence": [
+        "scripts/audit_report.py",
+        "references/audit-reports.md",
+        "references/localization-accessibility.md",
+        "tests/test_audit_report.py"
+      ]
+    },
+    {
+      "id": "SUP-20",
+      "classification": "supported",
+      "capability": "Low-noise read-only drift monitoring with battery deferral, confidence filtering, severity cooldowns, and opt-in scheduling",
+      "evidence": [
+        "settings/drift-monitor.json",
+        "scripts/drift_monitor.py",
+        "scripts/drift_check_schedule.py",
+        "references/drift-monitor.md",
+        "tests/test_drift_monitor.py"
+      ]
+    },
+    {
       "id": "LIM-01",
       "classification": "interface_limited",
       "capability": "TCC permission authorization and verification",
@@ -285,8 +319,8 @@
     {
       "id": "DEF-02",
       "classification": "deferred",
-      "capability": "Benchmarks and release manifest",
-      "reason": "Accepted P1 release engineering work remains tracked separately.",
+      "capability": "Automatic release manifest",
+      "reason": "The remaining accepted P1 release-engineering output is tracked separately.",
       "evidence": [
         "TODO.md"
       ]
@@ -324,7 +358,7 @@
       "id": "EXC-03",
       "classification": "excluded",
       "capability": "Copying machine observations or TCC grants between Macs",
-      "reason": "Only portable intent and tracked Private preferences synchronize; every Mac creates and verifies its own runtime state.",
+      "reason": "Only portable intent and iCloud Private preferences synchronize; every Mac creates and verifies its own runtime state.",
       "evidence": [
         "references/machine-local-state.md",
         "settings/bootstrap-operational-baseline.yaml"

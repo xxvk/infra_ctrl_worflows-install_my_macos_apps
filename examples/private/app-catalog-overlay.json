@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "kind": "app_catalog_private_overlay",
+  "apps": {
+    "ChatGPT": {"preferred_account": "example.user@example.invalid"},
+    "Claude": {"preferred_account": "example.user@example.invalid"}
+  }
+}

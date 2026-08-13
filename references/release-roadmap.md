@@ -5,6 +5,7 @@
 - [Product direction](#product-direction)
 - [Version policy](#version-policy)
 - [0.1.0 — reproducible Mac baseline](#010--reproducible-mac-baseline)
+- [0.1.1 — public source release readiness](#011--public-source-release-readiness)
 - [0.2.0 — memory-backed storage management](#020--memory-backed-storage-management)
 - [0.3.0 — browser bookmarks and reading lists](#030--browser-bookmarks-and-reading-lists)
 - [0.4.0 — notes lifecycle](#040--notes-lifecycle)
@@ -27,9 +28,9 @@ cloud placeholder is never sufficient evidence for deletion.
 Use five evidence layers:
 
 1. **Portable policy** — reviewed intent that can be synced to another Mac.
-2. **Git-tracked private configuration** — user-approved personal identifiers,
-   account mappings, names, and preferences that must follow the user across
-   Macs. Private means access-controlled/personal, not ignored by Git.
+2. **iCloud-synced private configuration** — user-approved personal
+   identifiers, account mappings, names, and preferences under Git-ignored
+   `Private/`, synchronized by the surrounding iCloud Drive folder.
 3. **Long-term local memory** — prior decisions and measured outcomes on one
    Mac; ignored by Git unless the user explicitly promotes a reusable rule.
 4. **Short-term observation** — current size, age, allocation, synchronization,
@@ -111,6 +112,8 @@ The 0.1.0 baseline includes:
 - documentation-only browser-bookmark migration and SSH/GPG provisioning
   guidance, plus the iCloud-versus-repository boundary;
 - frontmatter, app-catalog, bootstrap, and final drift validation.
+- repeatable machine-local resource benchmarks, localized accessible audit
+  reports, and a low-noise read-only drift monitor with opt-in scheduling.
 
 The release-candidate artifact map is:
 
@@ -121,6 +124,7 @@ The release-candidate artifact map is:
 | JSON contracts and migration | `schemas/`, `references/schema-registry.json`, `scripts/schema_contract.py`, `references/schema-and-migration.md` |
 | Redacted diagnostics | `scripts/diagnostic_bundle.py`, `schemas/diagnostic-bundle-v1.schema.json`, `references/redacted-diagnostic-bundle.md` |
 | Bootstrap and drift | `scripts/bootstrap_macos.py`, `scripts/bootstrap_validate.py`, `scripts/bootstrap_verify.py` |
+| Performance, reporting, and monitor | `scripts/performance_benchmark.py`, `scripts/audit_report.py`, `scripts/drift_monitor.py` |
 | iCloud-backed Git integrity | `scripts/icloud_git_guard.py`, `references/icloud-git-integrity.md`, `tests/test_icloud_git_guard.py` |
 | Machine-local runtime state | `scripts/state_paths.py`, `scripts/migrate_state.py`, `state/locator.json`, `references/machine-local-state.md` |
 | Permissions | `settings/privacy.yaml`, `scripts/macos_permissions.py`, `scripts/macos_permissions_cleanup.py` |
@@ -147,6 +151,33 @@ will remain in iCloud Drive; iCloud-aware integrity protection is therefore a
 release requirement rather than repository relocation. A genuine Clean-Mac
 acceptance run remains a P1 gate and is externally deferred until suitable
 unused hardware is available.
+
+## 0.1.1 — public source release readiness
+
+Status: **committed**
+
+Prepare this repository for safe public discovery and reuse without exposing
+the author's personal cross-Mac configuration. This is a patch release because
+it packages, documents, and governs the existing 0.1 capability domain rather
+than adding a new product domain.
+
+The public repository will contain the reusable engine, policy, schemas,
+sanitized fixtures, component guides, and example configuration. Current
+personal files remain in the same iCloud Drive project under Git-ignored
+`Private/`; no second repository is introduced. Removing them from the current
+Git index is not sufficient: reachable Git history must be audited and safely
+rewritten before publication.
+
+0.1.1 includes ten publication gates covering tracked/history privacy,
+iCloud Private isolation, sanitized examples, open-source governance,
+onboarding, safety, RC-15 release provenance, independent public-clone
+rehearsal, and a separately authorized visibility transaction with anonymous
+read-back. The complete contract is
+[`public-release-readiness.md`](public-release-readiness.md).
+
+This scope does not change the repository visibility, `VERSION`, release tag,
+or current local-validation policy by itself. Public GitHub visibility is the
+final explicitly authorized transaction after all gates pass.
 
 ## 0.2.0 — memory-backed storage management
 
@@ -269,9 +300,9 @@ generic cache. Each adapter declares ownership, databases, attachments,
 downloaded media, cloud synchronization, retention, supported internal cleanup,
 safe external cleanup, account impact, rollback, and verification.
 
-This is distinct from the individual 0.1.0 cleanup scripts: 0.6.0 defines a
-common adapter contract and adds productized, application-aware storage
-management.
+This builds on the metadata-only 0.1.x Adapter SDK reference. 0.6.0 adds the
+productized, application-aware storage policies, review flows, and measured
+cleanup management that remain deliberately out of the current generic SDK.
 
 WeChat is the priority adapter. It must distinguish message databases,
 attachments, downloaded media, thumbnails, logs, mini-program data, and caches;

@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 from config_layers import load_app_catalog
+import machine_roles
 from schema_contract import SchemaContractError, load_and_validate
 from state_paths import add_state_dir_argument, resolve_state_dir
 from supply_chain import provenance_for
@@ -86,6 +87,8 @@ def expected_source(app):
         return "homebrew"
     if app.get("npm_package"):
         return "npm_global"
+    if app.get("runtime_manager"):
+        return "version_manager_runtime"
     if app.get("system_app"):
         return "system"
     if app.get("official_url"):
@@ -263,7 +266,35 @@ def duplicate_apps(applications):
     return [items for items in grouped.values() if len(items) > 1]
 
 
+def npm_package_present(app):
+    """Require the exact npm package version in its declared fnm runtime."""
+    if app.get("npm_runtime_manager") != "fnm" or not shutil.which("fnm"):
+        return False
+    runtime = str(app.get("npm_runtime_version", ""))
+    expected = str(app.get("npm_version", ""))
+    if not runtime or not expected:
+        return False
+    result = subprocess.run(
+        [
+            "fnm", "exec", f"--using={runtime}", "npm", "list", "--global",
+            "--depth=0", "--json",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return False
+    try:
+        observed = json.loads(result.stdout).get("dependencies", {}).get(app["npm_package"], {})
+    except json.JSONDecodeError:
+        return False
+    return observed.get("version") == expected
+
+
 def app_present(app, installed_names):
+    if app.get("npm_package"):
+        return npm_package_present(app)
     extension_id = app.get("chrome_extension_id")
     if extension_id:
         chrome_root = Path.home() / "Library/Application Support/Google/Chrome"
@@ -281,6 +312,18 @@ def app_present(app, installed_names):
                                 return True
                         except OSError:
                             pass
+    if app.get("runtime_manager") == "fnm":
+        version = str(app.get("runtime_version", ""))
+        command = str(app.get("runtime_command", "node"))
+        if not version or not shutil.which("fnm"):
+            return False
+        result = subprocess.run(
+            ["fnm", "exec", f"--using={version}", command, "--version"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result.returncode == 0
     command = app.get("check_command")
     if command:
         if str(command).startswith("test "):
@@ -346,13 +389,37 @@ def plan(args):
         for value in (item["name"], item.get("bundle_identifier", ""))
         if value
     }
-    selected = []
-    for app in data["apps"]:
-        if app.get("lifecycle_status") == "retired":
-            continue
-        if app["tier"] == "heavy" and profile == "portable":
-            continue
-        selected.append(app)
+    requested_roles = getattr(args, "roles", None)
+    role_selection = None
+    if requested_roles:
+        try:
+            role_selection = machine_roles.resolve(
+                machine_roles.load_roles(),
+                data,
+                [item for item in requested_roles.split(",") if item],
+                storage_gb=storage_gb(),
+                include_apps=getattr(args, "include_app", []),
+                exclude_apps=getattr(args, "exclude_app", []),
+            )
+        except machine_roles.MachineRoleError as exc:
+            raise SystemExit(f"Machine-role selection failed: {exc}") from exc
+        selected_names = set(role_selection["selected_apps"])
+        selected = [
+            app for app in data["apps"]
+            if app["name"] in selected_names
+            and app.get("lifecycle_status") != "retired"
+            and not (app["tier"] == "heavy" and profile == "portable")
+        ]
+    else:
+        # Preserve the pre-role planner behavior for existing callers. Passing
+        # --roles is an explicit opt-in to Core-plus-role selection.
+        selected = []
+        for app in data["apps"]:
+            if app.get("lifecycle_status") == "retired":
+                continue
+            if app["tier"] == "heavy" and profile == "portable":
+                continue
+            selected.append(app)
     missing = [app for app in selected if not app_present(app, installed_names)]
     mismatches = []
     for item in source_mismatches(installed):
@@ -381,6 +448,7 @@ def plan(args):
     result = {
         "generated_at": dt.datetime.now().astimezone().isoformat(),
         "profile": profile,
+        "role_selection": role_selection,
         "storage_total_gb": round(storage_gb(), 1),
         "catalog": str(CATALOG.relative_to(ROOT)),
         "installed_count": len(installed),
@@ -401,6 +469,8 @@ def plan(args):
     path = write_record("plan", result)
     print(f"Wrote {path}")
     print(f"Profile: {profile}; missing: {len(missing)}; estimated footprint: {result['estimated_download_gb']} GB")
+    if role_selection:
+        print("Roles: " + ", ".join(role_selection["roles"]))
     for app in missing:
         if app.get("brew_cask"):
             delivery = f"brew install --cask {app['brew_cask']}"
@@ -410,7 +480,16 @@ def plan(args):
         elif app.get("npm_package"):
             package = app["npm_package"]
             version = app.get("npm_version")
-            delivery = f"npm install --global {package}@{version}" if version else f"npm install --global {package}"
+            runtime = app.get("npm_runtime_version")
+            delivery = (
+                f"fnm exec --using={runtime} npm install --global {package}@{version}"
+                if runtime and version
+                else f"npm install --global {package}@{version}"
+                if version
+                else f"npm install --global {package}"
+            )
+        elif app.get("runtime_manager") == "fnm":
+            delivery = f"fnm install {app['runtime_version']} && fnm default {app['runtime_version']}"
         else:
             delivery = app.get("app_store_url") or app.get("official_url", "no source recorded")
         print(f"- {app['name']}: {delivery}")
@@ -445,6 +524,11 @@ def run(command, apply):
 def install_commands(app, *, force=False):
     """Render deterministic external commands for one catalog app."""
     commands = []
+    if app.get("runtime_manager") == "fnm":
+        version = str(app.get("runtime_version", ""))
+        if not version:
+            raise ValueError(f"{app['name']}: runtime_version must be pinned")
+        return [["fnm", "install", version], ["fnm", "default", version]]
     if app.get("brew_tap"):
         commands.append([
             "env",
@@ -482,7 +566,16 @@ def install_commands(app, *, force=False):
         version = app.get("npm_version")
         if not version:
             raise ValueError(f"{app['name']}: npm_version must be pinned")
-        commands.append(["npm", "install", "--global", f"{app['npm_package']}@{version}"])
+        manager = app.get("npm_runtime_manager")
+        runtime = str(app.get("npm_runtime_version", ""))
+        if manager != "fnm":
+            raise ValueError(f"{app['name']}: npm_runtime_manager must be fnm")
+        if not runtime:
+            raise ValueError(f"{app['name']}: npm_runtime_version must be pinned")
+        commands.append([
+            "fnm", "exec", f"--using={runtime}", "npm", "install", "--global",
+            f"{app['npm_package']}@{version}",
+        ])
     return commands
 
 
@@ -553,7 +646,13 @@ def installed_size(app):
         result = subprocess.run(["brew", "--prefix", app["brew_formula"]], capture_output=True, text=True, check=False)
         return path_size(result.stdout.strip()) if result.returncode == 0 else 0
     if app.get("npm_package"):
-        result = subprocess.run(["npm", "root", "-g"], capture_output=True, text=True, check=False)
+        runtime = str(app.get("npm_runtime_version", ""))
+        result = subprocess.run(
+            ["fnm", "exec", f"--using={runtime}", "npm", "root", "-g"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
         if result.returncode == 0:
             return path_size(Path(result.stdout.strip()) / app["npm_package"])
         return 0
@@ -599,8 +698,9 @@ def install(args):
     if absent:
         raise SystemExit("App not found in this plan: " + ", ".join(sorted(absent)))
     brew_apps = [app for app in selected if app.get("brew_cask") or app.get("brew_formula")]
+    runtime_apps = [app for app in selected if app.get("runtime_manager")]
     npm_apps = [app for app in selected if app.get("npm_package")]
-    manual_apps = [app for app in selected if not (app.get("brew_cask") or app.get("brew_formula") or app.get("npm_package"))]
+    manual_apps = [app for app in selected if not (app.get("brew_cask") or app.get("brew_formula") or app.get("npm_package") or app.get("runtime_manager"))]
     if not args.apply:
         print("DRY RUN — nothing will be installed. Re-run with --apply after review.")
     if brew_apps and not shutil.which("brew"):
@@ -640,6 +740,23 @@ def install(args):
         }
         measurements.append(measurement)
         update_guide_measurement(app, measurement)
+    for app in runtime_apps:
+        if args.apply and not shutil.which(app["runtime_manager"]):
+            raise SystemExit(
+                f"{app['runtime_manager']} is required before installing {app['name']}"
+            )
+        started = dt.datetime.now().astimezone().isoformat()
+        for command in install_commands(app):
+            run(command, args.apply)
+        measurements.append({
+            "app": app["name"],
+            "started_at": started,
+            "finished_at": dt.datetime.now().astimezone().isoformat(),
+            "download_bytes": None,
+            "installed_bytes": 0,
+            "status": "installed" if args.apply else "dry_run",
+            "provenance": provenance_for(app),
+        })
     for app in npm_apps:
         commands = install_commands(app)
         started = dt.datetime.now().astimezone().isoformat()
@@ -663,6 +780,7 @@ def install(args):
     log = {"action_id": "apps.install",
            "executed_at": dt.datetime.now().astimezone().isoformat(), "plan": str(plan_file), "apply": args.apply,
            "homebrew_items": [app["name"] for app in brew_apps],
+           "runtime_items": [app["name"] for app in runtime_apps],
            "npm_items": [app["name"] for app in npm_apps],
            "manual_items": [app["name"] for app in manual_apps],
            "measurements": measurements}
@@ -679,6 +797,12 @@ def main():
     scan_parser.set_defaults(func=scan)
     plan_parser = sub.add_parser("plan", help="Compare catalog with this Mac")
     plan_parser.add_argument("--profile", choices=["auto", "portable", "expanded"], default="auto")
+    plan_parser.add_argument(
+        "--roles",
+        help="Comma-separated composable roles; use auto for base plus capacity role. Omitting preserves legacy all-active planning.",
+    )
+    plan_parser.add_argument("--include-app", action="append", default=[], help="Explicitly include one catalog app with --roles")
+    plan_parser.add_argument("--exclude-app", action="append", default=[], help="Explicitly exclude one catalog app with --roles")
     plan_parser.set_defaults(func=plan)
     install_parser = sub.add_parser("install", help="Install Homebrew-cask items from a saved plan")
     install_parser.add_argument("plan", help="Path to a generated plan JSON")

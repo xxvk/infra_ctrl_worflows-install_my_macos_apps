@@ -26,6 +26,12 @@ class ReleaseCheckTests(unittest.TestCase):
         self.assertIn("hermetic-tests", ids)
         self.assertIn("unified-cli", ids)
         self.assertIn("schema-contract", ids)
+        self.assertIn("machine-roles", ids)
+        self.assertIn("localization", ids)
+        self.assertIn("app-adapters", ids)
+        self.assertIn("performance-budgets", ids)
+        self.assertIn("drift-monitor", ids)
+        self.assertIn("publication-audit-policy", ids)
         self.assertIn("diagnostic-bundle", ids)
         self.assertNotIn("live-macos-smoke", ids)
 

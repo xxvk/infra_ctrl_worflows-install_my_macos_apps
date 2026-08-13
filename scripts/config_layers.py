@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and merge Git-tracked public and Private configuration."""
+"""Validate and merge public policy with iCloud-synced, Git-ignored Private configuration."""
 
 from __future__ import annotations
 
@@ -27,7 +27,10 @@ FORBIDDEN_KEYS = {
     "cookie",
     "session_token",
 }
-PRIVATE_LOCATOR_KIND = "tracked_private_config_locator"
+PRIVATE_LOCATOR_KINDS = {
+    "icloud_private_config_locator",
+    "tracked_private_config_locator",  # backward compatibility before 0.1.1
+}
 APP_CATALOG_OVERLAY_KIND = "app_catalog_private_overlay"
 
 
@@ -132,6 +135,13 @@ def load_app_catalog(
 ) -> dict[str, Any]:
     try:
         base = load_and_validate(base_path, "catalog")
+    except SchemaContractError as exc:
+        raise ConfigurationLayerError(str(exc)) from exc
+    if not overlay_path.is_file():
+        if not isinstance(base, dict):
+            raise ConfigurationLayerError("app catalog base must be a JSON object")
+        return base
+    try:
         overlay = load_and_validate(overlay_path, "private-overlay")
     except SchemaContractError as exc:
         raise ConfigurationLayerError(str(exc)) from exc
@@ -182,7 +192,7 @@ def resolve_config_path(path: Path, *, root: Path = ROOT) -> Path:
     """Follow a tracked JSON or YAML Private locator inside the repository."""
     path = path.expanduser().resolve()
     value = _load_locator_document(path)
-    if not isinstance(value, dict) or value.get("kind") != PRIVATE_LOCATOR_KIND:
+    if not isinstance(value, dict) or value.get("kind") not in PRIVATE_LOCATOR_KINDS:
         return path
     relative = value.get("private_path")
     if not isinstance(relative, str) or not relative:
@@ -203,17 +213,32 @@ def audit_manifest(
     root: Path = ROOT,
 ) -> dict[str, Any]:
     manifest_path = manifest_path.expanduser().resolve()
+    expected_default = (root / "Private" / "manifest.json").resolve()
+    if manifest_path == expected_default and not manifest_path.is_file():
+        return {
+            "status": "valid",
+            "mode": "public_only",
+            "manifest": None,
+            "overlay_count": 0,
+            "checked_overlays": [],
+            "missing_optional_overlays": [],
+            "sync_policy": "No iCloud Private overlay is present; public defaults are active.",
+            "secrets_policy": "Secrets never belong in Git or Private configuration.",
+        }
     manifest = load_json(manifest_path)
     if not isinstance(manifest, dict):
         raise ConfigurationLayerError("Private manifest must be a JSON object")
     if manifest.get("schema_version") != 1:
         raise ConfigurationLayerError("Private manifest schema_version must be 1")
-    if manifest.get("kind") != "tracked_private_overlay_manifest":
+    if manifest.get("kind") not in {
+        "icloud_private_overlay_manifest",
+        "tracked_private_overlay_manifest",
+    }:
         raise ConfigurationLayerError("Private manifest kind is invalid")
-    if manifest.get("merge_precedence") != [
-        "public_base",
-        "tracked_private_overlay",
-    ]:
+    if manifest.get("merge_precedence") not in (
+        ["public_base", "icloud_private_overlay"],
+        ["public_base", "tracked_private_overlay"],
+    ):
         raise ConfigurationLayerError("Private manifest merge_precedence is invalid")
     overlays = manifest.get("overlays")
     if not isinstance(overlays, list):
@@ -262,11 +287,13 @@ def audit_manifest(
 
     return {
         "status": "valid",
+        "mode": "icloud_private",
         "manifest": str(manifest_path),
         "overlay_count": len(overlays),
         "checked_overlays": checked,
         "missing_optional_overlays": missing_optional,
-        "secrets_policy": "Tracked Private configuration may contain identifiers, never secrets.",
+        "sync_policy": "Private configuration is synchronized by iCloud Drive and ignored by Git.",
+        "secrets_policy": "Private configuration may contain identifiers, never secrets.",
     }
 
 

@@ -50,15 +50,15 @@ silently expand the 0.1.0 release-candidate gate.
       `REMOVE VERIFIED LEGACY STATE` confirmation, the cleanup transaction
       re-hashed both sides, removed all 651 manifest-bound legacy files, and
       preserved only tracked `state/README.md` and `state/locator.json`.
-- [x] **RC-03 — Separate public engine, Git-tracked private configuration,
+- [x] **RC-03 — Separate public engine, private configuration,
       machine state, and secrets without losing existing configuration.**
       Preserve every currently tracked configuration value and its behavior;
-      introduce a tracked Private overlay for existing and future
+      introduce a Private overlay for existing and future
       user-approved identifiers/preferences; keep runtime observations
       machine-local; keep passwords, tokens, private keys, raw TCC databases,
       and session material outside Git; add deterministic merge precedence and
       backward-compatible migration tests.
-      Foundation complete: added tracked `Private/manifest.json`,
+      Foundation complete: added `Private/manifest.json`,
       `scripts/config_layers.py`, fixture tests, secret-key/path guards, and
       `references/configuration-layers.md`. Existing personal values remain in
       their historical tracked paths; migrate consumers one at a time before
@@ -66,16 +66,19 @@ silently expand the 0.1.0 release-candidate gate.
       locator and moved ChatGPT/Claude account preferences into the layered
       Private app-catalog overlay without changing generated plan behavior.
       Migrated Dock order and confirmed allowlisted macOS preference values to
-      tracked Private files while retaining compatible `settings/` locators
+      Private files while retaining compatible `settings/` locators
       and redirecting Dock save plus preference check/apply consumers. Migrated
       personal keyboard selection, dictation preferences, and the K240 device
-      mapping to tracked Private YAML with strict compatibility locators and
+      mapping to Private YAML with strict compatibility locators and
       manifest audit coverage. Moved the intended GitHub CLI account identifier
       out of its public component guide and into the existing Private
       app-catalog overlay. Removed the stale tracked M4B security snapshot after
       verifying that per-machine security results already live in ignored local
       preference reports; the public baseline now contains only a new-Mac
       inspection and decision contract.
+      The 0.1.1 publication decision supersedes Git tracking for this layer:
+      `Private/` stays in the same iCloud project, is ignored by Git, and uses
+      fictional public templates under `examples/private/`.
 - [x] **RC-04 — Freeze the 0.1.0 release-candidate contract.** Maintain one
       acceptance matrix for supported, interface-limited, deferred, and
       deliberately excluded behavior; require evidence for each supported
@@ -168,7 +171,7 @@ silently expand the 0.1.0 release-candidate gate.
       cask trust; pinned Wrangler and WordPress Studio CLI npm versions; pinned
       Solaar's signed 1.1.19 release artifact to a full commit and SHA-256; and
       removed all active mutable network-to-shell paths, including automatic
-      Homebrew bootstrap. Decrypted-IPA source labels now live only in tracked
+      Homebrew bootstrap. Decrypted-IPA source labels now live only in iCloud
       `Private/`, with no direct URL. Added source policy, static/live audit,
       provenance in install records, the 22nd mutation contract, and
       machine-local supply-chain capture. M4b read-back matched both managed
@@ -268,11 +271,14 @@ silently expand the 0.1.0 release-candidate gate.
       tests, all 15 default release stages, all 16 stages including current-Mac
       dry-run smoke, and a real temporary ZIP export/read-back; no artifact was
       retained or shared.
-- [ ] **RC-14 — Add repeatable performance and resource benchmarks.** Measure
-      cold/warm inventory, plan, validation, drift, and migration time plus
-      peak memory, output size, and state growth on representative machine
-      roles; define regression budgets and keep benchmark fixtures
-      deterministic.
+- [x] **RC-14 — Add repeatable performance and resource benchmarks.** Added
+      schema-validated budgets for cold/warm inventory, plan, validation,
+      drift, and migration inspection. The local runner records elapsed time,
+      child-process RSS high-water mark, output bytes, and allocated state
+      growth; it compares absolute and regression budgets against an optional
+      per-Mac baseline. A real five-operation two-pass sample passed its
+      declared budgets. Drift's normal mismatch exit is measured, not mistaken
+      for a benchmark execution failure.
 - [ ] **RC-15 — Generate a Release Manifest automatically.** Bind version,
       commit, schema versions, catalog/config hashes, supported macOS and
       architecture matrix, test/benchmark results, known limitations, and
@@ -281,27 +287,113 @@ silently expand the 0.1.0 release-candidate gate.
 
 ### P2 — accepted 0.1.x enhancements; do not block 0.1.0
 
-- [ ] **RC-16 — Add composable machine-role Profiles.** Define reusable roles
-      such as compact workstation, developer, robotics, content, and
-      high-memory/game Mac; support explicit inheritance/overrides and explain
-      why each component or policy is selected.
-- [ ] **RC-17 — Generate human-friendly HTML and TUI audit reports.** Present
-      desired-versus-observed state, confidence, risk, source mismatch,
-      permissions, capacity, drift, and next actions; keep JSON as the
-      machine-readable source and avoid embedding secrets.
-- [ ] **RC-18 — Define Chinese, Japanese, and English localization plus
-      accessibility requirements.** Externalize user-facing text, test locale
-      and encoding behavior, provide VoiceOver/keyboard/color-contrast rules
-      for reports and the future native app, and keep command IDs stable across
-      languages.
-- [ ] **RC-19 — Define an App Adapter SDK before adapters proliferate.**
-      Specify detection, source, install, permission, configuration, verify,
-      cleanup, rollback, redaction, risk, and test-fixture interfaces; include
-      capability/version negotiation and one reference adapter.
-- [ ] **RC-20 — Add a low-noise scheduled Drift Monitor.** Run read-only,
-      deduplicate unchanged findings, apply severity/confidence thresholds and
-      cooldowns, protect battery and privacy, emit actionable summaries, and
-      require a separate explicit workflow for every repair.
+- [x] **RC-16 — Add composable machine-role Profiles.** Added a schema-validated
+      base, compact, expanded, developer, robotics, content, and gaming role
+      catalog. Roles compose parent-first; `auto` resolves by storage capacity;
+      plans record a stable selected-app reason and explicit include/exclude
+      precedence. Roles select capability only: they never grant permissions,
+      sign in, buy, connect VPN, or activate a license.
+- [x] **RC-17 — Generate human-friendly HTML and TUI audit reports.** Added
+      zh-Hans, ja, and en terminal/HTML views for existing drift JSON. The
+      summary keeps only aggregate missing-Core/source/permission/preference
+      findings, omits paths and private content, uses semantic static HTML,
+      WCAG-AA contrast, textual status, keyboard-readable TUI, and no scripts
+      or color-only meaning. JSON remains the authoritative evidence.
+- [x] **RC-18 — Define Chinese, Japanese, and English localization plus
+      accessibility requirements.** Added zh-Hans, ja, and en message catalogs
+      with exact message/placeholder parity tests, system-locale fallback, and
+      stable English command/action IDs. The tracked accessibility contract
+      requires WCAG AA contrast, keyboard-complete TUI, semantic VoiceOver
+      output, and no color-only status. Historical CLI prose is intentionally
+      migrated only when its workflow changes.
+- [x] **RC-19 — Define an App Adapter SDK before adapters proliferate.** Added
+      schema-validated metadata-only adapters for WeChat and Claude VM, with
+      localized descriptions, root/data-class policy, read-only inspection,
+      risk classification, and test fixtures. WeChat can only hand off to its
+      official storage UI. Claude VM plans delegate only to existing named
+      exact-confirmation transactions. There is deliberately no generic
+      adapter apply/delete command.
+- [x] **RC-20 — Add a low-noise scheduled Drift Monitor.** Replaced the weekly
+      LaunchAgent's direct legacy calls with a read-only monitor that defers on
+      low battery, filters by confidence, assigns stable finding IDs, suppresses
+      unchanged notices by severity cooldown, bounds summaries, and persists
+      only a machine-local redacted ledger. Scheduling remains opt-in through
+      the existing `--apply` transaction; every repair remains separate and
+      explicit. A live monitor cycle reported only existing preference drift.
+
+## 0.1.1 — Public source release readiness
+
+The goal is to make the reusable repository public without publishing personal
+configuration or weakening the existing safety contract. Editing or completing
+this list does not authorize a GitHub visibility change.
+
+- [ ] **Runtime cleanup — migrate legacy npm-global ownership.** The Core
+      contract now uses fnm Node 24 and all related CLI smoke tests pass, but
+      existing `wp-studio` and `wrangler` copies remain under Homebrew's npm
+      prefix. Reinstall exact pinned versions under fnm Node 24, verify command
+      paths and account workflows, measure both prefixes, and remove old copies
+      only after separate explicit approval. Vercel and `k6-html-reporter` are
+      not Core and require individual keep/remove decisions.
+
+- [x] **PUB-01 — Inventory and classify the publication surface.** Enumerate
+      tracked files, submodules, large/generated artifacts, third-party assets,
+      license obligations, personal data, organization-specific material, and
+      full-history findings without copying sensitive values into reports.
+      A repeatable path/count-only audit now covers the current tree and every
+      reachable commit and stores evidence only in machine-local state. The
+      2026-08-14 baseline inventoried 290 tracked files and 38 commits: seven
+      tracked `Private/` files; four current-tree and four history finding
+      categories; no large files, binary files, generated artifacts, vendored
+      third-party assets, or submodules; and five missing governance files.
+      It explicitly leaves publication, history rewrite, and visibility change
+      unauthorized. Manual path-level classification and history strategy
+      remain PUB-04.
+- [x] **PUB-02 — Isolate the in-place iCloud Private overlay.** Keep all
+      existing personal files under the current `Private/` path, ignore the
+      entire directory in Git, preserve public-base → Private-overlay merge
+      precedence, and prove public-only operation when the directory is absent.
+      Completed: `Private/` is ignored and removed from the Git index while all
+      seven local files remain in place for iCloud sync. Both the local Private
+      mode and a temporary public-only snapshot passed all 21 release checks.
+- [x] **PUB-03 — Publish complete sanitized examples.** Create fictional
+      example files for every private overlay, remove author identifiers, and
+      prove the public engine can scan, plan, validate, and report when no
+      author-owned `Private/` directory is present.
+      Completed: `examples/private/` now contains fictional manifest, account,
+      Chrome, Dock, preference, and keyboard templates. The public-only
+      rehearsal completed 21/21 hermetic checks with no `Private/` directory.
+- [ ] **PUB-04 — Audit the complete Git history.** Scan all reachable commits
+      for secrets, account identifiers, private URLs, machine paths, decrypted-
+      package provenance, and personal/organization data; manually classify
+      findings, rotate exposed credentials where required, and perform a
+      reviewed `git filter-repo` rewrite of the current repository. Preserve a
+      verified private backup; remote force-push remains separately confirmed.
+- [ ] **PUB-05 — Add open-source governance.** Obtain an explicit license
+      decision—Apache-2.0 is the recommended candidate—then add the license,
+      required third-party notices, security policy, contribution guide, code
+      of conduct, and changelog. Until then, do not call the repository open
+      source.
+- [ ] **PUB-06 — Build public onboarding.** Add audience and support scope,
+      supported macOS/architecture matrix, prerequisites, ten-minute read-only
+      quick start, private-overlay setup, permissions, known limitations,
+      uninstall/rollback, and troubleshooting without personal assumptions.
+- [ ] **PUB-07 — Lock the public safety and issue contract.** Keep dry-run and
+      exact confirmations, prohibit secret/private-state uploads, add issue and
+      responsible-disclosure guidance, and define safe redacted diagnostics for
+      public support.
+- [ ] **PUB-08 — Complete RC-15 Release Manifest.** Bind the candidate version,
+      commit, schema/policy hashes, supported platform matrix, local validation,
+      benchmark summary, known limitations, and artifact provenance without
+      authorizing commit, tag, release, or publication.
+- [ ] **PUB-09 — Rehearse an independent anonymous clone.** Clone the exact
+      sanitized candidate without private credentials, run all hermetic checks
+      and the read-only quick start, and prove that no personal overlay is
+      required, fetched, generated, or committed.
+- [ ] **PUB-10 — Execute the visibility transaction only after confirmation.**
+      Prepare a recoverable private archive and rollback; show the exact remote,
+      candidate commit, history strategy, and settings diff; obtain explicit
+      authorization; change visibility once; verify anonymous web/Git access,
+      repository metadata, and post-publication privacy checks.
 
 - [x] Capacities data migration: user confirmed the migration/retention
       decision is complete and Capacities has been deleted. Do not delete any

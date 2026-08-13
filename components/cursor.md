@@ -2,7 +2,7 @@
 component_id: "cursor"
 name: "Cursor"
 category: "Developer tools"
-tier: "core"
+tier: "optional"
 lifecycle_status: "active"
 source: "homebrew"
 delivery_method: "homebrew-cask"

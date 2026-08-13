@@ -26,7 +26,7 @@ YouTube app rather than the browser site.
 
 ## IPA source
 
-Use only the approved decrypted-IPA source label stored in the tracked
+Use only the approved decrypted-IPA source label stored in the iCloud-synced
 `Private/app-catalog-overlay.json` configuration.
 IPATool is not a prerequisite: M4a and M4b verified that its Apple account
 workflow is not usable for this PlayCover acquisition. Do not hard-code a

@@ -1,5 +1,5 @@
 {
   "schema_version": 1,
-  "kind": "tracked_private_config_locator",
+  "kind": "icloud_private_config_locator",
   "private_path": "Private/chrome-profiles.json"
 }

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "kind": "macomrade_drift_monitor_policy",
+  "min_battery_percent": 20,
+  "minimum_confidence": 0.7,
+  "cooldown_hours": {"low": 168, "medium": 72, "high": 24},
+  "max_summary_findings": 12,
+  "schedule": {"weekday": 1, "hour": 9, "minute": 0}
+}

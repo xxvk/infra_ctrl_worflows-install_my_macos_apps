@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "app_adapter_catalog",
+  "adapters": [
+    {
+      "id": "wechat",
+      "component_id": "wechat",
+      "name_key": "adapter.wechat.name",
+      "summary_key": "adapter.wechat.summary",
+      "capabilities": ["inspect", "classify", "official_cleanup_handoff"],
+      "known_roots": [
+        {"relative_path": "Library/Containers/com.tencent.xinWeChat", "data_class": "container-data"},
+        {"relative_path": "Library/Group Containers/group.com.tencent.xinWeChat", "data_class": "container-data"}
+      ],
+      "data_classes": [
+        {"id": "message-database", "disposition": "protected", "description_key": "adapter.wechat.class.message_database"},
+        {"id": "attachments-and-media", "disposition": "manual_review", "description_key": "adapter.wechat.class.attachments"},
+        {"id": "thumbnails-and-caches", "disposition": "official_cleanup_only", "description_key": "adapter.wechat.class.cache"},
+        {"id": "logs-and-unknown-container-data", "disposition": "manual_review", "description_key": "adapter.wechat.class.unknown"}
+      ],
+      "operations": [
+        {"id": "official-storage-cleanup", "description_key": "adapter.wechat.operation.official_cleanup", "risk": "high", "automatable": false, "confirmation_mode": "manual"}
+      ]
+    },
+    {
+      "id": "claude-vm",
+      "component_id": "claude",
+      "name_key": "adapter.claude_vm.name",
+      "summary_key": "adapter.claude_vm.summary",
+      "capabilities": ["inspect", "classify", "plan", "existing_transaction_handoff"],
+      "known_roots": [
+        {"relative_path": "Library/Application Support/Claude/vm_bundles/claudevm.bundle", "data_class": "vm-bundle"}
+      ],
+      "data_classes": [
+        {"id": "vm-images", "disposition": "manual_review", "description_key": "adapter.claude_vm.class.images"},
+        {"id": "vm-bundle", "disposition": "manual_review", "description_key": "adapter.claude_vm.class.bundle"}
+      ],
+      "operations": [
+        {"id": "remove-images", "description_key": "adapter.claude_vm.operation.remove_images", "risk": "destructive", "automatable": false, "action_id": "claude-vm.remove-images", "confirmation_mode": "exact"},
+        {"id": "remove-bundle", "description_key": "adapter.claude_vm.operation.remove_bundle", "risk": "destructive", "automatable": false, "action_id": "claude-vm.remove-bundle", "confirmation_mode": "exact"}
+      ]
+    }
+  ]
+}

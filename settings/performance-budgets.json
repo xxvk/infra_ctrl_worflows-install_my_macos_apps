@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "macomrade_performance_budget",
+  "operations": {
+    "inventory": {"cold_max_ms": 120000, "warm_max_ms": 90000, "peak_rss_max_bytes": 1073741824, "output_max_bytes": 5242880, "state_growth_max_bytes": 67108864},
+    "plan": {"cold_max_ms": 120000, "warm_max_ms": 90000, "peak_rss_max_bytes": 1073741824, "output_max_bytes": 5242880, "state_growth_max_bytes": 67108864},
+    "validate": {"cold_max_ms": 180000, "warm_max_ms": 150000, "peak_rss_max_bytes": 1610612736, "output_max_bytes": 10485760, "state_growth_max_bytes": 1048576},
+    "drift": {"cold_max_ms": 180000, "warm_max_ms": 150000, "peak_rss_max_bytes": 1610612736, "output_max_bytes": 10485760, "state_growth_max_bytes": 134217728},
+    "migration": {"cold_max_ms": 30000, "warm_max_ms": 20000, "peak_rss_max_bytes": 536870912, "output_max_bytes": 1048576, "state_growth_max_bytes": 1048576}
+  },
+  "regression": {"max_percent": 35, "min_absolute_delta_ms": 1000}
+}

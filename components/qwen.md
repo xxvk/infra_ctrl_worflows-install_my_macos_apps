@@ -2,7 +2,7 @@
 component_id: "qwen"
 name: "Qwen"
 category: "AI"
-tier: "core"
+tier: "optional"
 lifecycle_status: "retired"
 source: "official_web"
 delivery_method: "vendor-download"

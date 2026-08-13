@@ -4,8 +4,8 @@
 
 This never changes preferences or permissions itself. It only installs a
 LaunchAgent that periodically re-runs the skill's own existing read-only
-commands (`macos_preferences.py --check`, `bootstrap_verify.py`) and writes
-their output to a log file for the user to review. Installing/uninstalling
+commands through `drift_monitor.py`, which adds low-battery deferral,
+deduplication, severity cooldowns, and a report-only boundary. Installing/uninstalling
 the LaunchAgent always requires --apply; the default is a dry-run preview,
 matching the convention used elsewhere in this skill (e.g. the K240
 listener LaunchAgent).
@@ -34,9 +34,8 @@ def _xml_escape(text: str) -> str:
 
 
 def render_plist() -> str:
-    preferences_script = SKILL_ROOT / "scripts/macos_preferences.py"
-    verify_script = SKILL_ROOT / "scripts/bootstrap_verify.py"
-    command = f"python3 '{preferences_script}' --check && python3 '{verify_script}'"
+    monitor_script = SKILL_ROOT / "scripts/drift_monitor.py"
+    command = f"python3 '{monitor_script}' run"
     content = TEMPLATE.read_text()
     content = content.replace("__HOME__", str(HOME))
     content = content.replace("__DRIFT_CHECK_COMMAND__", _xml_escape(command))
@@ -60,8 +59,7 @@ def status() -> dict[str, object]:
         "log_dir": str(LOG_DIR),
         "schedule": "Weekly, Monday 09:00 local time",
         "commands": [
-            "macos_preferences.py --check",
-            "bootstrap_verify.py",
+            "drift_monitor.py run",
         ],
     }
 

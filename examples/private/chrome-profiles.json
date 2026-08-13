@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "description": "Fictional Chrome profile example",
+  "profiles": [
+    {
+      "profile_directory": "Default",
+      "display_name": "Example Work",
+      "account_email": "example.user@example.invalid",
+      "account_verified": false
+    }
+  ]
+}

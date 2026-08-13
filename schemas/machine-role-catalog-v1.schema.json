@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/machine-role-catalog-v1.schema.json",
+  "title": "macomrade composable machine role catalog v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "base_role", "roles"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "machine_role_catalog"},
+    "base_role": {"type": "string", "minLength": 1},
+    "roles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description_key", "inherits", "include_apps", "exclude_apps"],
+        "properties": {
+          "description_key": {"type": "string", "minLength": 1},
+          "inherits": {"type": "array", "items": {"type": "string"}, "minItems": 0},
+          "include_apps": {"type": "array", "items": {"type": "string"}, "minItems": 0},
+          "exclude_apps": {"type": "array", "items": {"type": "string"}, "minItems": 0}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

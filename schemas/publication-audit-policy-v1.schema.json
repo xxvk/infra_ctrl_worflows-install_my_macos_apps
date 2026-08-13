@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/publication-audit-policy-v1.schema.json",
+  "title": "macomrade publication audit policy v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "large_file_bytes", "private_prefixes", "governance_files", "generated_prefixes", "artifact_suffixes", "sensitive_patterns"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "macomrade_publication_audit_policy"},
+    "large_file_bytes": {"type": "integer", "minimum": 1},
+    "private_prefixes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "governance_files": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "generated_prefixes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "artifact_suffixes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "sensitive_patterns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "pattern"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+          "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+          "pattern": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

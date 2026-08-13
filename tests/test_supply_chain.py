@@ -73,7 +73,7 @@ class SupplyChainTests(unittest.TestCase):
                 }
             ],
             ("brew", "trust", "--json=v1"): {"casks": []},
-            ("npm", "list", "--global", "--depth=0", "--json"): {
+            ("fnm", "exec", "--using=24", "npm", "list", "--global", "--depth=0", "--json"): {
                 "dependencies": {"fixture": {"version": "1.2.3"}}
             },
         }

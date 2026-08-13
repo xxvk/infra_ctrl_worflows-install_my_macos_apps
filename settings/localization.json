@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "kind": "macomrade_localization_policy",
+  "default_locale": "system",
+  "supported_locales": ["zh-Hans", "ja", "en"],
+  "fallback_locale": "en",
+  "accessibility": {
+    "minimum_contrast": "WCAG-AA",
+    "color_is_not_sole_status_signal": true,
+    "keyboard_complete_tui": true,
+    "voiceover_semantic_html": true,
+    "stable_machine_ids": true
+  }
+}

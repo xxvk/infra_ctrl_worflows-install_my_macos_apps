@@ -58,6 +58,21 @@ acceptance run.
 - Registered JSON examples validate before use; unsupported schema keywords
   fail closed; migrations preserve unknown fields, preview without writing,
   require exact confirmation for a separate output, and refuse conflicts.
+- Machine roles reject unknown apps and inheritance cycles; their parent-first
+  selection and explicit include/exclude precedence remain deterministic.
+- Every declared locale has the same message and placeholder IDs; stable CLI
+  identifiers never depend on translated output.
+- Application adapters inspect metadata only and expose no generic apply path;
+  a destructive handoff must name a pre-existing exact-confirmation action.
+- Benchmarks use bounded, repeatable command sets with a cold/warm pair and
+  compare only local baselines against declared absolute/regression budgets.
+- Audit reports omit paths and private content, retain textual status without
+  ANSI/color dependence, and render semantic static HTML without scripts.
+- The drift monitor is read-only, defers on low battery, deduplicates unchanged
+  findings with severity cooldowns, and never invokes a repair workflow.
+- Publication inventory records paths, categories, and counts only; matched
+  sensitive text is never copied, and no finding authorizes visibility or
+  history changes.
 - Diagnostic collection is allowlisted and bounded; redaction removes
   credential/account/host fields and sensitive text; preview writes nothing;
   export requires exact confirmation, refuses overwrite, and verifies ZIP

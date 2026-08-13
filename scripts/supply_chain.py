@@ -33,6 +33,8 @@ ACTIVE_EXECUTION_PATTERNS = (
 
 
 def classify(app: dict[str, Any]) -> str:
+    if app.get("runtime_manager"):
+        return "version_manager_runtime"
     if app.get("delivery_method") == "playcover-ipa":
         return "decrypted_ipa"
     if app.get("system_app"):
@@ -81,6 +83,10 @@ def provenance_for(app: dict[str, Any]) -> dict[str, Any]:
         "artifact_sha256",
         "ios_app_store_url",
         "bundle_identifiers",
+        "runtime_manager",
+        "runtime_version",
+        "npm_runtime_manager",
+        "npm_runtime_version",
     ):
         if app.get(key) is not None:
             result[key] = app[key]
@@ -118,11 +124,12 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
     root = root.resolve()
     policy = load_json(root / "references/source-policy.json")
     base = load_json(root / "references/app-catalog.json")
+    overlay_path = root / "Private/app-catalog-overlay.json"
     merged = load_app_catalog(
         root / "references/app-catalog.json",
-        root / "Private/app-catalog-overlay.json",
+        overlay_path,
     )
-    overlay = load_json(root / "Private/app-catalog-overlay.json")
+    overlay = load_json(overlay_path) if overlay_path.is_file() else {"apps": {}}
     errors: list[str] = []
     warnings: list[str] = []
     classes = Counter()
@@ -195,8 +202,15 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
             private = overlay.get("apps", {}).get(name, {})
             if public.get("preferred_source") or public.get("download_url"):
                 errors.append(f"{name}: personal IPA source must not be in public catalog")
-            if private.get("source_type") != "decrypted_ipa" or not private.get("approved_source_label"):
+            if overlay_path.is_file() and (
+                private.get("source_type") != "decrypted_ipa"
+                or not private.get("approved_source_label")
+            ):
                 errors.append(f"{name}: Private approved decrypted-IPA source is missing")
+            elif not overlay_path.is_file():
+                warnings.append(
+                    f"{name}: personal IPA source is unavailable in public-only mode"
+                )
             if private.get("download_url"):
                 errors.append(f"{name}: direct IPA URL must not be tracked")
         if source_class == "official_web" and app.get("tier") == "core":
@@ -238,7 +252,10 @@ def inspect_live(
     policy = load_json(policy_path)
     taps_raw = _run_json(["brew", "tap-info", "--json=v1", "--installed"], runner=runner)
     trust = _run_json(["brew", "trust", "--json=v1"], runner=runner)
-    npm = _run_json(["npm", "list", "--global", "--depth=0", "--json"], runner=runner)
+    npm = _run_json(
+        ["fnm", "exec", "--using=24", "npm", "list", "--global", "--depth=0", "--json"],
+        runner=runner,
+    )
     taps = []
     if isinstance(taps_raw, list):
         for row in taps_raw:

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "machine_role_catalog",
+  "base_role": "base",
+  "roles": {
+    "base": {
+      "description_key": "role.base.description",
+      "inherits": [],
+      "include_apps": [],
+      "exclude_apps": []
+    },
+    "compact": {
+      "description_key": "role.compact.description",
+      "inherits": ["base"],
+      "include_apps": [],
+      "exclude_apps": []
+    },
+    "expanded": {
+      "description_key": "role.expanded.description",
+      "inherits": ["base"],
+      "include_apps": [],
+      "exclude_apps": []
+    },
+    "developer": {
+      "description_key": "role.developer.description",
+      "inherits": ["base"],
+      "include_apps": ["Cursor", "Xcode", "xurl"],
+      "exclude_apps": []
+    },
+    "robotics": {
+      "description_key": "role.robotics.description",
+      "inherits": ["developer"],
+      "include_apps": ["Android File Transfer", "Android Studio", "Foxglove"],
+      "exclude_apps": ["Android Studio Preview"]
+    },
+    "content": {
+      "description_key": "role.content.description",
+      "inherits": ["base"],
+      "include_apps": ["Affinity", "CapCut", "Compressor", "DaVinci Resolve", "Final Cut Pro", "Logic Pro", "MainStage", "Motion"],
+      "exclude_apps": []
+    },
+    "gaming": {
+      "description_key": "role.gaming.description",
+      "inherits": ["base"],
+      "include_apps": ["PlayCover Learning Apps"],
+      "exclude_apps": []
+    }
+  }
+}

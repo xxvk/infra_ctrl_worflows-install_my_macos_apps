@@ -1,0 +1,13 @@
+# Copy this file to Private/keyboard.yaml and customize it locally.
+profiles:
+  - file: Private/keyboards/example-keyboard.yaml
+    when:
+      manufacturer: Example
+    apply: true
+
+default_profile: Private/keyboards/example-keyboard.yaml
+
+dictation:
+  enabled: false
+  languages:
+    - en-US

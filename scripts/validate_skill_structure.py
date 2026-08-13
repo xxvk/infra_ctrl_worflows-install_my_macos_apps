@@ -56,6 +56,40 @@ DOMAIN_REFERENCES = {
         "## Docker Desktop retirement",
         "## Catalog maintenance",
     ],
+    "references/machine-role-profiles.md": [
+        "## Purpose",
+        "## Role model",
+        "## Overrides and boundaries",
+    ],
+    "references/localization-accessibility.md": [
+        "## Locale policy",
+        "## Accessibility requirements",
+    ],
+    "references/app-adapter-sdk.md": [
+        "## Adapter contract",
+        "## WeChat reference adapter",
+        "## Claude VM reference adapter",
+    ],
+    "references/performance-benchmarks.md": [
+        "## Measured operations",
+        "## Budgets and baselines",
+    ],
+    "references/audit-reports.md": [
+        "## Accessibility and localization",
+        "## Boundary",
+    ],
+    "references/drift-monitor.md": [
+        "## Finding and notification policy",
+        "## Power and privacy",
+    ],
+    "references/public-release-readiness.md": [
+        "## Current blockers",
+        "## Repeatable publication inventory",
+        "## Target repository model",
+        "## Publication gates",
+        "## Selected history strategy",
+        "## Visibility-change transaction",
+    ],
 }
 CORE_HEADINGS = [
     "## Operating contract",

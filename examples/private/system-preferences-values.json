@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "description": "Fictional portable preference example",
+  "domains": {
+    "com.apple.dock": {"show-recents": false}
+  },
+  "excluded_until_reviewed": []
+}

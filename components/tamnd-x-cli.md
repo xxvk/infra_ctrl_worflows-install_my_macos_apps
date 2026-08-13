@@ -57,6 +57,10 @@ confirmed account writes.
 | Official API endpoint or paid reliability | optional `xurl` |
 | Follow, unfollow, posting, or other mutation | optional `xurl`, with confirmation |
 
+Read [X CLI operations](../references/x-cli-operations.md) for the bounded
+profile and timeline commands, identity checks, and the handoff to official
+`xurl` for confirmed account writes.
+
 ## Installation
 
 The baseline uses the signed, pinned macOS arm64 release rather than mutable

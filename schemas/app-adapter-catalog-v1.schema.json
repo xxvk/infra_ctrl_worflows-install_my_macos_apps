@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/app-adapter-catalog-v1.schema.json",
+  "title": "macomrade application adapter catalog v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "adapters"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "app_adapter_catalog"},
+    "adapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "component_id", "name_key", "summary_key", "capabilities", "known_roots", "data_classes", "operations"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+          "component_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+          "name_key": {"type": "string", "minLength": 1},
+          "summary_key": {"type": "string", "minLength": 1},
+          "capabilities": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "known_roots": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["relative_path", "data_class"],
+              "properties": {
+                "relative_path": {"type": "string", "pattern": "^[A-Za-z0-9 ._/-]+$"},
+                "data_class": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          },
+          "data_classes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "disposition", "description_key"],
+              "properties": {
+                "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+                "disposition": {"type": "string", "enum": ["protected", "manual_review", "official_cleanup_only", "safe_cache", "unknown"]},
+                "description_key": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          },
+          "operations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "description_key", "risk", "automatable"],
+              "properties": {
+                "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+                "description_key": {"type": "string", "minLength": 1},
+                "risk": {"type": "string", "enum": ["low", "medium", "high", "destructive"]},
+                "automatable": {"type": "boolean"},
+                "action_id": {"type": "string", "minLength": 1},
+                "confirmation_mode": {"type": "string", "enum": ["manual", "exact"]}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -116,7 +116,7 @@ python3 scripts/chrome_profiles.py \
 
 The `display_name` in `Private/chrome-profiles.json` is the canonical naming
 registry, matched to each account by `account_email`. Read the current mapping
-from that tracked Private file; do not duplicate its personal identifiers in
+from that iCloud Private file; do not duplicate its personal identifiers in
 this public procedure.
 
 Chrome does not expose a supported command-line operation for changing a
@@ -227,6 +227,5 @@ Docker states that its Mac containers and images reside in a large disk image an
   Chrome profile detection and an App Store bundle/path check for Safari
   extensions; do not classify a browser extension as missing merely because it
   has no top-level `.app` in `/Applications`.
-
 
 

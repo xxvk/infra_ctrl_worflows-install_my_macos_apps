@@ -42,6 +42,25 @@ def write_bundle(root: Path, name: str, bundle_id: str, version: str) -> Path:
 
 
 class AppCatalogAndSourceTests(unittest.TestCase):
+    def test_npm_global_presence_requires_exact_package_in_fnm_24(self) -> None:
+        app = {
+            "name": "Fixture npm",
+            "npm_package": "fixture",
+            "npm_version": "1.2.3",
+            "npm_runtime_manager": "fnm",
+            "npm_runtime_version": "24",
+        }
+        response = subprocess.CompletedProcess(
+            [], 0, stdout=json.dumps({"dependencies": {"fixture": {"version": "1.2.3"}}}), stderr=""
+        )
+        with mock.patch.object(macos_apps.shutil, "which", return_value="/fake/fnm"):
+            with mock.patch.object(macos_apps.subprocess, "run", return_value=response) as run:
+                self.assertTrue(macos_apps.npm_package_present(app))
+        self.assertEqual(
+            run.call_args.args[0],
+            ["fnm", "exec", "--using=24", "npm", "list", "--global", "--depth=0", "--json"],
+        )
+
     def test_version_comparison_normalizes_missing_segments(self) -> None:
         self.assertTrue(macos_apps.version_below("1.9", "2.0.0"))
         self.assertFalse(macos_apps.version_below("2", "2.0.0"))
@@ -122,6 +141,35 @@ class AppCatalogAndSourceTests(unittest.TestCase):
 
 
 class PlanningAndCommandTests(unittest.TestCase):
+    def test_role_plan_uses_resolved_core_plus_role_selection(self) -> None:
+        selection = {
+            "roles": ["base", "developer"],
+            "selected_apps": ["Fixture Store"],
+            "excluded_apps": [],
+            "reasons": {"Fixture Store": ["base"]},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp)
+            with mock.patch.object(macos_apps, "STATE", state):
+                with mock.patch.object(macos_apps, "CATALOG", FIXTURE):
+                    with mock.patch.object(macos_apps, "catalog", side_effect=fixture_catalog):
+                        with mock.patch.object(macos_apps, "installed_apps", return_value=[]):
+                            with mock.patch.object(macos_apps, "storage_gb", return_value=256.0):
+                                with mock.patch.object(macos_apps.machine_roles, "load_roles", return_value={}):
+                                    with mock.patch.object(macos_apps.machine_roles, "resolve", return_value=selection) as resolve:
+                                        macos_apps.plan(
+                                            argparse.Namespace(
+                                                profile="portable",
+                                                roles="auto,developer",
+                                                include_app=[],
+                                                exclude_app=[],
+                                            )
+                                        )
+            result = json.loads(next(state.glob("plan-*.json")).read_text(encoding="utf-8"))
+        self.assertEqual([item["name"] for item in result["missing"]], ["Fixture Store"])
+        self.assertEqual(result["role_selection"], selection)
+        self.assertEqual(resolve.call_args.kwargs["storage_gb"], 256.0)
+
     def test_portable_plan_excludes_heavy_and_reports_version_issue(self) -> None:
         installed = [
             {
@@ -200,11 +248,30 @@ class PlanningAndCommandTests(unittest.TestCase):
             "name": "Pinned npm",
             "npm_package": "fixture",
             "npm_version": "1.2.3",
+            "npm_runtime_manager": "fnm",
+            "npm_runtime_version": "24",
         }
         self.assertEqual(
             macos_apps.install_commands(npm),
-            [["npm", "install", "--global", "fixture@1.2.3"]],
+            [["fnm", "exec", "--using=24", "npm", "install", "--global", "fixture@1.2.3"]],
         )
+
+    def test_fnm_runtime_install_is_scoped_to_node_24(self) -> None:
+        runtime = {
+            "name": "Node.js 24 LTS",
+            "runtime_manager": "fnm",
+            "runtime_version": "24",
+        }
+        self.assertEqual(
+            macos_apps.install_commands(runtime),
+            [["fnm", "install", "24"], ["fnm", "default", "24"]],
+        )
+
+    def test_npm_global_without_declared_runtime_is_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "npm_runtime_manager"):
+            macos_apps.install_commands(
+                {"name": "Ambiguous", "npm_package": "fixture", "npm_version": "1.2.3"}
+            )
 
     def test_unpinned_npm_is_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "npm_version"):

@@ -61,6 +61,63 @@ class MacomradeTests(unittest.TestCase):
         )
         self.assertNotIn("--apply", migration)
 
+    def test_role_and_adapter_routes_preserve_safe_handoffs(self) -> None:
+        roles = macomrade.command_for(
+            macomrade.route_index()[("diagnostics", "roles")],
+            ["--roles", "auto,developer", "--storage-gb", "256"],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            roles,
+            [
+                "/fixture/python",
+                "scripts/machine_roles.py",
+                "explain",
+                "--roles",
+                "auto,developer",
+                "--storage-gb",
+                "256",
+            ],
+        )
+        adapters = macomrade.command_for(
+            macomrade.route_index()[("plan", "adapters")],
+            ["--adapter", "claude-vm"],
+            python="/fixture/python",
+        )
+        self.assertEqual(adapters[:3], ["/fixture/python", "scripts/app_adapters.py", "plan"])
+        self.assertNotIn("--apply", adapters)
+
+    def test_benchmark_report_and_monitor_routes_remain_non_repairing(self) -> None:
+        for family, target in (
+            ("diagnostics", "benchmark"),
+            ("diagnostics", "report"),
+            ("diagnostics", "publication"),
+            ("scan", "monitor"),
+        ):
+            with self.subTest(family=family, target=target):
+                command = macomrade.command_for(macomrade.route_index()[(family, target)], [])
+                self.assertNotIn("--apply", command)
+                self.assertNotIn("repair", command)
+
+    def test_publication_audit_route_is_read_only_inventory(self) -> None:
+        command = macomrade.command_for(
+            macomrade.route_index()[("diagnostics", "publication")],
+            ["--state-dir", "/tmp/state"],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            command,
+            [
+                "/fixture/python",
+                "scripts/publication_audit.py",
+                "inspect",
+                "--state-dir",
+                "/tmp/state",
+            ],
+        )
+        self.assertNotIn("publish", command)
+        self.assertNotIn("rewrite", command)
+
     def test_diagnostic_preview_and_export_are_separate_routes(self) -> None:
         preview = macomrade.command_for(
             macomrade.route_index()[("diagnostics", "bundle")],

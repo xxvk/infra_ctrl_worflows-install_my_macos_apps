@@ -198,7 +198,7 @@
     {
       "name": "Cursor",
       "category": "Developer tools",
-      "tier": "core",
+      "tier": "optional",
       "brew_cask": "cursor",
       "official_url": "https://www.cursor.com/",
       "guide": "components/cursor.md",
@@ -741,7 +741,7 @@
     {
       "name": "rednote",
       "category": "Social",
-      "tier": "core",
+      "tier": "optional",
       "app_store_url": "macappstore://itunes.apple.com/app/id741292507",
       "size_gb": 1,
       "follow_up": [
@@ -828,7 +828,7 @@
     {
       "name": "Qwen",
       "category": "AI",
-      "tier": "core",
+      "tier": "optional",
       "lifecycle_status": "retired",
       "official_url": "https://chat.qwen.ai/",
       "size_gb": 1,
@@ -912,7 +912,7 @@
     {
       "name": "DuckDuckGo",
       "category": "Browser",
-      "tier": "core",
+      "tier": "optional",
       "app_store_url": "macappstore://itunes.apple.com/app/id663592361",
       "official_url": "https://duckduckgo.com/mac",
       "size_gb": 1,
@@ -1066,15 +1066,18 @@
       "name": "node",
       "category": "Developer CLI",
       "tier": "core",
-      "brew_formula": "node",
-      "check_command": "node",
+      "delivery_method": "fnm-runtime",
+      "runtime_manager": "fnm",
+      "runtime_version": "24",
+      "runtime_command": "node",
+      "check_command": "fnm exec --using=24 node --version",
       "official_url": "https://nodejs.org/en/download",
       "size_gb": 0.1,
-      "follow_up": [],
+      "install_after": ["fnm"],
+      "follow_up": ["Verify Node 24 in a fresh login shell; keep Homebrew node when installed formulas depend on it"],
       "guide": "components/node.md",
       "download_estimate_bytes": 100000000,
-      "download_estimate_method": "catalog_size_gb_planning_estimate",
-      "cli_path": "/opt/homebrew/opt/node"
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "pnpm",
@@ -1097,19 +1100,21 @@
       "name": "npm",
       "category": "Developer CLI",
       "tier": "core",
-      "brew_formula": "node",
-      "check_command": "npm",
+      "delivery_method": "bundled-fnm-runtime",
+      "runtime_manager": "fnm",
+      "runtime_version": "24",
+      "runtime_command": "npm",
+      "check_command": "fnm exec --using=24 npm --version",
       "install_after": [
         "node"
       ],
       "official_url": "https://docs.npmjs.com/downloading-and-installing-node-js-and-npm",
-      "note": "npm is shipped by the Homebrew node formula; this entry verifies the npm executable without a separate npm package.",
+      "note": "npm is shipped by the fnm-managed Node 24 runtime; this entry verifies ownership without a separate package.",
       "size_gb": 0,
-      "follow_up": [],
+      "follow_up": ["Verify npm prefix -g belongs to the fnm Node 24 installation before global installs"],
       "guide": "components/npm.md",
       "download_estimate_bytes": 0,
-      "download_estimate_method": "catalog_size_gb_planning_estimate",
-      "cli_path": "/opt/homebrew/opt/node"
+      "download_estimate_method": "catalog_size_gb_planning_estimate"
     },
     {
       "name": "typescript",
@@ -1681,6 +1686,8 @@
       "tier": "core",
       "npm_package": "wrangler",
       "npm_version": "4.91.0",
+      "npm_runtime_manager": "fnm",
+      "npm_runtime_version": "24",
       "check_command": "wrangler",
       "official_url": "https://developers.cloudflare.com/workers/wrangler/install/",
       "guide": "components/cloudflare-wrangler.md",
@@ -1695,6 +1702,8 @@
       "tier": "core",
       "npm_package": "wp-studio",
       "npm_version": "1.15.0",
+      "npm_runtime_manager": "fnm",
+      "npm_runtime_version": "24",
       "check_command": "studio",
       "official_url": "https://developer.wordpress.com/docs/developer-tools/studio/cli/",
       "guide": "components/wordpress-studio-cli.md",

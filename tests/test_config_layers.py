@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hermetic tests for tracked public and Private configuration layers."""
+"""Hermetic tests for public and iCloud-synced Private configuration layers."""
 
 from __future__ import annotations
 
@@ -35,7 +35,9 @@ class ConfigurationLayerTests(unittest.TestCase):
         )
         self.assertFalse(base["known"]["enabled"])
 
-    def test_repository_private_manifest_is_valid(self) -> None:
+    def test_repository_icloud_private_manifest_is_valid_when_present(self) -> None:
+        if not config_layers.DEFAULT_MANIFEST.is_file():
+            self.skipTest("public-only checkout has no iCloud Private overlay")
         result = config_layers.audit_manifest()
         self.assertEqual(result["status"], "valid")
         self.assertEqual(result["overlay_count"], 6)
@@ -88,7 +90,35 @@ class ConfigurationLayerTests(unittest.TestCase):
         with self.assertRaises(config_layers.ConfigurationLayerError):
             config_layers.apply_app_catalog_overlay(base, overlay)
 
-    def test_legacy_locator_resolves_to_tracked_private_file(self) -> None:
+    def test_app_catalog_without_private_overlay_uses_public_base(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base_path = root / "catalog.json"
+            base_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "apps": [
+                            {
+                                "name": "Public",
+                                "category": "Utility",
+                                "tier": "optional",
+                                "guide": "components/public.md",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = config_layers.load_app_catalog(
+                base_path,
+                root / "Private" / "app-catalog-overlay.json",
+            )
+
+            self.assertEqual(result["apps"][0]["name"], "Public")
+
+    def test_legacy_locator_resolves_to_icloud_private_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "config").mkdir()
@@ -112,7 +142,7 @@ class ConfigurationLayerTests(unittest.TestCase):
                 target.resolve(),
             )
 
-    def test_yaml_locator_resolves_to_tracked_private_file(self) -> None:
+    def test_yaml_locator_resolves_to_icloud_private_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "settings").mkdir()
@@ -132,7 +162,42 @@ class ConfigurationLayerTests(unittest.TestCase):
                 target.resolve(),
             )
 
+    def test_current_icloud_locator_kind_resolves(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "settings").mkdir()
+            (root / "Private").mkdir()
+            target = root / "Private" / "dock.json"
+            target.write_text('{"schema_version": 1}', encoding="utf-8")
+            locator = root / "settings" / "dock.json"
+            locator.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "kind": "icloud_private_config_locator",
+                        "private_path": "Private/dock.json",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(config_layers.resolve_config_path(locator, root=root), target.resolve())
+
+    def test_private_directory_is_ignored_and_examples_are_tracked(self) -> None:
+        ignore = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
+        self.assertIn("/Private/", ignore)
+        self.assertTrue((ROOT / "examples/private/manifest.json").is_file())
+
+    def test_default_missing_private_manifest_is_valid_public_only_mode(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            result = config_layers.audit_manifest(root / "Private/manifest.json", root=root)
+        self.assertEqual(result["status"], "valid")
+        self.assertEqual(result["mode"], "public_only")
+        self.assertEqual(result["overlay_count"], 0)
+
     def test_repository_personal_locators_resolve_to_private_files(self) -> None:
+        if not config_layers.DEFAULT_MANIFEST.is_file():
+            self.skipTest("public-only checkout has no iCloud Private overlay")
         mappings = {
             ROOT / "config" / "chrome-profiles.json": ROOT
             / "Private"
@@ -171,10 +236,10 @@ class ConfigurationLayerTests(unittest.TestCase):
                 json.dumps(
                     {
                         "schema_version": 1,
-                        "kind": "tracked_private_overlay_manifest",
+                        "kind": "icloud_private_overlay_manifest",
                         "merge_precedence": [
                             "public_base",
-                            "tracked_private_overlay",
+                            "icloud_private_overlay",
                         ],
                         "overlays": [
                             {

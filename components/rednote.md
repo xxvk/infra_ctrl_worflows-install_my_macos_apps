@@ -2,7 +2,7 @@
 component_id: "rednote"
 name: "rednote"
 category: "Social"
-tier: "core"
+tier: "optional"
 lifecycle_status: "active"
 source: "app_store"
 delivery_method: "app-store"

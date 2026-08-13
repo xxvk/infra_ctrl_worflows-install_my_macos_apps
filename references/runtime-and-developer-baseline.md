@@ -7,6 +7,7 @@ Load this reference only when the current task uses this domain. Its rules were 
 - Version and product roadmap
 - Mission: one-sync, ready-to-use Mac
 - Shared Python Core policy
+- JavaScript and TypeScript runtime ownership
 - Android developer environment
 - Whisper model selection
 - Optional audio model catalog
@@ -51,7 +52,7 @@ Keep the baseline in four layers:
 
 - Tracked policy and desired configuration: `components/`, `references/`,
   `settings/`, `scripts/`, and this skill.
-- Git-tracked Private configuration: user-approved personal identifiers,
+- iCloud-synced, Git-ignored Private configuration: user-approved personal identifiers,
   account/profile mappings, names, and preferences under `Private/`. Follow
   [`configuration-layers.md`](configuration-layers.md)
   for deterministic merge and migration rules. Preserve all existing tracked
@@ -82,6 +83,32 @@ approved policies; then run a final drift audit. Do not turn a broad `defaults`
 dump or the TCC database into configuration. Every new preference or
 permission needs a named purpose, read/check method, apply method, and
 verification method.
+
+### JavaScript and TypeScript runtime ownership
+
+Node 24 LTS managed by fnm is the Core interactive runtime. A fresh login shell
+must resolve `node`, `npm`, and the npm global prefix from fnm's Node 24
+installation. Automation installs Core npm-global packages only through
+`fnm exec --using=24 npm`; a bare `npm install --global` is prohibited because
+its destination depends on the caller's PATH.
+
+Homebrew's unversioned `node` formula is a separate dependency runtime. Keep it
+while `brew uses --installed node` lists formulas such as Mermaid CLI,
+TypeScript, or Gemini CLI. Their launchers may intentionally bind to
+`/opt/homebrew/opt/node/bin/node`; do not relink keg-only `node@24` over that
+path merely to make both runtimes report the same major.
+
+The resulting ownership boundary is:
+
+```text
+fnm Node 24 -> interactive development, npm, Core npm-global tools
+Homebrew node -> Homebrew formula dependencies with formula-owned launchers
+```
+
+Before migrating an existing npm-global package, record its current owner,
+version, executable link, global prefix, and size. Install the exact catalog
+version under fnm Node 24, verify the command and account-dependent workflow,
+then request separate approval before deleting the prior prefix copy.
 
 ### Shared Python Core policy
 
@@ -205,5 +232,3 @@ For the current 16 GB M4 profile:
 - Granite 4.0 1B Speech MLX 8-bit, Cohere Transcribe 03-2026 MLX 8-bit, and
   ReazonSpeech-k2-v2 INT8 are optional `audio` models. They are not Core app
   installations and are never downloaded as part of a normal app bootstrap.
-
-

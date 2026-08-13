@@ -137,7 +137,7 @@ def main() -> int:
     parser.add_argument(
         "--save-config",
         action="store_true",
-        help="Write the reusable config through settings/dock-order.json to the tracked Private target.",
+        help="Write the reusable config through settings/dock-order.json to the iCloud Private target.",
     )
     args = parser.parse_args()
 

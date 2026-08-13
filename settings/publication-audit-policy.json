@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "macomrade_publication_audit_policy",
+  "large_file_bytes": 5242880,
+  "private_prefixes": ["Private/"],
+  "governance_files": ["LICENSE", "SECURITY.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "CHANGELOG.md"],
+  "generated_prefixes": ["build/", "dist/", "reports/", "artifacts/"],
+  "artifact_suffixes": [".app", ".dmg", ".ipa", ".pkg", ".tar", ".zip"],
+  "sensitive_patterns": [
+    {"id": "email-address", "severity": "medium", "pattern": "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"},
+    {"id": "absolute-home-path", "severity": "medium", "pattern": "/Users/[A-Za-z0-9_.-]+/"},
+    {"id": "private-key-material", "severity": "critical", "pattern": "BEGIN (OPENSSH|RSA|EC|DSA|PGP) PRIVATE KEY"},
+    {"id": "github-token", "severity": "critical", "pattern": "gh[pousr]_[A-Za-z0-9_]{20,}"},
+    {"id": "credential-assignment", "severity": "high", "pattern": "(password|passwd|api[_-]?key|access[_-]?token|client[_-]?secret)[ \\t]*[:=][ \\t]*[^ \\t]+"},
+    {"id": "decrypted-package-source", "severity": "high", "pattern": "(decrypt\\.day|decrypted[^ \\t]*ipa|ipa[^ \\t]*decrypted)"}
+  ]
+}

@@ -1,0 +1,8 @@
+# Fictional keyboard profile. Copy into Private/keyboards/ before customization.
+profile:
+  id: example-keyboard
+  manufacturer: Example
+  model: Example Keyboard
+
+verification:
+  - Confirm the intended keyboard is connected

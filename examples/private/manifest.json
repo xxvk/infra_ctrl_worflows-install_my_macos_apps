@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "kind": "icloud_private_overlay_manifest",
+  "merge_precedence": ["public_base", "icloud_private_overlay"],
+  "overlays": [
+    {"id": "chrome-profiles", "path": "Private/chrome-profiles.json", "mode": "private_source"},
+    {"id": "app-catalog", "path": "Private/app-catalog-overlay.json", "mode": "merge_by_app_name"},
+    {"id": "dock-order", "path": "Private/dock-order.json", "mode": "private_source"},
+    {"id": "system-preferences-values", "path": "Private/system-preferences-values.json", "mode": "private_source"},
+    {"id": "keyboard", "path": "Private/keyboard.yaml", "format": "yaml", "mode": "private_source"},
+    {"id": "keyboard-example", "path": "Private/keyboards/example-keyboard.yaml", "format": "yaml", "mode": "private_source"}
+  ]
+}

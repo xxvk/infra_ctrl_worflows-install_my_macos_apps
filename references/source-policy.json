@@ -26,6 +26,17 @@
       "verification": ["npm package name", "requested version", "resolved version", "registry integrity when available"],
       "rollback": "npm uninstall --global exact package"
     },
+    "version_manager_runtime": {
+      "risk": "medium",
+      "pinning": "reviewed LTS major selected through the installed fnm manager",
+      "verification": [
+        "fnm installed versions",
+        "fnm default",
+        "fresh login shell node and npm paths",
+        "runtime major"
+      ],
+      "rollback": "select the prior fnm default; remove a runtime only after its projects and global packages are reviewed"
+    },
     "official_web": {
       "risk": "high",
       "pinning": "vendor release when stable; otherwise capture final URL and SHA-256 before install",

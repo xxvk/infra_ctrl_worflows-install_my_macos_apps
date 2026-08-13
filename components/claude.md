@@ -24,6 +24,16 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 - Record detected version, permission results, source scan, and VM state only in
   machine-local state.
 
+## Lifecycle adapter
+
+The Claude VM adapter in `settings/app-adapters.json` provides metadata-only
+inspection and can prepare a plan that points to the existing Claude VM
+transactions. Use `./bin/macomrade scan adapters --adapter claude-vm` or
+`./bin/macomrade plan adapters --adapter claude-vm` for that handoff. The
+adapter never removes VM images or the bundle itself, and it never forwards a
+confirmation token; the existing named Claude VM workflow remains the only
+destructive authority.
+
 ## Mandatory Developer mode, third-party inference, and Local MCP verification
 
 After installation, account verification, and the first successful launch,

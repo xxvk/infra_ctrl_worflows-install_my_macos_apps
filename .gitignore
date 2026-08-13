@@ -3,6 +3,10 @@ state/*
 !state/README.md
 !state/locator.json
 
+# Personal configuration is synchronized by iCloud Drive, never by Git.
+# Publish only fictional templates from examples/private/.
+/Private/
+
 # Python bytecode
 **/__pycache__/
 *.py[cod]

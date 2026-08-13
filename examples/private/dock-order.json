@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "description": "Fictional minimal Dock baseline",
+  "persistent_directories": [],
+  "persistent_apps": [
+    {"order": 1, "label": "Finder", "bundle_identifier": "com.apple.finder", "path": "/System/Library/CoreServices/Finder.app", "kind": "system_app"}
+  ]
+}

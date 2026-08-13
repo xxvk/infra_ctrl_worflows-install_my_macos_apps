@@ -140,6 +140,10 @@ or any other write endpoint, always:
 
 Installation or OAuth approval never authorizes later X account writes.
 
+Read [X CLI operations](../references/x-cli-operations.md) for bounded user
+lookup and timeline examples, the prohibition on exposing `xurl token`, and the
+follow/unfollow dry-run and read-back sequence.
+
 ## Follow-up
 
 - [ ] Verify user search and a small recent-timeline read when those workflows

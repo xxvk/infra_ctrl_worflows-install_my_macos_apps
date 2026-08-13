@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/localization-catalog-v1.schema.json",
+  "title": "macomrade localized message catalog v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "locale", "messages"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "macomrade_message_catalog"},
+    "locale": {"type": "string", "enum": ["en", "ja", "zh-Hans"]},
+    "messages": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "minLength": 1}
+    }
+  },
+  "additionalProperties": false
+}

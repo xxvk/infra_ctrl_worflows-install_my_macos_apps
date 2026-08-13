@@ -56,6 +56,16 @@ def validate(catalog: dict, root: Path = ROOT) -> list[str]:
         if not has_source:
             errors.append(f"{label}: no source field present (brew_cask/brew_formula/app_store_url/official_url/system_app)")
 
+        if app.get("runtime_manager") and (
+            app.get("runtime_manager") != "fnm" or not app.get("runtime_version")
+        ):
+            errors.append(f"{label}: runtime manager must be fnm with a pinned runtime_version")
+        if app.get("npm_package") and (
+            app.get("npm_runtime_manager") != "fnm"
+            or not app.get("npm_runtime_version")
+        ):
+            errors.append(f"{label}: npm global packages must declare fnm runtime ownership")
+
         app_store_url = app.get("app_store_url")
         if app_store_url and not (app_store_url.startswith("macappstore://") or "apps.apple.com" in app_store_url):
             errors.append(f"{label}: app_store_url '{app_store_url}' does not look like an App Store URL")

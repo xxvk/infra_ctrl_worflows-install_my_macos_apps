@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.local/schemas/performance-budget-v1.schema.json",
+  "title": "macomrade performance budget v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "operations", "regression"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "macomrade_performance_budget"},
+    "operations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["cold_max_ms", "warm_max_ms", "peak_rss_max_bytes", "output_max_bytes", "state_growth_max_bytes"],
+        "properties": {
+          "cold_max_ms": {"type": "integer", "minimum": 1},
+          "warm_max_ms": {"type": "integer", "minimum": 1},
+          "peak_rss_max_bytes": {"type": "integer", "minimum": 1},
+          "output_max_bytes": {"type": "integer", "minimum": 1},
+          "state_growth_max_bytes": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "regression": {
+      "type": "object",
+      "required": ["max_percent", "min_absolute_delta_ms"],
+      "properties": {
+        "max_percent": {"type": "integer", "minimum": 1},
+        "min_absolute_delta_ms": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

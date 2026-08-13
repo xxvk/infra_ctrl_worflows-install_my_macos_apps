@@ -17,15 +17,15 @@
       "tracked_examples": [
         "settings/dock-order.json",
         "settings/system-preferences-values.json",
-        "Private/dock-order.json",
-        "Private/system-preferences-values.json"
+        "examples/private/dock-order.json",
+        "examples/private/system-preferences-values.json"
       ]
     },
     "private-overlay": {
       "current_version": 1,
       "schema": "schemas/private-overlay-v1.schema.json",
       "tracked_examples": [
-        "Private/app-catalog-overlay.json"
+        "examples/private/app-catalog-overlay.json"
       ]
     },
     "app-plan": {
@@ -54,6 +54,50 @@
       "schema": "schemas/diagnostic-bundle-v1.schema.json",
       "tracked_examples": [
         "tests/fixtures/schema_contract/diagnostic-bundle-v1.json"
+      ]
+    },
+    "machine-role-catalog": {
+      "current_version": 1,
+      "schema": "schemas/machine-role-catalog-v1.schema.json",
+      "tracked_examples": [
+        "settings/machine-roles.json"
+      ]
+    },
+    "localization-catalog": {
+      "current_version": 1,
+      "schema": "schemas/localization-catalog-v1.schema.json",
+      "tracked_examples": [
+        "locales/messages.en.json",
+        "locales/messages.ja.json",
+        "locales/messages.zh-Hans.json"
+      ]
+    },
+    "app-adapter-catalog": {
+      "current_version": 1,
+      "schema": "schemas/app-adapter-catalog-v1.schema.json",
+      "tracked_examples": [
+        "settings/app-adapters.json"
+      ]
+    },
+    "performance-budget": {
+      "current_version": 1,
+      "schema": "schemas/performance-budget-v1.schema.json",
+      "tracked_examples": [
+        "settings/performance-budgets.json"
+      ]
+    },
+    "drift-monitor-policy": {
+      "current_version": 1,
+      "schema": "schemas/drift-monitor-policy-v1.schema.json",
+      "tracked_examples": [
+        "settings/drift-monitor.json"
+      ]
+    },
+    "publication-audit-policy": {
+      "current_version": 1,
+      "schema": "schemas/publication-audit-policy-v1.schema.json",
+      "tracked_examples": [
+        "settings/publication-audit-policy.json"
       ]
     }
   },

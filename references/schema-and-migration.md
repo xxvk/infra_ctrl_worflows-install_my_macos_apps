@@ -11,7 +11,8 @@
 
 ## Scope
 
-The 0.1.0 contract publishes versioned JSON Schemas for seven portable or
+The 0.1.0 and accepted 0.1.x contracts publish versioned JSON Schemas for
+thirteen portable or
 machine-readable boundaries:
 
 | Kind | Current schema | Primary use |
@@ -23,6 +24,12 @@ machine-readable boundaries:
 | `state-record` | `schemas/state-record-v1.schema.json` | Generic machine-local state envelope |
 | `diagnostic-result` | `schemas/diagnostic-result-v1.schema.json` | Local release-check result |
 | `diagnostic-bundle` | `schemas/diagnostic-bundle-v1.schema.json` | Redacted support-bundle payload |
+| `machine-role-catalog` | `schemas/machine-role-catalog-v1.schema.json` | Composable capability roles and app selections |
+| `localization-catalog` | `schemas/localization-catalog-v1.schema.json` | Stable multilingual message catalog structure |
+| `app-adapter-catalog` | `schemas/app-adapter-catalog-v1.schema.json` | Application lifecycle adapter capabilities and safe handoffs |
+| `performance-budget` | `schemas/performance-budget-v1.schema.json` | Repeatable local benchmark budgets and regression thresholds |
+| `drift-monitor-policy` | `schemas/drift-monitor-policy-v1.schema.json` | Low-noise monitor power, cooldown, confidence, and schedule policy |
+| `publication-audit-policy` | `schemas/publication-audit-policy-v1.schema.json` | Path/count-only public-release inventory and sensitive-pattern policy |
 
 This work does not claim that every YAML settings file is JSON. The existing
 keyboard and policy YAML files retain their conservative, workflow-specific
@@ -51,9 +58,10 @@ classification.
 
 The shared catalog loader validates the public catalog and Private overlay
 before merging. The app installer validates an `app-plan` before selecting a
-target or starting any subprocess. The final baseline verifier validates the
-new plan before reading it. The release checker validates its own
-`diagnostic-result` before returning it.
+target or starting any subprocess. Role selection, localized messages, and
+adapter declarations validate before their respective command runs. The final
+baseline verifier validates the new plan before reading it. The release checker
+validates its own `diagnostic-result` before returning it.
 
 A legacy plan without `schema_version` is version 0. It is rejected at the
 consumer boundary with a migration-oriented error; it is never guessed to be a

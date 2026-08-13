@@ -18,6 +18,8 @@ download_estimate_bytes: 100000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 npm_package: "wrangler"
 npm_version: "4.91.0"
+npm_runtime_manager: "fnm"
+npm_runtime_version: "24"
 ---
 # Cloudflare Wrangler
 
@@ -30,7 +32,7 @@ The official installation path is a global npm package. Homebrew does not
 provide the installation source used by this catalog entry.
 
 ```sh
-npm install --global wrangler@4.91.0
+fnm exec --using=24 npm install --global wrangler@4.91.0
 wrangler --version
 ```
 
@@ -51,5 +53,5 @@ Confirm the intended account and active project before deployment.
 ## Rollback
 
 ```sh
-npm uninstall --global wrangler
+fnm exec --using=24 npm uninstall --global wrangler
 ```

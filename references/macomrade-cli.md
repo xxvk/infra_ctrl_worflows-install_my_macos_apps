@@ -53,7 +53,10 @@ Examples:
 
 ```sh
 ./bin/macomrade scan apps
-./bin/macomrade plan apps --profile auto
+./bin/macomrade scan adapters --adapter wechat
+./bin/macomrade scan monitor
+./bin/macomrade plan apps --profile auto --roles auto,developer,robotics
+./bin/macomrade plan adapters --adapter claude-vm
 ./bin/macomrade apply apps "$PLAN" --only "App Name"
 ./bin/macomrade apply apps "$PLAN" --only "App Name" --apply
 ./bin/macomrade verify baseline
@@ -62,6 +65,11 @@ Examples:
 ./bin/macomrade drift baseline
 ./bin/macomrade diagnostics permissions
 ./bin/macomrade diagnostics schemas
+./bin/macomrade diagnostics roles --roles auto,developer --storage-gb 256
+./bin/macomrade diagnostics adapters
+./bin/macomrade diagnostics benchmark --operation inventory --operation plan
+./bin/macomrade diagnostics report /path/to/bootstrap-verify.json --format html --output /path/to/report.html
+./bin/macomrade diagnostics publication
 ./bin/macomrade diagnostics bundle --output /path/to/diagnostics.zip
 ./bin/macomrade migration state inspect
 ./bin/macomrade migration schema app-plan /path/to/legacy-plan.json --to 1
@@ -103,6 +111,21 @@ Diagnostic preview and export are deliberately separate routes. Preview with
 reviewing the manifest and redaction report. The dispatcher never adds the
 required `--apply` or exact confirmation. See
 [`redacted-diagnostic-bundle.md`](redacted-diagnostic-bundle.md).
+
+Role selection only changes the contents of the current application plan. App
+adapter routes inspect metadata and prepare a handoff; there is intentionally
+no `apply adapters` route. WeChat remains manual-only, and Claude VM cleanup
+continues to use its existing exact-confirmation transactions. See
+[`machine-role-profiles.md`](machine-role-profiles.md) and
+[`app-adapter-sdk.md`](app-adapter-sdk.md).
+
+Benchmark and report routes are read-only except that a benchmark writes a
+machine-local measurement record and an explicitly requested report output
+writes the named local static file. The drift-monitor route makes no repair and
+its opt-in weekly LaunchAgent still requires the existing separate `--apply`
+transaction. See [`performance-benchmarks.md`](performance-benchmarks.md),
+[`audit-reports.md`](audit-reports.md), and
+[`drift-monitor.md`](drift-monitor.md).
 
 ## Reserved future commands
 

@@ -50,7 +50,7 @@ def fake_runner(*, failing_check: bool = False):
             item.endswith("validate_release_contract.py") for item in command
         ):
             unsafe = (
-                "person@example.com ~/private/secret-name.txt "
+                "person@example.com /Users/example/private/secret-name.txt "
                 "Private/chrome-profiles.json "
                 "access_token=abc123secret https://example.com/path?token=secret "
                 + ("x" * 5000)

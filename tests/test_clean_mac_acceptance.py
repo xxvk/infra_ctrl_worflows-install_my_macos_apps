@@ -164,7 +164,7 @@ class CleanMacAcceptanceTests(unittest.TestCase):
             evidence = root / "private-name.json"
             value = evidence_value("CM-03")
             value["owner"] = "person@example.com"
-            value["path"] = "~/private/result.json"
+            value["path"] = "/Users/example/private/result.json"
             evidence.write_text(json.dumps(value), encoding="utf-8")
             result = acceptance.record_gate(
                 output,

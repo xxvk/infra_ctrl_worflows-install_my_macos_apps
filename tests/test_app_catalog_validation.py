@@ -18,6 +18,21 @@ import validate_app_catalog  # noqa: E402
 
 
 class AppCatalogValidationTests(unittest.TestCase):
+    def test_repository_node_runtime_and_npm_globals_use_fnm_24(self) -> None:
+        catalog = json.loads((ROOT / "references/app-catalog.json").read_text())
+        by_name = {app["name"]: app for app in catalog["apps"]}
+        node = by_name["node"]
+        self.assertEqual(node["runtime_manager"], "fnm")
+        self.assertEqual(node["runtime_version"], "24")
+        self.assertNotIn("brew_formula", node)
+        npm = by_name["npm"]
+        self.assertEqual(npm["runtime_manager"], "fnm")
+        self.assertEqual(npm["runtime_version"], "24")
+        self.assertNotIn("brew_formula", npm)
+        for name in ("Cloudflare Wrangler", "WordPress Studio CLI"):
+            self.assertEqual(by_name[name]["npm_runtime_manager"], "fnm")
+            self.assertEqual(by_name[name]["npm_runtime_version"], "24")
+
     def test_fixture_catalog_is_structurally_valid(self) -> None:
         catalog = json.loads(FIXTURE.read_text())
         with tempfile.TemporaryDirectory() as tmp:
