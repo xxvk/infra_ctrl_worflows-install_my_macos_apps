@@ -125,7 +125,7 @@ verify clean candidate and local Private files
 → clone the candidate into a non-iCloud temporary directory
 → remove Private/** from every reachable commit
 → replace reviewed personal identifiers in historical public-path blobs
-→ normalize exposed commit email metadata to an approved GitHub noreply identity
+→ preserve the owner-approved Git author and committer email metadata
 → expire reflogs and repack only the temporary rehearsal
 → run object, privacy, schema, release, and public-only checks
 → compare refs and commit counts
@@ -134,17 +134,22 @@ verify clean candidate and local Private files
 → stop before any force-push
 ```
 
-The first rehearsal removed `Private/**` from all 38 reachable commits and
-passed `git fsck`, but correctly remained blocked: historical public paths still
-contain ten distinct email-like values, and commit metadata contains two email
-identities. Fictional test values and public documentation must be classified
-separately rather than erased by a broad regular expression. No rewrite of the
-real repository or remote has occurred.
+The final rehearsal and local rewrite processed all 39 reachable commits.
+`Private/**`, reviewed personal account emails, Chrome profile labels, the
+personal absolute home path, and the specific private IPA source domain were
+removed or replaced. The owner explicitly approved retaining
+`xxvk@outlook.com` and `noreply@github.com` in Git commit metadata. Fictional
+test values and generic public safety documentation remain. `git fsck`, the
+bounded privacy checks, and all 21 release checks passed after rewriting.
 
-History rewriting changes commit IDs and cannot coexist safely with an
-uncommitted working tree. Committing the current candidate, choosing the
-replacement commit identity, rewriting the real repository, and force-pushing
-the remote are separate authorization points.
+The pre-rewrite Git bundle and a separate Private configuration archive are
+stored under machine-local Application Support with owner-only permissions.
+The original `origin` URL was restored after `git filter-repo`. No force-push,
+GitHub visibility change, tag, or release has occurred.
+
+History rewriting changed every affected commit ID. The local rewrite is
+complete; force-pushing the rewritten branches remains a separate explicit
+authorization point and must use force-with-lease against verified remote refs.
 
 The recommended license candidate is Apache-2.0 because it includes an express
 patent grant, but choosing and adding a license remains a separate explicit

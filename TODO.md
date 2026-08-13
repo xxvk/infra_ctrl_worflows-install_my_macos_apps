@@ -346,8 +346,8 @@ this list does not authorize a GitHub visibility change.
       categories; no large files, binary files, generated artifacts, vendored
       third-party assets, or submodules; and five missing governance files.
       It explicitly leaves publication, history rewrite, and visibility change
-      unauthorized. Manual path-level classification and history strategy
-      remain PUB-04.
+      unauthorized. Manual path-level classification and the selected history
+      rewrite were subsequently completed under PUB-04.
 - [x] **PUB-02 — Isolate the in-place iCloud Private overlay.** Keep all
       existing personal files under the current `Private/` path, ignore the
       entire directory in Git, preserve public-base → Private-overlay merge
@@ -362,12 +362,19 @@ this list does not authorize a GitHub visibility change.
       Completed: `examples/private/` now contains fictional manifest, account,
       Chrome, Dock, preference, and keyboard templates. The public-only
       rehearsal completed 21/21 hermetic checks with no `Private/` directory.
-- [ ] **PUB-04 — Audit the complete Git history.** Scan all reachable commits
+- [x] **PUB-04 — Audit the complete Git history.** Scan all reachable commits
       for secrets, account identifiers, private URLs, machine paths, decrypted-
       package provenance, and personal/organization data; manually classify
       findings, rotate exposed credentials where required, and perform a
       reviewed `git filter-repo` rewrite of the current repository. Preserve a
       verified private backup; remote force-push remains separately confirmed.
+      Completed locally on 2026-08-14: all 39 reachable commits were rewritten;
+      `Private/**`, seven personal account-email values, twelve Chrome profile
+      names, the personal home path, and the specific private IPA source domain
+      were removed or replaced. The owner explicitly approved retaining the
+      Git author/committer emails. `git fsck`, privacy checks, and all 21 release
+      checks passed. The verified pre-rewrite Git bundle and Private archive
+      remain in machine-local Application Support. Nothing has been pushed.
 - [ ] **PUB-05 — Add open-source governance.** Obtain an explicit license
       decision—Apache-2.0 is the recommended candidate—then add the license,
       required third-party notices, security policy, contribution guide, code
