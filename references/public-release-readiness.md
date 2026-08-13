@@ -144,11 +144,13 @@ bounded privacy checks, and all 21 release checks passed after rewriting.
 
 The pre-rewrite Git bundle and a separate Private configuration archive are
 stored under machine-local Application Support with owner-only permissions.
-The original `origin` URL was restored after `git filter-repo`. No force-push,
-GitHub visibility change, tag, or release has occurred.
+The original `origin` URL was restored after `git filter-repo`. On 2026-08-14,
+the cleaned `main` and `trae-dev` refs were pushed with exact
+`--force-with-lease` expectations and read back from GitHub; no PR refs were
+present. No GitHub visibility change, tag, or release has occurred.
 
-History rewriting changed every affected commit ID. The local rewrite is
-complete; force-pushing the rewritten branches remains a separate explicit
+History rewriting changed every affected commit ID. The local and remote branch
+rewrite is complete. Any future history rewrite remains a separate explicit
 authorization point and must use force-with-lease against verified remote refs.
 
 The recommended license candidate is Apache-2.0 because it includes an express

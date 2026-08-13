@@ -374,7 +374,10 @@ this list does not authorize a GitHub visibility change.
       were removed or replaced. The owner explicitly approved retaining the
       Git author/committer emails. `git fsck`, privacy checks, and all 21 release
       checks passed. The verified pre-rewrite Git bundle and Private archive
-      remain in machine-local Application Support. Nothing has been pushed.
+      remain in machine-local Application Support. On 2026-08-14, `main` and
+      `trae-dev` were updated with exact `--force-with-lease` expectations and
+      read back successfully; no PR refs were present. Repository visibility
+      remains unchanged.
 - [ ] **PUB-05 — Add open-source governance.** Obtain an explicit license
       decision—Apache-2.0 is the recommended candidate—then add the license,
       required third-party notices, security policy, contribution guide, code
