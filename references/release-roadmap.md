@@ -192,12 +192,12 @@ as the final explicitly authorized transaction after all gates passed.
 
 ## 0.2.0 — memory-backed storage management
 
-Status: **release_candidate**
+Status: **shipped**
 
-Implementation status: **ST-01 through ST-12 completed and locally accepted on
-2026-08-14.** `VERSION` is now 0.2.0. The source tree represents the cumulative
-0.2.0 release-candidate contract, but no commit, tag, GitHub Release, package,
-or stable-release claim is implied by the version change.
+Release status: **ST-01 through ST-12 completed, locally accepted, committed,
+and published on 2026-08-14.** `VERSION` is 0.2.0. The public source release is
+the annotated `v0.2.0` tag resolving to commit `97b4118`. No GitHub Release,
+packaged distribution, or completed genuine Clean-Mac acceptance run exists.
 
 Build an independent stateful, policy-driven storage decision layer above
 Mole. Mole remains an optional interactive explorer and read-only historical

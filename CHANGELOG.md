@@ -5,6 +5,8 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-14
+
 ### Added
 
 - Public-source release-readiness gates and a path/count-only privacy audit.
@@ -36,11 +38,10 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 ### Changed
 
 - Advanced the repository source version and cumulative release contract from
-  0.1.0 to the 0.2.0 release candidate without creating a commit, tag, package,
-  or GitHub Release.
-- The reviewed source repository is now public at candidate commit `f490fe4`;
-  anonymous page, HTTPS clone, API metadata, privacy, and release-gate
-  read-backs passed. This did not create a tag or GitHub Release.
+  0.1.0 to the shipped 0.2.0 source release.
+- Published the reviewed public source under annotated tag `v0.2.0`, resolving
+  to commit `97b4118`; anonymous page, HTTPS clone, API metadata, privacy, and
+  release-gate read-backs passed.
 - Personal `Private/` configuration is synchronized by iCloud Drive and ignored
   by Git; a public-only clone operates without it.
 - `MACOMRADE_PUBLIC_ONLY=1` can now suppress an existing local Private
@@ -58,5 +59,5 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 - Removed `Private/**`, reviewed account identifiers, profile labels, a personal
   home path, and a private package-source domain from reachable Git history.
 
-No version has been tagged or packaged yet. `VERSION` is the source of truth
-for the cumulative 0.2.0 release-candidate baseline.
+Version 0.2.0 is published as source under an annotated tag. No GitHub Release
+or packaged distribution was produced; `VERSION` remains the source of truth.

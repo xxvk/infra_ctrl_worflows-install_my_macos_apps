@@ -2,8 +2,8 @@
 
 This guide is the public entry point for evaluating and adopting macomrade
 without inheriting the original author's accounts, machine state, or personal
-configuration. The repository is a 0.2.0 release candidate; completing
-this guide does not declare a stable release or authorize a GitHub visibility
+configuration. The repository is the shipped 0.2.0 source release; completing
+this guide does not authorize installation, mutation, or a GitHub visibility
 change.
 
 ## Contents
@@ -25,24 +25,24 @@ local-first definition of applications, preferences, permissions, and machine
 lifecycle policy. It assumes comfort with Terminal, Git, JSON/YAML review, and
 macOS permission prompts.
 
-The current release candidate provides reusable policy, read-only inventory,
+The current source release provides reusable policy, read-only inventory,
 planning, explicit mutation contracts, validation, and machine-local evidence.
 It is not an unattended enterprise provisioner, MDM replacement, backup
 product, malware remover, credential manager, or guarantee that every catalog
-application is available in every country or macOS release. Support is
-best-effort until a stable version is released.
+application is available in every country or macOS release. Support remains
+best-effort within the documented platform and Clean-Mac limitations.
 
 ## Platform support matrix
 
 | Host | Status | Current boundary |
 | --- | --- | --- |
-| Apple silicon Mac on a currently supported public macOS release | Primary release-candidate target | Hermetic validation is available; live behavior still depends on installed apps, permissions, accounts, and hardware. |
+| Apple silicon Mac on a currently supported public macOS release | Primary source-release target | Hermetic validation is available; live behavior still depends on installed apps, permissions, accounts, and hardware. |
 | Apple silicon Mac on a macOS beta or prerelease | Best effort | Apple and Homebrew interfaces may change; warnings and source mismatches require manual review and are not release evidence. |
 | Intel Mac | Unverified | Some scripts discover `/usr/local` Homebrew, but there is no completed Intel acceptance run and no support claim yet. |
 | Linux or Windows | Unsupported as a managed host | Some pure-Python tests may run, but application inventory, TCC, `defaults`, LaunchServices, Dock, and other host integrations require macOS. |
 
 No exact minimum macOS version is promised before an independent Clean-Mac
-release-candidate run establishes one. Record `sw_vers` and `uname -m` when
+Clean-Mac acceptance run establishes one. Record `sw_vers` and `uname -m` when
 reporting a platform-specific problem.
 
 ## Prerequisites
@@ -153,8 +153,8 @@ for supported inspection and handoff behavior.
 
 ## Known limitations
 
-- Version 0.2.0 remains a release candidate. There is no stable tag or public
-  compatibility promise yet.
+- Version 0.2.0 is published as source under the annotated `v0.2.0` tag. There
+  is no packaged distribution or broader compatibility promise yet.
 - A genuine unused Clean-Mac acceptance run remains externally deferred;
   already configured Macs cannot prove first-boot behavior.
 - Apple silicon is the primary target. Intel behavior is unverified.

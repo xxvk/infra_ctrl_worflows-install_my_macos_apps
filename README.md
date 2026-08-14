@@ -2,7 +2,7 @@
 
 **Safety-first, reproducible macOS setup and lifecycle automation for apps, permissions, preferences, and machine drift.**
 
-Current target version: **0.2.0** (`release_candidate`)
+Current target version: **0.2.0** (`shipped`)
 
 `macomrade` is a personal Codex Skill and repository-local Python CLI for making a new Mac ready to use from a reviewable configuration. It keeps reusable policy in Git while protecting secrets, private overlays, and machine-local observations.
 
@@ -33,10 +33,12 @@ Read the [public onboarding guide](references/public-onboarding.md) for prerequi
 
 ## Release status
 
-Current target version: **0.2.0** (`release_candidate`). The source repository is public, but no stable GitHub Release, packaged global CLI, or completed genuine Clean-Mac acceptance run is implied.
+Current target version: **0.2.0** (`shipped`). The public source release is
+available as the annotated `v0.2.0` tag. No GitHub Release, packaged global
+CLI, or completed genuine Clean-Mac acceptance run is implied.
 
 `VERSION` is the version source of truth. The cumulative 0.2.0
-release-candidate capability baseline, committed 0.3.0–0.9.0 scope, and
+shipped capability baseline, committed 0.3.0–0.9.0 scope, and
 1.0 native macOS product vision are defined in
 [`references/release-roadmap.md`](references/release-roadmap.md). Product-level
 candidates are kept separately in
@@ -91,13 +93,13 @@ underlying dry-run, confirmation, verification, and rollback contract remains
 authoritative.
 
 The launcher stays repository-local for 0.2.0; no global symlink, Homebrew
-formula, npm package, or publication is implied. See
+formula, npm package, or packaged distribution is implied. See
 [`references/macomrade-cli.md`](references/macomrade-cli.md) for the complete
 route and compatibility contract and
 [`references/cli-identity.json`](references/cli-identity.json) for the
 point-in-time name-collision audit.
 
-The locally accepted 0.2.0 storage release-candidate implementation is
+The shipped 0.2.0 storage implementation is
 available through the same launcher. It separates logical, allocated,
 estimated, staged, and measured bytes; remembers
 reviewed decisions; imports Mole history as evidence only; surfaces bounded
@@ -136,12 +138,13 @@ contributing or reporting a problem, read the
 in the [changelog](CHANGELOG.md); bundled third-party material and notice
 requirements are tracked in [third-party notices](THIRD_PARTY_NOTICES.md).
 
-The presence of an open-source license and public repository does not imply
-that the 0.2.0 release candidate has been tagged, packaged, or declared stable.
+The `v0.2.0` tag publishes the reviewed source release. It does not imply a
+GitHub Release, packaged CLI, notarized application, or broader platform
+compatibility than the documented support boundary.
 
 ## Local validation policy
 
-The 0.2.0 release candidate uses local macOS validation, not GitHub Actions, as
+The 0.2.0 source release uses local macOS validation, not GitHub Actions, as
 its default quality gate:
 
 ```sh

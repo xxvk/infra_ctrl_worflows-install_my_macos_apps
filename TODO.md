@@ -1141,9 +1141,10 @@ review before promoting any item into an implementation task.
       `partial`. Hermetic tests, schemas, bounded benchmarks, live quick/deep
       scans, a live relative-target plan, and the 23-check release gate passed.
       Exact paths and measurements remain only in machine-local state. After
-      separate authorization, `VERSION`, the cumulative acceptance matrix, and
-      the matching roadmap status advanced to the 0.2.0 release candidate;
-      commit, tag, push, package, and GitHub Release remain unauthorized.
+      separate authorization, `VERSION` and the cumulative acceptance matrix
+      advanced to 0.2.0; the source release was committed and published under
+      annotated tag `v0.2.0` on 2026-08-14. No package or GitHub Release was
+      produced, and genuine Clean-Mac acceptance remains externally deferred.
 
 ## 0.3.0 — Browser bookmarks and reading lists
 

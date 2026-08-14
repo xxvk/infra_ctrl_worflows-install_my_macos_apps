@@ -127,6 +127,45 @@ class ReleaseContractTests(unittest.TestCase):
             self.assertEqual(result["status"], "failed")
             self.assertTrue(any("README Current target version" in error for error in result["errors"]))
 
+    def test_readme_status_must_match_current_roadmap_status(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            matrix = self._fixture(root)
+            (root / "README.md").write_text(
+                "Current target version: **0.2.0** (`shipped`)\n",
+                encoding="utf-8",
+            )
+            result = validate_contract(root, matrix)
+            self.assertEqual(result["status"], "failed")
+            self.assertTrue(any("README Current target status" in error for error in result["errors"]))
+
+    def test_shipped_version_requires_dated_changelog_section(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            matrix = self._fixture(root)
+            (root / "README.md").write_text(
+                "Current target version: **0.2.0** (`shipped`)\n",
+                encoding="utf-8",
+            )
+            (root / "references" / "release-roadmap.md").write_text(
+                "## 0.2.0 — fixture\n\nStatus: **shipped**\n",
+                encoding="utf-8",
+            )
+            data = json.loads(matrix.read_text())
+            data["release_status"] = "shipped"
+            matrix.write_text(json.dumps(data), encoding="utf-8")
+
+            missing = validate_contract(root, matrix)
+            self.assertEqual(missing["status"], "failed")
+            self.assertTrue(any("dated CHANGELOG" in error for error in missing["errors"]))
+
+            (root / "CHANGELOG.md").write_text(
+                "# Changelog\n\n## [0.2.0] - 2026-08-14\n",
+                encoding="utf-8",
+            )
+            present = validate_contract(root, matrix)
+            self.assertEqual(present["status"], "passed", present["errors"])
+
 
 if __name__ == "__main__":
     unittest.main()

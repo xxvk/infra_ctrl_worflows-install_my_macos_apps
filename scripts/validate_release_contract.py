@@ -37,10 +37,17 @@ def validate_contract(
 
     version_path = root / "VERSION"
     readme_path = root / "README.md"
+    changelog_path = root / "CHANGELOG.md"
     roadmap_path = root / "references" / "release-roadmap.md"
     version = version_path.read_text(encoding="utf-8").strip() if version_path.is_file() else None
     readme = readme_path.read_text(encoding="utf-8") if readme_path.is_file() else ""
-    readme_versions = re.findall(r"Current target version:\s*\*\*(\d+\.\d+\.\d+)\*\*", readme)
+    readme_markers = re.findall(
+        r"Current target version:\s*\*\*(\d+\.\d+\.\d+)\*\*\s*\(`([^`]+)`\)",
+        readme,
+    )
+    readme_versions = [marker_version for marker_version, _status in readme_markers]
+    readme_statuses = [status for _marker_version, status in readme_markers]
+    changelog = changelog_path.read_text(encoding="utf-8") if changelog_path.is_file() else ""
     roadmap = roadmap_path.read_text(encoding="utf-8") if roadmap_path.is_file() else ""
     match = (
         re.search(
@@ -67,6 +74,14 @@ def validate_contract(
         errors.append(f"current roadmap status must be release_candidate or shipped, got {roadmap_status!r}")
     if matrix.get("release_status") != roadmap_status:
         errors.append("matrix release_status must match the current VERSION roadmap status")
+    if readme_statuses and any(status != roadmap_status for status in readme_statuses):
+        errors.append("every README Current target status must match the roadmap status")
+    if roadmap_status == "shipped" and not re.search(
+        rf"^## \[{re.escape(version or '')}\] - \d{{4}}-\d{{2}}-\d{{2}}\s*$",
+        changelog,
+        flags=re.MULTILINE,
+    ):
+        errors.append("a shipped VERSION requires a dated CHANGELOG section")
 
     definitions = matrix.get("classifications")
     if not isinstance(definitions, dict) or set(definitions) != ALLOWED_CLASSIFICATIONS:

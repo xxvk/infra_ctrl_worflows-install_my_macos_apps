@@ -3,7 +3,7 @@
 ## Purpose
 
 `scripts/release_manifest.py` creates a deterministic JSON description of one
-release-candidate input set. It binds the repository version and roadmap
+release-evidence input set. It binds the repository version and roadmap
 status, exact source commit and worktree status, registered schema versions and
 hashes, public catalog/configuration hashes, platform support matrix, hermetic
 release-check summary, latest available machine-local benchmark summary, known
@@ -42,12 +42,14 @@ blockers. A missing benchmark is honest evidence absence, not a fabricated
 pass.
 
 The authority object always keeps commit, tag, push, GitHub Release, and
-visibility change false. A candidate manifest is evidence for a later decision
-and never performs or authorizes that decision.
+visibility change false. This describes the preview command's authority, not
+whether an earlier release exists. A candidate manifest is evidence for a
+later decision and never performs or authorizes that decision.
 
 ## Artifact provenance
 
-The current repository distributes source only. The preview produces no DMG,
-PKG, ZIP, Homebrew formula, App Store build, tag, or GitHub Release. Binary
+Version 0.2.0 is distributed as source under an annotated tag. The preview
+itself produces no DMG, PKG, ZIP, Homebrew formula, App Store build, tag, or
+GitHub Release. Binary
 provenance, signing, notarization, and package hashes must be added only when a
 future release actually produces those artifacts.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a deterministic, non-authorizing release-candidate manifest."""
+"""Build a deterministic, non-authorizing release-evidence manifest."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ PUBLIC_INPUTS = (
 PLATFORM_SUPPORT = (
     {
         "host": "apple_silicon_public_macos",
-        "status": "primary_release_candidate",
+        "status": "primary_source_release",
         "boundary": "Live behavior depends on applications, permissions, accounts, and hardware.",
     },
     {
@@ -53,7 +53,7 @@ PLATFORM_SUPPORT = (
     },
 )
 KNOWN_LIMITATIONS = (
-    "No stable tag or published release exists.",
+    "No GitHub Release or packaged distribution exists; v0.2.0 is published as source under an annotated tag.",
     "A genuine unused Clean-Mac acceptance run remains externally deferred.",
     "Intel Mac behavior is unverified.",
     "Protected permissions, credentials, purchases, and security confirmations remain interactive.",

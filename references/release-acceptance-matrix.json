@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "version": "0.2.0",
-  "release_status": "release_candidate",
-  "contract_scope": "The cumulative implemented 0.2.0 release-candidate behavior boundary. This matrix does not claim that a stable tag, GitHub Release, packaged distribution, or genuine clean-Mac run exists.",
+  "release_status": "shipped",
+  "contract_scope": "The cumulative shipped 0.2.0 behavior boundary. The source is published under annotated tag v0.2.0; no GitHub Release, packaged distribution, or genuine clean-Mac run exists.",
   "classifications": {
     "supported": "Implemented in the current repository and backed by the listed local evidence.",
     "interface_limited": "Implemented only to the limit of supported macOS or vendor interfaces; the limitation is part of the contract.",
