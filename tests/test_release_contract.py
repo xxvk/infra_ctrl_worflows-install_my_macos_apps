@@ -20,6 +20,10 @@ class ReleaseContractTests(unittest.TestCase):
     def _fixture(self, root: Path) -> Path:
         (root / "references").mkdir()
         (root / "VERSION").write_text("0.2.0\n", encoding="utf-8")
+        (root / "README.md").write_text(
+            "# fixture\n\nCurrent target version: **0.2.0** (`release_candidate`)\n",
+            encoding="utf-8",
+        )
         (root / "evidence.txt").write_text("fixture\n", encoding="utf-8")
         (root / "references" / "release-roadmap.md").write_text(
             "## 0.1.0 — historical\n\nStatus: **release_candidate**\n\n"
@@ -109,6 +113,19 @@ class ReleaseContractTests(unittest.TestCase):
             result = validate_contract(root, matrix)
             self.assertEqual(result["status"], "failed")
             self.assertTrue(any("Semantic Version" in error for error in result["errors"]))
+
+    def test_every_readme_current_version_must_match_version_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            matrix = self._fixture(root)
+            (root / "README.md").write_text(
+                "Current target version: **0.2.0** (`release_candidate`)\n"
+                "Current target version: **0.1.0** (`release_candidate`)\n",
+                encoding="utf-8",
+            )
+            result = validate_contract(root, matrix)
+            self.assertEqual(result["status"], "failed")
+            self.assertTrue(any("README Current target version" in error for error in result["errors"]))
 
 
 if __name__ == "__main__":

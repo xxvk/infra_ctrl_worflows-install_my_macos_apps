@@ -36,8 +36,11 @@ def validate_contract(
         return {"status": "failed", "errors": [f"cannot read acceptance matrix: {exc}"]}
 
     version_path = root / "VERSION"
+    readme_path = root / "README.md"
     roadmap_path = root / "references" / "release-roadmap.md"
     version = version_path.read_text(encoding="utf-8").strip() if version_path.is_file() else None
+    readme = readme_path.read_text(encoding="utf-8") if readme_path.is_file() else ""
+    readme_versions = re.findall(r"Current target version:\s*\*\*(\d+\.\d+\.\d+)\*\*", readme)
     roadmap = roadmap_path.read_text(encoding="utf-8") if roadmap_path.is_file() else ""
     match = (
         re.search(
@@ -56,6 +59,10 @@ def validate_contract(
         errors.append(f"VERSION must be a three-part Semantic Version, got {version!r}")
     if matrix.get("version") != version:
         errors.append("matrix version must match VERSION")
+    if not readme_versions:
+        errors.append("README must declare at least one Current target version")
+    elif any(readme_version != version for readme_version in readme_versions):
+        errors.append("every README Current target version must match VERSION")
     if roadmap_status not in CURRENT_RELEASE_STATUSES:
         errors.append(f"current roadmap status must be release_candidate or shipped, got {roadmap_status!r}")
     if matrix.get("release_status") != roadmap_status:

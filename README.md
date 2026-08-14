@@ -33,7 +33,7 @@ Read the [public onboarding guide](references/public-onboarding.md) for prerequi
 
 ## Release status
 
-Current target version: **0.1.0** (`release_candidate`). The source repository is public, but no stable tag, GitHub Release, packaged global CLI, or completed genuine Clean-Mac acceptance run is implied.
+Current target version: **0.2.0** (`release_candidate`). The source repository is public, but no stable GitHub Release, packaged global CLI, or completed genuine Clean-Mac acceptance run is implied.
 
 `VERSION` is the version source of truth. The cumulative 0.2.0
 release-candidate capability baseline, committed 0.3.0–0.9.0 scope, and
