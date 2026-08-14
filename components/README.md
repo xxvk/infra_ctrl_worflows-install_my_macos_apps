@@ -21,6 +21,7 @@ and verification status belongs to machine-local state.
 | Postman | [postman.md](postman.md) | Core; Homebrew; verify workspace per Mac |
 | Slack | [slack.md](slack.md) | Core; Mac App Store; retain one verified bundle |
 | DBeaver Community | [dbeaver-community.md](dbeaver-community.md) | Core; Homebrew; connections are per Mac |
+| Redis CLI | [redis-cli.md](redis-cli.md) | Core; Homebrew formula; local service stays stopped by default |
 | VLC | [vlc.md](vlc.md) | Core; Homebrew; review first-run update choice |
 | Cyberduck | [cyberduck.md](cyberduck.md) | Core; Homebrew; bookmarks apply separately |
 | LM Studio | [lm-studio.md](lm-studio.md) | Retired; Bionic is the replacement |
@@ -74,6 +75,7 @@ These guides are cataloged for review but are not installed automatically during
 |---|---|---|
 | Brave Browser | [brave-browser.md](brave-browser.md) | Homebrew |
 | DingTalk | [dingtalk.md](dingtalk.md) | Official website |
+| Redis Insight | [redis-insight.md](redis-insight.md) | Mac App Store; advanced visual Redis workflows |
 | Microsoft Excel | [microsoft-excel.md](microsoft-excel.md) | Mac App Store |
 | FileZilla | [filezilla.md](filezilla.md) | Official website; Homebrew cask unavailable |
 | Android File Transfer | [android-file-transfer.md](android-file-transfer.md) | Official website |

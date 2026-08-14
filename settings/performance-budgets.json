@@ -6,7 +6,9 @@
     "plan": {"cold_max_ms": 120000, "warm_max_ms": 90000, "peak_rss_max_bytes": 1073741824, "output_max_bytes": 5242880, "state_growth_max_bytes": 67108864},
     "validate": {"cold_max_ms": 180000, "warm_max_ms": 150000, "peak_rss_max_bytes": 1610612736, "output_max_bytes": 10485760, "state_growth_max_bytes": 1048576},
     "drift": {"cold_max_ms": 180000, "warm_max_ms": 150000, "peak_rss_max_bytes": 1610612736, "output_max_bytes": 10485760, "state_growth_max_bytes": 134217728},
-    "migration": {"cold_max_ms": 30000, "warm_max_ms": 20000, "peak_rss_max_bytes": 536870912, "output_max_bytes": 1048576, "state_growth_max_bytes": 1048576}
+    "migration": {"cold_max_ms": 30000, "warm_max_ms": 20000, "peak_rss_max_bytes": 536870912, "output_max_bytes": 1048576, "state_growth_max_bytes": 1048576},
+    "storage_scan": {"cold_max_ms": 30000, "warm_max_ms": 15000, "peak_rss_max_bytes": 536870912, "output_max_bytes": 5242880, "state_growth_max_bytes": 67108864},
+    "storage_plan": {"cold_max_ms": 10000, "warm_max_ms": 5000, "peak_rss_max_bytes": 268435456, "output_max_bytes": 5242880, "state_growth_max_bytes": 8388608}
   },
   "regression": {"max_percent": 35, "min_absolute_delta_ms": 1000}
 }

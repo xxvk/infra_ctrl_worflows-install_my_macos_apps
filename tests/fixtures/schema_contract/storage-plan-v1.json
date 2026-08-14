@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "storage_plan",
+  "plan_id": "plan-fixture",
+  "created_at": "2026-08-14T00:00:00+00:00",
+  "scan_id": "scan-fixture",
+  "volume": {"path": "/", "capacity_bytes": 274877906944, "free_bytes": 42949672960},
+  "target_request": "auto",
+  "target_mode": "role",
+  "target_free_bytes": 53687091200,
+  "needed_bytes": 10737418240,
+  "estimated_reclaimable_bytes": 2147483648,
+  "staged_bytes": 0,
+  "curves": {"low_risk": [], "reversible": [{"candidate_id": "storage-fixture", "action_class": "trash", "estimated_reclaimable_bytes": 2147483648}]},
+  "minimum_action_set": [{"candidate_id": "storage-fixture", "action_class": "trash", "estimated_reclaimable_bytes": 2147483648, "path": "~/Downloads/example.zip", "fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "candidate": {"id": "storage-fixture"}}],
+  "suppressed_candidate_ids": [],
+  "requires_replan_after_target": true,
+  "execution_authorized": false,
+  "plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+}

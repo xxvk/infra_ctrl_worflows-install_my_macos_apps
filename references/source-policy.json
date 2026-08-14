@@ -124,8 +124,8 @@
     }
   },
   "npm_globals": {
-    "wrangler": {"version": "4.91.0", "registry": "https://registry.npmjs.org/"},
-    "wp-studio": {"version": "1.15.0", "registry": "https://registry.npmjs.org/"}
+    "wrangler": {"version": "4.123.0", "registry": "https://registry.npmjs.org/"},
+    "wp-studio": {"version": "1.17.0", "registry": "https://registry.npmjs.org/"}
   },
   "github_sources": {
     "tamnd/x-cli": {

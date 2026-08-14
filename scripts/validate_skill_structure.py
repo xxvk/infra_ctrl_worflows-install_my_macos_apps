@@ -82,6 +82,16 @@ DOMAIN_REFERENCES = {
         "## Finding and notification policy",
         "## Power and privacy",
     ],
+    "references/storage-lifecycle.md": [
+        "## Contract",
+        "## Configuration and state",
+        "## Facts and scanning",
+        "## Decision memory",
+        "## Planning",
+        "## Transactions",
+        "## Mole evidence",
+        "## Weekly scan",
+    ],
     "references/public-release-readiness.md": [
         "## Current blockers",
         "## Repeatable publication inventory",

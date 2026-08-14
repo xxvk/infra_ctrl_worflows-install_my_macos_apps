@@ -25,15 +25,19 @@ use the official endpoint above; it currently redirects to the signed
 
 ## Local app name
 
-Keep the official application bundle name unless a future deployment explicitly
-requires local renaming. The current official bundle is:
+Keep the official application bundle name. The current official bundle and
+updater target is:
 
 ```text
-LM Bionic.app
+Bionic.app
 ```
 
-Do not change the bundle identifier or internal application metadata. Open the
-app once and verify that macOS launches it normally.
+Do not rename it to `LM Bionic.app`: current in-app updates stage a signed
+`Bionic.app` and fail to replace a renamed destination, leaving roughly one
+extra app bundle in `~/.lmstudio/apps/bionic/.internal/staged-updates-app`.
+After an update, verify the installed version and that this staging directory
+returns to metadata-only size. Do not change the bundle identifier or internal
+application metadata.
 
 ## Runtime conflict rule
 

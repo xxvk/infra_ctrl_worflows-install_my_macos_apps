@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/storage-decision-ledger-v1.schema.json",
+  "title": "macomrade storage decision ledger",
+  "type": "object",
+  "required": ["schema_version", "kind", "updated_at", "decisions", "mole_evidence"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "storage_decision_ledger"},
+    "updated_at": {"type": "string"},
+    "decisions": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "path_pattern", "path_hash", "fingerprint", "decision", "decided_at", "execution_authorized"], "properties": {"candidate_id": {"type": "string"}, "path_pattern": {"type": "string"}, "path_hash": {"type": "string"}, "fingerprint": {"type": "string"}, "decision": {"type": "string", "enum": ["keep_local", "cloud_on_demand", "archive", "review_after", "safe_cache", "delete_after_backup", "protected", "unknown"]}, "decided_at": {"type": "string"}, "review_after": {"type": ["string", "null"]}, "note": {"type": ["string", "null"]}, "execution_authorized": {"type": "boolean", "const": false}}, "additionalProperties": false}},
+    "mole_evidence": {"type": "array", "items": {"type": "object", "required": ["evidence_id", "source", "section", "authority", "observed"], "properties": {"evidence_id": {"type": "string"}, "source": {"type": "string", "const": "mole"}, "section": {"type": "string"}, "authority": {"type": "string", "const": "evidence_only"}, "observed": {"type": "object", "additionalProperties": true}}, "additionalProperties": false}}
+  },
+  "additionalProperties": false
+}

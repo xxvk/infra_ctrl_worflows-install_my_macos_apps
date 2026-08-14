@@ -2,7 +2,7 @@
 
 A personal Codex Skill for making a new Mac ready to use after one repository sync. It inventories installed apps, selects a storage profile, captures reusable permissions and user-preference policies, creates an installation plan, and records follow-up tasks such as account sign-in and permissions.
 
-Current target version: **0.1.0** (`release_candidate`)
+Current target version: **0.2.0** (`release_candidate`)
 
 The reviewed source repository is public at
 [`xxvk/macomrade`](https://github.com/xxvk/macomrade).
@@ -14,13 +14,13 @@ New users should begin with the
 It requires no application installation, protected macOS permission, Apple ID,
 or administrator password.
 
-`VERSION` is the version source of truth. The 0.1.0 release-candidate
-capability baseline, committed 0.2.0–0.8.0 scope, undecided 0.9.0 slot, and
+`VERSION` is the version source of truth. The cumulative 0.2.0
+release-candidate capability baseline, committed 0.3.0–0.9.0 scope, and
 1.0 native macOS product vision are defined in
 [`references/release-roadmap.md`](references/release-roadmap.md). Product-level
 candidates are kept separately in
 [`references/product-ideas.md`](references/product-ideas.md).
-The single frozen 0.1.0 behavior boundary is
+The cumulative current-version behavior boundary is
 [`references/release-acceptance-matrix.json`](references/release-acceptance-matrix.json);
 validate it locally with `python3 scripts/validate_release_contract.py`.
 
@@ -48,31 +48,41 @@ Before opening an issue or sharing any artifact, follow the
 
 ## macomrade CLI
 
-The stable 0.1.0 repository-local entry point is `macomrade`:
+The stable 0.2.0 repository-local entry point is `macomrade`:
 
 ```sh
 ./bin/macomrade routes
 ./bin/macomrade scan apps
 ./bin/macomrade plan apps --profile auto
+./bin/macomrade scan storage --mode quick
+./bin/macomrade plan storage --target auto
 ./bin/macomrade verify schemas
 ./bin/macomrade verify release
 ./bin/macomrade diagnostics release-manifest
 ./bin/macomrade diagnostics public-clone
 ```
 
-It routes the seven supported workflow families—scan, plan, apply, verify,
-drift, diagnostics, and migration—to the existing scripts without duplicating
+It routes the supported workflow families—scan, review, plan, apply, verify,
+history, drift, diagnostics, and migration—to the existing scripts without duplicating
 their behavior. `./bin/macomrade --explain ...` prints the exact compatibility
 command without executing it. The dispatcher never adds `--apply`, so the
 underlying dry-run, confirmation, verification, and rollback contract remains
 authoritative.
 
-The launcher stays repository-local for 0.1.0; no global symlink, Homebrew
+The launcher stays repository-local for 0.2.0; no global symlink, Homebrew
 formula, npm package, or publication is implied. See
 [`references/macomrade-cli.md`](references/macomrade-cli.md) for the complete
 route and compatibility contract and
 [`references/cli-identity.json`](references/cli-identity.json) for the
 point-in-time name-collision audit.
+
+The locally accepted 0.2.0 storage release-candidate implementation is
+available through the same launcher. It separates logical, allocated,
+estimated, staged, and measured bytes; remembers
+reviewed decisions; imports Mole history as evidence only; surfaces bounded
+read-only OS/Home/App handoff facts; and requires a frozen plan plus exact
+confirmation for every storage mutation. See
+[`references/storage-lifecycle.md`](references/storage-lifecycle.md).
 
 All supported mutations are registered in
 [`references/mutation-contracts.json`](references/mutation-contracts.json) and
@@ -105,13 +115,12 @@ contributing or reporting a problem, read the
 in the [changelog](CHANGELOG.md); bundled third-party material and notice
 requirements are tracked in [third-party notices](THIRD_PARTY_NOTICES.md).
 
-The presence of an open-source license does not imply that this private
-repository has already been published or that the 0.1.0 release candidate has
-been declared stable.
+The presence of an open-source license and public repository does not imply
+that the 0.2.0 release candidate has been tagged, packaged, or declared stable.
 
 ## Local validation policy
 
-The 0.1.0 release candidate uses local macOS validation, not GitHub Actions, as
+The 0.2.0 release candidate uses local macOS validation, not GitHub Actions, as
 its default quality gate:
 
 ```sh

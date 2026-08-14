@@ -25,15 +25,17 @@ its release gates and evidence must be complete.
 
 Read
 [`release-acceptance-matrix.json`](release-acceptance-matrix.json)
-as the single frozen 0.1.0 behavior contract. Do not describe an
+as the cumulative contract bound to the current `VERSION`. Do not describe an
 `interface_limited`, `deferred`, or `excluded` capability as supported. Before
 making release-status claims, run `python3 scripts/validate_release_contract.py`;
 every supported row must retain existing repository evidence.
 
-Read [`product-ideas.md`](product-ideas.md) when evaluating the undecided 0.9.0
-slot. Version 0.8.0 is committed to WeChat group lifecycle management. Ideas
-and portfolios in the idea pool are candidates, not commitments; assign one to
-the roadmap only after the user explicitly selects it.
+Read [`product-ideas.md`](product-ideas.md) when evaluating future unassigned
+capabilities. Version 0.8.0 is committed to WeChat group lifecycle management,
+and 0.9.0 is committed to iPhone intelligence and Home Screen lifecycle through
+iPhone Mirroring. Ideas and portfolios in the idea pool remain candidates, not
+commitments; assign one to the roadmap only after the user explicitly selects
+it.
 
 Version changes, Git tags, releases, and App Store submissions are separate
 actions. Update `VERSION` only when the release scope and acceptance gates are
@@ -168,6 +170,25 @@ Java/cmdline-tools cask receipts as prerequisites only:
 the environment is incomplete until `sdkmanager`, `adb`, `emulator`, and
 `avdmanager` resolve in a fresh login shell and the selected AVD is listed.
 
+Treat an SDK system image as a separately removable asset, not as the Android
+toolchain itself. Before reclaiming one, list registered AVDs and installed SDK
+packages, then prove that no retained AVD references the exact image package.
+Use the SDK owner's exact package operation rather than deleting its directory:
+
+```sh
+SDK_ROOT="$(brew --prefix)/share/android-commandlinetools"
+"$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+  --sdk_root="$SDK_ROOT" --uninstall \
+  'system-images;android-35;google_apis;arm64-v8a'
+```
+
+The package identifier above is an example and must come from the current
+inspection. After removal, require the exact image to be absent while
+`platform-tools`, the intended `platforms;android-*`, Emulator, `adb`, and
+`scrcpy` remain available. A warning from an independent Emulator launch or
+version probe is a separate compatibility finding; record it without
+attributing it to image removal unless a before/after test proves causation.
+
 ### Whisper model selection
 
 The `audio` group provides `mlx-whisper`; model weights are downloaded
@@ -191,6 +212,16 @@ application cache. Mole and other automatic cleanup workflows must not delete
 or purge it. Scans should report its total size and model subdirectories, but
 deletion requires an explicit model-removal action. If a cleanup tool supports
 a whitelist, protect `~/.cache/huggingface` there as defense in depth.
+
+For an explicitly approved model removal, bind the action to one inspected
+model ID and its exact `models--<owner>--<model>` cache root. Recheck its size,
+fingerprint, and open-file/process evidence immediately before deletion. Never
+remove the Hugging Face hub root, sibling model directories, shared Python
+environment, or Mole whitelist as part of that action. Verify the target model
+is absent and every named retained model is still present, then measure the
+volume's free bytes rather than reporting the directory's prior size as saved
+space. The rollback is a later model redownload; there is no content-level
+local rollback after deletion.
 
 For Mole, this protection is part of the cross-device baseline. After Mole is
 installed or detected, preserve existing entries and ensure this line exists:

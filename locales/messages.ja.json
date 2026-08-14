@@ -37,6 +37,18 @@
     "report.rerun": "JSON 証跡を確認し、指定された読み取り専用または明示的に承認済みの手順だけを実行してください。",
     "report.none": "なし",
     "report.count": "件数",
-    "report.policy": "ポリシー: 読み取り専用レポートです。修復は実行していません。"
+    "report.policy": "ポリシー: 読み取り専用レポートです。修復は実行していません。",
+    "storage.scan.title": "ストレージスキャン",
+    "storage.plan.title": "ストレージ回収計画",
+    "storage.target": "空き容量目標: {bytes}",
+    "storage.estimated": "推定回収可能量: {bytes}",
+    "storage.staged": "ステージ済み・未回収: {bytes}",
+    "storage.measured": "実測回収量: {bytes}",
+    "storage.replan": "停止し、実測した空き容量から再計画してください。",
+    "storage.weekly.deferred": "バッテリー残量が少ないため、週次スキャンを延期しました。",
+    "storage.weekly.notify": "ストレージ確認が必要です。クリーンアップは実行していません。",
+    "storage.protected": "記憶済みの判断により保護されています。",
+    "storage.cloud.placeholder": "クラウド上の論理サイズは大きいですが、ローカル割り当てはすでに小さい状態です。",
+    "storage.confirmation.required": "適用前にアクションクラスの正確な確認文を入力してください。"
   }
 }

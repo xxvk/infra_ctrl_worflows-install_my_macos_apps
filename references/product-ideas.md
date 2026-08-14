@@ -87,7 +87,9 @@ offers increasingly useful but still bounded automation.
 
 The owner directly assigned **WeChat group lifecycle management** to 0.8.0 on
 2026-08-14. It is a committed roadmap capability rather than an unselected item
-from the twenty-candidate pool. Version 0.9.0 remains undecided.
+from the twenty-candidate pool. On 2026-08-14 the owner separately assigned
+**iPhone intelligence and Home Screen lifecycle through iPhone Mirroring** to
+0.9.0. Neither selection promotes the remaining candidates.
 
 When the user selects an idea:
 

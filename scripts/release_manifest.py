@@ -28,6 +28,7 @@ PUBLIC_INPUTS = (
     "settings/machine-roles.json",
     "settings/performance-budgets.json",
     "settings/publication-audit-policy.json",
+    "settings/storage-policy.json",
 )
 PLATFORM_SUPPORT = (
     {
@@ -81,10 +82,15 @@ def hashed_file(relative: str, *, root: Path = ROOT) -> dict[str, Any]:
 
 
 def release_status(*, root: Path = ROOT) -> str:
+    version = (root / "VERSION").read_text(encoding="utf-8").strip()
     text = (root / "references/release-roadmap.md").read_text(encoding="utf-8")
-    match = re.search(r"## 0\.1\.0\b.*?^Status: \*\*([^*]+)\*\*", text, re.MULTILINE | re.DOTALL)
+    match = re.search(
+        rf"## {re.escape(version)}\b.*?^Status: \*\*([^*]+)\*\*",
+        text,
+        re.MULTILINE | re.DOTALL,
+    )
     if not match:
-        raise ReleaseManifestError("cannot resolve 0.1.0 roadmap status")
+        raise ReleaseManifestError(f"cannot resolve {version} roadmap status")
     return match.group(1).strip()
 
 

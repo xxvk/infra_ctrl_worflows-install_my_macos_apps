@@ -81,6 +81,18 @@ acceptance run.
   credential/account/host fields and sensitive text; preview writes nothing;
   export requires exact confirmation, refuses overwrite, and verifies ZIP
   members and manifest hashes on read-back.
+- Storage scans keep logical and allocated bytes separate, deduplicate hard
+  links, never follow symlinks or materialize dataless files, and treat
+  third-party File Providers as read-only handoffs. Sanitized live-sample
+  fixtures prove multi-GiB iCloud logical content with sub-MiB allocation is
+  not a high-value reclaim recommendation.
+- Storage apply rejects wrong confirmation, stale plan hash, changed path,
+  inode/size/cloud drift, unsupported provider, unproven cache, offline or
+  undersized archive target, and conflicting restore destination. Reaching the
+  actual free-space target stops the remaining action list.
+- Trash staging records zero measured reclaim; only a separate exact-confirmed
+  manifest purge may measure reclaimed bytes. Reimporting identical Mole
+  history is idempotent and never creates a decision.
 
 GitHub Actions is not part of this contract unless the user explicitly changes
 the local-validation policy.

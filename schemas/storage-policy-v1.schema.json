@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/storage-policy-v1.schema.json",
+  "title": "macomrade storage policy",
+  "type": "object",
+  "required": ["schema_version", "kind", "execution_authorized", "path_rules", "archive_targets"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "enum": ["storage_policy", "storage_private_policy"]},
+    "default_role": {"type": "string"},
+    "role_targets_bytes": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "target_free_bytes": {"type": "integer", "minimum": 0},
+    "private_overridable": {"type": "array", "items": {"type": "string"}},
+    "execution_authorized": {"type": "boolean", "const": false},
+    "candidate_thresholds": {"type": "object", "additionalProperties": true},
+    "decision_ttl_days": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "scan_roots": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "developer_artifact_roots": {"type": "array", "items": {"type": "string"}},
+    "path_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "decision"],
+        "properties": {
+          "pattern": {"type": "string"},
+          "decision": {"type": "string", "enum": ["keep_local", "cloud_on_demand", "archive", "review_after", "safe_cache", "delete_after_backup", "protected", "unknown"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "archive_targets": {"type": "array", "items": {"type": "object", "required": ["id", "path"], "properties": {"id": {"type": "string"}, "path": {"type": "string"}}, "additionalProperties": false}},
+    "providers": {"type": "object", "additionalProperties": {"type": "string"}},
+    "weekly": {"type": "object", "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

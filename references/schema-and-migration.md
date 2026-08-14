@@ -11,7 +11,7 @@
 
 ## Scope
 
-The 0.1.0 and accepted 0.1.x contracts publish versioned JSON Schemas for
+The accepted 0.x contracts publish versioned JSON Schemas for
 fourteen portable or
 machine-readable boundaries:
 

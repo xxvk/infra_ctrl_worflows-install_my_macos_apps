@@ -37,6 +37,18 @@
     "report.rerun": "请审阅 JSON 证据，并且只执行指定的只读或已明确授权流程。",
     "report.none": "无",
     "report.count": "数量",
-    "report.policy": "策略：这是只读报告；未执行任何修复。"
+    "report.policy": "策略：这是只读报告；未执行任何修复。",
+    "storage.scan.title": "存储扫描",
+    "storage.plan.title": "存储释放计划",
+    "storage.target": "剩余空间目标：{bytes}",
+    "storage.estimated": "预计可释放：{bytes}",
+    "storage.staged": "已暂存但未释放：{bytes}",
+    "storage.measured": "实际已释放：{bytes}",
+    "storage.replan": "立即停止，并根据新测得的剩余空间重新规划。",
+    "storage.weekly.deferred": "因电量较低，已跳过本周扫描。",
+    "storage.weekly.notify": "存储需要复核；未执行任何清理。",
+    "storage.protected": "受已记忆决策保护。",
+    "storage.cloud.placeholder": "云端逻辑大小较大，但本地实际分配已经很小。",
+    "storage.confirmation.required": "执行前必须输入该动作类别的精确确认文本。"
   }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the frozen 0.1.0 release-candidate acceptance contract."""
+"""Validate the current version's release-candidate acceptance contract."""
 
 from __future__ import annotations
 
@@ -18,6 +18,8 @@ ALLOWED_CLASSIFICATIONS = {
     "deferred",
     "excluded",
 }
+CURRENT_RELEASE_STATUSES = {"release_candidate", "shipped"}
+SEMVER = re.compile(r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)")
 
 
 def validate_contract(
@@ -37,25 +39,27 @@ def validate_contract(
     roadmap_path = root / "references" / "release-roadmap.md"
     version = version_path.read_text(encoding="utf-8").strip() if version_path.is_file() else None
     roadmap = roadmap_path.read_text(encoding="utf-8") if roadmap_path.is_file() else ""
-    match = re.search(
-        r"## 0\.1\.0\b.*?^Status: \*\*([^*]+)\*\*",
-        roadmap,
-        flags=re.MULTILINE | re.DOTALL,
+    match = (
+        re.search(
+            rf"## {re.escape(version)}\b.*?^Status: \*\*([^*]+)\*\*",
+            roadmap,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        if isinstance(version, str) and SEMVER.fullmatch(version)
+        else None
     )
     roadmap_status = match.group(1).strip() if match else None
 
     if matrix.get("schema_version") != 1:
         errors.append("matrix schema_version must be 1")
-    if version != "0.1.0":
-        errors.append(f"VERSION must remain 0.1.0, got {version!r}")
+    if not isinstance(version, str) or not SEMVER.fullmatch(version):
+        errors.append(f"VERSION must be a three-part Semantic Version, got {version!r}")
     if matrix.get("version") != version:
         errors.append("matrix version must match VERSION")
-    if matrix.get("release_status") != "release_candidate":
-        errors.append("matrix release_status must be release_candidate")
-    if roadmap_status != "release_candidate":
-        errors.append(
-            f"0.1.0 roadmap status must be release_candidate, got {roadmap_status!r}"
-        )
+    if roadmap_status not in CURRENT_RELEASE_STATUSES:
+        errors.append(f"current roadmap status must be release_candidate or shipped, got {roadmap_status!r}")
+    if matrix.get("release_status") != roadmap_status:
+        errors.append("matrix release_status must match the current VERSION roadmap status")
 
     definitions = matrix.get("classifications")
     if not isinstance(definitions, dict) or set(definitions) != ALLOWED_CLASSIFICATIONS:

@@ -60,13 +60,25 @@ class ReleaseManifestTests(unittest.TestCase):
         result = release_manifest.validate_definition()
         self.assertEqual(result["status"], "passed", result["errors"])
 
+    def test_release_status_tracks_the_current_version_section(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "references").mkdir()
+            (root / "VERSION").write_text("0.2.0\n", encoding="utf-8")
+            (root / "references" / "release-roadmap.md").write_text(
+                "## 0.1.0 — old\n\nStatus: **shipped**\n\n"
+                "## 0.2.0 — current\n\nStatus: **release_candidate**\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(release_manifest.release_status(root=root), "release_candidate")
+
     def test_manifest_binds_required_evidence_without_publication_authority(self) -> None:
         manifest = release_manifest.build_manifest(
             runner=git_runner(),
             release_result=PASSED_RELEASE,
             benchmark=PASSED_BENCHMARK,
         )
-        self.assertEqual(manifest["candidate"]["version"], "0.1.0")
+        self.assertEqual(manifest["candidate"]["version"], "0.2.0")
         self.assertEqual(manifest["source"]["commit"], "a" * 40)
         self.assertEqual(manifest["source"]["worktree"], "clean")
         self.assertTrue(manifest["schemas"])

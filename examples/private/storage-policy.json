@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kind": "storage_private_policy",
+  "target_free_bytes": 80530636800,
+  "path_rules": [
+    {
+      "pattern": "~/Movies/Completed Projects/*",
+      "decision": "archive",
+      "archive_target_id": "example-vault"
+    },
+    {
+      "pattern": "~/Documents/Always Local/*",
+      "decision": "protected"
+    }
+  ],
+  "archive_targets": [
+    {
+      "id": "example-vault",
+      "path": "/Volumes/Example Archive"
+    }
+  ],
+  "execution_authorized": false
+}

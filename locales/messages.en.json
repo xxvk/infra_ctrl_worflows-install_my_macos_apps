@@ -37,6 +37,18 @@
     "report.rerun": "Review the JSON evidence and run only the named read-only or explicitly authorized workflow.",
     "report.none": "None",
     "report.count": "Count",
-    "report.policy": "Policy: read-only report; no repair was attempted."
+    "report.policy": "Policy: read-only report; no repair was attempted.",
+    "storage.scan.title": "Storage scan",
+    "storage.plan.title": "Storage reclaim plan",
+    "storage.target": "Free-space target: {bytes}",
+    "storage.estimated": "Estimated reclaimable: {bytes}",
+    "storage.staged": "Staged, not reclaimed: {bytes}",
+    "storage.measured": "Measured reclaimed: {bytes}",
+    "storage.replan": "Stop and replan from newly measured free space.",
+    "storage.weekly.deferred": "Weekly scan deferred because battery power is low.",
+    "storage.weekly.notify": "Storage review is due; no cleanup was attempted.",
+    "storage.protected": "Protected by a remembered decision.",
+    "storage.cloud.placeholder": "Cloud logical size is large, but local allocation is already small.",
+    "storage.confirmation.required": "Enter the exact action-class confirmation before applying."
   }
 }

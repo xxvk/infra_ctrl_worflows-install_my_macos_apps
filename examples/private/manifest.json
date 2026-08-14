@@ -8,6 +8,7 @@
     {"id": "dock-order", "path": "Private/dock-order.json", "mode": "private_source"},
     {"id": "system-preferences-values", "path": "Private/system-preferences-values.json", "mode": "private_source"},
     {"id": "keyboard", "path": "Private/keyboard.yaml", "format": "yaml", "mode": "private_source"},
-    {"id": "keyboard-example", "path": "Private/keyboards/example-keyboard.yaml", "format": "yaml", "mode": "private_source"}
+    {"id": "keyboard-example", "path": "Private/keyboards/example-keyboard.yaml", "format": "yaml", "mode": "private_source"},
+    {"id": "storage-policy", "path": "Private/storage-policy.json", "mode": "private_source", "optional": true}
   ]
 }

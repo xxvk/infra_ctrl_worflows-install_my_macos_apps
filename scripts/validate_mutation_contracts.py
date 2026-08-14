@@ -30,6 +30,9 @@ REQUIRED_ACTION_IDS = {
     "clean-mac.session-update", "clean-mac.finalize",
     "schema.migrate-write",
     "diagnostics.export",
+    "storage.icloud-offload", "storage.cache-purge", "storage.archive",
+    "storage.trash-stage", "storage.trash-purge", "storage.restore",
+    "storage.decision-sync",
 }
 
 

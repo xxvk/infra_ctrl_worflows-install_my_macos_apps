@@ -11,7 +11,7 @@ brew_formula: null
 official_url: "https://developer.wordpress.com/docs/developer-tools/studio/cli/"
 check_command: "studio"
 npm_package: "wp-studio"
-npm_version: "1.15.0"
+npm_version: "1.17.0"
 npm_runtime_manager: "fnm"
 npm_runtime_version: "24"
 install_after: []
@@ -32,7 +32,7 @@ sites and supports account-backed workflows such as Studio Sync and previews.
 The preferred reproducible package installation is:
 
 ```sh
-fnm exec --using=24 npm install --global wp-studio@1.15.0
+fnm exec --using=24 npm install --global wp-studio@1.17.0
 studio --help
 ```
 

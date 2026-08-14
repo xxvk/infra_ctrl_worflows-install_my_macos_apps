@@ -40,7 +40,8 @@ class ConfigurationLayerTests(unittest.TestCase):
             self.skipTest("public-only checkout has no iCloud Private overlay")
         result = config_layers.audit_manifest(environ={})
         self.assertEqual(result["status"], "valid")
-        self.assertEqual(result["overlay_count"], 6)
+        self.assertEqual(result["overlay_count"], 7)
+        self.assertEqual(result["missing_optional_overlays"], ["Private/storage-policy.json"])
         self.assertEqual(
             result["checked_overlays"],
             [

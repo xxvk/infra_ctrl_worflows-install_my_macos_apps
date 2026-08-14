@@ -16,7 +16,7 @@ Read `VERSION` as the version source of truth. Before release-status claims,
 run `python3 scripts/validate_release_contract.py` and read:
 
 - [release-acceptance-matrix.json](references/release-acceptance-matrix.json)
-  for the single frozen 0.1.0 behavior contract;
+  for the cumulative current-version behavior contract;
 - [release-roadmap.md](references/release-roadmap.md) for version scope;
 - [product-ideas.md](references/product-ideas.md) only for uncommitted ideas.
 
@@ -69,6 +69,7 @@ Do not load unrelated references.
 | Performance and resources | [performance-benchmarks.md](references/performance-benchmarks.md) | Measuring command time, memory, output, state growth, or regression budgets |
 | Accessible audit reports | [audit-reports.md](references/audit-reports.md) | Rendering a terminal or HTML audit view from existing JSON evidence |
 | Low-noise Drift Monitor | [drift-monitor.md](references/drift-monitor.md) | Running or scheduling deduplicated, battery-aware read-only drift checks |
+| Memory-backed storage lifecycle | [storage-lifecycle.md](references/storage-lifecycle.md) | Scanning logical versus allocated storage, remembering decisions, importing Mole evidence, planning reclaim, or applying iCloud/cache/archive/Trash transactions |
 | Public repository release | [public-release-readiness.md](references/public-release-readiness.md) | Auditing, separating personal configuration, licensing, rehearsing, or changing repository visibility |
 | Local macOS account removal | [account-removal.md](references/account-removal.md) | Retiring a local account through preflight, visible authorization, deletion, and post-delete verification |
 
@@ -254,7 +255,7 @@ python3 scripts/release_check.py
 dispatcher never adds `--apply`, a confirmation phrase, a privilege, or a
 credential; a route name is not mutation authorization.
 
-Use local macOS validation as the default 0.1.0 gate. Do not create or restore
+Use local macOS validation as the default current-version gate. Do not create or restore
 push, pull-request, or scheduled GitHub Actions unless the user explicitly
 changes this policy. A hosted runner is not evidence for target-Mac apps,
 accounts, TCC grants, hardware, or preferences.

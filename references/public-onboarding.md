@@ -2,7 +2,7 @@
 
 This guide is the public entry point for evaluating and adopting macomrade
 without inheriting the original author's accounts, machine state, or personal
-configuration. The repository is still a 0.1.0 release candidate; completing
+configuration. The repository is a 0.2.0 release candidate; completing
 this guide does not declare a stable release or authorize a GitHub visibility
 change.
 
@@ -153,7 +153,7 @@ for supported inspection and handoff behavior.
 
 ## Known limitations
 
-- Version 0.1.0 remains a release candidate. There is no stable tag or public
+- Version 0.2.0 remains a release candidate. There is no stable tag or public
   compatibility promise yet.
 - A genuine unused Clean-Mac acceptance run remains externally deferred;
   already configured Macs cannot prove first-boot behavior.

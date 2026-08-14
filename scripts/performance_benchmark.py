@@ -8,6 +8,7 @@ import datetime as dt
 import json
 import os
 import resource
+import re
 import subprocess
 import sys
 import time
@@ -20,7 +21,7 @@ from state_paths import add_state_dir_argument, resolve_state_dir
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = ROOT / "settings" / "performance-budgets.json"
-REQUIRED_OPERATIONS = ("inventory", "plan", "validate", "drift", "migration")
+REQUIRED_OPERATIONS = ("inventory", "plan", "validate", "drift", "migration", "storage_scan", "storage_plan")
 
 
 class BenchmarkError(RuntimeError):
@@ -38,7 +39,7 @@ def validate_policy(policy: dict[str, Any]) -> None:
     if policy.get("kind") != "macomrade_performance_budget":
         raise BenchmarkError("performance budget kind is invalid")
     if set(policy.get("operations", {})) != set(REQUIRED_OPERATIONS):
-        raise BenchmarkError("performance budget must cover inventory, plan, validate, drift, and migration")
+        raise BenchmarkError("performance budget must cover app and storage scan/plan, validate, drift, and migration")
     for name, budget in policy["operations"].items():
         if budget["warm_max_ms"] > budget["cold_max_ms"]:
             raise BenchmarkError(f"{name}: warm budget may not exceed cold budget")
@@ -77,14 +78,24 @@ def command_for(operation: str, state_dir: Path) -> list[str]:
         "validate": [py, "scripts/release_check.py"],
         "drift": [py, "scripts/bootstrap_verify.py", "--state-dir", str(state_dir)],
         "migration": [py, "scripts/migrate_state.py", "inspect"],
+        "storage_scan": [py, "scripts/storage_lifecycle.py", "scan", "--root", "tests/fixtures/schema_contract", "--state-dir", str(state_dir)],
+        "storage_plan": [py, "scripts/storage_lifecycle.py", "plan", "--scan", "tests/fixtures/schema_contract/storage-scan-v1.json", "--state-dir", str(state_dir)],
     }
     if operation not in commands:
         raise BenchmarkError(f"unknown benchmark operation: {operation}")
     return commands[operation]
 
 
-def _peak_rss_bytes(_completed: subprocess.CompletedProcess[str]) -> int | None:
-    """Read the standard-library child-process high-water mark without sysctl."""
+def _timed_runner(command: list[str], **kwargs: Any) -> subprocess.CompletedProcess[str]:
+    """Use macOS time(1) so each sample has an independent RSS high-water mark."""
+    return subprocess.run(["/usr/bin/time", "-l", *command], **kwargs)
+
+
+def _peak_rss_bytes(completed: subprocess.CompletedProcess[str]) -> int | None:
+    match = re.search(r"(\d+)\s+maximum resident set size", completed.stderr or "")
+    if match:
+        return int(match.group(1))
+    # Fallback for injected runners and non-macOS development hosts.
     value = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
     # Darwin reports ru_maxrss in bytes; Linux reports KiB. This runner targets
     # macOS but keeps its value portable for deterministic fixture tests.
@@ -108,7 +119,7 @@ def run_suite(
     *,
     iterations: int,
     state_dir: Path,
-    runner: Callable[..., subprocess.CompletedProcess[str]] = subprocess.run,
+    runner: Callable[..., subprocess.CompletedProcess[str]] = _timed_runner,
     clock: Callable[[], float] = time.monotonic,
     peak_reader: Callable[[subprocess.CompletedProcess[str]], int | None] = _peak_rss_bytes,
 ) -> dict[str, Any]:

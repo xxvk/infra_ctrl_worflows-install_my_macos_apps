@@ -374,7 +374,7 @@
     {
       "name": "Redis Insight",
       "category": "Developer tools",
-      "tier": "core",
+      "tier": "optional",
       "app_store_url": "macappstore://itunes.apple.com/app/id6446987963",
       "official_url": "https://redis.io/insight/",
       "source_notes": "Preferred source is the official Mac App Store edition.",
@@ -385,6 +385,26 @@
       "guide": "components/redis-insight.md",
       "download_estimate_bytes": 1000000000,
       "download_estimate_method": "catalog_size_gb_planning_estimate"
+    },
+    {
+      "name": "Redis CLI",
+      "category": "Developer CLI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "source": "homebrew",
+      "delivery_method": "homebrew-formula",
+      "brew_formula": "redis",
+      "check_command": "redis-cli --version",
+      "official_url": "https://redis.io/docs/latest/develop/tools/cli/",
+      "guide": "components/redis-cli.md",
+      "size_gb": 0.05,
+      "follow_up": [
+        "Keep the Homebrew Redis service stopped unless a local server is explicitly requested",
+        "Never store Redis credentials or connection URIs in the catalog or deployment records"
+      ],
+      "download_estimate_bytes": 50000000,
+      "download_estimate_method": "homebrew_formula_planning_estimate",
+      "cli_path": "/opt/homebrew/opt/redis/bin"
     },
     {
       "name": "MQTT Explorer",
@@ -634,7 +654,7 @@
       "tier": "core",
       "official_url": "https://www.trae.ai/",
       "size_gb": 1,
-      "note": "The current macOS bundle may still be named TRAE SOLO; TRAE's changelog says SOLO became TRAE Work.",
+      "note": "The current macOS bundle may still be named TRAE SOLO; TRAE's changelog says SOLO became TRAE Work. Homebrew casks trae and trae-cn deliver TRAE IDE, not TRAE Work, and must not be substituted.",
       "follow_up": [
         "Sign in",
         "Review workspace and code-access permissions"
@@ -1685,7 +1705,7 @@
       "category": "Cloud CLI",
       "tier": "core",
       "npm_package": "wrangler",
-      "npm_version": "4.91.0",
+      "npm_version": "4.123.0",
       "npm_runtime_manager": "fnm",
       "npm_runtime_version": "24",
       "check_command": "wrangler",
@@ -1701,7 +1721,7 @@
       "category": "Web development CLI",
       "tier": "core",
       "npm_package": "wp-studio",
-      "npm_version": "1.15.0",
+      "npm_version": "1.17.0",
       "npm_runtime_manager": "fnm",
       "npm_runtime_version": "24",
       "check_command": "studio",

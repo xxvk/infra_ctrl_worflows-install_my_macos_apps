@@ -3,7 +3,7 @@
 ## Supported versions
 
 This project has not published a stable release. Security fixes target the
-current `main` branch and active 0.1.x release-candidate line. Rewritten,
+current `main` branch and active 0.2.x release-candidate line. Rewritten,
 superseded, or archived commits are not supported.
 
 ## Reporting a vulnerability

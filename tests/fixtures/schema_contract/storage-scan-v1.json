@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "kind": "storage_scan",
+  "scan_id": "scan-fixture",
+  "generated_at": "2026-08-14T00:00:00+00:00",
+  "mode": "quick",
+  "volume": {"path": "/", "capacity_bytes": 274877906944, "free_bytes": 42949672960},
+  "system_facts": {"status": "fixture", "execution_authorized": false, "startup_apfs": {"status": "fixture", "volumes": []}, "snapshots": {"status": "fixture", "items": []}, "vm": {"status": "fixture", "eligible": false, "durability": "transient"}, "protected_aggregates": [], "home_top": [], "errors": []},
+  "roots": [{"path": "~/Downloads", "status": "scanned", "candidate_id": "storage-fixture"}],
+  "candidates": [{"id": "storage-fixture", "path": "~/Downloads/example.zip", "path_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "logical_bytes": 2147483648, "allocated_bytes": 2147483648, "estimated_reclaimable_bytes": 2147483648, "confidence": "high", "action_class": "trash", "eligible": true, "fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "cloud": {"provider": "none"}, "reasons": ["allocated_threshold"]}],
+  "summary_candidate_ids": ["storage-fixture"],
+  "errors": []
+}

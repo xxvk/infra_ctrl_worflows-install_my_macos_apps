@@ -7,7 +7,9 @@ Load this reference only when the current task uses this domain. Its rules were 
 - GUI app and CLI workflow
 - Duplicate bundle cleanup
 - Complete removal and embedded helper cleanup
+- Trash staging and orphaned sandbox data
 - Browser download preflight
+- Chrome code-sign clone recovery
 - Chrome multi-profile workflow
 - GitHub CLI preflight
 - Docker Desktop retirement
@@ -54,7 +56,8 @@ that needed data is available. Only after explicit user confirmation may the
 skill move the old `.app` to Trash or remove it. Preserve shared Application
 Support, Container, and Group Container data unless the user separately asks
 for data cleanup. Record both paths, versions, source evidence, and the final
-single-copy result in the component guide.
+single-copy result in machine-local state. Keep only the reusable
+source-selection and duplicate-cleanup rule in the component guide.
 
 ## Complete removal and embedded helper cleanup
 
@@ -84,13 +87,56 @@ The removal sequence is:
 4. Write measured removed paths, byte counts, preserved data, and verification
    results to a machine-local `remove-*.json` record. Do not put current
    machine paths or measurements in reusable component Markdown.
-5. For catalog components, set the guide and catalog `lifecycle_status` to
-   `retired` and document what was removed and what data was preserved. For an
+5. A per-machine uninstall does not change reusable lifecycle intent. Keep an
+   active Optional component `active` when it remains an approved on-demand
+   choice, and record only this Mac's absence in machine-local state. Set the
+   guide and catalog `lifecycle_status` to `retired` only when the reusable
+   product baseline deliberately abandons or replaces the component. For an
    unlisted nested helper, keep the reusable procedure here and record
    machine-specific evidence only in machine-local state.
 
 If administrator authorization is required, use a visible Terminal so the
 user can enter the password. Never pass or store the password in the skill.
+
+## Trash staging and orphaned sandbox data
+
+Moving an application bundle to Trash is reversible staging, not measured
+space reclamation. Record the exact resulting Trash item and staged allocated
+bytes, but report reclaimed bytes as zero until that one unchanged item is
+permanently purged under a separate explicit action. Never empty the whole
+Trash as an application-uninstall shortcut.
+
+A Mac App Store bundle may be owned by `root:wheel` or otherwise reject direct
+shell deletion. In that case, use Finder's **Move to Trash** operation for the
+exact bundle. Do not change ownership or permissions on the bundle and do not
+replace reversible staging with `sudo rm -rf`. Verify that the original
+Applications path is absent and capture the actual resulting Trash path.
+
+Treat application data separately from the bundle. A sandbox container or
+Application Scripts directory may hold accounts, offline content, workspace
+state, or unsynchronized data. Conversely, macOS may recreate a tiny empty
+container skeleton after the app is removed. Before classifying a remaining
+container:
+
+1. Identify the exact bundle ID and aliases from metadata rather than name
+   similarity alone.
+2. Confirm that no matching app bundle, package-manager receipt, helper, or
+   running process remains.
+3. Measure allocated bytes and inspect modification time and top-level data
+   classes without reading credentials or private document contents.
+4. Mark the item `review_only`; absence of the app is evidence, not deletion
+   authorization.
+5. Delete only exact app-owned paths after separate user approval and any
+   required account, export, or sync verification. Never batch unrelated
+   orphan-looking containers.
+6. Recheck once after all matching processes have quit. If only an empty
+   skeleton reappears, record it as negligible residue rather than an installed
+   app or a meaningful reclaim target.
+
+When disk reclamation is the objective, use a frozen macomrade Trash manifest
+where supported so restore and exact-item purge remain available. Otherwise,
+the uninstall record must still keep staged and measured reclaimed bytes
+separate.
 
 ## Browser download preflight
 
@@ -101,6 +147,59 @@ Use this only when an app needs an official website download or browser-managed 
 3. Record the result in the current plan's `completion_notes` as `Chrome Codex extension: verified YYYY-MM-DD` or `Chrome Codex extension: unavailable`. Do not claim that a failed connection is a macOS privacy-permission failure; it may be an extension state, browser-profile, or Codex connection issue.
 4. If unavailable, ask the user to open/enable the Codex Chrome extension and retry. Do not use another browser to bypass this check when the user specifically requests Chrome control.
 5. Before clicking a download button, verify the vendor domain and visible file details. Ask for confirmation immediately before any browser action that initiates a software download or install. Record the final vendor URL and downloaded version in `completion_notes`.
+
+## Chrome code-sign clone recovery
+
+Chrome may create temporary APFS copy-on-write application clones below the
+per-user `.../X/com.google.Chrome.code_sign_clone/code_sign_clone.<suffix>`
+root while preserving in-use files across an update. Chromium normally starts
+its own cleanup helper when the last owning browser process exits, and the
+`X` directory class is also cleaned at machine boot. Treat these as temporary
+runtime artifacts, not duplicate Chrome installations or ordinary caches.
+
+Do not rank a clone by `du` alone. APFS can share most of its blocks with the
+installed application, so logical or tree-allocated size is not exclusive
+reclaimable capacity. Record the clone count and displayed allocation as
+evidence, but credit only the change in volume free bytes measured before and
+after cleanup. A successfully removed multi-gigabyte clone tree may reclaim
+little or no additional capacity.
+
+Use this recovery sequence:
+
+1. Resolve the current user's exact clone root and enumerate only
+   `code_sign_clone.<six-character-suffix>` children. Do not accept an arbitrary
+   path or suffix supplied without that discovery.
+2. Inspect all Chrome browser/helper processes and run an open-file check on
+   the clone root. If a stale headless or print-to-PDF process remains, inspect
+   its output first and obtain approval before terminating that exact process.
+3. Prefer a normal Chrome quit and allow its cleanup helper to finish. If the
+   tree remains, a normal reboot is the supported cleanup boundary for the
+   per-user `X` directory; hand off before reboot when unsaved work may exist.
+4. When reboot is undesirable and no process has a clone open, the current
+   Chrome bundle's internal helper can be used as a narrow recovery fallback,
+   one discovered suffix at a time:
+
+   ```sh
+   "$HELPER" --type=code-sign-clone-cleanup \
+     --unique-temp-dir-suffix="$SUFFIX"
+   ```
+
+   Resolve `HELPER` from the installed Chrome framework version rather than
+   hard-coding a versioned path. This is an internal Chromium interface, not a
+   stable public CLI. It validates and reconstructs the clone path from the
+   suffix. Launch it from a short-lived parent process because the helper waits
+   for its invoking parent to exit; invoking it directly from a long-lived
+   agent or terminal process can leave it waiting indefinitely. Test one clone
+   and read it back before processing the rest.
+5. Do not fall back to a recursive deletion merely because the helper waits or
+   a displayed size looks attractive. Stop on an unexpected path, suffix,
+   active file, helper error, or changed Chrome framework.
+6. Verify zero clone children, no leftover cleanup-helper process, and the
+   final volume free bytes. Store current paths, suffixes, process IDs, Chrome
+   versions, and measurements only in machine-local state.
+
+The implementation and cleanup-on-boot rationale are documented in Chromium's
+[`code_sign_clone_manager.mm`](https://chromium.googlesource.com/chromium/src.git/+/2d20934f814ddd688b6dd4bd0052019391114f8d/chrome/browser/mac/code_sign_clone_manager.mm).
 
 ## Chrome multi-profile workflow
 
@@ -227,5 +326,3 @@ Docker states that its Mac containers and images reside in a large disk image an
   Chrome profile detection and an App Store bundle/path check for Safari
   extensions; do not classify a browser extension as missing merely because it
   has no top-level `.app` in `/Applications`.
-
-

@@ -10,10 +10,10 @@
 
 ## Purpose
 
-The benchmark runner measures the cost of five representative read-only
-workflows: inventory, plan, validation, drift, and legacy-state migration
-inspection. It records cold and warm elapsed time, peak RSS when macOS provides
-it, captured output bytes, and allocated state growth.
+The benchmark runner measures seven representative read-only workflows: app
+inventory/plan, storage scan/plan, validation, drift, and legacy-state
+migration inspection. It records cold and warm elapsed time, per-sample peak
+RSS through macOS `time(1)`, captured output bytes, and allocated state growth.
 
 Measurements are machine-local evidence, not portable configuration. A result
 is a review signal rather than an automatic failure or permission to weaken a
@@ -23,8 +23,18 @@ safety check.
 
 `inventory` runs app scan, `plan` runs the capacity-aware planner, `validate`
 runs the hermetic release gate, `drift` runs final read-only verification, and
-`migration` only inspects legacy state. The runner requires at least two
+`migration` only inspects legacy state. `storage_scan` scans a bounded tracked
+fixture through the Foundation helper, and `storage_plan` plans from a tracked
+scan fixture. The runner requires at least two
 iterations: the first is cold and later ones are warm.
+
+The bounded `storage_scan` operation represents the repeatable quick contract;
+it is intentionally not an all-Home benchmark. A live deep scan is a separate
+acceptance check because its cost depends on current Home contents, filesystem
+permissions, App inventory, and `/private/tmp`. Keep its exact elapsed time,
+RSS, output, and state growth in machine-local evidence. A partial traversal is
+a valid safe result only when it is explicitly reported as `partial`; it must
+never be relabeled complete to satisfy a timing target.
 
 Drift may return 1 to represent an observed mismatch; that is a valid measured
 outcome, not a benchmark execution failure. Any other unexpected return code
@@ -42,6 +52,7 @@ hardware as a performance regression.
 
     python3 scripts/performance_benchmark.py validate
     ./bin/macomrade diagnostics benchmark --operation inventory --operation plan
+    ./bin/macomrade diagnostics benchmark --operation storage_scan --operation storage_plan
     python3 scripts/performance_benchmark.py run --set-baseline
 
 The first two commands write only machine-local benchmark records. The final

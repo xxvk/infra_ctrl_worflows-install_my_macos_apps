@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/storage-plan-v1.schema.json",
+  "title": "macomrade frozen storage plan",
+  "type": "object",
+  "required": ["schema_version", "kind", "plan_id", "created_at", "scan_id", "volume", "target_request", "target_mode", "target_free_bytes", "needed_bytes", "estimated_reclaimable_bytes", "staged_bytes", "curves", "minimum_action_set", "suppressed_candidate_ids", "requires_replan_after_target", "execution_authorized", "plan_sha256"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "storage_plan"},
+    "plan_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "scan_id": {"type": "string"},
+    "volume": {"type": "object", "additionalProperties": true},
+    "target_request": {"type": "string"},
+    "target_mode": {"type": "string", "enum": ["role", "private_override", "absolute", "relative"]},
+    "target_free_bytes": {"type": "integer", "minimum": 0},
+    "needed_bytes": {"type": "integer", "minimum": 0},
+    "estimated_reclaimable_bytes": {"type": "integer", "minimum": 0},
+    "staged_bytes": {"type": "integer", "minimum": 0},
+    "curves": {"type": "object", "required": ["low_risk", "reversible"], "properties": {"low_risk": {"type": "array", "items": {"type": "object", "additionalProperties": true}}, "reversible": {"type": "array", "items": {"type": "object", "additionalProperties": true}}}, "additionalProperties": false},
+    "minimum_action_set": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "action_class", "estimated_reclaimable_bytes", "path", "fingerprint", "candidate"], "properties": {"candidate_id": {"type": "string"}, "action_class": {"type": "string"}, "estimated_reclaimable_bytes": {"type": "integer", "minimum": 0}, "path": {"type": "string"}, "fingerprint": {"type": "string"}, "candidate": {"type": "object", "additionalProperties": true}}, "additionalProperties": false}},
+    "suppressed_candidate_ids": {"type": "array", "items": {"type": "string"}},
+    "requires_replan_after_target": {"type": "boolean", "const": true},
+    "execution_authorized": {"type": "boolean", "const": false},
+    "plan_sha256": {"type": "string"}
+  },
+  "additionalProperties": false
+}

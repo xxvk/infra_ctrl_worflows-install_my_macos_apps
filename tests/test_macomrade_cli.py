@@ -41,6 +41,26 @@ class MacomradeTests(unittest.TestCase):
             ],
         )
 
+    def test_storage_routes_are_stable_and_never_add_authorization(self) -> None:
+        expected = {
+            ("scan", "storage"): "scan",
+            ("review", "storage"): "review",
+            ("plan", "storage"): "plan",
+            ("apply", "storage"): "apply",
+            ("verify", "storage"): "verify",
+            ("history", "storage"): "history",
+        }
+        for key, prefix in expected.items():
+            with self.subTest(route=key):
+                command = macomrade.command_for(
+                    macomrade.route_index()[key],
+                    ["--state-dir", "/tmp/storage-state"],
+                    python="/fixture/python",
+                )
+                self.assertEqual(command[:3], ["/fixture/python", "scripts/storage_lifecycle.py", prefix])
+                self.assertNotIn("--apply", command)
+                self.assertNotIn("--confirm", command)
+
     def test_schema_routes_are_explicit_and_do_not_authorize_writes(self) -> None:
         self.assertEqual(
             macomrade.command_for(

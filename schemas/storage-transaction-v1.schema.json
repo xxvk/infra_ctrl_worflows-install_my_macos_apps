@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/storage-transaction-v1.schema.json",
+  "title": "macomrade storage apply or verify record",
+  "type": "object",
+  "required": ["schema_version", "kind", "record_id", "created_at", "plan_id", "action_id", "status", "free_bytes_before", "free_bytes_after", "staged_bytes", "measured_reclaimed_bytes", "actions", "replan_required"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "enum": ["storage_apply_record", "storage_verify_record"]},
+    "record_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "plan_id": {"type": "string"},
+    "plan_sha256": {"type": "string"},
+    "apply_record_id": {"type": ["string", "null"]},
+    "action_id": {"type": "string"},
+    "action_class": {"type": "string"},
+    "status": {"type": "string"},
+    "target_free_bytes": {"type": "integer", "minimum": 0},
+    "free_bytes_before": {"type": "integer", "minimum": 0},
+    "free_bytes_after": {"type": "integer", "minimum": 0},
+    "observed_free_bytes_at_verify": {"type": "integer", "minimum": 0},
+    "measurement_scope": {"type": "string", "enum": ["apply_transaction"]},
+    "estimated_reclaimable_bytes": {"type": "integer", "minimum": 0},
+    "staged_bytes": {"type": "integer", "minimum": 0},
+    "measured_reclaimed_bytes": {"type": "integer", "minimum": 0},
+    "actions": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "trash_manifest": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "time_machine": {"type": "object", "additionalProperties": true},
+    "replan_required": {"type": "boolean", "const": true}
+  },
+  "additionalProperties": true
+}

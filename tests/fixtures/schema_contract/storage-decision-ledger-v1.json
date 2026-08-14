@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "kind": "storage_decision_ledger",
+  "updated_at": "2026-08-14T00:00:00+00:00",
+  "decisions": [{"candidate_id": "storage-fixture", "path_pattern": "~/Downloads/example.zip", "path_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "decision": "keep_local", "decided_at": "2026-08-14T00:00:00+00:00", "review_after": null, "note": null, "execution_authorized": false}],
+  "mole_evidence": [{"evidence_id": "mole-fixture", "source": "mole", "section": "sessions", "authority": "evidence_only", "observed": {"command": "analyze"}}]
+}

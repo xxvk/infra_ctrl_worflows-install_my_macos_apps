@@ -50,6 +50,14 @@ only the three scalar locator fields; it does not claim to be a general YAML
 parser. Manifest auditing supports JSON objects and a conservative
 secret-bearing-key check for declared YAML files.
 
+Storage uses `settings/storage-policy.json` plus the optional
+`Private/storage-policy.json`. Its path rules are the deliberate array-merge
+exception: Private rules are evaluated first and public rules remain available
+after them, so a personal archive/protection pattern does not erase public
+cache regeneration proof. Private target and archive arrays otherwise replace
+their public defaults. Neither layer may set execution authorization; exact
+paths, sizes, fingerprints, and transaction evidence remain machine-local.
+
 ## Migration rule
 
 Do not move or delete existing configuration merely because it contains

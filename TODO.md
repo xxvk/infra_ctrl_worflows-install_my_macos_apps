@@ -82,12 +82,14 @@ silently expand the 0.1.0 release-candidate gate.
 - [x] **RC-04 — Freeze the 0.1.0 release-candidate contract.** Maintain one
       acceptance matrix for supported, interface-limited, deferred, and
       deliberately excluded behavior; require evidence for each supported
-      capability; and keep `VERSION` at `0.1.0` while the roadmap status is
-      `release_candidate`.
+      capability; and keep `VERSION` at `0.1.0` until a later version change is
+      separately authorized.
       Resolved: added one canonical 28-row JSON matrix with all four
       classifications, 12 evidence-backed supported capabilities, and explicit
-      behavior boundaries. `scripts/validate_release_contract.py` now binds the
-      matrix to `VERSION=0.1.0`, the roadmap's `release_candidate` status,
+      behavior boundaries. The validator originally bound the matrix to
+      `VERSION=0.1.0`; the separately authorized 0.2.0 bump generalized that
+      contract to bind the matrix to the current Semantic Version and matching
+      roadmap status while retaining
       unique IDs, complete classification coverage, repository-contained
       evidence paths, and mandatory evidence for every supported row; three
       hermetic tests and the local smoke gate cover valid, missing-evidence,
@@ -334,13 +336,26 @@ The goal is to make the reusable repository public without publishing personal
 configuration or weakening the existing safety contract. Editing or completing
 this list does not authorize a GitHub visibility change.
 
-- [ ] **Runtime cleanup — migrate legacy npm-global ownership.** The Core
-      contract now uses fnm Node 24 and all related CLI smoke tests pass, but
-      existing `wp-studio` and `wrangler` copies remain under Homebrew's npm
-      prefix. Reinstall exact pinned versions under fnm Node 24, verify command
-      paths and account workflows, measure both prefixes, and remove old copies
-      only after separate explicit approval. Vercel and `k6-html-reporter` are
-      not Core and require individual keep/remove decisions.
+- [x] **Runtime cleanup — migrate legacy npm-global ownership.** The Core
+      contract uses fnm Node 24. Exact registry-pinned `wp-studio` and
+      `wrangler` packages were installed under the active fnm runtime; command
+      paths, versions, required local binaries, login-shell resolution, and
+      non-mutating account-status paths were read back successfully. The
+      superseded fnm runtime was measured and removed only after exact user
+      confirmation. Machine-specific versions, sizes, and execution evidence
+      remain in machine-local state rather than tracked component guides.
+- [x] **Runtime disposition — preserve the current non-Core npm globals.** The
+      owner chose to keep both Vercel CLI and `k6-html-reporter` without
+      migration or removal. Vercel remains authenticated and usable from the
+      normal fnm Node 24 login shell even though its package is stored under
+      Homebrew's npm prefix. Homebrew's unversioned Node remains separate for
+      formula-owned Gemini CLI, Mermaid CLI, and TypeScript launchers.
+- [ ] **Runtime account follow-up — repair only when the related service is
+      needed.** Wrangler's prior token is expired; run an interactive
+      `wrangler login` only before Cloudflare account work. WordPress Studio
+      CLI found legacy configuration while the GUI app is absent; preserve it
+      until the owner explicitly chooses reset or reconnection. Neither state
+      blocks Core package verification.
 
 - [x] **PUB-01 — Inventory and classify the publication surface.** Enumerate
       tracked files, submodules, large/generated artifacts, third-party assets,
@@ -1061,6 +1076,75 @@ review before promoting any item into an implementation task.
       reports 0 errors across all 128 entries; `bootstrap_validate.py` still
       passes.
 
+## 0.2.0 — Memory-backed storage management
+
+- [x] **ST-01 — Freeze schemas, layered policy, and CLI contracts.** Added five
+      registered JSON Schemas, public and fictional Private policies, stable
+      scan/review/plan/apply/verify/history routes, non-authorizing inheritance,
+      exact action classes, and fixture-first contract tests.
+- [x] **ST-02 — Add the Foundation metadata and eviction helper.** The checked-in
+      Swift source reads iCloud/volume metadata and exposes bounded inspect,
+      local-copy eviction/download, and manifest-returning Trash operations;
+      its compiled binary and module cache remain machine-local.
+- [x] **ST-03 — Build the two-level storage fact scanner.** Quick scans retain
+      root aggregates; deep scans expand only threshold-crossing roots. Logical
+      and allocated bytes, sparse files, hard-link deduplication, symlink and
+      mount boundaries, cloud placeholders, inaccessible paths, and clone
+      uncertainty have explicit contracts.
+- [x] **ST-04 — Implement decision memory and cross-Mac intent.** The local
+      ledger supports all eight decisions, expiry and rematerialization rules,
+      duplicate suppression, and separately confirmed promotion of patterns to
+      Git-ignored Private policy without inheriting execution authority.
+- [x] **ST-05 — Implement target and benefit-curve planning.** Plans bind scans,
+      fingerprints, hashes, volume targets, low-risk/reversible curves, and the
+      minimum action set for compact 50 GiB or expanded 100 GiB free space.
+- [x] **ST-06 — Implement iCloud and proven-cache transactions.** iCloud
+      eviction requires uploaded/no-conflict/not-downloading/current allocation
+      evidence; cache purge requires a public rule with regeneration proof.
+- [x] **ST-07 — Implement archive, Trash, purge, and restore.** Archive validates
+      an explicit Private target, capacity, write/read and content hash before
+      Trash staging. Purge and restore are limited to unchanged manifest-bound
+      paths; whole-Trash deletion is impossible.
+- [x] **ST-08 — Add Mole evidence, weekly scan, history, and three locales.**
+      Mole imports are idempotent evidence only. Weekly quick scan is read-only,
+      low-battery/cooldown aware, and notifies only below target or for at least
+      5 GiB of new high-confidence candidates.
+- [x] **ST-09 — Complete performance and live-Mac acceptance.** Ran storage
+      cold/warm budgets, compile/inspect the Swift helper from machine-local
+      state, and prove the two known iCloud samples remain low-local-allocation
+      non-recommendations without materialization. The samples measured
+      3,194,806,686/2,496,489,148 logical bytes but only 876,544/970,752
+      allocated bytes, with zero estimated reclaim and `eligible: false`.
+      Corrected benchmark RSS to use per-sample macOS `time -l`; both storage
+      operations then passed time, RSS, output, and state-growth budgets.
+- [x] **ST-10 — Complete docs and full release checks.** Registered 19 schema
+      formats and 33 mutation contracts; updated skill routing, operator docs,
+      Mole boundary, tests, roadmap, localization, bootstrap, and release
+      manifest inputs. Hermetic release checks passed 23/23 and current-Mac
+      read-only checks passed 24/24. A hanging `sfltool dumpbtm` call gained a
+      30-second fail-closed timeout. At that checkpoint `VERSION` remained
+      0.1.0; commit, version, tag, push, and release remained separately
+      unauthorized.
+- [x] **ST-11 — Harden policies from the first live cleanup campaign.** Fixed
+      verify records so later unrelated free-space changes cannot inflate an
+      earlier transaction. Added the Mole scan cache to the proven public
+      allowlist and added dynamically proven Git artifacts with ignored,
+      untracked, rebuild-manifest, inactive-cwd, fingerprint, and apply-time
+      recheck gates. Documented iCloud, uv, Android AVD, WebCatalog X, and TRAE
+      runtime boundaries; registered proprietary App storage as 0.6 Adapter
+      work instead of broadening generic deletion.
+- [x] **ST-12 — Close the post-campaign storage visibility gap.** Added bounded
+      read-only APFS/snapshot/VM, Home, protected-system, exact `/private/tmp`,
+      and optional-App facts; keep OS/App opportunities as non-executable
+      handoffs; added explicit relative and absolute human-size targets; capped
+      terminal summaries; and made incomplete Home traversal fail closed as
+      `partial`. Hermetic tests, schemas, bounded benchmarks, live quick/deep
+      scans, a live relative-target plan, and the 23-check release gate passed.
+      Exact paths and measurements remain only in machine-local state. After
+      separate authorization, `VERSION`, the cumulative acceptance matrix, and
+      the matching roadmap status advanced to the 0.2.0 release candidate;
+      commit, tag, push, package, and GitHub Release remain unauthorized.
+
 ## 0.3.0 — Browser bookmarks and reading lists
 
 These tasks implement the committed 0.3.0 roadmap after the 0.2.0 storage and
@@ -1098,6 +1182,36 @@ confirmation contracts exist.
 - [ ] **BR-08 — Complete live multi-profile acceptance.** Verify Safari and
       Chrome behavior on representative profiles, repeat-run idempotency,
       conflict handling, backup restoration, and all 0.3.0 acceptance gates.
+
+## 0.6.0 — Application-specific storage adapters
+
+The generic 0.2 storage engine may aggregate these roots but must not mutate
+them. Every adapter below must first define ownership, account/cloud effects,
+supported vendor cleanup, rollback, sparse/allocated-byte behavior, and live
+read-back. Machine paths and sizes remain machine-local.
+
+- [ ] **AD-01 — Productize the WeChat storage adapter.** Preserve message
+      databases and unsynchronized media; distinguish attachments, downloads,
+      thumbnails, mini-program data, logs, and caches; prefer WeChat's visible
+      storage manager and never raw-delete the container tree.
+- [ ] **AD-02 — Reconcile the Claude runtime adapter with current layouts.**
+      Audit `claude-code-vm`, `claude-code`, `Claude Extensions`, and legacy
+      `vm_bundles` without assuming equivalent semantics. Detect sparse images,
+      running `vfkit`/agent processes, and feature impact before extending the
+      existing exact-confirmation VM transactions.
+- [ ] **AD-03 — Define a Kimi runtime adapter.** Classify the `daimon-share`
+      and `daimon` runtime separately from logs and proven caches. Do not call
+      the embedded runtime disposable merely because it is large; require app
+      relaunch, account, and feature read-back for any cleanup proposal.
+- [ ] **AD-04 — Define a Mail storage adapter.** Use supported mailbox/account
+      operations and distinguish message databases, downloaded attachments,
+      search indexes, caches, and server-retained content. Never raw-delete the
+      Mail library or infer server recoverability from account type alone.
+- [ ] **AD-05 — Define a Photos storage adapter.** Treat the Photos library as
+      protected, account for iCloud Photos and Optimize Mac Storage, and keep
+      local-copy optimization distinct from deleting assets or Recently
+      Deleted. Any photo deletion requires visual item review and belongs to
+      the 0.7 workflow.
 
 ## 0.8.0 — WeChat group lifecycle
 
@@ -1138,3 +1252,43 @@ message sending, or silent shared-state changes.
       read-only inventory first, then owner-approved low-risk settings on test
       groups; prove repeat-run idempotency and all 0.8.0 acceptance gates before
       enabling consequential membership actions.
+
+## 0.9.0 — iPhone intelligence and Home Screen lifecycle
+
+These tasks implement the committed iPhone Mirroring roadmap. They authorize
+neither hidden iPhone data extraction nor app/content deletion. Device pairing,
+passcodes, Apple Account prompts, purchases, and security confirmations remain
+visible user handoffs.
+
+- [ ] **IM-01 — Audit the current iPhone Mirroring capability surface.** Verify
+      supported macOS/iOS versions, hardware, region, same-account continuity,
+      proximity, connectivity, selected-device behavior, notification policy,
+      supported gestures, and unavailable camera/microphone or app operations.
+- [ ] **IM-02 — Define the iPhone privacy and evidence model.** Classify device
+      metadata, app names, screenshots, OCR, folders, account mappings, storage
+      summaries, notifications, and in-app content as public policy, Private,
+      machine-local, transient, or prohibited.
+- [ ] **IM-03 — Define schemas for inventory, desired layout, and restore maps.**
+      Model device role, App Library/Home Screen presence, pages, folders, Dock,
+      widgets, Focus-linked pages, notification intent, proposed action,
+      confidence, reversibility, and visual read-back evidence.
+- [ ] **IM-04 — Build fixture-first read-only screen inventory.** Use fictional
+      screenshots and deterministic accessibility/OCR fixtures before live
+      inspection; prove that inventory opens no private app content and makes
+      no taps, drags, settings changes, installations, or removals.
+- [ ] **IM-05 — Design role-based app grouping and layout planning.** Support
+      portable taxonomy plus per-device overrides, explain every grouping,
+      preserve accepted decisions, and distinguish moving/hiding an icon from
+      offloading or deleting its app.
+- [ ] **IM-06 — Add a transaction-safe visible organization workflow.** Create
+      a pre-change restore map, preview small exact batches, require explicit
+      confirmation, execute supported drags/folder changes through iPhone
+      Mirroring, stop on visual drift, and reconcile interrupted batches.
+- [ ] **IM-07 — Add operational intelligence and notification review.** Capture
+      only allowlisted visible OS/update, storage, app, and notification-policy
+      summaries; keep private payloads and raw identifiers out of reports and
+      require a separate confirmation for every settings mutation.
+- [ ] **IM-08 — Complete live-device acceptance and restore testing.** Validate
+      read-only inventory first, then owner-approved low-risk layout changes;
+      prove idempotency, before/after read-back, manual handoffs, and practical
+      restore of the prior Home Screen organization.

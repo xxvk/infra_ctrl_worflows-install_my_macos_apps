@@ -260,10 +260,12 @@ Load this reference only when the current task uses this domain. Its rules were 
    daemon, so do not run both local backends concurrently. Preserve shared
    model data unless the user explicitly requests cleanup.
 
-   After installing Bionic, rename the application bundle in `/Applications`
-   to `LM Bionic.app` for local organization. Do not change the bundle
-   identifier or internal metadata. Open the renamed app once and verify launch
-   success before marking installation complete.
+   Keep the vendor bundle at `/Applications/Bionic.app`. Do not rename it to
+   `LM Bionic.app`: the current in-app updater resolves the official bundle
+   name and otherwise retains a complete staged update under
+   `~/.lmstudio/apps/bionic/.internal/staged-updates-app`. After updating,
+   verify the installed version and that staging has returned to metadata-only
+   size. Do not change the bundle identifier or internal metadata.
 
    If classic LM Studio is installed, treat it as `retirement_pending`: quit
    both applications, verify Bionic's local/cloud workflows, then remove only
@@ -386,10 +388,13 @@ normal way to install Mac apps or to bypass Apple Account authorization.
    requirement, changed account/license workflow, or changed lifecycle status.
    Routine reinstalls, upgrades, and repeated scans should write evidence to
    machine-local state records without rewriting the guide merely to refresh a version,
-   timestamp, formatting, or unchanged measurement. For every uninstall or
-   removal, update that guide's reusable `lifecycle_status: retired`, document
-   what was removed and what data was preserved, and keep machine-specific
-   evidence in the machine-local state record.
+   timestamp, formatting, or unchanged measurement. A per-machine uninstall
+   does not retire a reusable component. Keep an approved on-demand Optional
+   component `active` and record only this Mac's result in machine-local state.
+   Change `lifecycle_status` to `retired` only when the reusable baseline
+   deliberately abandons or replaces the component; document that durable
+   rationale in its guide while keeping removed paths, measurements, and
+   current-machine evidence in machine-local state.
    A component operation is complete when catalog, guide, and state evidence
    are synchronized at the appropriate level of change.
 

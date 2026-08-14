@@ -19,10 +19,11 @@ from validate_release_contract import validate_contract  # noqa: E402
 class ReleaseContractTests(unittest.TestCase):
     def _fixture(self, root: Path) -> Path:
         (root / "references").mkdir()
-        (root / "VERSION").write_text("0.1.0\n", encoding="utf-8")
+        (root / "VERSION").write_text("0.2.0\n", encoding="utf-8")
         (root / "evidence.txt").write_text("fixture\n", encoding="utf-8")
         (root / "references" / "release-roadmap.md").write_text(
-            "## 0.1.0 — fixture\n\nStatus: **release_candidate**\n",
+            "## 0.1.0 — historical\n\nStatus: **release_candidate**\n\n"
+            "## 0.2.0 — fixture\n\nStatus: **release_candidate**\n",
             encoding="utf-8",
         )
         matrix = root / "references" / "release-acceptance-matrix.json"
@@ -30,7 +31,7 @@ class ReleaseContractTests(unittest.TestCase):
             json.dumps(
                 {
                     "schema_version": 1,
-                    "version": "0.1.0",
+                    "version": "0.2.0",
                     "release_status": "release_candidate",
                     "classifications": {
                         "supported": "implemented",
@@ -86,19 +87,28 @@ class ReleaseContractTests(unittest.TestCase):
             self.assertEqual(result["status"], "failed")
             self.assertTrue(any("evidence not found" in error for error in result["errors"]))
 
-    def test_version_and_roadmap_status_are_frozen(self) -> None:
+    def test_version_matrix_and_current_roadmap_status_must_match(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             matrix = self._fixture(root)
-            (root / "VERSION").write_text("0.1.1\n", encoding="utf-8")
+            (root / "VERSION").write_text("0.2.1\n", encoding="utf-8")
             (root / "references" / "release-roadmap.md").write_text(
-                "## 0.1.0 — fixture\n\nStatus: **shipped**\n",
+                "## 0.2.1 — fixture\n\nStatus: **shipped**\n",
                 encoding="utf-8",
             )
             result = validate_contract(root, matrix)
             self.assertEqual(result["status"], "failed")
-            self.assertTrue(any("VERSION must remain" in error for error in result["errors"]))
-            self.assertTrue(any("roadmap status" in error for error in result["errors"]))
+            self.assertTrue(any("matrix version must match VERSION" in error for error in result["errors"]))
+            self.assertTrue(any("matrix release_status must match" in error for error in result["errors"]))
+
+    def test_version_must_be_semver(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            matrix = self._fixture(root)
+            (root / "VERSION").write_text("next\n", encoding="utf-8")
+            result = validate_contract(root, matrix)
+            self.assertEqual(result["status"], "failed")
+            self.assertTrue(any("Semantic Version" in error for error in result["errors"]))
 
 
 if __name__ == "__main__":

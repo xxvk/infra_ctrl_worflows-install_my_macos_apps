@@ -37,7 +37,7 @@ Run the checked-in launcher from the repository root:
 ./bin/macomrade --version
 ```
 
-The launcher deliberately remains repository-local in 0.1.0. Installing a
+The launcher deliberately remains repository-local in 0.2.0. Installing a
 global symlink, Homebrew formula, npm package, or application bundle is a
 separate packaging and publication decision.
 
@@ -46,7 +46,8 @@ separate packaging and publication decision.
 The stable command families are:
 
 ```text
-scan → plan → apply → verify → drift → diagnostics → migration
+scan → review → plan → apply → verify → history
+drift → diagnostics → migration
 ```
 
 Examples:
@@ -55,14 +56,20 @@ Examples:
 ./bin/macomrade scan apps
 ./bin/macomrade scan adapters --adapter wechat
 ./bin/macomrade scan monitor
+./bin/macomrade scan storage --mode quick
+./bin/macomrade review storage --candidate ID --decision keep_local --apply
 ./bin/macomrade plan apps --profile auto
+./bin/macomrade plan storage --target auto
 ./bin/macomrade plan apps --profile auto --roles auto,developer,robotics
 ./bin/macomrade plan adapters --adapter claude-vm
 ./bin/macomrade apply apps "$PLAN" --only "App Name"
 ./bin/macomrade apply apps "$PLAN" --only "App Name" --apply
+./bin/macomrade apply storage "$STORAGE_PLAN" --action-class safe_cache --apply --confirm 'PURGE APPROVED REGENERABLE CACHES'
 ./bin/macomrade verify baseline
 ./bin/macomrade verify release
 ./bin/macomrade verify schemas
+./bin/macomrade verify storage "$APPLY_RECORD"
+./bin/macomrade history storage --import-mole
 ./bin/macomrade drift baseline
 ./bin/macomrade diagnostics permissions
 ./bin/macomrade diagnostics schemas
@@ -96,7 +103,7 @@ legacy script. A route name is never authorization.
 ## Compatibility contract
 
 Existing `python3 scripts/*.py` entry points remain supported compatibility
-shims for 0.1.x. `macomrade` delegates to those scripts with the same Python
+shims in 0.2.0. `macomrade` delegates to those scripts with the same Python
 interpreter, repository root, argument order, standard input/output, and exit
 code. It does not duplicate their implementation.
 
@@ -143,10 +150,17 @@ transaction. See [`performance-benchmarks.md`](performance-benchmarks.md),
 [`audit-reports.md`](audit-reports.md), and
 [`drift-monitor.md`](drift-monitor.md).
 
+Storage adds the `review` and `history` families without weakening this
+boundary. Review records a machine-local non-authorizing decision; history may
+import content-addressed Mole evidence. Storage apply still requires the
+underlying script's explicit `--apply`, one exact action-class confirmation,
+fresh path/cloud checks, measurement, and replanning. See
+[`storage-lifecycle.md`](storage-lifecycle.md).
+
 ## Reserved future commands
 
 `mac-buro` and `5y-plan` are reserved as possible future Easter-egg commands.
-They have no executable, alias, route, or behavior in 0.1.0. Calling either
+They have no executable, alias, route, or behavior in 0.2.0. Calling either
 through `macomrade` fails before a subprocess starts. Define the exact
 purpose, safety boundary, help text, tests, and mutation contract before
 activating either name.

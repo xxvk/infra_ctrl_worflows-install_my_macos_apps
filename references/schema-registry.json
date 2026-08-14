@@ -106,6 +106,42 @@
       "tracked_examples": [
         "tests/fixtures/schema_contract/release-manifest-v1.json"
       ]
+    },
+    "storage-policy": {
+      "current_version": 1,
+      "schema": "schemas/storage-policy-v1.schema.json",
+      "tracked_examples": [
+        "settings/storage-policy.json",
+        "examples/private/storage-policy.json"
+      ]
+    },
+    "storage-scan": {
+      "current_version": 1,
+      "schema": "schemas/storage-scan-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/storage-scan-v1.json"
+      ]
+    },
+    "storage-decision-ledger": {
+      "current_version": 1,
+      "schema": "schemas/storage-decision-ledger-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/storage-decision-ledger-v1.json"
+      ]
+    },
+    "storage-plan": {
+      "current_version": 1,
+      "schema": "schemas/storage-plan-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/storage-plan-v1.json"
+      ]
+    },
+    "storage-transaction": {
+      "current_version": 1,
+      "schema": "schemas/storage-transaction-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/storage-transaction-v1.json"
+      ]
     }
   },
   "migration_policy": {

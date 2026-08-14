@@ -39,3 +39,17 @@ download_estimate_method: "catalog_size_gb_planning_estimate"
 ## Notes
 
 Review account, license, privacy, and storage settings before using the app.
+
+## Storage and removal guard
+
+Measure `/Applications/Xcode.app`, Xcode-managed DerivedData, simulators, and
+`/Library/Developer/CommandLineTools` separately. Command Line Tools are not
+duplicate Xcode data and remain a Core developer capability. Never delete SDK
+directories or `/Library/Developer` subtrees directly to recover space.
+
+Before an explicitly approved Xcode uninstall, read `xcode-select -p`. If it
+points inside Xcode, switch to the installed Command Line Tools path through
+the supported `xcode-select` operation, then verify `clang`, `git`, and the
+required SDK tooling. Only the measured free-space delta after the app removal
+is reclaimed capacity; App Store download size and recursive clone-sensitive
+totals are planning evidence, not proof.

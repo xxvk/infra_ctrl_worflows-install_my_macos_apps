@@ -13,7 +13,7 @@
 - [0.6.0 — application-specific storage adapters](#060--application-specific-storage-adapters)
 - [0.7.0 — photo review and cleanup](#070--photo-review-and-cleanup)
 - [0.8.0 — WeChat group lifecycle](#080--wechat-group-lifecycle)
-- [0.9.0 — undecided](#090--undecided)
+- [0.9.0 — iPhone intelligence and Home Screen lifecycle](#090--iphone-intelligence-and-home-screen-lifecycle)
 - [1.0.0 — native macOS product](#100--native-macos-product)
 - [Product idea pool](product-ideas.md)
 
@@ -135,13 +135,14 @@ The release-candidate artifact map is:
 | Integrity audits | `scripts/audit_component_frontmatter.py`, `scripts/audit_core_catalog.py`, `scripts/validate_app_catalog.py` |
 | Clean-Mac release acceptance | `references/clean-mac-acceptance.json`, `references/clean-mac-acceptance-status.json`, `scripts/clean_mac_acceptance.py` |
 
-The canonical behavior classification is the machine-validated
-[`release-acceptance-matrix.json`](release-acceptance-matrix.json). It is the
-only 0.1.0 acceptance matrix: `supported` rows require existing evidence;
-`interface_limited`, `deferred`, and `excluded` rows define boundaries that
-must not be represented as supported. Run
-`python3 scripts/validate_release_contract.py` to verify the matrix, `VERSION`,
-and this section's `release_candidate` status together.
+The canonical current behavior classification is the machine-validated
+[`release-acceptance-matrix.json`](release-acceptance-matrix.json). It is a
+cumulative contract bound to the current `VERSION`: `supported` rows require
+existing evidence; `interface_limited`, `deferred`, and `excluded` rows define
+boundaries that must not be represented as supported. Run
+`python3 scripts/validate_release_contract.py` to verify the matrix, current
+version, and matching roadmap status together. This 0.1.0 section remains the
+historical baseline description after later version bumps.
 
 The accepted release backlog is tracked under
 [`TODO.md`](../TODO.md#010-release-candidate-work). P0 tasks block a validated
@@ -154,12 +155,17 @@ unused hardware is available.
 
 ## 0.1.1 — public source release readiness
 
-Status: **committed**
+Status: **release_candidate**
+
+Implementation status: **ST-01 through ST-10 completed and locally accepted on
+2026-08-14.** This marks the capability implementation as a release candidate,
+not a version change or release at that checkpoint. It did not authorize a
+commit, tag, push, GitHub Release, packaged CLI, or publication action.
 
 Execution: **all ten public-source gates completed on 2026-08-14**. The
 existing GitHub repository is public at candidate commit `f490fe4`; anonymous
 page, HTTPS Git, API metadata, privacy, and 23-stage release-gate read-backs
-passed. `VERSION` remains 0.1.0 and no tag or GitHub Release was created.
+passed. No tag or GitHub Release was created by that transaction.
 
 Prepare this repository for safe public discovery and reuse without exposing
 the author's personal cross-Mac configuration. This is a patch release because
@@ -186,11 +192,17 @@ as the final explicitly authorized transaction after all gates passed.
 
 ## 0.2.0 — memory-backed storage management
 
-Status: **committed**
+Status: **release_candidate**
 
-Extend Mole CLI with a stateful, policy-driven storage layer. Mole remains the
-fast interactive explorer and cleanup executor where appropriate; this skill
-adds memory, classification, measurement, safety, and verification.
+Implementation status: **ST-01 through ST-12 completed and locally accepted on
+2026-08-14.** `VERSION` is now 0.2.0. The source tree represents the cumulative
+0.2.0 release-candidate contract, but no commit, tag, GitHub Release, package,
+or stable-release claim is implied by the version change.
+
+Build an independent stateful, policy-driven storage decision layer above
+Mole. Mole remains an optional interactive explorer and read-only historical
+evidence source; macomrade owns classification, physical-allocation evidence,
+planning, transaction safety, measurement, and verification.
 The existing 0.1.0 Mole whitelist is a static protection policy only. The
 stateful decision ledger, independent physical-size accounting, repeat-review
 suppression, and measured cleanup history begin in 0.2.0.
@@ -216,8 +228,8 @@ deleting an iCloud item.
 
 ### Memory model
 
-- Store reusable, user-approved rules in a tracked
-  `settings/storage-policy.yaml`.
+- Store reusable public rules in tracked `settings/storage-policy.json` and
+  personal intent/targets in Git-ignored `Private/storage-policy.json`.
 - Store scans, temporary decisions, observed paths, actual sizes, access times,
   and cleanup outcomes in machine-local `storage-*.json` records.
 - Remember a decision with an expiry/review date so the same unchanged item is
@@ -228,20 +240,27 @@ deleting an iCloud item.
 
 ### Planned workflow
 
-Provide one deterministic entry point with subcommands equivalent to:
+Provide these deterministic stable commands:
 
 ```text
-scan → review → plan → apply → verify → history
+macomrade scan storage
+macomrade review storage
+macomrade plan storage
+macomrade apply storage
+macomrade verify storage
+macomrade history storage
 ```
 
 The first implementation must:
 
-1. ingest or invoke Mole without trusting its size value as physical usage;
+1. import Mole's supported JSON history without trusting its size value as
+   physical usage or inferring a decision;
 2. calculate logical and allocated bytes independently;
 3. classify iCloud placeholders and protected model/project paths;
 4. suppress unchanged, previously decided candidates until their review date;
 5. preview exact actions and expected reclaimable bytes;
-6. require item-level confirmation for deletion or cloud offload;
+6. execute only one frozen action class per command with its exact typed
+   confirmation;
 7. remeasure the filesystem and record actual reclaimed bytes;
 8. support rollback when the underlying operation is reversible.
 
@@ -254,6 +273,23 @@ The first implementation must:
 - Re-running an unchanged scan does not ask the same resolved questions.
 - Every reported saving distinguishes estimate from measured result.
 - No automatic deletion occurs in scan, review, or plan mode.
+- `compact` stops at 50 GiB free, `expanded` at 100 GiB, and every transaction
+  stops early and replans when the actual target is reached.
+- The Foundation helper is source-controlled but compiled only into
+  machine-local state; only iCloud local-copy eviction is automated in 0.2.0.
+- Trash staging remains distinct from measured reclaim, and permanent purge
+  can touch only unchanged items bound to the same frozen manifest.
+- Quick and deep scans surface read-only APFS/snapshot/VM, bounded Home,
+  protected-system, exact temporary-directory, and optional-App evidence
+  without converting OS or App ownership into generic deletion authority.
+- Operators can request either a role target, an absolute free-space floor, or
+  an explicit additional amount such as `+10GiB`; the frozen plan records the
+  original target and mode.
+
+The executable contract and operator procedure live in
+[`storage-lifecycle.md`](storage-lifecycle.md). The storage tests, performance
+budgets, live sample checks, and release gates passed before the separately
+authorized version change to 0.2.0.
 
 ## 0.3.0 — browser bookmarks and reading lists
 
@@ -395,14 +431,75 @@ supported write interface.
 - Unsupported actions produce a manual handoff instead of database mutation or
   a false success result.
 
-## 0.9.0 — undecided
+## 0.9.0 — iPhone intelligence and Home Screen lifecycle
 
-Status: **undecided**
+Status: **committed; interface and organization rules to be designed**
 
-No product capability is assigned to this version. Candidate directions are
-kept in [`product-ideas.md`](product-ideas.md). Assign one only after explicit
-user selection and then define its scope, non-goals, safety model, and
-acceptance gates here.
+Use Apple's iPhone Mirroring capability as a visible, user-controlled bridge
+for collecting necessary iPhone operational intelligence and organizing the
+iPhone Home Screen from a Mac. The product should help inventory user-approved
+device and software state; understand the current placement of apps, pages,
+folders, Dock items, widgets, and mirrored-notification policy; propose a
+purpose-based taxonomy; and carry out reviewed moves and folder changes with
+before-and-after visual verification.
+
+The initial taxonomy should support work, communication, finance, travel,
+media, creation, utilities, health, smart home, development/testing, occasional
+use, and user-defined groups. It must distinguish app installation from Home
+Screen placement: an app absent from a page may still exist in App Library,
+and removing an icon is not the same as deleting the app. The desired layout
+may vary by iPhone role and Focus mode rather than forcing one universal grid.
+
+Treat iPhone Mirroring as a GUI interaction surface, not a device-management
+API or unrestricted data source. Supported setup currently requires compatible
+devices, the same Apple Account, nearby Wi-Fi and Bluetooth, a locked iPhone,
+and regional availability. Pairing, device passcode, Apple Account prompts,
+Trust This Computer, purchases, and other security confirmations remain visible
+user handoffs. Camera and microphone workflows are outside the mirroring
+surface. When the feature or an operation is unavailable, report a precise
+manual iPhone step instead of using private frameworks, backups, jailbreaks,
+database extraction, or accessibility bypasses.
+
+Collect only allowlisted visible metadata needed for the approved workflow,
+such as device role, OS/update readiness, storage summary, installed app name,
+Home Screen location, folder label, Dock/widget placement, and notification
+policy. Raw screenshots, OCR output, device identifiers, app/account mappings,
+and layout observations are Private, transient, or machine-local according to
+their sensitivity; none belongs in the public repository. Passwords, passcodes,
+tokens, messages, photos, health records, financial content, browser sessions,
+and private in-app payloads are prohibited collection targets.
+
+Every layout mutation follows the repository transaction contract. Scan and
+proposal modes make no iPhone changes. Before moving icons, creating or
+renaming folders, changing pages, widgets, Dock items, Focus-linked pages, or
+notification settings, preserve a visual/layout restore map, preview the exact
+batch, and obtain explicit confirmation. Apply only small visible batches,
+stop when the mirrored UI differs from the plan, and read back the final layout.
+App deletion, offloading, installation, purchase, account changes, and content
+mutation are separate actions and are never implied by screen organization.
+
+### 0.9.0 acceptance gates
+
+- A capability preflight verifies device/OS compatibility, selected iPhone,
+  same-account continuity, proximity, connectivity, regional availability,
+  authentication mode, and notification-mirroring policy without retaining a
+  passcode or Apple Account secret.
+- A read-only inventory can represent visible apps, App Library versus Home
+  Screen presence, pages, folders, Dock items, widgets, and approved operational
+  summaries while keeping screenshots and personal mappings out of Git.
+- The proposed layout explains every grouping and distinguishes move, hide,
+  remove-from-Home-Screen, offload, and delete; only move/folder/layout actions
+  belong to the default 0.9.0 apply path.
+- Scan, OCR, classification, and plan modes perform no taps, drags, settings
+  changes, installs, removals, notification changes, or account actions.
+- Each supported mutation has a pre-change restore map, item- or batch-scoped
+  confirmation, visible execution through iPhone Mirroring, and visual
+  read-back; interruption produces a reconciliation queue rather than retries.
+- Private app contents are never opened merely to classify an icon. Unsupported
+  or security-sensitive steps produce an exact manual handoff on the iPhone.
+- Re-running an unchanged inventory preserves accepted group decisions and
+  proposes no duplicate moves; verified restore can reconstruct the prior Home
+  Screen organization within the limits of Apple's visible interface.
 
 ## 1.0.0 — native macOS product
 
@@ -416,7 +513,8 @@ integrates the proven 0.x workflows into a coherent product:
 - explainable recommendations backed by short-term observations and long-term
   user decisions;
 - review queues for storage, browser knowledge, notes, SSH metadata,
-  application adapters, WeChat groups, and photos;
+  application adapters, WeChat groups, photos, and iPhone operational/layout
+  management;
 - preview, confirmation, progress, rollback, and measured-result views;
 - local-first operation with no credential collection and no destructive
   default;

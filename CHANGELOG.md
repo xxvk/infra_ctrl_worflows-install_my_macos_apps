@@ -25,9 +25,19 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
   clean-clone read-back without authorizing publication.
 - Machine-role profiles, localization catalogs, App Adapter contracts,
   performance budgets, audit reports, and a low-noise drift monitor.
+- A memory-backed storage decision layer with two-level logical/allocated
+  scanning, iCloud Foundation metadata, decision expiry, target-based planning,
+  transaction-safe cache/archive/Trash workflows, Mole evidence import,
+  weekly read-only review, five JSON Schemas, and three-language messages.
+- Bounded read-only APFS, snapshot, VM/swap, Home, exact temporary-directory,
+  and optional-App storage evidence; human absolute and relative free-space
+  targets; and non-authorizing OS/App handoff candidates.
 
 ### Changed
 
+- Advanced the repository source version and cumulative release contract from
+  0.1.0 to the 0.2.0 release candidate without creating a commit, tag, package,
+  or GitHub Release.
 - The reviewed source repository is now public at candidate commit `f490fe4`;
   anonymous page, HTTPS clone, API metadata, privacy, and release-gate
   read-backs passed. This did not create a tag or GitHub Release.
@@ -38,6 +48,9 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 - Core Node.js and npm-global ownership is pinned to fnm-managed Node 24.
 - Reachable Git history was rewritten to remove personal configuration and
   reviewed private identifiers before public release.
+- Storage management now treats Mole as optional evidence rather than capacity
+  authority and keeps public policy, iCloud Private intent, and exact
+  machine-local observations in separate layers.
 
 ### Security
 
@@ -45,5 +58,5 @@ principles of Keep a Changelog, and version numbers follow Semantic Versioning.
 - Removed `Private/**`, reviewed account identifiers, profile labels, a personal
   home path, and a private package-source domain from reachable Git history.
 
-No version has been tagged or published yet. `VERSION` remains the source of
-truth for the 0.1.0 release-candidate baseline.
+No version has been tagged or packaged yet. `VERSION` is the source of truth
+for the cumulative 0.2.0 release-candidate baseline.

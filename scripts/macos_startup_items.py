@@ -23,8 +23,11 @@ HOME = Path.home()
 USER_AGENTS = HOME / "Library/LaunchAgents"
 
 
-def run(command: list[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(command, capture_output=True, text=True, check=False)
+def run(command: list[str], *, timeout: int = 30) -> subprocess.CompletedProcess[str]:
+    try:
+        return subprocess.run(command, capture_output=True, text=True, check=False, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        return subprocess.CompletedProcess(command, 124, exc.stdout or "", f"timed out after {timeout}s")
 
 
 def login_items() -> list[dict[str, object]]:
@@ -79,6 +82,14 @@ def background_tasks() -> list[dict[str, object]]:
     if not tool:
         return []
     result = run([tool, "dumpbtm"])
+    if result.returncode != 0:
+        return [{
+            "kind": "background_task",
+            "name": "<unavailable>",
+            "error": result.stderr.strip() or f"sfltool exited {result.returncode}",
+            "removable": False,
+            "action": "retry_or_review_system_settings",
+        }]
     rows: list[dict[str, object]] = []
     block: dict[str, str] = {}
 

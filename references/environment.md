@@ -88,6 +88,33 @@ Start only when an Android workflow is in scope:
 emulator -avd kirara-api-35 -no-snapshot-load
 ```
 
+## AVD storage cleanup
+
+Treat an AVD and its Quick Boot snapshots as different actions. Inspect first:
+
+```sh
+emulator -list-avds
+du -sh "$ANDROID_AVD_HOME"/*.avd 2>/dev/null
+find "$ANDROID_AVD_HOME" -type d -name snapshots -prune -print
+```
+
+When the virtual device is still needed but snapshots are not, fully stop the
+emulator and remove only that AVD's `snapshots/` directory after an exact path
+preview. The next launch is a cold boot; installed apps and writable device
+data remain. Verify with `-no-snapshot-load` and a fresh size measurement.
+
+Deleting an entire AVD removes its virtual device definition, writable system
+image, installed apps, settings, and snapshots. Require the user to name the
+AVD and confirm that broader loss, then use the supported owner:
+
+```sh
+avdmanager delete avd --name NAME
+```
+
+After either action, run `emulator -list-avds`, verify the exact AVD path, and
+record measured bytes only in machine-local state. Never infer permission to
+delete SDK system images shared by other AVDs.
+
 Record package versions, measured download/install bytes, selected ABI, AVD
 name, and verification timestamps under machine-local state. Never commit SDK
 licenses, emulator snapshots, device data, or credentials.

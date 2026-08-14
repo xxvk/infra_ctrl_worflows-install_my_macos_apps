@@ -22,7 +22,7 @@ class PerformanceBenchmarkTests(unittest.TestCase):
         self.assertEqual(result["status"], "passed", result["errors"])
         self.assertEqual(
             result["operations"],
-            ["drift", "inventory", "migration", "plan", "validate"],
+            ["drift", "inventory", "migration", "plan", "storage_plan", "storage_scan", "validate"],
         )
 
     def test_suite_records_cold_warm_time_output_state_and_peak_memory(self) -> None:

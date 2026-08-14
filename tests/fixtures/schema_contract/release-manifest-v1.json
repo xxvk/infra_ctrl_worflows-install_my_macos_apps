@@ -3,7 +3,7 @@
   "kind": "macomrade_release_manifest",
   "status": "candidate",
   "blockers": [],
-  "candidate": {"version": "0.1.0", "release_status": "release_candidate"},
+  "candidate": {"version": "0.2.0", "release_status": "release_candidate"},
   "source": {"commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "worktree": "clean", "change_count": 0},
   "schemas": [{"kind": "catalog", "version": 1, "path": "schemas/catalog-v1.schema.json", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bytes": 100}],
   "public_inputs": [{"path": "VERSION", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bytes": 6}],

@@ -17,7 +17,7 @@ secrets_policy: "Never store passwords, API keys, recovery codes, or license sec
 download_estimate_bytes: 100000000
 download_estimate_method: "catalog_size_gb_planning_estimate"
 npm_package: "wrangler"
-npm_version: "4.91.0"
+npm_version: "4.123.0"
 npm_runtime_manager: "fnm"
 npm_runtime_version: "24"
 ---
@@ -32,7 +32,7 @@ The official installation path is a global npm package. Homebrew does not
 provide the installation source used by this catalog entry.
 
 ```sh
-fnm exec --using=24 npm install --global wrangler@4.91.0
+fnm exec --using=24 npm install --global wrangler@4.123.0
 wrangler --version
 ```
 

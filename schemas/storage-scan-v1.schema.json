@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/storage-scan-v1.schema.json",
+  "title": "macomrade storage scan and candidates",
+  "type": "object",
+  "required": ["schema_version", "kind", "scan_id", "generated_at", "mode", "volume", "system_facts", "roots", "candidates", "summary_candidate_ids", "errors"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "storage_scan"},
+    "scan_id": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "mode": {"type": "string", "enum": ["quick", "deep"]},
+    "volume": {"type": "object", "required": ["path", "capacity_bytes", "free_bytes"], "properties": {"path": {"type": "string"}, "capacity_bytes": {"type": "integer", "minimum": 0}, "free_bytes": {"type": "integer", "minimum": 0}}, "additionalProperties": false},
+    "system_facts": {
+      "type": "object",
+      "required": ["status", "execution_authorized", "startup_apfs", "snapshots", "vm", "protected_aggregates", "home_top", "errors"],
+      "properties": {
+        "status": {"type": "string"},
+        "execution_authorized": {"type": "boolean", "const": false},
+        "startup_apfs": {"type": "object", "additionalProperties": true},
+        "snapshots": {"type": "object", "additionalProperties": true},
+        "vm": {"type": "object", "additionalProperties": true},
+        "protected_aggregates": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "home_top": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "errors": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+      },
+      "additionalProperties": false
+    },
+    "roots": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "candidates": {"type": "array", "items": {"type": "object", "required": ["id", "path", "path_hash", "logical_bytes", "allocated_bytes", "estimated_reclaimable_bytes", "confidence", "action_class", "eligible", "fingerprint", "cloud", "reasons"], "properties": {"id": {"type": "string"}, "path": {"type": "string"}, "path_hash": {"type": "string"}, "logical_bytes": {"type": "integer", "minimum": 0}, "allocated_bytes": {"type": "integer", "minimum": 0}, "estimated_reclaimable_bytes": {"type": "integer", "minimum": 0}, "confidence": {"type": "string", "enum": ["low", "medium", "high"]}, "action_class": {"type": "string"}, "eligible": {"type": "boolean"}, "fingerprint": {"type": "string"}, "cloud": {"type": "object", "additionalProperties": true}, "reasons": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": true}},
+    "summary_candidate_ids": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+  },
+  "additionalProperties": false
+}

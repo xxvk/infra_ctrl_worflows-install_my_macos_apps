@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "release_status": "release_candidate",
-  "contract_scope": "The implemented 0.1.0 behavior boundary. This matrix does not claim that later release gates or a genuine clean-Mac run are complete.",
+  "contract_scope": "The cumulative implemented 0.2.0 release-candidate behavior boundary. This matrix does not claim that a stable tag, GitHub Release, packaged distribution, or genuine clean-Mac run exists.",
   "classifications": {
     "supported": "Implemented in the current repository and backed by the listed local evidence.",
     "interface_limited": "Implemented only to the limit of supported macOS or vendor interfaces; the limitation is part of the contract.",
-    "deferred": "Deliberately outside the implemented 0.1.0 behavior baseline or awaiting an external prerequisite.",
+    "deferred": "Deliberately outside the implemented current behavior baseline or awaiting an external prerequisite.",
     "excluded": "Intentionally prohibited or out of scope for safety, privacy, cost, or product-policy reasons."
   },
   "items": [
@@ -328,10 +328,27 @@
       ]
     },
     {
+      "id": "SUP-22",
+      "classification": "supported",
+      "capability": "Memory-backed storage lifecycle with logical and allocated facts, iCloud metadata, decision expiry, target planning, transaction-bound cleanup, measured verification, Mole evidence, and non-authorizing OS/App handoffs",
+      "evidence": [
+        "settings/storage-policy.json",
+        "scripts/storage_lifecycle.py",
+        "scripts/storage_metadata.swift",
+        "schemas/storage-policy-v1.schema.json",
+        "schemas/storage-scan-v1.schema.json",
+        "schemas/storage-decision-ledger-v1.schema.json",
+        "schemas/storage-plan-v1.schema.json",
+        "schemas/storage-transaction-v1.schema.json",
+        "references/storage-lifecycle.md",
+        "tests/test_storage_lifecycle.py"
+      ]
+    },
+    {
       "id": "DEF-03",
       "classification": "deferred",
-      "capability": "Stateful Mole storage lifecycle, browser/notes/SSH/photo lifecycle, app adapters, and native GUI",
-      "reason": "Assigned to versions 0.2.0 through 1.0.0, not the 0.1.0 baseline.",
+      "capability": "Browser/notes/SSH/photo lifecycle, productized application storage adapters, WeChat group lifecycle, iPhone organization, and native GUI",
+      "reason": "Assigned to versions 0.3.0 through 1.0.0, not the implemented 0.2.0 baseline.",
       "evidence": [
         "references/release-roadmap.md"
       ]
@@ -369,7 +386,7 @@
     {
       "id": "EXC-04",
       "classification": "excluded",
-      "capability": "Hosted GitHub Actions as the default 0.1.0 quality gate",
+      "capability": "Hosted GitHub Actions as the default release quality gate",
       "reason": "The accepted policy uses local macOS validation; hosted runners do not represent the user's hardware, accounts, permissions, or GUI state.",
       "evidence": [
         "README.md",

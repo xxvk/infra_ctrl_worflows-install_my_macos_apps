@@ -23,6 +23,13 @@ cli_path: "/opt/homebrew/opt/mole"
 Mole is the Core disk-maintenance CLI. Install it after Ghostty, preview every
 cleanup, and preserve the tracked Hugging Face exclusion.
 
+For macomrade 0.2 storage work, treat Mole as an optional interactive explorer
+and `mole history --json` as read-only evidence. macomrade's Foundation-based
+logical/allocated scan and post-action free-space measurement are the capacity
+authority. Do not call a private executable inside Mole's Homebrew Cellar or
+infer a retention decision from Mole history. See
+[`storage-lifecycle.md`](../references/storage-lifecycle.md).
+
 ## Installation
 
 ```sh
@@ -99,3 +106,9 @@ Review the dry run before any `mole remove` action. Uninstalling the tool does n
 
 Write detected version, path, byte measurements, cleanup results, and timestamps
 only to machine-local state.
+
+Mole's own scan cache at `~/.cache/mole` is regenerable and is included in the
+public macomrade `safe_cache` policy. It is not the Mole executable, whitelist,
+user content, or a capacity authority. Clearing it may discard local scan
+acceleration/history evidence and make the next analysis slower; verify the
+directory is recreated normally before relying on Mole history again.
