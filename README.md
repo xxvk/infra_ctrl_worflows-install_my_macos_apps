@@ -1,18 +1,37 @@
-# Install My macOS Apps
+# macomrade
 
-A personal Codex Skill for making a new Mac ready to use after one repository sync. It inventories installed apps, selects a storage profile, captures reusable permissions and user-preference policies, creates an installation plan, and records follow-up tasks such as account sign-in and permissions.
+**Safety-first, reproducible macOS setup and lifecycle automation for apps, permissions, preferences, and machine drift.**
 
-Current target version: **0.1.0** (`release_candidate`)
+`macomrade` is a personal Codex Skill and repository-local Python CLI for making a new Mac ready to use from a reviewable configuration. It keeps reusable policy in Git while protecting secrets, private overlays, and machine-local observations.
 
-The reviewed source repository is public at
-[`xxvk/macomrade`](https://github.com/xxvk/macomrade).
-Public availability does not imply a stable tag, GitHub Release, packaged CLI,
-or completion of the genuine Clean-Mac acceptance gate.
+## What it does
 
-New users should begin with the
-[`public onboarding and ten-minute read-only quick start`](references/public-onboarding.md).
-It requires no application installation, protected macOS permission, Apple ID,
-or administrator password.
+- Inventories installed apps and their available installation-source evidence.
+- Builds reviewable app plans for portable or expanded Mac storage profiles.
+- Defines reusable permission and preference policy without copying protected grants or credentials.
+- Detects configuration drift and records machine-local verification evidence.
+- Routes scan, plan, apply, verify, drift, diagnostics, and migration workflows through one CLI.
+
+## Quick Start
+
+Evaluate the public workflow without Homebrew, an Apple ID, administrator access, protected macOS permissions, or application changes:
+
+```sh
+git clone https://github.com/xxvk/macomrade.git
+cd macomrade
+export MACOMRADE_PUBLIC_ONLY=1
+export INSTALL_MY_MACOS_APPS_STATE_DIR=/tmp/macomrade-public-quickstart
+
+./bin/macomrade validate
+./bin/macomrade scan apps
+./bin/macomrade plan apps --profile auto
+```
+
+Read the [public onboarding guide](references/public-onboarding.md) for prerequisites, output review, limitations, private-overlay setup, and rollback guidance. The plan is advice, not authorization; `macomrade` never adds an apply flag on the user's behalf.
+
+## Release status
+
+Current target version: **0.1.0** (`release_candidate`). The source repository is public, but no stable tag, GitHub Release, packaged global CLI, or completed genuine Clean-Mac acceptance run is implied.
 
 `VERSION` is the version source of truth. The 0.1.0 release-candidate
 capability baseline, committed 0.2.0–0.8.0 scope, undecided 0.9.0 slot, and
@@ -46,7 +65,7 @@ see
 Before opening an issue or sharing any artifact, follow the
 [`public support and safety contract`](references/public-support-safety.md).
 
-## macomrade CLI
+## Usage
 
 The stable 0.1.0 repository-local entry point is `macomrade`:
 
