@@ -2,7 +2,7 @@
 
 **Safety-first, reproducible macOS setup and lifecycle automation for apps, permissions, preferences, and machine drift.**
 
-Current target version: **0.2.0** (`shipped`)
+Current target version: **0.3.0** (`release_candidate`)
 
 `macomrade` is a personal Codex Skill and repository-local Python CLI for making a new Mac ready to use from a reviewable configuration. It keeps reusable policy in Git while protecting secrets, private overlays, and machine-local observations.
 
@@ -33,12 +33,15 @@ Read the [public onboarding guide](references/public-onboarding.md) for prerequi
 
 ## Release status
 
-Current target version: **0.2.0** (`shipped`). The public source release is
-available as the annotated `v0.2.0` tag. No GitHub Release, packaged global
+Current target version: **0.3.0** (`release_candidate`). The Safari-only
+browser bookmarks/Reading List lifecycle is implemented and locally validated;
+Chrome remains deferred by user choice and Safari item write/rollback is
+interface_limited. The 0.2.0 public source release remains available as the
+annotated `v0.2.0` tag. No GitHub Release, packaged global
 CLI, or completed genuine Clean-Mac acceptance run is implied.
 
-`VERSION` is the version source of truth. The cumulative 0.2.0
-shipped capability baseline, committed 0.3.0–0.9.0 scope, and
+`VERSION` is the version source of truth. The cumulative 0.3.0
+release-candidate capability baseline, committed 0.4.0–0.9.0 scope, and
 1.0 native macOS product vision are defined in
 [`references/release-roadmap.md`](references/release-roadmap.md). Product-level
 candidates are kept separately in

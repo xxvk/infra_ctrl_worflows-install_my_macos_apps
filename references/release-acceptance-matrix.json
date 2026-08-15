@@ -1,427 +1,478 @@
 {
-  "schema_version": 1,
-  "version": "0.2.0",
-  "release_status": "shipped",
-  "contract_scope": "The cumulative shipped 0.2.0 behavior boundary. The source is published under annotated tag v0.2.0; no GitHub Release, packaged distribution, or genuine clean-Mac run exists.",
-  "classifications": {
-    "supported": "Implemented in the current repository and backed by the listed local evidence.",
-    "interface_limited": "Implemented only to the limit of supported macOS or vendor interfaces; the limitation is part of the contract.",
-    "deferred": "Deliberately outside the implemented current behavior baseline or awaiting an external prerequisite.",
-    "excluded": "Intentionally prohibited or out of scope for safety, privacy, cost, or product-policy reasons."
+ "schema_version": 1,
+ "version": "0.3.0",
+ "release_status": "release_candidate",
+ "contract_scope": "The cumulative 0.3.0 behavior boundary: the 0.2.0 shipped baseline plus the Safari-only browser bookmarks/reading-list lifecycle. Chrome is deferred by user choice; Safari live item write/rollback is interface_limited because Apple exposes no supported transactional mutation API. No GitHub Release, packaged distribution, or genuine clean-Mac run exists.",
+ "classifications": {
+  "supported": "Implemented in the current repository and backed by the listed local evidence.",
+  "interface_limited": "Implemented only to the limit of supported macOS or vendor interfaces; the limitation is part of the contract.",
+  "deferred": "Deliberately outside the implemented current behavior baseline or awaiting an external prerequisite.",
+  "excluded": "Intentionally prohibited or out of scope for safety, privacy, cost, or product-policy reasons."
+ },
+ "items": [
+  {
+   "id": "SUP-01",
+   "classification": "supported",
+   "capability": "Application catalog, inventory, capacity-aware planning, and Homebrew dry-run/apply routing",
+   "evidence": [
+    "references/app-catalog.json",
+    "scripts/macos_apps.py",
+    "scripts/validate_app_catalog.py",
+    "tests/smoke.sh"
+   ]
   },
-  "items": [
-    {
-      "id": "SUP-01",
-      "classification": "supported",
-      "capability": "Application catalog, inventory, capacity-aware planning, and Homebrew dry-run/apply routing",
-      "evidence": [
-        "references/app-catalog.json",
-        "scripts/macos_apps.py",
-        "scripts/validate_app_catalog.py",
-        "tests/smoke.sh"
-      ]
-    },
-    {
-      "id": "SUP-02",
-      "classification": "supported",
-      "capability": "Machine-local runtime state with explicit override and verified legacy-state migration",
-      "evidence": [
-        "scripts/state_paths.py",
-        "scripts/migrate_state.py",
-        "references/machine-local-state.md",
-        "tests/test_state_migration.py"
-      ]
-    },
-    {
-      "id": "SUP-03",
-      "classification": "supported",
-      "capability": "Public, iCloud Private, machine-state, and secret configuration boundaries",
-      "evidence": [
-        "examples/private/manifest.json",
-        "scripts/config_layers.py",
-        "references/configuration-layers.md",
-        "tests/test_config_layers.py"
-      ]
-    },
-    {
-      "id": "SUP-04",
-      "classification": "supported",
-      "capability": "iCloud/File Provider aware Git preflight and non-destructive materialization planning",
-      "evidence": [
-        "scripts/icloud_git_guard.py",
-        "references/icloud-git-integrity.md",
-        "tests/test_icloud_git_guard.py"
-      ]
-    },
-    {
-      "id": "SUP-05",
-      "classification": "supported",
-      "capability": "Read-only application, permission, helper, service, extension, and background-task inventory",
-      "evidence": [
-        "settings/privacy.yaml",
-        "scripts/macos_permissions.py",
-        "scripts/macos_permissions_cleanup.py"
-      ]
-    },
-    {
-      "id": "SUP-06",
-      "classification": "supported",
-      "capability": "Allowlisted macOS preference capture, comparison, and explicitly confirmed application",
-      "evidence": [
-        "examples/private/system-preferences-values.json",
-        "settings/system-preferences.yaml",
-        "scripts/macos_preferences.py"
-      ]
-    },
-    {
-      "id": "SUP-07",
-      "classification": "supported",
-      "capability": "Dock, startup-item, Chrome-profile, and device-specific K240 desired-state workflows",
-      "evidence": [
-        "examples/private/dock-order.json",
-        "examples/private/chrome-profiles.json",
-        "examples/private/keyboard.yaml",
-        "scripts/macos_dock.py",
-        "scripts/macos_startup_items.py",
-        "scripts/chrome_profiles.py"
-      ]
-    },
-    {
-      "id": "SUP-08",
-      "classification": "supported",
-      "capability": "Portable DNS, SmartDNS opt-in, VPN, permission, and startup intent baseline",
-      "evidence": [
-        "settings/bootstrap-operational-baseline.yaml",
-        "components/smartdns.md",
-        "scripts/bootstrap_verify.py"
-      ]
-    },
-    {
-      "id": "SUP-09",
-      "classification": "supported",
-      "capability": "Plan-first app-specific cleanup inspection with explicit confirmation boundaries",
-      "evidence": [
-        "scripts/capacities_cleanup.py",
-        "scripts/claude_vm_cleanup.py",
-        "scripts/docker_desktop_cleanup.py",
-        "scripts/openclaw_cleanup.py"
-      ]
-    },
-    {
-      "id": "SUP-10",
-      "classification": "supported",
-      "capability": "Local bootstrap validation, fixture tests, compile checks, dry-run smoke, and Skill validation",
-      "evidence": [
-        "scripts/bootstrap_validate.py",
-        "scripts/release_check.py",
-        "references/testing-contract.md",
-        "tests/test_macos_apps.py",
-        "tests/test_platform_fixtures.py",
-        "tests/smoke.sh",
-        "README.md"
-      ]
-    },
-    {
-      "id": "SUP-11",
-      "classification": "supported",
-      "capability": "Machine-validated transaction contracts for every supported mutation",
-      "evidence": [
-        "references/mutation-contracts.json",
-        "references/mutation-transaction-contract.md",
-        "scripts/transaction_contract.py",
-        "scripts/validate_mutation_contracts.py",
-        "tests/test_mutation_contracts.py"
-      ]
-    },
-    {
-      "id": "SUP-12",
-      "classification": "supported",
-      "capability": "Machine-enforced separation of reusable component guides from current-Mac observations",
-      "evidence": [
-        "references/component-state-boundary.md",
-        "scripts/component_state.py",
-        "scripts/audit_component_frontmatter.py",
-        "templates/app-component.md",
-        "tests/test_component_state.py"
-      ]
-    },
-    {
-      "id": "SUP-13",
-      "classification": "supported",
-      "capability": "Tracked installation-source policy with pinned high-risk packages, executable-artifact checks, and machine-local provenance capture",
-      "evidence": [
-        "references/source-policy.json",
-        "references/source-policy.md",
-        "scripts/supply_chain.py",
-        "scripts/macos_apps.py",
-        "tests/test_supply_chain.py"
-      ]
-    },
-    {
-      "id": "SUP-14",
-      "classification": "supported",
-      "capability": "Deterministic Clean-Mac acceptance harness with eligible-hardware attestation, gate ledger, sanitized evidence hashes, rollback requirement, and guarded finalization",
-      "evidence": [
-        "references/clean-mac-acceptance.json",
-        "references/clean-mac-acceptance-status.json",
-        "references/clean-mac-release-acceptance.md",
-        "scripts/clean_mac_acceptance.py",
-        "tests/test_clean_mac_acceptance.py"
-      ]
-    },
-    {
-      "id": "SUP-15",
-      "classification": "supported",
-      "capability": "Distinct repository-local macomrade CLI routing scan, plan, apply, verify, drift, diagnostics, and migration through compatibility-preserving scripts",
-      "evidence": [
-        "bin/macomrade",
-        "scripts/macomrade.py",
-        "references/cli-identity.json",
-        "references/macomrade-cli.md",
-        "tests/test_macomrade_cli.py"
-      ]
-    },
-    {
-      "id": "SUP-16",
-      "classification": "supported",
-      "capability": "Draft 2020-12 JSON contracts for catalog, settings, Private overlay, plan, state, and diagnostics with validation-before-use and non-destructive v0/v1 migrations",
-      "evidence": [
-        "schemas/catalog-v1.schema.json",
-        "schemas/settings-v1.schema.json",
-        "schemas/private-overlay-v1.schema.json",
-        "schemas/app-plan-v1.schema.json",
-        "schemas/state-record-v1.schema.json",
-        "schemas/diagnostic-result-v1.schema.json",
-        "references/schema-registry.json",
-        "references/schema-and-migration.md",
-        "scripts/schema_contract.py",
-        "tests/test_schema_contract.py"
-      ]
-    },
-    {
-      "id": "SUP-17",
-      "classification": "supported",
-      "capability": "Allowlisted redacted diagnostic ZIP with versions, bounded logs, failure classes, public policy hashes, preview manifest, exact export confirmation, and ZIP read-back verification",
-      "evidence": [
-        "scripts/diagnostic_bundle.py",
-        "schemas/diagnostic-bundle-v1.schema.json",
-        "tests/fixtures/schema_contract/diagnostic-bundle-v1.json",
-        "references/redacted-diagnostic-bundle.md",
-        "tests/test_diagnostic_bundle.py"
-      ]
-    },
-    {
-      "id": "SUP-18",
-      "classification": "supported",
-      "capability": "Repeatable local cold/warm performance and resource benchmarks with absolute and regression budgets",
-      "evidence": [
-        "settings/performance-budgets.json",
-        "scripts/performance_benchmark.py",
-        "references/performance-benchmarks.md",
-        "tests/test_performance_benchmark.py"
-      ]
-    },
-    {
-      "id": "SUP-19",
-      "classification": "supported",
-      "capability": "Localized accessible terminal and static HTML audit views derived from existing read-only JSON evidence",
-      "evidence": [
-        "scripts/audit_report.py",
-        "references/audit-reports.md",
-        "references/localization-accessibility.md",
-        "tests/test_audit_report.py"
-      ]
-    },
-    {
-      "id": "SUP-20",
-      "classification": "supported",
-      "capability": "Low-noise read-only drift monitoring with battery deferral, confidence filtering, severity cooldowns, and opt-in scheduling",
-      "evidence": [
-        "settings/drift-monitor.json",
-        "scripts/drift_monitor.py",
-        "scripts/drift_check_schedule.py",
-        "references/drift-monitor.md",
-        "tests/test_drift_monitor.py"
-      ]
-    },
-    {
-      "id": "LIM-01",
-      "classification": "interface_limited",
-      "capability": "TCC permission authorization and verification",
-      "limitation": "macOS requires per-Mac visible authorization and does not expose a supported read/write API for every category.",
-      "evidence": [
-        "settings/privacy.yaml",
-        "scripts/macos_permissions.py"
-      ]
-    },
-    {
-      "id": "LIM-02",
-      "classification": "interface_limited",
-      "capability": "App Store, official-web, GUI installer, account, license, and first-launch completion",
-      "limitation": "The skill may open and inspect supported surfaces, but secrets, purchases, security confirmations, and sign-in remain interactive.",
-      "evidence": [
-        "SKILL.md",
-        "settings/manual-actions.yaml"
-      ]
-    },
-    {
-      "id": "LIM-03",
-      "classification": "interface_limited",
-      "capability": "System Extension and Background Task Management inventory",
-      "limitation": "The command may require administrator authorization or report an unavailable interface; unavailable is never interpreted as empty.",
-      "evidence": [
-        "scripts/macos_permissions.py",
-        "settings/privacy.yaml"
-      ]
-    },
-    {
-      "id": "LIM-04",
-      "classification": "interface_limited",
-      "capability": "Installation-source and provenance detection",
-      "limitation": "Receipts, Homebrew metadata, bundle signatures, and paths provide evidence but cannot prove every historical installation source.",
-      "evidence": [
-        "scripts/macos_apps.py",
-        "references/app-catalog.json"
-      ]
-    },
-    {
-      "id": "LIM-05",
-      "classification": "interface_limited",
-      "capability": "VPN and network restoration",
-      "limitation": "Client presence and desired DNS topology are portable; credentials, organization policy, network joins, and active connections are not.",
-      "evidence": [
-        "settings/bootstrap-operational-baseline.yaml",
-        "components/smartdns.md"
-      ]
-    },
-    {
-      "id": "LIM-06",
-      "classification": "interface_limited",
-      "capability": "Display, audio, power, Night Shift, and True Tone capture/apply",
-      "limitation": "Current macOS command interfaces do not provide a complete stable round-trip contract; observations remain read-only or deferred.",
-      "evidence": [
-        "settings/system-preferences.yaml",
-        "TODO.md"
-      ]
-    },
-    {
-      "id": "DEF-01",
-      "classification": "deferred",
-      "capability": "Genuine unused/new-Mac release acceptance run",
-      "reason": "Blocked on suitable hardware; three previously configured Macs are not clean-machine evidence.",
-      "evidence": [
-        "TODO.md",
-        "references/release-roadmap.md",
-        "references/clean-mac-acceptance-status.json",
-        "references/clean-mac-release-acceptance.md"
-      ]
-    },
-    {
-      "id": "SUP-21",
-      "classification": "supported",
-      "capability": "Deterministic schema-validated release-manifest preview binding source, public inputs, validation, benchmark, limitations, and non-authority",
-      "evidence": [
-        "scripts/release_manifest.py",
-        "schemas/release-manifest-v1.schema.json",
-        "references/release-manifest.md",
-        "tests/test_release_manifest.py"
-      ]
-    },
-    {
-      "id": "SUP-22",
-      "classification": "supported",
-      "capability": "Memory-backed storage lifecycle with logical and allocated facts, iCloud metadata, decision expiry, target planning, transaction-bound cleanup, measured verification, Mole evidence, and non-authorizing OS/App handoffs",
-      "evidence": [
-        "settings/storage-policy.json",
-        "scripts/storage_lifecycle.py",
-        "scripts/storage_metadata.swift",
-        "schemas/storage-policy-v1.schema.json",
-        "schemas/storage-scan-v1.schema.json",
-        "schemas/storage-decision-ledger-v1.schema.json",
-        "schemas/storage-plan-v1.schema.json",
-        "schemas/storage-transaction-v1.schema.json",
-        "references/storage-lifecycle.md",
-        "tests/test_storage_lifecycle.py"
-      ]
-    },
-    {
-      "id": "DEF-03",
-      "classification": "deferred",
-      "capability": "Browser/notes/SSH/photo lifecycle, productized application storage adapters, WeChat group lifecycle, iPhone organization, and native GUI",
-      "reason": "Assigned to versions 0.3.0 through 1.0.0, not the implemented 0.2.0 baseline.",
-      "evidence": [
-        "references/release-roadmap.md"
-      ]
-    },
-    {
-      "id": "EXC-01",
-      "classification": "excluded",
-      "capability": "Persisting passwords, tokens, private keys, recovery codes, cookies, sessions, raw TCC databases, or private payload content",
-      "reason": "Protected secrets and private content never belong in Git or diagnostic configuration.",
-      "evidence": [
-        "references/configuration-layers.md",
-        "settings/privacy.yaml"
-      ]
-    },
-    {
-      "id": "EXC-02",
-      "classification": "excluded",
-      "capability": "Silent permission grants, account login, purchases, security confirmations, or destructive cleanup",
-      "reason": "These operations require visible user authorization and verified read-back.",
-      "evidence": [
-        "SKILL.md",
-        "settings/manual-actions.yaml"
-      ]
-    },
-    {
-      "id": "EXC-03",
-      "classification": "excluded",
-      "capability": "Copying machine observations or TCC grants between Macs",
-      "reason": "Only portable intent and iCloud Private preferences synchronize; every Mac creates and verifies its own runtime state.",
-      "evidence": [
-        "references/machine-local-state.md",
-        "settings/bootstrap-operational-baseline.yaml"
-      ]
-    },
-    {
-      "id": "EXC-04",
-      "classification": "excluded",
-      "capability": "Hosted GitHub Actions as the default release quality gate",
-      "reason": "The accepted policy uses local macOS validation; hosted runners do not represent the user's hardware, accounts, permissions, or GUI state.",
-      "evidence": [
-        "README.md",
-        "tests/smoke.sh"
-      ]
-    },
-    {
-      "id": "EXC-05",
-      "classification": "excluded",
-      "capability": "Relocating the repository out of iCloud as an implementation workaround",
-      "reason": "iCloud/File Provider behavior is a supported operating constraint.",
-      "evidence": [
-        "references/icloud-git-integrity.md",
-        "TODO.md"
-      ]
-    },
-    {
-      "id": "EXC-06",
-      "classification": "excluded",
-      "capability": "Enabling SmartDNS or switching DNS to localhost by default",
-      "reason": "Default DNS is 1.1.1.1 and 8.8.8.8; SmartDNS requires an explicit user request.",
-      "evidence": [
-        "settings/bootstrap-operational-baseline.yaml",
-        "components/smartdns.md"
-      ]
-    },
-    {
-      "id": "EXC-07",
-      "classification": "excluded",
-      "capability": "Automatic commit, push, tag, GitHub release, or App Store submission",
-      "reason": "Every publication action requires separate explicit authorization.",
-      "evidence": [
-        "SKILL.md",
-        "references/release-roadmap.md"
-      ]
-    }
-  ]
+  {
+   "id": "SUP-02",
+   "classification": "supported",
+   "capability": "Machine-local runtime state with explicit override and verified legacy-state migration",
+   "evidence": [
+    "scripts/state_paths.py",
+    "scripts/migrate_state.py",
+    "references/machine-local-state.md",
+    "tests/test_state_migration.py"
+   ]
+  },
+  {
+   "id": "SUP-03",
+   "classification": "supported",
+   "capability": "Public, iCloud Private, machine-state, and secret configuration boundaries",
+   "evidence": [
+    "examples/private/manifest.json",
+    "scripts/config_layers.py",
+    "references/configuration-layers.md",
+    "tests/test_config_layers.py"
+   ]
+  },
+  {
+   "id": "SUP-04",
+   "classification": "supported",
+   "capability": "iCloud/File Provider aware Git preflight and non-destructive materialization planning",
+   "evidence": [
+    "scripts/icloud_git_guard.py",
+    "references/icloud-git-integrity.md",
+    "tests/test_icloud_git_guard.py"
+   ]
+  },
+  {
+   "id": "SUP-05",
+   "classification": "supported",
+   "capability": "Read-only application, permission, helper, service, extension, and background-task inventory",
+   "evidence": [
+    "settings/privacy.yaml",
+    "scripts/macos_permissions.py",
+    "scripts/macos_permissions_cleanup.py"
+   ]
+  },
+  {
+   "id": "SUP-06",
+   "classification": "supported",
+   "capability": "Allowlisted macOS preference capture, comparison, and explicitly confirmed application",
+   "evidence": [
+    "examples/private/system-preferences-values.json",
+    "settings/system-preferences.yaml",
+    "scripts/macos_preferences.py"
+   ]
+  },
+  {
+   "id": "SUP-07",
+   "classification": "supported",
+   "capability": "Dock, startup-item, Chrome-profile, and device-specific K240 desired-state workflows",
+   "evidence": [
+    "examples/private/dock-order.json",
+    "examples/private/chrome-profiles.json",
+    "examples/private/keyboard.yaml",
+    "scripts/macos_dock.py",
+    "scripts/macos_startup_items.py",
+    "scripts/chrome_profiles.py"
+   ]
+  },
+  {
+   "id": "SUP-08",
+   "classification": "supported",
+   "capability": "Portable DNS, SmartDNS opt-in, VPN, permission, and startup intent baseline",
+   "evidence": [
+    "settings/bootstrap-operational-baseline.yaml",
+    "components/smartdns.md",
+    "scripts/bootstrap_verify.py"
+   ]
+  },
+  {
+   "id": "SUP-09",
+   "classification": "supported",
+   "capability": "Plan-first app-specific cleanup inspection with explicit confirmation boundaries",
+   "evidence": [
+    "scripts/capacities_cleanup.py",
+    "scripts/claude_vm_cleanup.py",
+    "scripts/docker_desktop_cleanup.py",
+    "scripts/openclaw_cleanup.py"
+   ]
+  },
+  {
+   "id": "SUP-10",
+   "classification": "supported",
+   "capability": "Local bootstrap validation, fixture tests, compile checks, dry-run smoke, and Skill validation",
+   "evidence": [
+    "scripts/bootstrap_validate.py",
+    "scripts/release_check.py",
+    "references/testing-contract.md",
+    "tests/test_macos_apps.py",
+    "tests/test_platform_fixtures.py",
+    "tests/smoke.sh",
+    "README.md"
+   ]
+  },
+  {
+   "id": "SUP-11",
+   "classification": "supported",
+   "capability": "Machine-validated transaction contracts for every supported mutation",
+   "evidence": [
+    "references/mutation-contracts.json",
+    "references/mutation-transaction-contract.md",
+    "scripts/transaction_contract.py",
+    "scripts/validate_mutation_contracts.py",
+    "tests/test_mutation_contracts.py"
+   ]
+  },
+  {
+   "id": "SUP-12",
+   "classification": "supported",
+   "capability": "Machine-enforced separation of reusable component guides from current-Mac observations",
+   "evidence": [
+    "references/component-state-boundary.md",
+    "scripts/component_state.py",
+    "scripts/audit_component_frontmatter.py",
+    "templates/app-component.md",
+    "tests/test_component_state.py"
+   ]
+  },
+  {
+   "id": "SUP-13",
+   "classification": "supported",
+   "capability": "Tracked installation-source policy with pinned high-risk packages, executable-artifact checks, and machine-local provenance capture",
+   "evidence": [
+    "references/source-policy.json",
+    "references/source-policy.md",
+    "scripts/supply_chain.py",
+    "scripts/macos_apps.py",
+    "tests/test_supply_chain.py"
+   ]
+  },
+  {
+   "id": "SUP-14",
+   "classification": "supported",
+   "capability": "Deterministic Clean-Mac acceptance harness with eligible-hardware attestation, gate ledger, sanitized evidence hashes, rollback requirement, and guarded finalization",
+   "evidence": [
+    "references/clean-mac-acceptance.json",
+    "references/clean-mac-acceptance-status.json",
+    "references/clean-mac-release-acceptance.md",
+    "scripts/clean_mac_acceptance.py",
+    "tests/test_clean_mac_acceptance.py"
+   ]
+  },
+  {
+   "id": "SUP-15",
+   "classification": "supported",
+   "capability": "Distinct repository-local macomrade CLI routing scan, plan, apply, verify, drift, diagnostics, and migration through compatibility-preserving scripts",
+   "evidence": [
+    "bin/macomrade",
+    "scripts/macomrade.py",
+    "references/cli-identity.json",
+    "references/macomrade-cli.md",
+    "tests/test_macomrade_cli.py"
+   ]
+  },
+  {
+   "id": "SUP-16",
+   "classification": "supported",
+   "capability": "Draft 2020-12 JSON contracts for catalog, settings, Private overlay, plan, state, and diagnostics with validation-before-use and non-destructive v0/v1 migrations",
+   "evidence": [
+    "schemas/catalog-v1.schema.json",
+    "schemas/settings-v1.schema.json",
+    "schemas/private-overlay-v1.schema.json",
+    "schemas/app-plan-v1.schema.json",
+    "schemas/state-record-v1.schema.json",
+    "schemas/diagnostic-result-v1.schema.json",
+    "references/schema-registry.json",
+    "references/schema-and-migration.md",
+    "scripts/schema_contract.py",
+    "tests/test_schema_contract.py"
+   ]
+  },
+  {
+   "id": "SUP-17",
+   "classification": "supported",
+   "capability": "Allowlisted redacted diagnostic ZIP with versions, bounded logs, failure classes, public policy hashes, preview manifest, exact export confirmation, and ZIP read-back verification",
+   "evidence": [
+    "scripts/diagnostic_bundle.py",
+    "schemas/diagnostic-bundle-v1.schema.json",
+    "tests/fixtures/schema_contract/diagnostic-bundle-v1.json",
+    "references/redacted-diagnostic-bundle.md",
+    "tests/test_diagnostic_bundle.py"
+   ]
+  },
+  {
+   "id": "SUP-18",
+   "classification": "supported",
+   "capability": "Repeatable local cold/warm performance and resource benchmarks with absolute and regression budgets",
+   "evidence": [
+    "settings/performance-budgets.json",
+    "scripts/performance_benchmark.py",
+    "references/performance-benchmarks.md",
+    "tests/test_performance_benchmark.py"
+   ]
+  },
+  {
+   "id": "SUP-19",
+   "classification": "supported",
+   "capability": "Localized accessible terminal and static HTML audit views derived from existing read-only JSON evidence",
+   "evidence": [
+    "scripts/audit_report.py",
+    "references/audit-reports.md",
+    "references/localization-accessibility.md",
+    "tests/test_audit_report.py"
+   ]
+  },
+  {
+   "id": "SUP-20",
+   "classification": "supported",
+   "capability": "Low-noise read-only drift monitoring with battery deferral, confidence filtering, severity cooldowns, and opt-in scheduling",
+   "evidence": [
+    "settings/drift-monitor.json",
+    "scripts/drift_monitor.py",
+    "scripts/drift_check_schedule.py",
+    "references/drift-monitor.md",
+    "tests/test_drift_monitor.py"
+   ]
+  },
+  {
+   "id": "LIM-01",
+   "classification": "interface_limited",
+   "capability": "TCC permission authorization and verification",
+   "limitation": "macOS requires per-Mac visible authorization and does not expose a supported read/write API for every category.",
+   "evidence": [
+    "settings/privacy.yaml",
+    "scripts/macos_permissions.py"
+   ]
+  },
+  {
+   "id": "LIM-02",
+   "classification": "interface_limited",
+   "capability": "App Store, official-web, GUI installer, account, license, and first-launch completion",
+   "limitation": "The skill may open and inspect supported surfaces, but secrets, purchases, security confirmations, and sign-in remain interactive.",
+   "evidence": [
+    "SKILL.md",
+    "settings/manual-actions.yaml"
+   ]
+  },
+  {
+   "id": "LIM-03",
+   "classification": "interface_limited",
+   "capability": "System Extension and Background Task Management inventory",
+   "limitation": "The command may require administrator authorization or report an unavailable interface; unavailable is never interpreted as empty.",
+   "evidence": [
+    "scripts/macos_permissions.py",
+    "settings/privacy.yaml"
+   ]
+  },
+  {
+   "id": "LIM-04",
+   "classification": "interface_limited",
+   "capability": "Installation-source and provenance detection",
+   "limitation": "Receipts, Homebrew metadata, bundle signatures, and paths provide evidence but cannot prove every historical installation source.",
+   "evidence": [
+    "scripts/macos_apps.py",
+    "references/app-catalog.json"
+   ]
+  },
+  {
+   "id": "LIM-05",
+   "classification": "interface_limited",
+   "capability": "VPN and network restoration",
+   "limitation": "Client presence and desired DNS topology are portable; credentials, organization policy, network joins, and active connections are not.",
+   "evidence": [
+    "settings/bootstrap-operational-baseline.yaml",
+    "components/smartdns.md"
+   ]
+  },
+  {
+   "id": "LIM-06",
+   "classification": "interface_limited",
+   "capability": "Display, audio, power, Night Shift, and True Tone capture/apply",
+   "limitation": "Current macOS command interfaces do not provide a complete stable round-trip contract; observations remain read-only or deferred.",
+   "evidence": [
+    "settings/system-preferences.yaml",
+    "TODO.md"
+   ]
+  },
+  {
+   "id": "LIM-07",
+   "classification": "interface_limited",
+   "capability": "Safari live bookmark/Reading List item write, move, merge, archive, delete, and rollback",
+   "limitation": "Apple exposes user-mediated export/import and Reading List addition only; no supported API enumerates and transactionally mutates existing Safari items. apply-browser is fail-closed (BA-08 interface_limited) and grants no write authority.",
+   "evidence": [
+    "references/browser-acceptance.json",
+    "scripts/browser_transactions.py",
+    "TODO.md"
+   ]
+  },
+  {
+   "id": "DEF-01",
+   "classification": "deferred",
+   "capability": "Genuine unused/new-Mac release acceptance run",
+   "reason": "Blocked on suitable hardware; three previously configured Macs are not clean-machine evidence.",
+   "evidence": [
+    "TODO.md",
+    "references/release-roadmap.md",
+    "references/clean-mac-acceptance-status.json",
+    "references/clean-mac-release-acceptance.md"
+   ]
+  },
+  {
+   "id": "DEF-04",
+   "classification": "deferred",
+   "capability": "Chrome bookmarks data source verification and multi-profile acceptance",
+   "reason": "Deferred by user choice; the 0.3.0 contract is Safari-only (BA-10 deferred_by_user).",
+   "evidence": [
+    "references/browser-acceptance.json",
+    "TODO.md"
+   ]
+  },
+  {
+   "id": "DEF-05",
+   "classification": "deferred",
+   "capability": "45-day gateway trial lifecycle, post-change second-export evidence (BA-09), and canonical organization switching",
+   "reason": "Time-gated trial began 2026-08-14 and post-export verification depends on the interface_limited Safari write path; canonical switching is fail-closed by design pending a separate exact-confirmed transaction.",
+   "evidence": [
+    "references/browser-acceptance.json",
+    "references/release-roadmap.md",
+    "TODO.md"
+   ]
+  },
+  {
+   "id": "SUP-21",
+   "classification": "supported",
+   "capability": "Deterministic schema-validated release-manifest preview binding source, public inputs, validation, benchmark, limitations, and non-authority",
+   "evidence": [
+    "scripts/release_manifest.py",
+    "schemas/release-manifest-v1.schema.json",
+    "references/release-manifest.md",
+    "tests/test_release_manifest.py"
+   ]
+  },
+  {
+   "id": "SUP-22",
+   "classification": "supported",
+   "capability": "Memory-backed storage lifecycle with logical and allocated facts, iCloud metadata, decision expiry, target planning, transaction-bound cleanup, measured verification, Mole evidence, and non-authorizing OS/App handoffs",
+   "evidence": [
+    "settings/storage-policy.json",
+    "scripts/storage_lifecycle.py",
+    "scripts/storage_metadata.swift",
+    "schemas/storage-policy-v1.schema.json",
+    "schemas/storage-scan-v1.schema.json",
+    "schemas/storage-decision-ledger-v1.schema.json",
+    "schemas/storage-plan-v1.schema.json",
+    "schemas/storage-transaction-v1.schema.json",
+    "references/storage-lifecycle.md",
+    "tests/test_storage_lifecycle.py"
+   ]
+  },
+  {
+   "id": "SUP-23",
+   "classification": "supported",
+   "capability": "Safari-only browser bookmarks and Reading List lifecycle: capability probing, explicit export parse, repeatable inventory, shared-profile identity boundary, explainable duplicate review, taxonomy and decision memory with review dates, redacted lifecycle/plan/verify/history routes, versioned organization candidates, and supervised deterministic gateway import",
+   "evidence": [
+    "references/browser-acceptance.json",
+    "scripts/browser_sources.py",
+    "scripts/browser_organization.py",
+    "scripts/browser_review.py",
+    "scripts/browser_lifecycle.py",
+    "scripts/browser_transactions.py",
+    "scripts/browser_reconciliation.py",
+    "scripts/browser_gateway.py",
+    "scripts/browser_gateway_convergence.py",
+    "schemas/browser-item-v1.schema.json",
+    "schemas/browser-decision-ledger-v1.schema.json",
+    "schemas/browser-transaction-plan-v1.schema.json",
+    "schemas/browser-gateway-policy-v1.schema.json",
+    "tests/test_browser_item_contract.py",
+    "tests/test_browser_organization.py",
+    "tests/test_browser_review.py",
+    "tests/test_browser_lifecycle.py",
+    "tests/test_browser_transactions.py",
+    "tests/test_browser_reconciliation.py",
+    "tests/test_browser_gateway.py",
+    "tests/test_browser_acceptance.py"
+   ]
+  },
+  {
+   "id": "EXC-01",
+   "classification": "excluded",
+   "capability": "Persisting passwords, tokens, private keys, recovery codes, cookies, sessions, raw TCC databases, or private payload content",
+   "reason": "Protected secrets and private content never belong in Git or diagnostic configuration.",
+   "evidence": [
+    "references/configuration-layers.md",
+    "settings/privacy.yaml"
+   ]
+  },
+  {
+   "id": "EXC-02",
+   "classification": "excluded",
+   "capability": "Silent permission grants, account login, purchases, security confirmations, or destructive cleanup",
+   "reason": "These operations require visible user authorization and verified read-back.",
+   "evidence": [
+    "SKILL.md",
+    "settings/manual-actions.yaml"
+   ]
+  },
+  {
+   "id": "EXC-03",
+   "classification": "excluded",
+   "capability": "Copying machine observations or TCC grants between Macs",
+   "reason": "Only portable intent and iCloud Private preferences synchronize; every Mac creates and verifies its own runtime state.",
+   "evidence": [
+    "references/machine-local-state.md",
+    "settings/bootstrap-operational-baseline.yaml"
+   ]
+  },
+  {
+   "id": "EXC-04",
+   "classification": "excluded",
+   "capability": "Hosted GitHub Actions as the default release quality gate",
+   "reason": "The accepted policy uses local macOS validation; hosted runners do not represent the user's hardware, accounts, permissions, or GUI state.",
+   "evidence": [
+    "README.md",
+    "tests/smoke.sh"
+   ]
+  },
+  {
+   "id": "EXC-05",
+   "classification": "excluded",
+   "capability": "Relocating the repository out of iCloud as an implementation workaround",
+   "reason": "iCloud/File Provider behavior is a supported operating constraint.",
+   "evidence": [
+    "references/icloud-git-integrity.md",
+    "TODO.md"
+   ]
+  },
+  {
+   "id": "EXC-06",
+   "classification": "excluded",
+   "capability": "Enabling SmartDNS or switching DNS to localhost by default",
+   "reason": "Default DNS is 1.1.1.1 and 8.8.8.8; SmartDNS requires an explicit user request.",
+   "evidence": [
+    "settings/bootstrap-operational-baseline.yaml",
+    "components/smartdns.md"
+   ]
+  },
+  {
+   "id": "EXC-07",
+   "classification": "excluded",
+   "capability": "Automatic commit, push, tag, GitHub release, or App Store submission",
+   "reason": "Every publication action requires separate explicit authorization.",
+   "evidence": [
+    "SKILL.md",
+    "references/release-roadmap.md"
+   ]
+  }
+ ]
 }

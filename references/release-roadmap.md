@@ -293,7 +293,101 @@ authorized version change to 0.2.0.
 
 ## 0.3.0 — browser bookmarks and reading lists
 
-Status: **committed; rules to be designed**
+Status: **release_candidate**（Safari-only scope; Chrome deferred by user choice）
+
+Release status: the Safari-only slice of the committed 0.3.0 scope is implemented
+and locally validated. `references/browser-acceptance.json` records the
+Safari-only live-acceptance contract with BA-01 through BA-05 passed on a real
+Safari 27 export, BA-08 marked `interface_limited` (no supported Safari item
+write/rollback API), and BA-10 deferred by user choice. Chrome remains
+`deferred_by_user`; the 45-day gateway trial lifecycle (started 2026-08-14)
+and post-change second-export evidence remain open. No tag, GitHub Release,
+packaged distribution, or genuine clean-Mac acceptance run exists.
+
+Implementation progress: the Safari-only slices of BR-01 and BR-03 plus all of
+BR-02, BR-04, and BR-05 are complete. BR-02 registers the private browser-item Schema, opaque identity,
+profile/account and collection boundaries, lifecycle/conflict fields, and
+fail-closed Git/privacy combinations. BR-03 now parses only an explicitly
+supplied Bookmarks-and-Reading-List-only Safari ZIP into schema-checked private in-memory items
+and emits a redacted count-only summary. Live reads now prefer the public
+`macos-data >= 0.8.0` Safari adapter, while an explicit
+Bookmarks-and-Reading-List-only Safari export remains the immutable evidence,
+recovery, reconciliation, and acceptance source. The skill never accesses the
+internal bookmark plist directly. Public `macos-data 0.8.1` now supplies the
+guarded local-only bookmark/folder CRUD contract, but it has not proved
+cross-device sync and is not yet bridged to frozen export plans. Chrome source
+verification remains deferred by
+user choice; BR-01 as a whole remains open. BR-04 adds authority-backed,
+structure-preserving URL proposals and explainable duplicate groups that never
+cross browser/profile/account identity or grant execution authority.
+BR-05 adds public taxonomy and review-period policy plus a Private decision
+ledger. Only a unique, unchanged semantic fingerprint inside the same identity
+boundary is suppressed until its review date; personal labels, notes, and
+fingerprints never enter Git.
+BR-06 now has a safe partial foundation: a verified Safari export can bind a
+self-hashed item-scoped plan, an exact-confirmed transaction can freeze it to
+mode-0600 machine-local state, and a later explicit export can verify expected
+fingerprint counts. Safari live apply remains unsupported because the current
+official interfaces cannot enumerate and transactionally mutate existing
+items; HTML import is additive rather than exact rollback. BR-06 therefore
+remains open.
+BR-07 exposes scan, capability selection, review, plan, apply, verify, and history through stable
+`macomrade ... browser` routes. Their JSON remains authoritative and redacted;
+the shared renderer accepts only fixed summary kinds and aggregate fields for
+zh-Hans, ja, and en terminal or semantic static HTML output. Raw parses and
+frozen plans are rejected. The apply route preserves the BR-06 fail-closed
+interface blocker and grants no Safari write authority.
+BR-08 now has a ten-gate Safari-only acceptance harness for explicit exports,
+repeat-run inventory/review/decision/plan evidence, shared-profile identity,
+optional second-export verification, and redacted Schema-validated output.
+One real Safari 27 export passed BA-01 through BA-05 with 311 bookmarks and 89
+Reading List items. Its five duplicate groups can be exported for human review
+only through an exact-confirmed, schema-validated, mode-0600 artifact under
+Git-ignored `Private/browser/`; stdout remains aggregate-only and the artifact
+grants no execution authority. BR-08 and full 0.3.0 remain blocked by missing
+reviewed decision/operation/post-export evidence, the Safari live-write and
+rollback interface, and the user-deferred Chrome scope.
+
+BR-10 adds the product-level information-flow objective above the existing
+organization ledger: Safari is a bounded recurring-source gateway, Reading
+List is a temporary inbox, and Obsidian owns durable knowledge. A registered
+public policy allocates 70 Core and 30 trial slots across the existing 15
+subdomains, targets about 100 active sources within a 90–110 operating range,
+uses a 45-day trial, two-out/one-in while above 100, then one-in-one-out
+renewal, and requires recent
+source evidence. A read-only macomrade audit reports aggregate capacity,
+retirement pressure, and room for new sources without revealing Private
+content or changing Safari. Candidate discovery, per-item replacement review,
+trial promotion, and supported live mutation remain incomplete. The first
+approved wave is now preserved as a source-bound Private ledger with ten new
+sources, twenty retirement decisions, projected active count 272, mode `0600`,
+Git-ignore and Schema read-back; its migration plan remains explicitly blocked.
+
+The capacity contract treats 100 as the admission boundary rather than the
+upper operating bound: above 100, every new source requires at least two
+reviewed retirements. A 90–110 range absorbs normal review timing, but 110 is
+not an expansion target. The existing 282-item baseline requires 196 retirement
+reviews and allows only 14 quota-filling additions; after the recorded Wave 1,
+the corresponding remainder is 185 retirements and at most 13 additions.
+
+The first manual execution pilot now has a registered Private contract and
+stable CLI freeze/verification routes. It supersedes the immutable Wave 1
+without modifying it, freezes ten exchange groups and a 16-item temporary
+removal manifest, and verifies explicit source/baseline/checkpoint exports at
+316, 321 and 305 bookmarks while requiring all 89 Reading List items and 291
+non-manifest old bookmarks to remain unchanged. The implementation grants no
+Safari or purge authority. Evidence import, pilot freeze, both manual batches,
+the separately confirmed manifest-only purge, and 45-day trial results remain
+live acceptance work.
+
+The convergence layer now compiles the old organization, immutable pilot and
+reviewed current-source spec into a bounded 90–110-source, 15-subdomain Private
+ledger. Its deterministic HTML generator excludes Reading List and archive
+content and verifies every URL, title and folder by read-back. The real-data
+candidate currently resolves to 99 items: 73 retained legacy sources and 26
+trials. Neither
+the ledger nor the package has been persisted yet, and clearing/importing
+Safari remains a separate destructive live-acceptance step.
 
 Create a privacy-preserving information architecture and repeatable review
 workflow for bookmarks and read-later items across Safari, Chrome, and their

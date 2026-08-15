@@ -64,7 +64,7 @@ def directory_bytes(path: Path) -> int:
         directories[:] = [name for name in directories if not (Path(parent) / name).is_symlink()]
         for name in files:
             try:
-                total += (Path(parent) / name).stat(follow_symlinks=False).st_blocks * 512
+                total += os.stat(Path(parent) / name, follow_symlinks=False).st_blocks * 512
             except OSError:
                 continue
     return total

@@ -78,7 +78,7 @@ class ReleaseManifestTests(unittest.TestCase):
             release_result=PASSED_RELEASE,
             benchmark=PASSED_BENCHMARK,
         )
-        self.assertEqual(manifest["candidate"]["version"], "0.2.0")
+        self.assertEqual(manifest["candidate"]["version"], "0.3.0")
         self.assertEqual(manifest["source"]["commit"], "a" * 40)
         self.assertEqual(manifest["source"]["worktree"], "clean")
         self.assertTrue(manifest["schemas"])

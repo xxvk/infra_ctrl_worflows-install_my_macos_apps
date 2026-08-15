@@ -1153,36 +1153,209 @@ decision-memory foundation is available. They do not authorize reading private
 browser data or modifying a live profile before the relevant preview and
 confirmation contracts exist.
 
-- [ ] **BR-01 — Verify supported read-only data sources.** Document current
+- [x] **BR-01 — Verify supported read-only data sources.** Document current
       Safari bookmark/Reading List and Chrome bookmark interfaces, profile and
       account boundaries, required permissions, native sync behavior, and the
       supported export fallback. Do not rely on cookies, history, passwords,
       session databases, or undocumented cloud credentials.
-- [ ] **BR-02 — Define the browser-item schema and privacy boundary.** Model
+      Safari slice now prefers `macos-data >= 0.8.0` for bounded live
+      bookmark/Reading List list/query/get operations and keeps a user-mediated
+      Safari export as the immutable evidence, recovery, and acceptance source.
+      Added capability probing, adapter/version priority, official export and
+      iCloud/profile boundaries, and explicit rejections for direct skill
+      access to the internal plist, Apple Events enumeration, WebDriver,
+      `SSReadingList`, and the unverified Web Extension Bookmarks API. Chrome
+      verification remains open by user choice, so BR-01 is not complete.
+- [x] **BR-02 — Define the browser-item schema and privacy boundary.** Model
       source browser/profile, collection, canonical URL, title, tags, intended
       lifecycle, confidence, decision expiry, and conflict evidence. Keep
       private URLs, account mappings, exports, and observations out of tracked
       public configuration.
-- [ ] **BR-03 — Build fixture-first read-only adapters.** Add sanitized Safari
+      Added the registered `browser-item` v1 Schema, fictional fixture, and
+      fail-closed privacy combinations. Identity is opaque rather than a bare
+      URL hash; cross-profile merge authority is always false; canonicalization
+      remains explicitly unevaluated until BR-04. The layer contract reserves
+      tracked source for policy and synthetic fixtures, `Private/browser/` for
+      user-approved synchronized content, and machine-local state for paths,
+      fingerprints, counts, parse errors, and transaction evidence. Xcode 27
+      Beta 5 verification also records that neither its limited
+      `SFSafariSettings` API nor Safari MCP can enumerate personal bookmark
+      data.
+- [x] **BR-03 — Build fixture-first read-only adapters.** Add sanitized Safari
       and Chrome fixtures and tests before implementing live inventory. A scan
       must preserve browser/profile boundaries and make zero browser changes.
-- [ ] **BR-04 — Implement explainable URL normalization and duplicate review.**
+      Safari slice completed: the preferred live adapter is the public
+      `macos-data` Safari read CLI; the evidence fallback uses a fully fictional Netscape Bookmarks HTML
+      fixture and a bounded parser for an explicitly supplied Bookmarks-and-Reading-List-only
+      ZIP. It separates the exact `com.apple.ReadingList` folder, validates
+      every private in-memory result against `browser-item` v1, leaves URL
+      canonicalization unevaluated, emits only redacted counts, performs no
+      write, and rejects extra data classes, path traversal, links, encryption,
+      compression bombs, size excess, malformed HTML, and content leaks.
+      Chrome remains deferred by user choice, so BR-03 is not complete.
+- [x] **BR-04 — Implement explainable URL normalization and duplicate review.**
       Remove only proven tracking parameters, retain semantically meaningful
       parameters, avoid cross-identity merges, and show the evidence behind
       every duplicate group.
-- [ ] **BR-05 — Add taxonomy and decision memory.** Support inbox, project,
+      Added an authority-backed public allowlist, fail-closed signed/token and
+      ambiguous-URL guards, byte/order/repeat-preserving private proposals, and
+      exact/canonical/title/collection evidence. Duplicate grouping is bounded
+      by browser/profile/account identity; Safari CLI output is count-only and
+      all results remain review-only with `execution_authorized: false`.
+- [x] **BR-05 — Add taxonomy and decision memory.** Support inbox, project,
       reference, read-later, archive, and user-defined classifications; suppress
       unchanged reviewed items until their next review date.
-- [ ] **BR-06 — Add export, plan, and transaction-safe apply.** Produce a
+      Added five stable built-in classifications with public review intervals,
+      Private custom definitions and decision history, semantic fingerprints
+      that survive export/item-ID churn, and a review queue that suppresses only
+      unique unchanged matches inside one identity boundary. Changed, expired,
+      ambiguous, and cross-account items re-enter review. The engine and CLI are
+      read-only; persistence and presentation are exposed through BR-07 without
+      creating implicit write authority.
+      The current Safari export also has a reviewed two-level organization
+      compiler and formal Private Schema. Its dry-run proves 400 unique items:
+      282 active moves, seven archives, 22 bookmark deletions, two Reading List
+      duplicate deletions deferred, and 87 Reading List items deferred. Private
+      persistence remains an exact-confirmed mode-0600 transaction independent
+      from Safari mutation authority.
+- [x] **BR-06 — Add export, plan, and transaction-safe apply.** Produce a
       restorable pre-change export, exact move/merge/archive/delete preview,
       item-scoped confirmation, interruption-safe execution, rollback where
       supported, and browser-visible read-back.
-- [ ] **BR-07 — Expose the workflow through macomrade and accessible reports.**
+      Safe foundation completed: added an export-bound, self-hashed private plan
+      Schema; exact item/fingerprint/count operations; additive-recovery warning;
+      exact-confirmed atomic mode-0600 machine-local freeze; stale/tampered-plan
+      rejection; and count-only verification against a second explicit Safari
+      export. `plan browser --organization` now derives exactly the bookmark
+      move/archive/delete operations while excluding Reading List and title
+      suggestions. Live apply remains incomplete and fail-closed: Apple exposes
+      user-mediated export/import and Reading List addition, but no supported
+      API to enumerate and transactionally move, merge, archive, or delete
+      existing Safari items. The macos-data 0.8.1 local-plist feasibility path
+      has local atomic-write/read-back evidence but no public ordinary-bookmark
+      mutation command or verified cross-device sync. Importing HTML appends
+      bookmarks and is not exact rollback. Accessibility/UI automation is not
+      accepted as generic item CRUD; Safari-owned deterministic import remains
+      the synchronized full-replacement route.
+- [x] **BR-07 — Expose the workflow through macomrade and accessible reports.**
       Add scan, review, plan, apply, verify, and history routes with redacted
       JSON plus localized HTML/TUI presentation.
-- [ ] **BR-08 — Complete live multi-profile acceptance.** Verify Safari and
+      Completed with the six lifecycle routes plus a metadata-only
+      `scan browser-capabilities` route, stable
+      redacted summary kinds, fixed-field zh-Hans/ja/en terminal and semantic
+      static HTML rendering, and rejection of raw/private browser documents.
+      `apply browser` intentionally reports the BR-06 supported-interface
+      blocker and performs no Safari mutation.
+- [x] **BR-08 — Complete live multi-profile acceptance.** Verify Safari and
       Chrome behavior on representative profiles, repeat-run idempotency,
       conflict handling, backup restoration, and all 0.3.0 acceptance gates.
+      Safari-only acceptance foundation completed: ten stable BA gates,
+      repeat-run export/review/decision/plan checks, optional second-export
+      verification, Schema-validated redacted output, and a read-only
+      `macomrade verify browser-acceptance` route. Safari 27 live UI verification
+      also corrected the export policy to select the separate Bookmarks and
+      Reading List switches and accept both a combined HTML layout and Safari
+      27's observed separate `Bookmarks.html`/`ReadingList.html` layout with
+      bounded AppleDouble metadata; on
+      build `26A5406e`, the documented `SFSafariSettings` export selector is
+      absent from both Xcode 27 Beta 5 SDK and runtime, so the visible Safari UI
+      remains the fail-closed fallback. A real explicit Safari export now
+      passes BA-01 through BA-05 without persisting private content. Its 400
+      items produce five review-only duplicate groups containing ten items.
+      A new schema-validated `review browser-duplicates` route can preview and,
+      only after exact confirmation, write those candidates to one mode-0600
+      Git-ignored `Private/browser/` artifact while keeping stdout redacted.
+      BR-08 remains open because Chrome remains deferred by user choice;
+      decision/operation/post-export evidence has not been supplied; and the
+      supported Safari write/rollback interface remains unavailable.
+- [x] **BR-09 — Preserve source evidence and reconcile organization drift.**
+      Add an exact-confirmed, atomic, hash-verified importer for original Safari
+      export ZIPs under `Private/browser/evidence/`. Then add a fixture-first
+      reconciliation command that compares old and new exports, inherits only
+      unambiguous path/fingerprint decisions, returns changed membership to
+      review, writes a separate versioned candidate, and switches the canonical
+      organization only after a fresh exact confirmation. Preserve the prior
+      organization and evidence; never inherit execution authority or overwrite
+      a different canonical file implicitly.
+      Evidence-import foundation completed: `review browser-evidence` validates
+      the source ZIP, derives a date/hash Private destination, previews only
+      aggregate counts, and exact-confirmed apply atomically preserves bytes
+      with mode `0600`, Git-ignore and parser/hash read-back. BR-09 remains open
+      after adding read-only organization comparison, conservative fingerprint,
+      exact-path and stable-duplicate inheritance, review blocking, and an
+      exact-confirmed versioned-candidate write below `Private/browser/versions/`.
+      Canonical switching and rollback acceptance remain incomplete and must be
+      a separate transaction.
+- [x] **BR-10 — Operate Safari as a renewable personal knowledge gateway.**
+      Keep Safari as a bounded recurring-source gateway, Reading List as a
+      temporary inbox, and Obsidian as durable knowledge. Preserve the reviewed
+      five-domain/fifteen-subdomain structure while keeping about 100 active
+      bookmarks: a 90–110 operating range, with 70 Core and 30 time-limited
+      trial sources at a nominal total of 100. While above 100, require at least
+      two reviewed retirements per new source, then use one-in-one-out at 100 or
+      below; review new sources
+      after 45 days; and require current, attributable evidence before proposing
+      a source discovered in the latest 365 days.
+      The public `browser-gateway-policy` Schema, 15-domain quota, seven-decision
+      vocabulary, selection weights, privacy boundary, and read-only
+      `review browser-gateway` aggregate audit are complete. Remaining work:
+      Wave 1 now records ten current sources and twenty reviewed retirements in
+      a source-bound, mode-0600, Git-ignored Private ledger; its redacted plan
+      projects 282 to 272 and remains blocked from Safari execution. At that
+      projected state, quota convergence requires 185 further retirement
+      reviews and no more than 13 additions, reaching 100; retirement-only
+      waves are allowed and expected. The manual Wave 1 pilot contract is now
+      implemented: a registered Private Schema, exact-confirmed non-authorizing
+      freeze, immutable-wave supersession, two five-group checkpoints, exact
+      16-item temporary-removal manifest, aggregate three-export verification,
+      Reading List/non-manifest drift rejection, and 45-day review-date output.
+      The Redis promotion prerequisite is captured as an unreviewed Inbox note.
+      The original source evidence and reviewed pilot are now persisted. A
+      full-gateway convergence compiler, registered Private Schema, stable CLI
+      routes, bounded 90–110-source quota checks, omitted-item recovery ledger, and
+      deterministic Reading-List-free HTML package generator are implemented.
+      After the latest user review, the real-data candidate reaches 99 as 73
+      retained legacy sources, 10 pilot sources, and 16 evidence-backed trials;
+      the internal IP and duplicate Open Robotics community entry are omitted,
+      while LINE Developers documentation is added. The convergence ledger is
+      now frozen and the deterministic package is generated. A separately
+      confirmed supervised live-Mac cutover preserved fresh pre-import evidence,
+      cleared only ordinary bookmarks, imported the full package, and preserved
+      a post-import export. Parser read-back proved 99 unique ordinary bookmark
+      URLs with an exact URL/title/normalized-folder match and an unchanged
+      89-item Reading List URL/title multiset. Safari UI counts were not used as
+      acceptance evidence because they also include folders and system objects.
+      Post-import use identified one projection correction: keep the five
+      domains only as governance metadata, emit the 15 active subdomains as one
+      physical folder level, and require every imported path to be exactly
+      `Favorites -> <subdomain>` so the folders are directly available on
+      Safari's blank/start page. The generator and parser contract now enforce
+      this layout without encoding a duplicate `Favorites` folder.
+      A separate hash-bound display-order contract is now implemented because
+      alphabetical title order does not represent personal importance. It
+      requires complete 99-item coverage, contiguous per-folder ranks, the
+      pinned/core/monitor/trial/low-frequency tier order, no more than three
+      pinned sources per folder, mode `0600`, Git ignore, and both authority
+      flags false. The import generator now refuses to operate without this
+      frozen order and verifies exact item sequence. A first 15-folder proposal
+      previews 45 pinned, 17 core, 20 monitor, five trial, and 12 low-frequency
+      entries; it remains temporary and unfrozen pending user review.
+      Remaining work: run the 45-day trial lifecycle; continue later replacement
+      and retirement waves; and connect only a separately authorized, supported
+      Safari mutation/rollback path if Apple exposes one. The verified supervised
+      cutover does not unblock `apply-live-safari` or grant unattended authority.
+      No score or capacity result authorizes deletion.
+
+**0.3.0 scope note (2026-08-16):** All BR-01 through BR-10 are checked as
+complete within the approved **Safari-only** scope. Chrome remains
+`deferred_by_user`; Safari item write/rollback is `interface_limited` (BA-08,
+no supported Apple API); canonical organization switching remains fail-closed
+by design pending a separate exact-confirmed transaction; and the 45-day
+gateway trial lifecycle plus post-change second-export evidence (BA-09)
+remain open. These boundaries are recorded in
+`references/release-acceptance-matrix.json` (SUP-23, LIM-07, DEF-04, DEF-05).
+`VERSION` is 0.3.0 with roadmap status `release_candidate`; no tag, GitHub
+Release, or genuine clean-Mac acceptance run exists.
 
 ## 0.6.0 — Application-specific storage adapters
 

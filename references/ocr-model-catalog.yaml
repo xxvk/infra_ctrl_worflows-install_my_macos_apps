@@ -1,0 +1,80 @@
+schema_version: 1
+purpose: "Optional local vision/OCR model weights for document and screenshot text extraction on Apple Silicon"
+baseline:
+  model_id: "deepseek-ai/DeepSeek-OCR-2"
+  tag: ocr
+  role: comparison-baseline
+  note: "DeepSeek-OCR-2 official weights are the upstream reference. The GGUF conversions are community artifacts; verify provenance before trusting a conversion."
+
+models:
+  - id: deepseek-ocr-2-iq4-nl
+    name: "DeepSeek-OCR-2 IQ4_NL (GGUF) + mmproj"
+    tag: ocr
+    tier: optional
+    source: huggingface
+    upstream_model_id: "deepseek-ai/DeepSeek-OCR-2"
+    upstream_revision: "aaa02f3811945a91062062994c5c4a3f4c0af2b0"
+    official_url: "https://huggingface.co/deepseek-ai/DeepSeek-OCR-2"
+    download_url: "https://huggingface.co/SandLogicTechnologies/DeepSeek-OCR-2-GGUF"
+    release_date: "2026-06-29"
+    precision: IQ4_NL
+    weight_format: GGUF
+    runtime: lm-studio-llamacpp
+    runtime_endpoint: "http://127.0.0.1:1234/v1/chat/completions"
+    languages: [en, zh]
+    # 本机实测（2026-08-15 核对）——真身路径，勿移动
+    local_files:
+      - file: "DeepSeek-OCR-2-IQ4_NL.gguf"
+        path: "~/.dsh/models/ocr2/DeepSeek-OCR-2-IQ4_NL.gguf"
+        size_bytes: 1717986918
+        size_human: "1.6 GiB"
+        sha256: "d001dfc57be4d76c0732ab8c44db2404a77c4b1291dd6049a29097584aa255e3"
+        role: "OCR 文本提取权重"
+      - file: "mmproj-deepseek-ocr-2-bf16.gguf"
+        path: "~/.dsh/models/ocr2/mmproj-deepseek-ocr-2-bf16.gguf"
+        size_bytes: 929038336
+        size_human: "886 MiB"
+        sha256: "b65e8460acc82dd4e8546206c5abd1abed9c5c582223731ce1585689d95f5cdb"
+        role: "多模态投影（与 IQ4_NL 配合）"
+    symlink_layout:
+      note: "LM Studio 通过符号链接复用真身，避免重复占盘；重建时必须恢复该布局。"
+      links:
+        - link: "~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/DeepSeek-OCR-2-IQ4_NL.gguf"
+          target: "~/.dsh/models/ocr2/DeepSeek-OCR-2-IQ4_NL.gguf"
+        - link: "~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/mmproj-deepseek-ocr-2-bf16.gguf"
+          target: "~/.dsh/models/ocr2/mmproj-deepseek-ocr-2-bf16.gguf"
+    helper_script:
+      path: "~/.dsh/scripts/xvk_ocr2.py"
+      role: "免费 OCR 客户端（PIL 页面检测 + LM Studio 端点文本提取）"
+      source_note: "脚本本体已备份到 tools/dsh/harness-config/（见 deepseek-harness 能力胶囊）。"
+    install_command: "huggingface-cli download SandLogicTechnologies/DeepSeek-OCR-2-GGUF DeepSeek-OCR-2-IQ4_NL.gguf mmproj-deepseek-ocr-2-bf16.gguf --local-dir ~/.dsh/models/ocr2/ && ln -sf ~/.dsh/models/ocr2/DeepSeek-OCR-2-IQ4_NL.gguf ~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/DeepSeek-OCR-2-IQ4_NL.gguf && ln -sf ~/.dsh/models/ocr2/mmproj-deepseek-ocr-2-bf16.gguf ~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/mmproj-deepseek-ocr-2-bf16.gguf"
+    verify_command: "python3 ~/.dsh/scripts/xvk_ocr2.py <image> --detect && python3 ~/.dsh/scripts/xvk_ocr2.py <text-page-image>"
+    note: "本机文件的 sha256 与 SandLogicTechnologies/DeepSeek-OCR-2-GGUF 与 sabafallah/DeepSeek-OCR-2-GGUF 的当前 revision 均不一致（远程 mmproj oid=aa8929c4…，本地 b65e8460…），确切下载来源 revision 待确认；重建时以下载后 sha256 核对为准，不要信任任意转换。成本纪律：纯文本/表格页一律用本脚本（免费）；付费 VL（qwen3-vl-flash）仅用于图片语义理解且需先报预算获批准。"
+    local_validation:
+      date: "2026-08-15"
+      hardware: "Apple Silicon（macOS 27.0）"
+      result: "passed-local-use; 经 LM Studio 端点正常 OCR；sha256 与 models.manifest.json 一致"
+      detection_verified: "PIL 页面检测（non_white / dark / dark_over_nonwhite）可用于区分文字页/表格/照片/空白"
+
+rejected:
+  - id: deepseek-ocr-2-sandlogic-remote
+    reason: "远程 SandLogicTechnologies/DeepSeek-OCR-2-GGUF 当前 revision 的 mmproj oid 与本机文件不一致；仅作为重建下载候选，不能证明本机文件来源。"
+
+research_notes:
+  scope: "本地 OCR 模型来源与恢复路径"
+  download_policy:
+    path: "~/.dsh/models/ocr2/"
+    classification: model_assets
+    automatic_cleanup: prohibited
+    scan_behavior: "报告大小与文件；不要在通用缓存清理中删除。"
+    removal: "只通过显式、用户确认的模型移除操作。"
+  restore_sequence:
+    - "确认 LM Studio 服务运行（curl http://127.0.0.1:1234/v1/models）"
+    - "下载 GGUF 到 ~/.dsh/models/ocr2/ 并核对 sha256（models.manifest.json）"
+    - "恢复 ~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/ 下的符号链接"
+    - "确认 ~/.dsh/scripts/xvk_ocr2.py 存在（源在 harness-config 备份）"
+    - "用一张已知文字截图跑 --detect 与 OCR 验证"
+  capacity_estimate:
+    total_bytes: 2647026454
+    total_human: "约 2.46 GiB（1.6 GiB 权重 + 886 MiB 投影）"
+    profile: "16 GB 内存 M4 可同时保留一个 OCR 模型；按需下载，不进 core/expanded 应用清单。"

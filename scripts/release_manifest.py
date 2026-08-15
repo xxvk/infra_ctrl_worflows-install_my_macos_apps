@@ -53,7 +53,7 @@ PLATFORM_SUPPORT = (
     },
 )
 KNOWN_LIMITATIONS = (
-    "No GitHub Release or packaged distribution exists; v0.2.0 is published as source under an annotated tag.",
+    "No GitHub Release or packaged distribution exists; v0.2.0 is published as source under an annotated tag and 0.3.0 is a release candidate.",
     "A genuine unused Clean-Mac acceptance run remains externally deferred.",
     "Intel Mac behavior is unverified.",
     "Protected permissions, credentials, purchases, and security confirmations remain interactive.",

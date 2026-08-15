@@ -101,14 +101,14 @@ def _allocated_bytes(path: Path) -> int:
         return 0
     total = 0
     try:
-        total += path.stat(follow_symlinks=False).st_blocks * 512
+        total += os.stat(path, follow_symlinks=False).st_blocks * 512
     except OSError:
         return 0
     for parent, directories, files in os.walk(path, followlinks=False):
         directories[:] = [item for item in directories if not (Path(parent) / item).is_symlink()]
         for name in files:
             try:
-                total += (Path(parent) / name).stat(follow_symlinks=False).st_blocks * 512
+                total += os.stat(Path(parent) / name, follow_symlinks=False).st_blocks * 512
             except OSError:
                 continue
     return total
