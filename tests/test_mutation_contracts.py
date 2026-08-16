@@ -22,7 +22,7 @@ class MutationContractTests(unittest.TestCase):
     def test_repository_registry_covers_all_mutations(self) -> None:
         result = validate_mutation_contracts.validate(ROOT)
         self.assertEqual(result["status"], "passed", result["errors"])
-        self.assertEqual(result["action_count"], 33)
+        self.assertEqual(result["action_count"], 43)
 
     def test_transaction_metadata_has_stable_contract_hash(self) -> None:
         first = transaction_contract.transaction_metadata(

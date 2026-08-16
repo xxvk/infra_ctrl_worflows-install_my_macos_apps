@@ -1,9 +1,12 @@
 # Browser bookmark migration
 
-Documentation only — no script here reads or exports bookmark contents.
-`scripts/chrome_profiles.py` already matches Chrome profiles to accounts by
+Documentation only — no script here reads or exports bookmark contents. Safari
+source verification now lives in
+[`safari-bookmark-reading-list-sources.md`](safari-bookmark-reading-list-sources.md);
+its future parser may accept only an explicit private export, never Safari's
+internal plist. `scripts/chrome_profiles.py` already matches Chrome profiles to accounts by
 email (see `Private/chrome-profiles.json`); this fills the one gap that
-leaves open: the bookmarks *inside* each matched profile.
+leaves open: the bookmarks *inside* each matched Chrome profile.
 
 ## Where bookmarks actually live
 

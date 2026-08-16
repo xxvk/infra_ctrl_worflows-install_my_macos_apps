@@ -11,6 +11,7 @@ Load this reference only when the current task uses this domain. Its rules were 
 - Android developer environment
 - Whisper model selection
 - Optional audio model catalog
+- Local OCR model selection
 
 ## Version and product roadmap
 
@@ -263,3 +264,33 @@ For the current 16 GB M4 profile:
 - Granite 4.0 1B Speech MLX 8-bit, Cohere Transcribe 03-2026 MLX 8-bit, and
   ReazonSpeech-k2-v2 INT8 are optional `audio` models. They are not Core app
   installations and are never downloaded as part of a normal app bootstrap.
+
+### Local OCR model selection
+
+The tracked [`ocr-model-catalog.yaml`](ocr-model-catalog.yaml) contains the
+optional local vision/OCR model (DeepSeek-OCR-2 GGUF + mmproj) used for
+document and screenshot text extraction. This is not a macOS `.app` bundle and
+must not be mixed into the App Store/Homebrew application catalog; it is an
+optional model-asset entry like the audio catalog. The helper client is
+`~/.dsh/scripts/xvk_ocr2.py` (machine-local; helper script and operations
+knowledge in `deepseek-harness-operations.md`), and the runtime endpoint is
+the local LM Studio server at `http://127.0.0.1:1234/v1`.
+
+Rules for this model:
+
+- Download weights only as needed; never fetch them as part of a normal app
+  bootstrap. The pair is about 2.46 GiB total (1.6 GiB IQ4_NL + 886 MiB mmproj).
+- Store the real files under `~/.dsh/models/ocr2/`; the LM Studio model
+  directory (`~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/`) contains
+  symbolic links back to that real location to avoid duplicated disk usage.
+  Restore that layout when rebuilding a machine.
+- Cost discipline: pure text/table pages are always OCR'd locally for free;
+  the paid VL model (qwen3-vl-flash) is used only when image *semantics* must
+  be understood, and only after reporting the budget and obtaining approval.
+- Provenance: the local files' sha256 does not match the current revisions of
+  the public GGUF conversion repos checked (SandLogicTechnologies and
+  sabafallah). Record sha256 in machine-local state and verify after any
+  redownload; never trust an arbitrary conversion.
+- Treat `~/.dsh/models/ocr2/` as a model-asset directory. Automatic cleanup
+  workflows must not delete it; removal requires an explicit, user-confirmed
+  model-removal action with read-back verification.

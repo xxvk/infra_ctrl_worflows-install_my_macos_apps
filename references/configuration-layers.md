@@ -58,6 +58,38 @@ cache regeneration proof. Private target and archive arrays otherwise replace
 their public defaults. Neither layer may set execution authorization; exact
 paths, sizes, fingerprints, and transaction evidence remain machine-local.
 
+Browser lifecycle work uses the tracked `browser-item` Schema plus the public
+`settings/browser-url-normalization.json` policy. Public policy may identify
+authority-backed tracking keys and produce review proposals, but it carries no
+execution authority. User-approved bookmark/Reading List exports, item records,
+and reviewed duplicate decisions may sync under `Private/browser/`. The
+optional canonical decision ledger is `Private/browser/decision-ledger.json`;
+custom labels, notes, identity references, fingerprints, and review dates are
+Private and never tracked. URLs, titles, folder paths, tags, profile or
+account mappings, and exports never enter Git. Exact source paths, fingerprints,
+counts, parse errors, temporary inventories, frozen plans, and apply/verify
+evidence remain under machine-local `browser/` state. A frozen plan may contain
+private item IDs, fingerprints, folder paths, and the exact export path; it is
+mode `0600`, redacted from CLI output, and never synchronized. No Private browser record carries
+execution authorization; only fictional public fixtures may declare themselves
+Git-allowed.
+The optional duplicate-only human-review artifact also lives below
+`Private/browser/`. It is created only by an exact-confirmed command, is bound
+to one export hash, uses mode `0600`, and contains no execution authorization.
+Its CLI summary remains aggregate-only; it is neither a ledger nor a frozen
+Safari mutation plan.
+The canonical reviewed two-level taxonomy and all source-item decisions may
+live at `Private/browser/organization.json`. It is bound to one source-export
+hash, created only after `SYNC PRIVATE BROWSER ORGANIZATION`, mode `0600`, and
+never Git-authorized. It can classify and suppress repeated review, but cannot
+grant plan-freeze or Safari execution authority.
+Declare the canonical file as the optional `browser-organization` entry in
+`Private/manifest.json`, so another Mac can discover and validate it after
+iCloud synchronization. The source export is separate immutable evidence under
+`Private/browser/evidence/`; the organization stores its hash, while the ZIP
+stores the original bytes. Neither belongs in the tracked example manifest as
+real content—the example carries path metadata only.
+
 ## Migration rule
 
 Do not move or delete existing configuration merely because it contains

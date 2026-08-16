@@ -61,6 +61,216 @@ class MacomradeTests(unittest.TestCase):
                 self.assertNotIn("--apply", command)
                 self.assertNotIn("--confirm", command)
 
+    def test_browser_routes_are_stable_redacted_handoffs(self) -> None:
+        expected = {
+            ("scan", "browser"): ("scripts/safari_export.py", "inspect"),
+            ("review", "browser"): ("scripts/browser_lifecycle.py", "review-safari-export"),
+            ("plan", "browser"): ("scripts/browser_transactions.py", "plan-safari-export"),
+            ("apply", "browser"): ("scripts/browser_transactions.py", "apply-live-safari"),
+            ("verify", "browser"): ("scripts/browser_transactions.py", "verify-post-export"),
+            ("history", "browser"): ("scripts/browser_lifecycle.py", "inspect-ledger"),
+        }
+        for key, (script, prefix) in expected.items():
+            with self.subTest(route=key):
+                route = macomrade.route_index()[key]
+                command = macomrade.command_for(
+                    route,
+                    ["/tmp/private-input.json"],
+                    python="/fixture/python",
+                )
+                self.assertEqual(command[:3], ["/fixture/python", script, prefix])
+                self.assertNotIn("--apply", command)
+                self.assertNotIn("--confirm", command)
+        self.assertFalse(
+            macomrade.route_index()[("apply", "browser")].mutating_capable
+        )
+        capability = macomrade.route_index()[("scan", "browser-capabilities")]
+        self.assertFalse(capability.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(capability, [], python="/fixture/python"),
+            [
+                "/fixture/python",
+                "scripts/browser_sources.py",
+                "inspect-safari",
+            ],
+        )
+        private_review = macomrade.route_index()[("review", "browser-duplicates")]
+        self.assertTrue(private_review.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                private_review,
+                ["/tmp/private-export.zip", "--output", "Private/browser/review.json"],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/browser_review.py",
+                "export-private-duplicates",
+                "/tmp/private-export.zip",
+                "--output",
+                "Private/browser/review.json",
+            ],
+        )
+        organization = macomrade.route_index()[("review", "browser-organization")]
+        self.assertTrue(organization.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                organization,
+                [
+                    "/tmp/private-export.zip",
+                    "--spec",
+                    "/tmp/private-spec.json",
+                    "--output",
+                    "Private/browser/organization.json",
+                ],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/browser_organization.py",
+                "compile-safari-export",
+                "/tmp/private-export.zip",
+                "--spec",
+                "/tmp/private-spec.json",
+                "--output",
+                "Private/browser/organization.json",
+            ],
+        )
+        evidence = macomrade.route_index()[("review", "browser-evidence")]
+        self.assertTrue(evidence.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                evidence,
+                ["/tmp/private-export.zip", "--exported-on", "2026-08-15"],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/browser_evidence.py",
+                "import-safari-export",
+                "/tmp/private-export.zip",
+                "--exported-on",
+                "2026-08-15",
+            ],
+        )
+        reconciliation = macomrade.route_index()[("review", "browser-reconciliation")]
+        self.assertTrue(reconciliation.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                reconciliation,
+                [
+                    "Private/browser/organization.json",
+                    "/tmp/new-export.zip",
+                    "--reconciled-on",
+                    "2026-08-16",
+                ],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/browser_reconciliation.py",
+                "reconcile-safari-export",
+                "Private/browser/organization.json",
+                "/tmp/new-export.zip",
+                "--reconciled-on",
+                "2026-08-16",
+            ],
+        )
+        gateway = macomrade.route_index()[("review", "browser-gateway")]
+        self.assertFalse(gateway.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                gateway,
+                ["Private/browser/organization.json"],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/browser_gateway.py",
+                "audit-organization",
+                "Private/browser/organization.json",
+            ],
+        )
+        wave = macomrade.route_index()[("review", "browser-gateway-wave")]
+        self.assertTrue(wave.mutating_capable)
+        command = macomrade.command_for(
+            wave,
+            ["Private/browser/organization.json", "--spec", "/tmp/wave.json"],
+            python="/fixture/python",
+        )
+        self.assertEqual(command[:3], ["/fixture/python", "scripts/browser_gateway.py", "sync-wave"])
+        self.assertNotIn("--apply", command)
+        self.assertNotIn("--confirm", command)
+        gateway_plan = macomrade.route_index()[("plan", "browser-gateway")]
+        self.assertFalse(gateway_plan.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                gateway_plan,
+                ["Private/browser/gateway/wave-2026-08-15-01.json"],
+                python="/fixture/python",
+            ),
+            [
+                "/fixture/python",
+                "scripts/browser_gateway.py",
+                "plan-wave",
+                "Private/browser/gateway/wave-2026-08-15-01.json",
+            ],
+        )
+        pilot = macomrade.route_index()[("review", "browser-gateway-pilot")]
+        self.assertTrue(pilot.mutating_capable)
+        pilot_command = macomrade.command_for(
+            pilot,
+            ["Private/browser/organization.json", "Private/browser/gateway/wave.json"],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            pilot_command[:3],
+            ["/fixture/python", "scripts/browser_gateway_pilot.py", "freeze"],
+        )
+        self.assertNotIn("--apply", pilot_command)
+        order = macomrade.route_index()[("review", "browser-gateway-order")]
+        self.assertTrue(order.mutating_capable)
+        order_command = macomrade.command_for(
+            order,
+            ["Private/browser/gateway/convergence.json", "--spec", "/tmp/order.json"],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            order_command[:3],
+            ["/fixture/python", "scripts/browser_gateway_order.py", "Private/browser/gateway/convergence.json"],
+        )
+        self.assertNotIn("--apply", order_command)
+        self.assertNotIn("--confirm", order_command)
+        pilot_verify = macomrade.route_index()[("verify", "browser-gateway-pilot")]
+        self.assertFalse(pilot_verify.mutating_capable)
+        self.assertEqual(
+            macomrade.command_for(
+                pilot_verify,
+                ["Private/browser/gateway/pilot.json", "--checkpoint", "batch-1"],
+                python="/fixture/python",
+            )[:3],
+            ["/fixture/python", "scripts/browser_gateway_pilot.py", "verify"],
+        )
+
+    def test_browser_acceptance_route_requires_an_explicit_subcommand(self) -> None:
+        route = macomrade.route_index()[("verify", "browser-acceptance")]
+        command = macomrade.command_for(
+            route,
+            ["inspect-live", "/tmp/private-export.zip"],
+            python="/fixture/python",
+        )
+        self.assertEqual(
+            command,
+            [
+                "/fixture/python",
+                "scripts/browser_acceptance.py",
+                "inspect-live",
+                "/tmp/private-export.zip",
+            ],
+        )
+        self.assertFalse(route.mutating_capable)
+        self.assertNotIn("--apply", command)
+
     def test_schema_routes_are_explicit_and_do_not_authorize_writes(self) -> None:
         self.assertEqual(
             macomrade.command_for(

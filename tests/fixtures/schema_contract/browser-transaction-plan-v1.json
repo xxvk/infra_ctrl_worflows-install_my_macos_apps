@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "browser_transaction_plan",
+  "plan_id": "btp_fixture_plan_000001",
+  "created_at": "2026-01-01T00:00:00+00:00",
+  "plan_sha256": "842f049cc79b5f543107790f879e8ca52125fc45a4bf193445e3ba92b0830213",
+  "source": {
+    "browser": "safari",
+    "interface": "safari_export_zip",
+    "path": "/private/fixture/Safari Export.zip",
+    "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "size_bytes": 1024,
+    "mtime_ns": 1,
+    "item_count": 1
+  },
+  "backup": {
+    "kind": "safari_bookmarks_only_export",
+    "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "verified": true,
+    "unencrypted": true,
+    "recovery_mode": "manual_import_additive",
+    "exact_rollback_supported": false
+  },
+  "operations": [
+    {
+      "operation_id": "bop_fixture_operation_0001",
+      "action": "delete",
+      "item_id": "bri_fixture_00000001",
+      "identity_boundary": {
+        "browser": "safari",
+        "profile_scope": "shared_across_profiles",
+        "profile_ref": null,
+        "account_ref": null
+      },
+      "source_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "source_pre_count": 1,
+      "source_expected_post_count": 0,
+      "target_item_id": null,
+      "target_fingerprint": null,
+      "target_pre_count": null,
+      "target_expected_post_count": null,
+      "target_collection": null,
+      "expected_post_fingerprint": null,
+      "expected_post_pre_count": null,
+      "expected_post_count": null,
+      "interface_status": "unavailable",
+      "executable": false
+    }
+  ],
+  "apply_interface": {
+    "supported": false,
+    "status": "interface_unavailable",
+    "reason": "supported_item_write_interface_unavailable",
+    "manual_handoff_only": true
+  },
+  "privacy": {
+    "provenance": "synthetic_fixture",
+    "storage_layer": "public_fixture",
+    "contains_private_content": false,
+    "git_allowed": true,
+    "redaction_required": false
+  },
+  "execution_authorized": false
+}

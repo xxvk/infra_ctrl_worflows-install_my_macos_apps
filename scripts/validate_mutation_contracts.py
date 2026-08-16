@@ -33,6 +33,16 @@ REQUIRED_ACTION_IDS = {
     "storage.icloud-offload", "storage.cache-purge", "storage.archive",
     "storage.trash-stage", "storage.trash-purge", "storage.restore",
     "storage.decision-sync",
+    "browser.plan-freeze",
+    "browser.private-review-export",
+    "browser.organization-sync",
+    "browser.evidence-import",
+    "browser.reconciliation-candidate-write",
+    "browser.gateway-wave-sync",
+    "browser.gateway-pilot-freeze",
+    "browser.gateway-convergence-freeze",
+    "browser.gateway-order-freeze",
+    "browser.import-package-write",
 }
 
 

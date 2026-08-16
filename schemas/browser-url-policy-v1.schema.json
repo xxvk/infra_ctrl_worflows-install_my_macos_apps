@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/browser-url-policy-v1.schema.json",
+  "title": "macomrade browser URL normalization policy v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "policy_version",
+    "allowed_schemes",
+    "removable_query_parameters",
+    "protected_query_parameters",
+    "protected_query_prefixes",
+    "semantic_parameters_never_remove",
+    "preserve",
+    "cross_identity_grouping",
+    "execution_authorized"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "browser_url_normalization_policy"},
+    "policy_version": {"type": "string", "const": "browser-url-normalization-v1"},
+    "allowed_schemes": {"type": "array", "minItems": 2, "items": {"type": "string", "enum": ["http", "https"]}},
+    "removable_query_parameters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "category", "authority"],
+        "properties": {
+          "name": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "category": {"type": "string", "enum": ["google_analytics_campaign", "google_ads_click_id", "microsoft_ads_click_id"]},
+          "authority": {"type": "string", "pattern": "^https://(support\\.google\\.com|help\\.ads\\.microsoft\\.com)/"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "protected_query_parameters": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}},
+    "protected_query_prefixes": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[a-z0-9_-]+-$"}},
+    "semantic_parameters_never_remove": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}},
+    "preserve": {
+      "type": "object",
+      "required": ["path_bytes", "fragment", "query_order", "repeated_parameters", "non_default_port", "unknown_parameters"],
+      "properties": {
+        "path_bytes": {"type": "boolean", "const": true},
+        "fragment": {"type": "boolean", "const": true},
+        "query_order": {"type": "boolean", "const": true},
+        "repeated_parameters": {"type": "boolean", "const": true},
+        "non_default_port": {"type": "boolean", "const": true},
+        "unknown_parameters": {"type": "boolean", "const": true}
+      },
+      "additionalProperties": false
+    },
+    "cross_identity_grouping": {"type": "boolean", "const": false},
+    "execution_authorized": {"type": "boolean", "const": false}
+  },
+  "additionalProperties": false
+}

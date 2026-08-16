@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "kind": "browser_private_duplicate_review",
+  "source": {
+    "browser": "safari",
+    "interface": "safari_export_zip",
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bookmark_count": 2,
+    "reading_list_count": 0,
+    "item_count": 2
+  },
+  "policy_version": "browser-url-normalization-v1",
+  "duplicate_group_count": 1,
+  "duplicate_item_count": 2,
+  "groups": [
+    {
+      "group_id": "brg_aaaaaaaaaaaaaaaaaaaaaaaa",
+      "identity_boundary": {
+        "browser": "safari",
+        "profile_scope": "shared_across_profiles",
+        "profile_ref": null,
+        "account_ref": null
+      },
+      "canonical_url": "https://example.invalid/article",
+      "match_type": "exact_url_match",
+      "confidence": "high",
+      "evidence_types": ["exact_url_match"],
+      "proposed_action": "review_only",
+      "members": [
+        {
+          "item_id": "bri_fixture_00000001",
+          "item_type": "bookmark",
+          "title": "Fictional first item",
+          "original_url": "https://example.invalid/article",
+          "canonical_url": "https://example.invalid/article",
+          "canonicalization_status": "proposed",
+          "collection": {"kind": "bookmarks", "path": ["Bookmarks"]},
+          "read_state": "not_applicable"
+        },
+        {
+          "item_id": "bri_fixture_00000002",
+          "item_type": "bookmark",
+          "title": "Fictional second item",
+          "original_url": "https://example.invalid/article",
+          "canonical_url": "https://example.invalid/article",
+          "canonicalization_status": "proposed",
+          "collection": {"kind": "bookmarks", "path": ["Bookmarks"]},
+          "read_state": "not_applicable"
+        }
+      ]
+    }
+  ],
+  "privacy": {
+    "provenance": "private_export",
+    "storage_layer": "private_icloud",
+    "contains_private_content": true,
+    "git_allowed": false,
+    "redaction_required": true
+  },
+  "execution_authorized": false
+}

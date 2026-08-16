@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/browser-item-v1.schema.json",
+  "title": "macomrade private browser item v1",
+  "description": "One bookmark or Reading List item. Real instances contain private browsing data and are never Git-authorized.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "item_id",
+    "identity",
+    "item_type",
+    "source",
+    "collection",
+    "url",
+    "title",
+    "tags",
+    "read_state",
+    "intended_lifecycle",
+    "confidence",
+    "decision_expiry",
+    "conflict_evidence",
+    "privacy",
+    "execution_authorized"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "browser_item"},
+    "item_id": {
+      "type": "string",
+      "pattern": "^bri_[A-Za-z0-9_-]{16,}$",
+      "description": "Opaque persisted identifier; never a bare URL digest."
+    },
+    "identity": {
+      "type": "object",
+      "required": ["method", "stability", "namespace_ref", "cross_profile_merge_allowed"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["browser_native_id", "private_persisted_id", "source_position_fallback"]
+        },
+        "stability": {"type": "string", "enum": ["stable", "conditional", "unstable"]},
+        "namespace_ref": {"type": "string", "minLength": 1},
+        "cross_profile_merge_allowed": {"type": "boolean", "const": false}
+      },
+      "additionalProperties": false
+    },
+    "item_type": {"type": "string", "enum": ["bookmark", "reading_list"]},
+    "source": {
+      "type": "object",
+      "required": ["browser", "source_id", "profile_scope", "profile_ref", "account_ref", "artifact_ref"],
+      "properties": {
+        "browser": {"type": "string", "enum": ["safari", "chrome"]},
+        "source_id": {"type": "string", "minLength": 1},
+        "profile_scope": {
+          "type": "string",
+          "enum": ["shared_across_profiles", "profile_specific", "unknown"]
+        },
+        "profile_ref": {"type": ["string", "null"]},
+        "account_ref": {"type": ["string", "null"]},
+        "artifact_ref": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "collection": {
+      "type": "object",
+      "required": ["kind", "path"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["bookmarks", "reading_list"]},
+        "path": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "url": {
+      "type": "object",
+      "required": ["original", "canonical", "canonicalization_status", "canonicalization_version"],
+      "properties": {
+        "original": {"type": "string", "minLength": 1},
+        "canonical": {"type": ["string", "null"]},
+        "canonicalization_status": {"type": "string", "enum": ["not_evaluated", "proposed", "confirmed"]},
+        "canonicalization_version": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "title": {"type": ["string", "null"]},
+    "tags": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "read_state": {"type": "string", "enum": ["unread", "read", "unknown", "not_applicable"]},
+    "intended_lifecycle": {
+      "type": "string",
+      "enum": ["inbox", "project", "reference", "read_later", "archive", "delete_candidate", "protected", "unknown"]
+    },
+    "confidence": {"type": "string", "enum": ["low", "medium", "high"]},
+    "decision_expiry": {"type": ["string", "null"]},
+    "conflict_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidence_type", "related_item_id", "confidence", "summary"],
+        "properties": {
+          "evidence_type": {
+            "type": "string",
+            "enum": ["exact_url_match", "canonical_url_match", "title_mismatch", "collection_mismatch", "profile_boundary", "query_semantics_unknown", "source_changed"]
+          },
+          "related_item_id": {"type": ["string", "null"]},
+          "confidence": {"type": "string", "enum": ["low", "medium", "high"]},
+          "summary": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "privacy": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "synthetic_fixture"},
+            "storage_layer": {"type": "string", "const": "public_fixture"},
+            "contains_private_content": {"type": "boolean", "const": false},
+            "git_allowed": {"type": "boolean", "const": true},
+            "redaction_required": {"type": "boolean", "const": false}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "private_export"},
+            "storage_layer": {"type": "string", "const": "private_icloud"},
+            "contains_private_content": {"type": "boolean", "const": true},
+            "git_allowed": {"type": "boolean", "const": false},
+            "redaction_required": {"type": "boolean", "const": true}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "machine_observation"},
+            "storage_layer": {"type": "string", "const": "machine_local"},
+            "contains_private_content": {"type": "boolean", "const": true},
+            "git_allowed": {"type": "boolean", "const": false},
+            "redaction_required": {"type": "boolean", "const": true}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "execution_authorized": {"type": "boolean", "const": false}
+  },
+  "additionalProperties": false
+}

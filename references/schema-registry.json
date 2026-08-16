@@ -142,6 +142,92 @@
       "tracked_examples": [
         "tests/fixtures/schema_contract/storage-transaction-v1.json"
       ]
+    },
+    "browser-item": {
+      "current_version": 1,
+      "schema": "schemas/browser-item-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/browser-item-v1.json"
+      ]
+    },
+    "browser-url-policy": {
+      "current_version": 1,
+      "schema": "schemas/browser-url-policy-v1.schema.json",
+      "tracked_examples": [
+        "settings/browser-url-normalization.json"
+      ]
+    },
+    "browser-lifecycle-policy": {
+      "current_version": 1,
+      "schema": "schemas/browser-lifecycle-policy-v1.schema.json",
+      "tracked_examples": [
+        "settings/browser-lifecycle-policy.json"
+      ]
+    },
+    "browser-decision-ledger": {
+      "current_version": 1,
+      "schema": "schemas/browser-decision-ledger-v1.schema.json",
+      "tracked_examples": [
+        "examples/private/browser-decision-ledger.json"
+      ]
+    },
+    "browser-transaction-plan": {
+      "current_version": 1,
+      "schema": "schemas/browser-transaction-plan-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/browser-transaction-plan-v1.json"
+      ]
+    },
+    "browser-acceptance": {
+      "current_version": 1,
+      "schema": "schemas/browser-acceptance-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/browser-acceptance-v1.json"
+      ]
+    },
+    "browser-private-duplicate-review": {
+      "current_version": 1,
+      "schema": "schemas/browser-private-duplicate-review-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/browser-private-duplicate-review-v1.json"
+      ]
+    },
+    "browser-organization": {
+      "current_version": 1,
+      "schema": "schemas/browser-organization-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/browser-organization-v1.json"
+      ]
+    },
+    "browser-gateway-policy": {
+      "current_version": 1,
+      "schema": "schemas/browser-gateway-policy-v1.schema.json",
+      "tracked_examples": [
+        "settings/browser-gateway-policy.json",
+        "tests/fixtures/schema_contract/browser-gateway-policy-v1.json"
+      ]
+    },
+    "browser-gateway-wave": {
+      "current_version": 1,
+      "schema": "schemas/browser-gateway-wave-v1.schema.json",
+      "tracked_examples": [
+        "tests/fixtures/schema_contract/browser-gateway-wave-v1.json"
+      ]
+    },
+    "browser-gateway-pilot": {
+      "current_version": 1,
+      "schema": "schemas/browser-gateway-pilot-v1.schema.json",
+      "tracked_examples": []
+    },
+    "browser-gateway-convergence": {
+      "current_version": 1,
+      "schema": "schemas/browser-gateway-convergence-v1.schema.json",
+      "tracked_examples": []
+    },
+    "browser-gateway-order": {
+      "current_version": 1,
+      "schema": "schemas/browser-gateway-order-v1.schema.json",
+      "tracked_examples": []
     }
   },
   "migration_policy": {

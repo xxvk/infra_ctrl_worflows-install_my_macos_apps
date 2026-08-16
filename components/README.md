@@ -59,8 +59,11 @@ and verification status belongs to machine-local state.
 | Android platform tools | [android-platform-tools.md](android-platform-tools.md) | Core; ADB workflow in [environment.md](../references/environment.md) |
 | scrcpy | [scrcpy.md](scrcpy.md) | Core; Android Robot remote display/control |
 | Temurin Java | [temurin.md](temurin.md) | Core; Android/Java runtime |
+| Xcodes | [xcodes.md](xcodes.md) | Core; Homebrew Xcode release and beta manager |
 | Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Core; Homebrew |
 | Kimi | [kimi.md](kimi.md) | Core; Homebrew cask preferred |
+| DeepSeek Harness Desktop | [deepseek-harness-desktop.md](deepseek-harness-desktop.md) | Core; lightweight Tauri shell with isolated Harness runtime; current artifact requires manual security review |
+| DSH Computer Use | [dsh-computer-use.md](dsh-computer-use.md) | Optional; Homebrew cask `zrui-c/tap/dsh-computer-use` preferred |
 | Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Core; npm |
 | WordPress Studio CLI | [wordpress-studio-cli.md](wordpress-studio-cli.md) | Core; official npm package |
 | mole | [mole.md](mole.md) | Core; Homebrew; review every cleanup |

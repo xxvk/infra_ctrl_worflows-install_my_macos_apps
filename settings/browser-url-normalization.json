@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "browser_url_normalization_policy",
+  "policy_version": "browser-url-normalization-v1",
+  "allowed_schemes": ["http", "https"],
+  "removable_query_parameters": [
+    {"name": "utm_id", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_source", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_medium", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_campaign", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_source_platform", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_term", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_content", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_creative_format", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "utm_marketing_tactic", "category": "google_analytics_campaign", "authority": "https://support.google.com/analytics/answer/10917952"},
+    {"name": "gclid", "category": "google_ads_click_id", "authority": "https://support.google.com/google-ads/answer/9744275"},
+    {"name": "dclid", "category": "google_ads_click_id", "authority": "https://support.google.com/analytics/answer/11242870"},
+    {"name": "gbraid", "category": "google_ads_click_id", "authority": "https://support.google.com/analytics/answer/11367152"},
+    {"name": "wbraid", "category": "google_ads_click_id", "authority": "https://support.google.com/analytics/answer/11367152"},
+    {"name": "msclkid", "category": "microsoft_ads_click_id", "authority": "https://help.ads.microsoft.com/apex/index/3/en/60000"}
+  ],
+  "protected_query_parameters": [
+    "access_token",
+    "auth",
+    "authorization",
+    "code",
+    "expires",
+    "jwt",
+    "key",
+    "oauth_token",
+    "password",
+    "sig",
+    "signature",
+    "state",
+    "token"
+  ],
+  "protected_query_prefixes": ["x-amz-", "x-goog-"],
+  "semantic_parameters_never_remove": ["id", "ref", "source", "page", "q", "query", "lang", "locale"],
+  "preserve": {
+    "path_bytes": true,
+    "fragment": true,
+    "query_order": true,
+    "repeated_parameters": true,
+    "non_default_port": true,
+    "unknown_parameters": true
+  },
+  "cross_identity_grouping": false,
+  "execution_authorized": false
+}

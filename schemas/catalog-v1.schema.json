@@ -60,6 +60,44 @@
               "type": "string"
             }
           },
+          "blocked_releases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "repository",
+                "release",
+                "status",
+                "reason"
+              ],
+              "properties": {
+                "repository": {
+                  "type": "string",
+                  "pattern": "^https://"
+                },
+                "release": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "release_url": {
+                  "type": "string",
+                  "pattern": "^https://"
+                },
+                "status": {
+                  "const": "blocked"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "reconsideration_gate": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          },
           "size_gb": {
             "type": "number",
             "minimum": 0

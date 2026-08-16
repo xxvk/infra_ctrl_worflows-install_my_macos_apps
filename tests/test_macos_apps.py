@@ -340,6 +340,19 @@ class PlanningAndCommandTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "tap drift"):
             macos_apps.verify_tap_source(app, runner=lambda *args, **kwargs: next(responses))
 
+    def test_installed_size_uses_explicit_application_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            app_path = Path(tmp) / "Different Bundle Name.app"
+            app_path.mkdir()
+            (app_path / "payload").write_bytes(b"fixture")
+            with mock.patch.object(macos_apps, "path_size", return_value=7) as size:
+                measured = macos_apps.installed_size({
+                    "name": "Catalog Product Name",
+                    "application_path": str(app_path),
+                })
+        self.assertEqual(measured, 7)
+        size.assert_called_once_with(app_path)
+
 
 class InstallTransactionTests(unittest.TestCase):
     def _plan(self, root: Path) -> Path:

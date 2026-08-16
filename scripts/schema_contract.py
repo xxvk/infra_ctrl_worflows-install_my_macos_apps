@@ -32,6 +32,7 @@ SUPPORTED_SCHEMA_KEYS = {
     "enum",
     "const",
     "minItems",
+    "maxItems",
     "minLength",
     "pattern",
     "minimum",
@@ -207,6 +208,9 @@ def _validate(value: Any, schema: dict[str, Any], path: str, errors: list[str]) 
         minimum = schema.get("minItems")
         if isinstance(minimum, int) and len(value) < minimum:
             errors.append(f"{path}: expected at least {minimum} items")
+        maximum = schema.get("maxItems")
+        if isinstance(maximum, int) and len(value) > maximum:
+            errors.append(f"{path}: expected at most {maximum} items")
         item_schema = schema.get("items")
         if isinstance(item_schema, dict):
             for index, item in enumerate(value):

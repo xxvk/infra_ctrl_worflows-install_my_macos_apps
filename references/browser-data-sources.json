@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "kind": "browser_data_source_contract",
+  "scope": {
+    "browsers": ["safari"],
+    "content_kinds": ["bookmark", "reading_list"],
+    "chrome_status": "deferred_by_user"
+  },
+  "privacy": {
+    "tracked": [
+      "source capability",
+      "format name",
+      "support classification",
+      "permission and profile boundary",
+      "official documentation URL"
+    ],
+    "private_or_machine_local": [
+      "export archives",
+      "bookmark and Reading List URLs",
+      "titles and folder names",
+      "Safari profile and Apple Account mappings",
+      "item counts, hashes, and observations"
+    ],
+    "prohibited_inputs": [
+      "cookies",
+      "history",
+      "passwords",
+      "payment cards",
+      "open tabs",
+      "session material",
+      "undocumented cloud credentials"
+    ],
+    "export_selection": "bookmarks_and_reading_list_only",
+    "raw_export_git_policy": "never_track"
+  },
+  "native_api_gates": {
+    "settings_class": "SFSafariSettings",
+    "export_sheet_method": "openExportBrowsingDataSettingsWithCompletionHandler:",
+    "autofill_check_method": "checkAutoFillUserNamesAndPasswordsEnabledWithCompletionHandler:",
+    "evidence_snapshot": "Xcode 27 Beta 5 with macOS 27 SDK",
+    "selected_sdk_status": "documented_but_symbol_absent",
+    "runtime_selector_status": "absent_on_verified_beta",
+    "item_enumeration_supported": false,
+    "adoption_gates": [
+      "exact_symbol_in_selected_sdk",
+      "minimal_compile_passes",
+      "foreground_runtime_sheet_opens"
+    ],
+    "fallback": "safari_file_export_browsing_data_bookmarks_and_reading_list_only",
+    "official_evidence": [
+      "https://developer.apple.com/documentation/safariservices/sfsafarisettings",
+      "https://developer.apple.com/documentation/safariservices/importing-data-exported-from-safari"
+    ]
+  },
+  "sources": [
+    {
+      "id": "macos_data_cli",
+      "browser": "safari",
+      "support": "supported_cli_adapter",
+      "item_enumeration_supported": true,
+      "content_kinds": ["bookmark", "reading_list"],
+      "minimum_read_version": "0.8.0",
+      "minimum_local_write_version": "0.8.1",
+      "read_commands": [
+        "safari bookmarks list/query/get",
+        "safari reading-list list/query/get"
+      ],
+      "profile_scope": "shared_across_safari_profiles",
+      "authorization": "Full_Disk_Access_required_for_Bookmarks_plist_read",
+      "consumer_status": "preferred_for_live_read_and_query",
+      "adapter_boundary": "macos_data_owns_bounded_plist_parsing_and_opaque_ids",
+      "direct_internal_store_access": "forbidden",
+      "ordinary_bookmark_write_status": "available_local_only",
+      "cross_device_sync_status": "not_verified",
+      "write_adoption_gates": [
+        "stable_public_cli_command",
+        "dry_run_and_exact_confirmation",
+        "Safari_quiescence_and_open_handle_gate",
+        "mode_0600_backup_and_manifest",
+        "atomic_replace_and_rollback",
+        "Safari_visible_readback",
+        "explicit_local_only_status",
+        "separate_cross_device_sync_verification"
+      ],
+      "project_evidence": "macos-data 0.8.1 installed public CLI with guarded local-only bookmark and folder CRUD"
+    },
+    {
+      "id": "safari_export_zip",
+      "browser": "safari",
+      "support": "supported_user_mediated",
+      "item_enumeration_supported": true,
+      "content_kinds": ["bookmark", "reading_list"],
+      "selection_policy": ["bookmarks", "reading_list"],
+      "supported_archive_layouts": [
+        "single_bookmarks_html_with_reading_list_subfolder",
+        "separate_bookmarks_and_reading_list_html"
+      ],
+      "ignorable_auxiliary_members": ["appledouble_metadata"],
+      "format": "zip_with_netscape_bookmarks_html",
+      "bookmark_member": "localized Bookmarks.html equivalent",
+      "reading_list_container_id": "com.apple.ReadingList",
+      "profile_scope": "shared_across_safari_profiles",
+      "authorization": "user_selects_bookmarks_and_export_destination",
+      "artifact_security": "unencrypted_private_export",
+      "consumer_status": "parser_deferred_to_BR-03",
+      "official_evidence": [
+        "https://developer.apple.com/documentation/safariservices/importing-data-exported-from-safari",
+        "https://support.apple.com/guide/safari/export-safari-data-to-another-browser-ibrwebf10132/mac"
+      ]
+    },
+    {
+      "id": "icloud_safari_sync",
+      "browser": "safari",
+      "support": "native_sync_and_bookmark_restore",
+      "item_enumeration_supported": false,
+      "content_kinds": ["bookmark", "reading_list"],
+      "profile_scope": "apple_account_sync_with_shared_bookmarks",
+      "authorization": "user_manages_iCloud_Safari_setting",
+      "consumer_status": "sync_evidence_only_not_a_data_API",
+      "official_evidence": [
+        "https://support.apple.com/guide/icloud/what-you-can-do-with-icloud-and-safari-mm9b8da4f328/icloud",
+        "https://support.apple.com/guide/icloud/set-up-safari-mm5400ef10c4/icloud"
+      ]
+    },
+    {
+      "id": "safari_apple_events",
+      "browser": "safari",
+      "support": "ui_and_add_only",
+      "item_enumeration_supported": false,
+      "content_kinds": ["reading_list"],
+      "profile_scope": "not_exposed",
+      "authorization": "Automation_permission_may_be_required",
+      "consumer_status": "show_bookmarks_and_add_reading_list_only",
+      "local_evidence": "/Applications/Safari.app/Contents/Resources/Safari.sdef"
+    },
+    {
+      "id": "safari_web_extension_bookmarks",
+      "browser": "safari",
+      "support": "unverified_on_current_release",
+      "item_enumeration_supported": false,
+      "content_kinds": ["bookmark"],
+      "profile_scope": "extension_instances_are_profile_scoped",
+      "authorization": "would_require_extension_install_and_user_permission",
+      "consumer_status": "do_not_select_until_shipped_API_and_permission_test_are_verified",
+      "official_evidence": [
+        "https://developer.apple.com/documentation/safariservices/safari-web-extensions",
+        "https://webkit.org/blog/17967/news-from-wwdc26-webkit-in-safari-27-beta/"
+      ]
+    },
+    {
+      "id": "safari_webdriver",
+      "browser": "safari",
+      "support": "web_content_automation_only",
+      "item_enumeration_supported": false,
+      "content_kinds": [],
+      "profile_scope": "webdriver_session",
+      "authorization": "Safari_Develop_remote_automation_setting",
+      "consumer_status": "not_a_bookmark_or_reading_list_source",
+      "mcp_mode": "/usr/bin/safaridriver --mcp",
+      "mcp_capabilities": ["tabs", "page_content", "dom_interactions", "network", "screenshots", "console"],
+      "personal_information_access": "none",
+      "local_evidence": "/usr/bin/safaridriver --help",
+      "official_evidence": [
+        "https://webkit.org/blog/18136/introducing-the-safari-mcp-server-for-web-developers/"
+      ]
+    },
+    {
+      "id": "ssreadinglist",
+      "browser": "safari",
+      "support": "add_only_no_enumeration",
+      "item_enumeration_supported": false,
+      "content_kinds": ["reading_list"],
+      "profile_scope": "not_exposed",
+      "authorization": "platform_and_user_access_dependent",
+      "consumer_status": "not_a_read_source",
+      "official_evidence": [
+        "https://developer.apple.com/documentation/safariservices/ssreadinglist"
+      ]
+    },
+    {
+      "id": "safari_internal_bookmarks_plist",
+      "browser": "safari",
+      "support": "unsupported_internal",
+      "item_enumeration_supported": false,
+      "content_kinds": ["bookmark", "reading_list"],
+      "profile_scope": "undocumented",
+      "authorization": "Full_Disk_Access_may_affect_readability_but_does_not_make_it_supported",
+      "consumer_status": "forbidden_as_product_input",
+      "path_alias": "~/Library/Safari/Bookmarks.plist",
+      "content_access": "forbidden"
+    }
+  ]
+}

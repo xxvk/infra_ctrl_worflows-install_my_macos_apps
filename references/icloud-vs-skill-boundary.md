@@ -11,9 +11,12 @@ to handle.
 - **Photos, Notes, Reminders, Calendar, Contacts** — sync via iCloud when
   enabled for the signed-in Apple Account. No script in this skill touches
   these.
-- **Safari bookmarks, history, and tabs** — sync via iCloud Safari sync.
-  (Chrome bookmarks are a separate, non-Apple sync boundary — see the
-  "Not handled" section below.)
+- **Safari bookmarks, Reading List, history, and tabs** — sync via iCloud
+  Safari sync. The 0.3 workflow does not replace synchronization; it may
+  classify bookmarks and Reading List items only from a user-created,
+  Bookmarks-and-Reading-List-only Safari export under the boundary in
+  [`safari-bookmark-reading-list-sources.md`](safari-bookmark-reading-list-sources.md).
+  Chrome bookmarks are a separate, non-Apple sync boundary.
 - **iCloud Keychain (passwords/passkeys)** — this is the authoritative
   secrets manager declared in
   [`settings/manual-actions.yaml`](../settings/manual-actions.yaml)

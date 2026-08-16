@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "kind": "browser_live_acceptance_summary",
+  "captured_at": "2026-08-14T00:00:00+00:00",
+  "status": "partial",
+  "scope": {
+    "browsers": ["safari"],
+    "chrome_status": "deferred_by_user",
+    "safari_profile_model": "shared_across_profiles"
+  },
+  "runtime": {
+    "safari_present": true,
+    "safari_version": "27.0-fixture",
+    "safari_build": "fixture-build"
+  },
+  "gates": [
+    {"id": "BA-01", "status": "passed", "reason": "supported_export_capability"},
+    {"id": "BA-02", "status": "passed", "reason": "explicit_export_valid"},
+    {"id": "BA-03", "status": "passed", "reason": "repeat_inventory_equal"},
+    {"id": "BA-04", "status": "passed", "reason": "shared_profile_boundary_preserved"},
+    {"id": "BA-05", "status": "passed", "reason": "repeat_review_equal"},
+    {"id": "BA-06", "status": "deferred", "reason": "decision_ledger_not_supplied"},
+    {"id": "BA-07", "status": "deferred", "reason": "operations_not_supplied"},
+    {"id": "BA-08", "status": "interface_limited", "reason": "supported_item_write_interface_unavailable"},
+    {"id": "BA-09", "status": "deferred", "reason": "post_export_not_supplied"},
+    {"id": "BA-10", "status": "deferred", "reason": "deferred_by_user"}
+  ],
+  "counts": {
+    "bookmark_count": 3,
+    "reading_list_count": 1,
+    "queued_count": null,
+    "suppressed_count": null,
+    "planned_operation_count": null,
+    "verified_operation_count": null,
+    "failed_operation_count": null
+  },
+  "privacy": {
+    "provenance": "synthetic_fixture",
+    "storage_layer": "public_fixture",
+    "contains_private_content": false,
+    "git_allowed": true,
+    "redaction_required": false
+  },
+  "private_content_emitted": false,
+  "writes_performed": false,
+  "browser_writes_performed": false,
+  "execution_authorized": false
+}

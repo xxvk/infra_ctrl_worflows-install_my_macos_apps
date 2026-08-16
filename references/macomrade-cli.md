@@ -57,19 +57,28 @@ Examples:
 ./bin/macomrade scan adapters --adapter wechat
 ./bin/macomrade scan monitor
 ./bin/macomrade scan storage --mode quick
+./bin/macomrade scan browser ~/Downloads/Safari-Bookmarks.zip
 ./bin/macomrade review storage --candidate ID --decision keep_local --apply
+./bin/macomrade review browser ~/Downloads/Safari-Bookmarks.zip --ledger Private/browser/decision-ledger.json --as-of 2026-08-14
+./bin/macomrade review browser-duplicates ~/Downloads/Safari-Bookmarks.zip --output Private/browser/safari-duplicate-review.json
 ./bin/macomrade plan apps --profile auto
 ./bin/macomrade plan storage --target auto
+./bin/macomrade plan browser ~/Downloads/Safari-Bookmarks.zip --operations Private/browser/operations.json
 ./bin/macomrade plan apps --profile auto --roles auto,developer,robotics
 ./bin/macomrade plan adapters --adapter claude-vm
 ./bin/macomrade apply apps "$PLAN" --only "App Name"
 ./bin/macomrade apply apps "$PLAN" --only "App Name" --apply
 ./bin/macomrade apply storage "$STORAGE_PLAN" --action-class safe_cache --apply --confirm 'PURGE APPROVED REGENERABLE CACHES'
+./bin/macomrade apply browser "$BROWSER_PLAN" ~/Downloads/Safari-Bookmarks.zip
 ./bin/macomrade verify baseline
 ./bin/macomrade verify release
 ./bin/macomrade verify schemas
 ./bin/macomrade verify storage "$APPLY_RECORD"
+./bin/macomrade verify browser "$BROWSER_PLAN" ~/Downloads/Safari-Bookmarks-after.zip
+./bin/macomrade verify browser-acceptance validate
+./bin/macomrade verify browser-acceptance inspect-live ~/Downloads/Safari-Bookmarks.zip
 ./bin/macomrade history storage --import-mole
+./bin/macomrade history browser Private/browser/decision-ledger.json
 ./bin/macomrade drift baseline
 ./bin/macomrade diagnostics permissions
 ./bin/macomrade diagnostics schemas
@@ -156,6 +165,20 @@ import content-addressed Mole evidence. Storage apply still requires the
 underlying script's explicit `--apply`, one exact action-class confirmation,
 fresh path/cloud checks, measurement, and replanning. See
 [`storage-lifecycle.md`](storage-lifecycle.md).
+
+Browser work uses all six lifecycle families without weakening the same
+boundary. Scan, review, verify, and history emit only aggregate JSON. Plan can
+freeze one exact-confirmed machine-local plan, but never writes Safari. Apply
+performs preflight and then returns a stable blocked status while the supported
+Safari item-write interface is unavailable. The generic report route accepts
+only allowlisted redacted browser summary kinds and rejects raw parser output
+or frozen plans. See [`browser-workflow-cli.md`](browser-workflow-cli.md).
+
+Safari-only BR-08 acceptance is a separate read-only verify target. It requires
+the explicit `validate` or `inspect-live` subcommand, persists no raw export or
+state, and emits a Schema-validated aggregate summary. Chrome remains deferred
+by user choice and the Safari apply gate remains interface-limited. See
+[`browser-live-acceptance.md`](browser-live-acceptance.md).
 
 ## Reserved future commands
 

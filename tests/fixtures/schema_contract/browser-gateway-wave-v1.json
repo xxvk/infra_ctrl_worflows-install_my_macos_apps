@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "kind": "browser_gateway_wave",
+  "wave_id": "bgw_fixture_wave_01",
+  "created_at": "2026-01-01",
+  "policy_version": "browser-gateway-v1",
+  "source": {
+    "organization_id": "borg_fixture_organization_0001",
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "active_bookmark_count": 1
+  },
+  "proposals": [
+    {
+      "proposal_id": "bgp_fixture_01",
+      "subdomain_code": "11",
+      "new_source": {
+        "title": "Fictional current source",
+        "url": "https://current.invalid/updates",
+        "operator": "Fictional operator",
+        "source_type": "official_primary",
+        "evidence_url": "https://current.invalid/evidence",
+        "evidence_checked_on": "2026-01-01",
+        "decision": "trial_new"
+      },
+      "retirements": [
+        {
+          "item_id": "bri_fixture_gateway_0001",
+          "item_fingerprint": "1111111111111111111111111111111111111111111111111111111111111111",
+          "original_title": "Fictional old source",
+          "original_url": "https://old.invalid/",
+          "original_subdomain_code": "11",
+          "decision": "archive"
+        }
+      ],
+      "review_status": "approved",
+      "execution_authorized": false
+    }
+  ],
+  "summary": {
+    "new_source_count": 1,
+    "retirement_count": 1,
+    "projected_active_count": 1,
+    "minimum_retirements_per_new": 1,
+    "private_content_emitted_to_stdout": false
+  },
+  "privacy": {
+    "provenance": "synthetic_fixture",
+    "storage_layer": "private_template",
+    "contains_private_content": false,
+    "git_allowed": true,
+    "redaction_required": false
+  },
+  "safari_execution_authorized": false,
+  "execution_authorized": false
+}

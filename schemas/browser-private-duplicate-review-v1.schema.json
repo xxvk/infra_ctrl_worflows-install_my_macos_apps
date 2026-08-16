@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/browser-private-duplicate-review-v1.schema.json",
+  "type": "object",
+  "required": ["schema_version", "kind", "source", "policy_version", "duplicate_group_count", "duplicate_item_count", "groups", "privacy", "execution_authorized"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "browser_private_duplicate_review"},
+    "source": {
+      "type": "object",
+      "required": ["browser", "interface", "artifact_sha256", "bookmark_count", "reading_list_count", "item_count"],
+      "properties": {
+        "browser": {"type": "string", "const": "safari"},
+        "interface": {"type": "string", "const": "safari_export_zip"},
+        "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bookmark_count": {"type": "integer", "minimum": 0},
+        "reading_list_count": {"type": "integer", "minimum": 0},
+        "item_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "policy_version": {"type": "string", "minLength": 1},
+    "duplicate_group_count": {"type": "integer", "minimum": 0},
+    "duplicate_item_count": {"type": "integer", "minimum": 0},
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["group_id", "identity_boundary", "canonical_url", "match_type", "confidence", "evidence_types", "proposed_action", "members"],
+        "properties": {
+          "group_id": {"type": "string", "pattern": "^brg_[0-9a-f]{24}$"},
+          "identity_boundary": {
+            "type": "object",
+            "required": ["browser", "profile_scope", "profile_ref", "account_ref"],
+            "properties": {
+              "browser": {"type": "string", "enum": ["safari", "chrome"]},
+              "profile_scope": {"type": "string", "enum": ["shared_across_profiles", "profile_specific"]},
+              "profile_ref": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+              "account_ref": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+            },
+            "additionalProperties": false
+          },
+          "canonical_url": {"type": "string", "minLength": 1},
+          "match_type": {"type": "string", "enum": ["exact_url_match", "canonical_url_match"]},
+          "confidence": {"type": "string", "enum": ["high", "medium"]},
+          "evidence_types": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "enum": ["exact_url_match", "canonical_url_match", "title_mismatch", "collection_mismatch"]}
+          },
+          "proposed_action": {"type": "string", "const": "review_only"},
+          "members": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["item_id", "item_type", "title", "original_url", "canonical_url", "canonicalization_status", "collection", "read_state"],
+              "properties": {
+                "item_id": {"type": "string", "pattern": "^bri_[A-Za-z0-9_-]{16,128}$"},
+                "item_type": {"type": "string", "enum": ["bookmark", "reading_list"]},
+                "title": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+                "original_url": {"type": "string", "minLength": 1},
+                "canonical_url": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+                "canonicalization_status": {"type": "string", "enum": ["proposed", "blocked"]},
+                "collection": {
+                  "type": "object",
+                  "required": ["kind", "path"],
+                  "properties": {
+                    "kind": {"type": "string", "enum": ["bookmarks", "reading_list"]},
+                    "path": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+                  },
+                  "additionalProperties": false
+                },
+                "read_state": {"type": "string", "enum": ["unknown", "unread", "read", "not_applicable"]}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+      "properties": {
+        "provenance": {"type": "string", "const": "private_export"},
+        "storage_layer": {"type": "string", "const": "private_icloud"},
+        "contains_private_content": {"type": "boolean", "const": true},
+        "git_allowed": {"type": "boolean", "const": false},
+        "redaction_required": {"type": "boolean", "const": true}
+      },
+      "additionalProperties": false
+    },
+    "execution_authorized": {"type": "boolean", "const": false}
+  },
+  "additionalProperties": false
+}

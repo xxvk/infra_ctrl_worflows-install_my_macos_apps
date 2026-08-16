@@ -53,3 +53,7 @@ the supported `xcode-select` operation, then verify `clang`, `git`, and the
 required SDK tooling. Only the measured free-space delta after the app removal
 is reclaimed capacity; App Store download size and recursive clone-sensitive
 totals are planning evidence, not proof.
+
+When Xcodes manages the replacement, follow the activation, exact-SDK symbol
+check, and root-owned old-bundle recovery guard in [xcodes.md](xcodes.md).
+Never infer that a replacement is active from Xcodes UI wording alone.

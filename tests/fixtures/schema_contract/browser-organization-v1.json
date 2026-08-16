@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "kind": "browser_organization",
+  "organization_id": "borg_fixture_organization_0001",
+  "created_at": "2026-01-01T00:00:00+00:00",
+  "source": {"browser": "safari", "interface": "safari_export_zip", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bookmark_count": 0, "reading_list_count": 0, "item_count": 0},
+  "taxonomy": {
+    "primary_axis": "long_term_domains",
+    "max_semantic_depth": 2,
+    "project_context_owner": "obsidian",
+    "reading_list_role": "temporary_inbox",
+    "top_levels": [
+      {"code": "01", "label": "Fictional work", "emoji": "W", "folder_name": "01 | Fictional work W", "role": "active", "children": [{"code": "11", "label": "Fictional build", "emoji": "B", "folder_name": "11 | Fictional build B"}]},
+      {"code": "02", "label": "Fictional content", "emoji": "C", "folder_name": "02 | Fictional content C", "role": "active", "children": [{"code": "21", "label": "Fictional video", "emoji": "V", "folder_name": "21 | Fictional video V"}]},
+      {"code": "03", "label": "Fictional research", "emoji": "R", "folder_name": "03 | Fictional research R", "role": "active", "children": [{"code": "31", "label": "Fictional sources", "emoji": "S", "folder_name": "31 | Fictional sources S"}]},
+      {"code": "04", "label": "Fictional finance", "emoji": "F", "folder_name": "04 | Fictional finance F", "role": "active", "children": [{"code": "41", "label": "Fictional markets", "emoji": "M", "folder_name": "41 | Fictional markets M"}]},
+      {"code": "05", "label": "Fictional life", "emoji": "L", "folder_name": "05 | Fictional life L", "role": "active", "children": [{"code": "51", "label": "Fictional personal", "emoji": "P", "folder_name": "51 | Fictional personal P"}]},
+      {"code": "99", "label": "Fictional archive", "emoji": "A", "folder_name": "99 | Fictional archive A", "role": "archive", "children": [
+        {"code": "91", "label": "Fictional archive work", "emoji": "A", "folder_name": "91 | Fictional archive work A"},
+        {"code": "92", "label": "Fictional archive content", "emoji": "A", "folder_name": "92 | Fictional archive content A"},
+        {"code": "93", "label": "Fictional archive research", "emoji": "A", "folder_name": "93 | Fictional archive research A"},
+        {"code": "94", "label": "Fictional archive finance", "emoji": "A", "folder_name": "94 | Fictional archive finance A"},
+        {"code": "95", "label": "Fictional archive life", "emoji": "A", "folder_name": "95 | Fictional archive life A"}
+      ]}
+    ]
+  },
+  "title_policy": {"mode": "conservative_deterministic_suggestions", "preserve_original": true, "translation_allowed": false, "summary_allowed": false, "execution_authorized": false, "allowed_rule_ids": ["normalize_whitespace", "remove_matching_site_suffix"]},
+  "path_rules": [],
+  "item_overrides": [],
+  "duplicate_resolutions": [],
+  "decisions": [],
+  "summary": {"directory_rule_item_count": 0, "ambiguous_item_count": 0, "duplicate_group_count": 0, "active_move_count": 0, "archive_count": 0, "bookmark_delete_count": 0, "reading_list_delete_later_count": 0, "reading_list_deferred_count": 0, "bookmark_operation_count": 0, "item_count": 0},
+  "privacy": {"provenance": "synthetic_fixture", "storage_layer": "private_template", "contains_private_content": false, "git_allowed": true, "redaction_required": false},
+  "execution_authorized": false
+}

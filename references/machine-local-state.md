@@ -22,6 +22,12 @@ Precedence is deterministic:
 The machine ID is a short SHA-256-derived scope. The raw platform UUID is not
 written to the path, repository, state records, or terminal output.
 
+Browser transaction plans live below `browser/plans/`. They are exact
+machine-local evidence, use mode `0600`, and may contain private item IDs,
+fingerprints, folder paths, and an export path. Raw exports, URLs, titles,
+cookies, sessions, and secrets are never copied into state. Browser plan CLI
+summaries expose counts and status only.
+
 Bootstrap commands export the resolved directory to child scripts so one run
 cannot split its scans, plans, permission observations, and final report across
 different locations. An explicitly supplied historical plan remains readable

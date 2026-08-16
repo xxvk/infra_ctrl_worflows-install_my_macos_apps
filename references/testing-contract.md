@@ -93,6 +93,94 @@ acceptance run.
 - Trash staging records zero measured reclaim; only a separate exact-confirmed
   manifest purge may measure reclaimed bytes. Reimporting identical Mole
   history is idempotent and never creates a decision.
+- Safari source validation accepts only a user-mediated Bookmarks-and-Reading-List-only export
+  for item enumeration. Capability inspection may read Safari app metadata and
+  internal-file presence/readability, but never opens bookmark content; iCloud,
+  Apple Events, WebDriver, extensions, `SSReadingList`, and the internal plist
+  cannot silently become item sources.
+- Browser-item validation requires explicit browser/profile/account and
+  collection boundaries, opaque non-URL-derived identity, lifecycle and
+  conflict evidence, and `execution_authorized: false`. Only fictional
+  synthetic fixtures may set `git_allowed: true`; private exports and machine
+  observations must fail closed if marked Git-authorized.
+- Safari export parsing accepts only an explicitly supplied ZIP containing one
+  combined Netscape HTML member or one bookmarks plus one Reading List member;
+  directory entries and AppleDouble metadata are ignored. It rejects extra
+  CSV/JSON or other semantic files,
+  encryption, symbolic links, path traversal, unsafe compression ratios,
+  oversized inputs, malformed signatures, and schema-invalid items. The CLI
+  emits counts and booleans only—never the input path, artifact hash, URL,
+  title, or folder—and performs no write.
+- Browser URL normalization removes only query keys in the tracked,
+  authority-backed allowlist. It preserves raw path bytes, fragments, retained
+  query order, repeated and unknown parameters, and non-default ports. A
+  protected key/prefix, userinfo, backslash authority, semicolon query,
+  unsupported scheme, or malformed authority blocks the whole proposal.
+  Duplicate review never crosses browser/profile/account identity boundaries,
+  explains exact/canonical/title/collection evidence, emits only counts from
+  its CLI, and never authorizes merge, move, or deletion.
+- Private duplicate review export is preview-only by default. Applied export
+  requires `EXPORT PRIVATE BROWSER REVIEW`, accepts only a JSON destination
+  below `Private/browser/`, creates it atomically with mode `0600`, validates
+  read-back against the registered Schema, refuses a different existing file,
+  keeps stdout free of paths/hashes/URLs/titles/item IDs, and never writes
+  Safari or grants execution authority.
+- Browser organization compilation requires complete and unique coverage of
+  the source export, disjoint path rules and item overrides, exact duplicate
+  membership, asserted summary counts, valid two-level targets, and
+  `execution_authorized: false`. Preview is aggregate-only. Applied sync
+  requires `SYNC PRIVATE BROWSER ORGANIZATION`, writes one mode-0600
+  Git-ignored JSON atomically, refuses a different target, and never writes
+  Safari. Organization-derived plans include bookmark move/archive/delete
+  operations only; Reading List decisions and title suggestions never enter
+  the transaction plan.
+- Browser evidence import accepts only one validated regular-file Safari ZIP,
+  derives a date-and-hash destination below `Private/browser/evidence/`, and
+  previews without writing. Applied import requires `IMPORT PRIVATE BROWSER
+  EVIDENCE`, preserves exact bytes, writes atomically with mode `0600`, verifies
+  source stability, destination hash and parser binding, confirms Git ignore,
+  and refuses links, malformed exports, changed sources, or different existing
+  bytes. Output never contains a path or hash and the action never writes
+  Safari.
+- Browser reconciliation validates the old organization and new export,
+  inherits only equal-multiplicity semantic fingerprints, exact path rules,
+  unchanged item overrides, and duplicate groups with identical fingerprint
+  multisets. Added/changed unresolved items, removed items, ambiguity, and
+  duplicate membership drift block candidate generation. Applied persistence
+  requires `WRITE PRIVATE BROWSER RECONCILIATION CANDIDATE`, writes one
+  mode-0600 Git-ignored versioned organization atomically, refuses conflicts,
+  and never switches the canonical organization or writes Safari.
+- Browser lifecycle policy keeps the five built-in classification IDs stable,
+  bounds public and custom review periods, and never authorizes browser writes.
+  Private decision-ledger validation rejects Git-authorized personal content,
+  duplicate IDs/labels, unknown classifications, multiple active decisions for
+  one item/identity, and non-forward review dates. Suppression requires an
+  unchanged semantic fingerprint, the same browser/profile/account boundary,
+  a unique active match, and a future review date; changed, expired, ambiguous,
+  or cross-identity items re-enter the queue. CLI output contains counts and
+  reason names only, never labels, notes, item IDs, fingerprints, or paths.
+- Browser transaction planning accepts only an explicit verified Bookmarks-and-Reading-List-only
+  Safari export and item-scoped move/merge/archive/delete intent. Plans bind the
+  export hash, item fingerprints, identity boundaries, operation counts, and a
+  self-hash. Freeze preview writes nothing; apply requires `FREEZE BROWSER
+  PLAN`, writes one mode-0600 machine-local plan atomically, refuses conflicts,
+  and never writes Safari. Export/item drift, cross-identity merge, self-merge,
+  malformed targets, plan tampering, and ambiguous post-state counts fail
+  closed. Post-export verification emits counts only. Live Safari apply remains
+  blocked while no supported enumerate-and-mutate interface exists.
+- Browser macomrade routes preserve exact argument order and never add apply or
+  confirmation authority. The browser apply route remains read-only and
+  blocked. Browser reports accept only named redacted summary kinds and
+  allowlisted aggregate fields; raw parses, frozen plans, unknown browser
+  documents, private-content claims, paths, URLs, titles, item IDs, and
+  fingerprints never enter localized terminal or semantic static HTML output.
+- Safari-only live acceptance parses the same explicit export twice, preserves
+  the shared-profile boundary, compares deterministic review/decision/plan
+  evidence in memory, and performs no write. Invalid exports, unstable runs,
+  invalid ledgers/plans, or post-export mismatches fail closed. Missing
+  optional inputs remain deferred, Safari apply remains interface-limited,
+  Chrome remains `deferred_by_user`, and no partial result can become complete
+  0.3.0 acceptance.
 
 GitHub Actions is not part of this contract unless the user explicitly changes
 the local-validation policy.

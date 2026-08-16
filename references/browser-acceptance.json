@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "browser_live_acceptance_contract",
+  "scope": {
+    "browsers": ["safari"],
+    "chrome_status": "deferred_by_user",
+    "safari_profile_model": "shared_across_profiles"
+  },
+  "gates": [
+    {"id": "BA-01", "name": "supported Safari capability metadata"},
+    {"id": "BA-02", "name": "explicit Bookmarks and Reading List export"},
+    {"id": "BA-03", "name": "repeat-run inventory determinism"},
+    {"id": "BA-04", "name": "Safari shared-profile identity boundary"},
+    {"id": "BA-05", "name": "normalization and duplicate-review determinism"},
+    {"id": "BA-06", "name": "decision-memory repeat behavior"},
+    {"id": "BA-07", "name": "transaction-plan and preapply determinism"},
+    {"id": "BA-08", "name": "supported live-apply interface"},
+    {"id": "BA-09", "name": "second-export post-change verification"},
+    {"id": "BA-10", "name": "Chrome multi-profile acceptance"}
+  ],
+  "allowed_gate_statuses": ["passed", "deferred", "interface_limited", "failed", "not_run"],
+  "privacy": {
+    "raw_export_persisted": false,
+    "private_item_content_emitted": false,
+    "internal_safari_store_allowed": false
+  },
+  "writes_performed": false,
+  "browser_writes_performed": false,
+  "execution_authorized": false
+}

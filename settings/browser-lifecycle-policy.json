@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "browser_lifecycle_policy",
+  "policy_version": "browser-lifecycle-v1",
+  "builtin_classifications": [
+    {"id": "inbox", "default_review_days": 7},
+    {"id": "project", "default_review_days": 90},
+    {"id": "reference", "default_review_days": 180},
+    {"id": "read_later", "default_review_days": 30},
+    {"id": "archive", "default_review_days": 365}
+  ],
+  "custom_classifications": {
+    "enabled": true,
+    "max_definitions": 100,
+    "default_review_days": 90,
+    "max_review_days": 3650
+  },
+  "fingerprint_fields": [
+    "source.browser",
+    "source.profile_scope",
+    "source.profile_ref",
+    "source.account_ref",
+    "item_type",
+    "url.comparison",
+    "title",
+    "collection.kind",
+    "collection.path",
+    "tags",
+    "read_state"
+  ],
+  "suppression": {
+    "require_unique_match": true,
+    "require_identity_boundary_match": true,
+    "changed_item_reenters_queue": true,
+    "expired_decision_reenters_queue": true
+  },
+  "cross_identity_memory": false,
+  "execution_authorized": false
+}

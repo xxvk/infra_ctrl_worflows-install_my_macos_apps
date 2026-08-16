@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/browser-decision-ledger-v1.schema.json",
+  "title": "macomrade private browser decision ledger v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "ledger_id", "updated_at", "custom_classifications", "decisions", "privacy", "execution_authorized"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "browser_decision_ledger"},
+    "ledger_id": {"type": "string", "pattern": "^bdl_[A-Za-z0-9_-]{16,}$"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "custom_classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["classification_id", "label", "review_days", "status"],
+        "properties": {
+          "classification_id": {"type": "string", "pattern": "^bcx_[A-Za-z0-9_-]{8,}$"},
+          "label": {"type": "string", "minLength": 1},
+          "review_days": {"type": "integer", "minimum": 1},
+          "status": {"type": "string", "enum": ["active", "retired"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["decision_id", "item_id", "identity_boundary", "item_fingerprint", "classification_id", "decided_at", "review_after", "status", "note", "execution_authorized"],
+        "properties": {
+          "decision_id": {"type": "string", "pattern": "^bdd_[A-Za-z0-9_-]{16,}$"},
+          "item_id": {"type": "string", "pattern": "^bri_[A-Za-z0-9_-]{16,}$"},
+          "identity_boundary": {
+            "type": "object",
+            "required": ["browser", "profile_scope", "profile_ref", "account_ref"],
+            "properties": {
+              "browser": {"type": "string", "enum": ["safari", "chrome"]},
+              "profile_scope": {"type": "string", "enum": ["shared_across_profiles", "profile_specific", "unknown"]},
+              "profile_ref": {"type": ["string", "null"]},
+              "account_ref": {"type": ["string", "null"]}
+            },
+            "additionalProperties": false
+          },
+          "item_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "classification_id": {"type": "string", "minLength": 1},
+          "decided_at": {"type": "string", "minLength": 1},
+          "review_after": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "status": {"type": "string", "enum": ["active", "superseded", "revoked"]},
+          "note": {"type": ["string", "null"]},
+          "execution_authorized": {"type": "boolean", "const": false}
+        },
+        "additionalProperties": false
+      }
+    },
+    "privacy": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "synthetic_fixture"},
+            "storage_layer": {"type": "string", "const": "private_template"},
+            "contains_private_content": {"type": "boolean", "const": false},
+            "git_allowed": {"type": "boolean", "const": true},
+            "redaction_required": {"type": "boolean", "const": false}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "private_user_data"},
+            "storage_layer": {"type": "string", "const": "private_icloud"},
+            "contains_private_content": {"type": "boolean", "const": true},
+            "git_allowed": {"type": "boolean", "const": false},
+            "redaction_required": {"type": "boolean", "const": true}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "execution_authorized": {"type": "boolean", "const": false}
+  },
+  "additionalProperties": false
+}

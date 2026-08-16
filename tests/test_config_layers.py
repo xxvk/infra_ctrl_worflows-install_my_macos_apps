@@ -39,20 +39,15 @@ class ConfigurationLayerTests(unittest.TestCase):
         if not config_layers.DEFAULT_MANIFEST.is_file():
             self.skipTest("public-only checkout has no iCloud Private overlay")
         result = config_layers.audit_manifest(environ={})
+        manifest = json.loads(config_layers.DEFAULT_MANIFEST.read_text(encoding="utf-8"))
         self.assertEqual(result["status"], "valid")
-        self.assertEqual(result["overlay_count"], 7)
-        self.assertEqual(result["missing_optional_overlays"], ["Private/storage-policy.json"])
-        self.assertEqual(
-            result["checked_overlays"],
-            [
-                "Private/chrome-profiles.json",
-                "Private/app-catalog-overlay.json",
-                "Private/dock-order.json",
-                "Private/system-preferences-values.json",
-                "Private/keyboard.yaml",
-                "Private/keyboards/logitech-k240-japanese-dictation.yaml",
-            ],
+        self.assertEqual(result["overlay_count"], len(manifest["overlays"]))
+        observed = set(result["checked_overlays"]) | set(
+            result["missing_optional_overlays"]
         )
+        declared = {row["path"] for row in manifest["overlays"]}
+        self.assertEqual(observed, declared)
+        self.assertIn("Private/browser/organization.json", observed)
 
     def test_app_catalog_overlay_merges_by_name_and_renders_account_prompt(self) -> None:
         base = {

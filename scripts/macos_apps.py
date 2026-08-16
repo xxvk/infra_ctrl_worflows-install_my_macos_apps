@@ -644,6 +644,8 @@ def installed_size(app):
         if result.returncode == 0:
             return path_size(Path(result.stdout.strip()) / app["npm_package"])
         return 0
+    if app.get("application_path"):
+        return path_size(Path(app["application_path"]).expanduser())
     return path_size(Path("/Applications") / f"{app['name']}.app")
 
 

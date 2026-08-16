@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/browser-lifecycle-policy-v1.schema.json",
+  "title": "macomrade browser lifecycle policy v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "policy_version", "builtin_classifications", "custom_classifications", "fingerprint_fields", "suppression", "cross_identity_memory", "execution_authorized"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "browser_lifecycle_policy"},
+    "policy_version": {"type": "string", "const": "browser-lifecycle-v1"},
+    "builtin_classifications": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "default_review_days"],
+        "properties": {
+          "id": {"type": "string", "enum": ["inbox", "project", "reference", "read_later", "archive"]},
+          "default_review_days": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "custom_classifications": {
+      "type": "object",
+      "required": ["enabled", "max_definitions", "default_review_days", "max_review_days"],
+      "properties": {
+        "enabled": {"type": "boolean", "const": true},
+        "max_definitions": {"type": "integer", "minimum": 1},
+        "default_review_days": {"type": "integer", "minimum": 1},
+        "max_review_days": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "fingerprint_fields": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "suppression": {
+      "type": "object",
+      "required": ["require_unique_match", "require_identity_boundary_match", "changed_item_reenters_queue", "expired_decision_reenters_queue"],
+      "properties": {
+        "require_unique_match": {"type": "boolean", "const": true},
+        "require_identity_boundary_match": {"type": "boolean", "const": true},
+        "changed_item_reenters_queue": {"type": "boolean", "const": true},
+        "expired_decision_reenters_queue": {"type": "boolean", "const": true}
+      },
+      "additionalProperties": false
+    },
+    "cross_identity_memory": {"type": "boolean", "const": false},
+    "execution_authorized": {"type": "boolean", "const": false}
+  },
+  "additionalProperties": false
+}

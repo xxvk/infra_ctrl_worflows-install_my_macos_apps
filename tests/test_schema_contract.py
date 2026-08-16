@@ -23,11 +23,58 @@ class SchemaContractTests(unittest.TestCase):
     def test_every_registered_tracked_example_validates(self) -> None:
         result = schema_contract.validate_tracked()
         self.assertEqual(result["status"], "passed", result["errors"])
-        self.assertGreaterEqual(result["formats"], 14)
-        self.assertGreaterEqual(result["examples"], 20)
+        self.assertGreaterEqual(result["formats"], 25)
+        self.assertGreaterEqual(result["examples"], 32)
         self.assertTrue(
             any(row["kind"] == "release-manifest" for row in result["results"])
         )
+        self.assertTrue(
+            any(row["kind"] == "browser-item" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-url-policy" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-lifecycle-policy" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-decision-ledger" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-transaction-plan" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-acceptance" for row in result["results"])
+        )
+        self.assertTrue(
+            any(
+                row["kind"] == "browser-private-duplicate-review"
+                for row in result["results"]
+            )
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-organization" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-gateway-policy" for row in result["results"])
+        )
+        self.assertTrue(
+            any(row["kind"] == "browser-gateway-wave" for row in result["results"])
+        )
+        self.assertIn(
+            "browser-gateway-pilot",
+            schema_contract.load_registry()["formats"],
+        )
+
+    def test_max_items_is_enforced(self) -> None:
+        schema = {
+            "$schema": schema_contract.SCHEMA_DIALECT,
+            "type": "array",
+            "maxItems": 1,
+            "items": {"type": "integer"},
+        }
+        self.assertEqual(schema_contract.validate_instance([1], schema), [])
+        self.assertTrue(schema_contract.validate_instance([1, 2], schema))
 
     def test_plan_rejects_missing_version_and_wrong_field_type(self) -> None:
         missing_version = json.loads((FIXTURES / "app-plan-v0.json").read_text())

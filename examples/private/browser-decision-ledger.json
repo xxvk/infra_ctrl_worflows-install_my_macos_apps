@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "kind": "browser_decision_ledger",
+  "ledger_id": "bdl_fixture_template_0001",
+  "updated_at": "2026-01-01T00:00:00+00:00",
+  "custom_classifications": [
+    {
+      "classification_id": "bcx_fixture_learning",
+      "label": "Fictional learning",
+      "review_days": 45,
+      "status": "active"
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "bdd_fixture_decision_0001",
+      "item_id": "bri_fixture_00000001",
+      "identity_boundary": {
+        "browser": "safari",
+        "profile_scope": "shared_across_profiles",
+        "profile_ref": null,
+        "account_ref": null
+      },
+      "item_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "classification_id": "bcx_fixture_learning",
+      "decided_at": "2026-01-01T00:00:00+00:00",
+      "review_after": "2026-02-15",
+      "status": "active",
+      "note": null,
+      "execution_authorized": false
+    }
+  ],
+  "privacy": {
+    "provenance": "synthetic_fixture",
+    "storage_layer": "private_template",
+    "contains_private_content": false,
+    "git_allowed": true,
+    "redaction_required": false
+  },
+  "execution_authorized": false
+}

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/browser-transaction-plan-v1.schema.json",
+  "title": "macomrade private browser transaction plan v1",
+  "type": "object",
+  "required": ["schema_version", "kind", "plan_id", "created_at", "plan_sha256", "source", "backup", "operations", "apply_interface", "privacy", "execution_authorized"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "kind": {"type": "string", "const": "browser_transaction_plan"},
+    "plan_id": {"type": "string", "pattern": "^btp_[A-Za-z0-9_-]{16,}$"},
+    "created_at": {"type": "string", "minLength": 1},
+    "plan_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source": {
+      "type": "object",
+      "required": ["browser", "interface", "path", "artifact_sha256", "size_bytes", "mtime_ns", "item_count"],
+      "properties": {
+        "browser": {"type": "string", "const": "safari"},
+        "interface": {"type": "string", "const": "safari_export_zip"},
+        "path": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "mtime_ns": {"type": "integer", "minimum": 1},
+        "item_count": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "backup": {
+      "type": "object",
+      "required": ["kind", "artifact_sha256", "verified", "unencrypted", "recovery_mode", "exact_rollback_supported"],
+      "properties": {
+        "kind": {"type": "string", "const": "safari_bookmarks_only_export"},
+        "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "verified": {"type": "boolean", "const": true},
+        "unencrypted": {"type": "boolean", "const": true},
+        "recovery_mode": {"type": "string", "const": "manual_import_additive"},
+        "exact_rollback_supported": {"type": "boolean", "const": false}
+      },
+      "additionalProperties": false
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["operation_id", "action", "item_id", "identity_boundary", "source_fingerprint", "source_pre_count", "source_expected_post_count", "target_item_id", "target_fingerprint", "target_pre_count", "target_expected_post_count", "target_collection", "expected_post_fingerprint", "expected_post_pre_count", "expected_post_count", "interface_status", "executable"],
+        "properties": {
+          "operation_id": {"type": "string", "pattern": "^bop_[A-Za-z0-9_-]{16,}$"},
+          "action": {"type": "string", "enum": ["move", "merge", "archive", "delete"]},
+          "item_id": {"type": "string", "pattern": "^bri_[A-Za-z0-9_-]{16,}$"},
+          "identity_boundary": {
+            "type": "object",
+            "required": ["browser", "profile_scope", "profile_ref", "account_ref"],
+            "properties": {
+              "browser": {"type": "string", "enum": ["safari", "chrome"]},
+              "profile_scope": {"type": "string", "enum": ["shared_across_profiles", "profile_specific", "unknown"]},
+              "profile_ref": {"type": ["string", "null"]},
+              "account_ref": {"type": ["string", "null"]}
+            },
+            "additionalProperties": false
+          },
+          "source_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "source_pre_count": {"type": "integer", "minimum": 1},
+          "source_expected_post_count": {"type": "integer", "minimum": 0},
+          "target_item_id": {"type": ["string", "null"]},
+          "target_fingerprint": {"type": ["string", "null"]},
+          "target_pre_count": {"type": ["integer", "null"]},
+          "target_expected_post_count": {"type": ["integer", "null"]},
+          "target_collection": {"type": ["array", "null"], "items": {"type": "string", "minLength": 1}},
+          "expected_post_fingerprint": {"type": ["string", "null"]},
+          "expected_post_pre_count": {"type": ["integer", "null"]},
+          "expected_post_count": {"type": ["integer", "null"]},
+          "interface_status": {"type": "string", "const": "unavailable"},
+          "executable": {"type": "boolean", "const": false}
+        },
+        "additionalProperties": false
+      }
+    },
+    "apply_interface": {
+      "type": "object",
+      "required": ["supported", "status", "reason", "manual_handoff_only"],
+      "properties": {
+        "supported": {"type": "boolean", "const": false},
+        "status": {"type": "string", "const": "interface_unavailable"},
+        "reason": {"type": "string", "const": "supported_item_write_interface_unavailable"},
+        "manual_handoff_only": {"type": "boolean", "const": true}
+      },
+      "additionalProperties": false
+    },
+    "privacy": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "synthetic_fixture"},
+            "storage_layer": {"type": "string", "const": "public_fixture"},
+            "contains_private_content": {"type": "boolean", "const": false},
+            "git_allowed": {"type": "boolean", "const": true},
+            "redaction_required": {"type": "boolean", "const": false}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["provenance", "storage_layer", "contains_private_content", "git_allowed", "redaction_required"],
+          "properties": {
+            "provenance": {"type": "string", "const": "machine_observation"},
+            "storage_layer": {"type": "string", "const": "machine_local"},
+            "contains_private_content": {"type": "boolean", "const": true},
+            "git_allowed": {"type": "boolean", "const": false},
+            "redaction_required": {"type": "boolean", "const": true}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "execution_authorized": {"type": "boolean", "const": false}
+  },
+  "additionalProperties": false
+}

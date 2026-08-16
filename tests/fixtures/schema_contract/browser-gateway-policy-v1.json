@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "browser_gateway_policy",
+  "policy_version": "browser-gateway-v1",
+  "roles": {"safari": "recurring_source_gateway", "reading_list": "temporary_inbox", "obsidian": "durable_knowledge"},
+  "capacity": {"minimum_active": 90, "target_active": 100, "maximum_active": 110, "core_slots": 70, "trial_slots": 30},
+  "renewal": {"one_in_one_out": true, "above_target_retirements_per_new": 2, "trial_days": 45, "source_recency_days": 365, "retirement_target_percent": 50, "unchanged_review_only": true, "live_safari_write_authorized": false},
+  "source_mix": ["official_primary", "professional_research", "expert_community", "data_tool"],
+  "selection_score": {"weights": {"authority": 25, "recency": 20, "signal_density": 20, "recurring_value": 20, "personal_relevance": 15}, "penalties": ["stale", "duplicate", "homepage_without_feed", "single_use", "low_signal", "login_wall", "unverifiable_owner"]},
+  "decisions": ["keep_gateway", "trial_new", "replace_by", "promote_to_obsidian", "archive", "delete", "protected"],
+  "subdomains": [
+    {"code": "11", "label": "Fictional 11", "core_slots": 5, "trial_slots": 2, "total_slots": 7, "priority": true},
+    {"code": "12", "label": "Fictional 12", "core_slots": 3, "trial_slots": 2, "total_slots": 5, "priority": false},
+    {"code": "13", "label": "Fictional 13", "core_slots": 6, "trial_slots": 2, "total_slots": 8, "priority": true},
+    {"code": "21", "label": "Fictional 21", "core_slots": 2, "trial_slots": 2, "total_slots": 4, "priority": false},
+    {"code": "22", "label": "Fictional 22", "core_slots": 5, "trial_slots": 2, "total_slots": 7, "priority": true},
+    {"code": "23", "label": "Fictional 23", "core_slots": 4, "trial_slots": 2, "total_slots": 6, "priority": false},
+    {"code": "31", "label": "Fictional 31", "core_slots": 10, "trial_slots": 2, "total_slots": 12, "priority": true},
+    {"code": "32", "label": "Fictional 32", "core_slots": 6, "trial_slots": 2, "total_slots": 8, "priority": false},
+    {"code": "33", "label": "Fictional 33", "core_slots": 3, "trial_slots": 2, "total_slots": 5, "priority": false},
+    {"code": "41", "label": "Fictional 41", "core_slots": 3, "trial_slots": 2, "total_slots": 5, "priority": false},
+    {"code": "42", "label": "Fictional 42", "core_slots": 6, "trial_slots": 2, "total_slots": 8, "priority": true},
+    {"code": "43", "label": "Fictional 43", "core_slots": 3, "trial_slots": 2, "total_slots": 5, "priority": false},
+    {"code": "51", "label": "Fictional 51", "core_slots": 5, "trial_slots": 2, "total_slots": 7, "priority": false},
+    {"code": "52", "label": "Fictional 52", "core_slots": 3, "trial_slots": 2, "total_slots": 5, "priority": false},
+    {"code": "53", "label": "Fictional 53", "core_slots": 6, "trial_slots": 2, "total_slots": 8, "priority": false}
+  ],
+  "privacy": {"public_policy_only": true, "private_urls_in_git": false, "aggregate_output_only": true},
+  "execution_authorized": false
+}

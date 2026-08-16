@@ -12,7 +12,7 @@
 ## Scope
 
 The accepted 0.x contracts publish versioned JSON Schemas for
-fourteen portable or
+twenty-five portable or
 machine-readable boundaries:
 
 | Kind | Current schema | Primary use |
@@ -31,6 +31,17 @@ machine-readable boundaries:
 | `drift-monitor-policy` | `schemas/drift-monitor-policy-v1.schema.json` | Low-noise monitor power, cooldown, confidence, and schedule policy |
 | `publication-audit-policy` | `schemas/publication-audit-policy-v1.schema.json` | Path/count-only public-release inventory and sensitive-pattern policy |
 | `release-manifest` | `schemas/release-manifest-v1.schema.json` | Deterministic candidate inputs, validation, benchmark, provenance, and non-authority |
+| `storage-policy` | `schemas/storage-policy-v1.schema.json` | Public and Private storage thresholds, protection, and regeneration proof |
+| `storage-scan` | `schemas/storage-scan-v1.schema.json` | Logical/allocated observations and reclaim candidates |
+| `storage-decision-ledger` | `schemas/storage-decision-ledger-v1.schema.json` | Time-bounded, non-authorizing storage decisions |
+| `storage-plan` | `schemas/storage-plan-v1.schema.json` | Frozen storage proposals and measured capacity target |
+| `storage-transaction` | `schemas/storage-transaction-v1.schema.json` | Apply, verify, restore, and purge evidence |
+| `browser-item` | `schemas/browser-item-v1.schema.json` | Private bookmark or Reading List identity, source, lifecycle, conflict, and privacy boundary |
+| `browser-url-policy` | `schemas/browser-url-policy-v1.schema.json` | Public allowlist and fail-closed rules for private URL normalization review |
+| `browser-lifecycle-policy` | `schemas/browser-lifecycle-policy-v1.schema.json` | Public taxonomy, review intervals, fingerprint fields, and suppression boundaries |
+| `browser-decision-ledger` | `schemas/browser-decision-ledger-v1.schema.json` | Private classifications, review dates, content fingerprints, and decision history |
+| `browser-transaction-plan` | `schemas/browser-transaction-plan-v1.schema.json` | Export-bound private operation intent, recovery limits, plan hash, and unavailable apply interface |
+| `browser-acceptance` | `schemas/browser-acceptance-v1.schema.json` | Redacted Safari-only live acceptance gates, aggregate counts, and interface limitations |
 
 This work does not claim that every YAML settings file is JSON. The existing
 keyboard and policy YAML files retain their conservative, workflow-specific

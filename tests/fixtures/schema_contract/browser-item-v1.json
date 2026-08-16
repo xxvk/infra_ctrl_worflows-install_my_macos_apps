@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "kind": "browser_item",
+  "item_id": "bri_fixture_00000001",
+  "identity": {
+    "method": "private_persisted_id",
+    "stability": "stable",
+    "namespace_ref": "fictional-safari-shared",
+    "cross_profile_merge_allowed": false
+  },
+  "item_type": "bookmark",
+  "source": {
+    "browser": "safari",
+    "source_id": "safari_export_zip",
+    "profile_scope": "shared_across_profiles",
+    "profile_ref": null,
+    "account_ref": null,
+    "artifact_ref": "fictional-export-0001"
+  },
+  "collection": {
+    "kind": "bookmarks",
+    "path": ["Example", "Research"]
+  },
+  "url": {
+    "original": "https://example.invalid/article?utm_source=fixture",
+    "canonical": null,
+    "canonicalization_status": "not_evaluated",
+    "canonicalization_version": null
+  },
+  "title": "Fictional research article",
+  "tags": [],
+  "read_state": "not_applicable",
+  "intended_lifecycle": "unknown",
+  "confidence": "low",
+  "decision_expiry": null,
+  "conflict_evidence": [],
+  "privacy": {
+    "provenance": "synthetic_fixture",
+    "storage_layer": "public_fixture",
+    "contains_private_content": false,
+    "git_allowed": true,
+    "redaction_required": false
+  },
+  "execution_authorized": false
+}

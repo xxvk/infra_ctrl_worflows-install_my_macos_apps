@@ -52,6 +52,7 @@ Do not load unrelated references.
 | Domain | Required reference | Use when |
 | --- | --- | --- |
 | Runtime, Python, Android, and audio models | [runtime-and-developer-baseline.md](references/runtime-and-developer-baseline.md) | Managing shared Python Core, Android tools, Whisper, or optional audio models |
+| DeepSeek Harness desktop and plugins | [deepseek-harness-operations.md](references/deepseek-harness-operations.md) | Installing or comparing desktop shells, migrating Harness state, composing plugins, or diagnosing Host readiness failures |
 | Permissions, preferences, bootstrap, and TCC cleanup | [permissions-preferences-bootstrap.md](references/permissions-preferences-bootstrap.md) | Inspecting permissions, system preferences, bootstrap, iCloud/Git preflight details, or stale TCC state |
 | Keyboard and Logitech hardware | [keyboard-and-logitech.md](references/keyboard-and-logitech.md) | Managing K240/MX Keys mappings, listeners, Solaar, or receiver battery telemetry |
 | Startup, Dock, and macOS security | [startup-dock-and-security.md](references/startup-dock-and-security.md) | Auditing Login Items, LaunchAgents, Dock order, or Gatekeeper policy |
@@ -70,6 +71,7 @@ Do not load unrelated references.
 | Accessible audit reports | [audit-reports.md](references/audit-reports.md) | Rendering a terminal or HTML audit view from existing JSON evidence |
 | Low-noise Drift Monitor | [drift-monitor.md](references/drift-monitor.md) | Running or scheduling deduplicated, battery-aware read-only drift checks |
 | Memory-backed storage lifecycle | [storage-lifecycle.md](references/storage-lifecycle.md) | Scanning logical versus allocated storage, remembering decisions, importing Mole evidence, planning reclaim, or applying iCloud/cache/archive/Trash transactions |
+| Browser bookmarks and Reading List | [safari-bookmark-reading-list-sources.md](references/safari-bookmark-reading-list-sources.md), [browser-item-schema.md](references/browser-item-schema.md), [browser-url-normalization.md](references/browser-url-normalization.md), [browser-decision-memory.md](references/browser-decision-memory.md), [browser-organization.md](references/browser-organization.md), [browser-knowledge-gateway.md](references/browser-knowledge-gateway.md), [browser-transaction-safety.md](references/browser-transaction-safety.md), [browser-workflow-cli.md](references/browser-workflow-cli.md), and [browser-live-acceptance.md](references/browser-live-acceptance.md) | Verifying supported Safari sources, parsing and preserving an explicit private Bookmarks-and-Reading-List-only export, checking Xcode/Safari 27 capability gates, defining private item identity, reviewing explainable duplicates, compiling the conceptual Private taxonomy and its ranked one-level system-Favorites projection, auditing bounded knowledge-gateway capacity and renewal pressure, freezing and verifying the manual non-authorizing gateway pilot, freezing and verifying a non-executable browser plan, using redacted macomrade routes/reports, or running Safari-only BR-08 acceptance |
 | Public repository release | [public-release-readiness.md](references/public-release-readiness.md) | Auditing, separating personal configuration, licensing, rehearsing, or changing repository visibility |
 | Local macOS account removal | [account-removal.md](references/account-removal.md) | Retiring a local account through preflight, visible authorization, deletion, and post-delete verification |
 
@@ -80,6 +82,55 @@ Detailed component instructions are indexed by the catalog and
 truth and every guide path repository-relative.
 Additional specialized references already linked by the six domain references
 remain supporting evidence, not substitutes for this entry point.
+
+### Safari execution priority
+
+Run `./bin/macomrade scan browser-capabilities` before choosing a Safari data
+path. For live bookmark or Reading List enumeration, query, and item read, use
+`macos-data` first when its public Safari read contract is available (minimum
+`0.8.0`; `MACOS_DATA_CLI` may select a non-PATH build). The skill must call the
+adapter and must never parse or modify `~/Library/Safari/Bookmarks.plist`
+directly — all local mutation goes through the guarded `macos-data` CLI.
+
+**Default write path — guarded local-only CLI CRUD.** When `macos-data >=
+0.8.1` is installed and its Safari CRUD commands are available, bookmark and
+folder organization is executed with `bookmarks create|edit|move|delete` and
+`folders create|rename|move|delete`. This is the default path for incremental
+bookmark organization. Contract:
+
+- **Safari must be fully quit before any write**; the CLI fails closed
+  otherwise. Confirm quiescence (`pgrep Safari` empty) before every apply batch.
+- Dry-run is the default and returns `sourceSHA256Before`; `--apply` must carry
+  that value as `expectedSourceSHA256`, and applies only when private recovery,
+  atomic replacement, and Safari-visible read-back all succeed.
+- Every delete requires an exact typed confirmation
+  (`DELETE SAFARI BOOKMARK`, `DELETE SAFARI FOLDER`); folder deletion accepts
+  only an empty folder.
+- Every result reports `syncStatus=local_only`. **Local plist edits do not
+  sync to iCloud automatically**: the user triggers the final iCloud
+  synchronization by reopening Safari. Never describe a local-only success as
+  iCloud convergence, and never bridge the export-bound `apply browser`
+  planner to live CRUD automatically.
+
+**Sorting is the same guarded move.** Reordering bookmarks within a folder is
+`bookmarks move` (or `folders move`) with a target `index` — no separate
+reorder command or extension exists or is needed. Move an item to a new index
+in its own folder to change order, or across folders to relocate. Plan the
+complete desired order first, emit one move per item with its target index,
+execute in descending index order so earlier moves do not shift later target
+positions, and verify each move by read-back plus a final full `bookmarks
+list`. Ordering is `local_only` until the user reopens Safari. See
+[browser-workflow-cli.md](references/browser-workflow-cli.md#sorting-bookmarks-move--index)
+and [browser-transaction-safety.md](references/browser-transaction-safety.md#sorting-contract-move--index).
+
+Keep an explicit Safari export as the source for immutable evidence, recovery,
+hash-bound planning, reconciliation, and exact post-change acceptance.
+
+**Fallback — deterministic HTML package.** For a synchronized full-library
+replacement (whole-library reorganize), the fallback write path is a
+deterministic HTML package imported by Safari itself. Use Computer Use only to
+drive that Safari-owned import/export UI or when the CLI is unavailable; never
+edit rows one by one when a bounded full package can express the result.
 
 ## Mandatory execution sequence
 
