@@ -16,6 +16,7 @@ and verification status belongs to machine-local state.
 | Notion | [notion.md](notion.md) | Retired; use the web version or web app |
 | Visual Studio Code | [visual-studio-code.md](visual-studio-code.md) | Core; Homebrew; reusable settings apply separately |
 | Cursor | [cursor.md](cursor.md) | Core; Homebrew; verify account per Mac |
+| Cursor Agent | [cursor-agent.md](cursor-agent.md) | Core; shell-script; Open Design agent CLI |
 | GitHub Desktop | [github-desktop.md](github-desktop.md) | Core; Homebrew; verify account and Git settings per Mac |
 | Sourcetree | [sourcetree.md](sourcetree.md) | Core; Homebrew; embedded Git and multiple hosting accounts |
 | Postman | [postman.md](postman.md) | Core; Homebrew; verify workspace per Mac |
@@ -52,6 +53,7 @@ and verification status belongs to machine-local state.
 | go-ios | [go-ios.md](go-ios.md) | Core; npm global (fnm Node 24); iOS automation CLI + SpringBoard layout reader |
 | pymobiledevice3 | [pymobiledevice3.md](pymobiledevice3.md) | Core; Python venv; iOS automation — preferred layout exporter (widget kind + size) |
 | Codex CLI | [codex-cli.md](codex-cli.md) | Core; Homebrew/standalone preferred; reuse ChatGPT App CLI only as reviewed fallback |
+| OpenCode | [opencode.md](opencode.md) | Core; upstream Homebrew tap; open-source BYOK agent and Open Design runtime |
 | CC Switch | [cc-switch.md](cc-switch.md) | Core; Homebrew cask; AI coding agent configuration manager |
 | @google/design.md | [google-design-md.md](google-design-md.md) | Core; npm global under fnm Node 24; DESIGN.md linter/exporter |
 | @deepseek-ai/dsh | [dsh-npm-engine.md](dsh-npm-engine.md) | Core; npm global under fnm Node 24; complete Harness engine CLI |

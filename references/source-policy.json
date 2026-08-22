@@ -123,6 +123,20 @@
   }
  },
  "third_party_homebrew": {
+  "anomalyco/tap": {
+   "repository": "https://github.com/anomalyco/homebrew-tap",
+   "reviewed_revision": "e809521cd31fc531ab5214085088e6cd68d7ba26",
+   "packages": [
+    "anomalyco/tap/opencode"
+   ],
+   "trust": {
+    "scope": "formula",
+    "targets": [
+     "anomalyco/tap/opencode"
+    ]
+   },
+   "update_policy": "stop_on_revision_drift"
+  },
   "debugtheworldbot/keystats": {
    "repository": "https://github.com/debugtheworldbot/homebrew-keystats",
    "reviewed_revision": "432771d212a4db269a37683ad707205f2fce2115",

@@ -327,6 +327,10 @@ catalog audit. Read
 [application-installation-workflow.md](references/application-installation-workflow.md)
 for the exact source-specific and component-integrity rules.
 
+### AI Model Selection
+
+For guidance on selecting the appropriate underlying LLM for automation tasks (balancing cost, reasoning depth, and speed across domestic providers like Qwen, DeepSeek, MiniMax, etc.), consult the [llm-pricing-and-features.md](references/llm-pricing-and-features.md) catalog.
+
 ## Persistent records and local validation
 
 Runtime state defaults to
