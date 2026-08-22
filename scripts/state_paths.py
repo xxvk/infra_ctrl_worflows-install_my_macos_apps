@@ -14,8 +14,9 @@ from pathlib import Path
 from typing import Mapping
 
 
-STATE_DIR_ENV = "INSTALL_MY_MACOS_APPS_STATE_DIR"
-PRODUCT_STATE_RELATIVE = Path("Library/Application Support/install-macos-apps/state")
+STATE_DIR_ENV = "MACOMRADE_STATE_DIR"
+LEGACY_STATE_DIR_ENV = "INSTALL_MY_MACOS_APPS_STATE_DIR"
+PRODUCT_STATE_RELATIVE = Path("Library/Application Support/macomrade/state")
 
 
 def _platform_identity() -> str:
@@ -47,7 +48,13 @@ def resolve_state_dir(
 ) -> Path:
     """Resolve CLI override, then environment override, then machine default."""
     environment = os.environ if environ is None else environ
-    selected = explicit or environment.get(STATE_DIR_ENV)
+    # New MACOMRADE_STATE_DIR wins; legacy INSTALL_MY_MACOS_APPS_STATE_DIR is a
+    # compatibility shim for existing scripts and docs.
+    selected = (
+        explicit
+        or environment.get(STATE_DIR_ENV)
+        or environment.get(LEGACY_STATE_DIR_ENV)
+    )
     if selected:
         return Path(selected).expanduser().resolve()
     home_path = Path.home() if home is None else home
@@ -68,6 +75,7 @@ def main() -> int:
     add_state_dir_argument(parser)
     args = parser.parse_args()
     path = resolve_state_dir(args.state_dir)
+    env_active = os.environ.get(STATE_DIR_ENV) or os.environ.get(LEGACY_STATE_DIR_ENV)
     if args.command == "path":
         print(path)
     else:
@@ -77,14 +85,15 @@ def main() -> int:
                     "schema_version": 1,
                     "state_dir": str(path),
                     "environment_override": STATE_DIR_ENV,
+                    "legacy_environment_override": LEGACY_STATE_DIR_ENV,
                     "source": (
                         "cli"
                         if args.state_dir
                         else "environment"
-                        if os.environ.get(STATE_DIR_ENV)
+                        if env_active
                         else "machine_default"
                     ),
-                    "machine_scoped": not bool(args.state_dir or os.environ.get(STATE_DIR_ENV)),
+                    "machine_scoped": not bool(args.state_dir or env_active),
                 },
                 ensure_ascii=False,
                 indent=2,

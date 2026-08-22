@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "references" / "browser-data-sources.json"
 EXPECTED_SOURCE_IDS = {
     "icloud_safari_sync",
-    "macos_data_cli",
+    "mpia_cli",
     "safari_apple_events",
     "safari_export_zip",
     "safari_internal_bookmarks_plist",
@@ -38,8 +38,27 @@ ALLOWED_SUPPORT = {
 }
 
 Runner = Callable[..., subprocess.CompletedProcess[str]]
-MACOS_DATA_MINIMUM_READ_VERSION = (0, 8, 0)
-MACOS_DATA_MINIMUM_LOCAL_WRITE_VERSION = (0, 8, 1)
+MPIA_MINIMUM_READ_VERSION = (0, 9, 3)
+MPIA_MINIMUM_LOCAL_WRITE_VERSION = (0, 9, 3)
+MPIA_MANIFEST_ROUTE = "/agent/manifest"
+MPIA_PERMISSION_ROUTE = "/safari/permission"
+MPIA_SCHEMA_PROBE_ROUTE = "/safari/bookmarks/list"
+MPIA_REQUIRED_READ_ROUTES = (
+    "/safari/bookmarks/list",
+    "/safari/bookmarks/query",
+    "/safari/bookmarks/get",
+    "/safari/reading-list/list",
+)
+MPIA_REQUIRED_WRITE_ROUTES = (
+    "/safari/bookmarks/create",
+    "/safari/bookmarks/edit",
+    "/safari/bookmarks/move",
+    "/safari/bookmarks/delete",
+    "/safari/folders/create",
+    "/safari/folders/rename",
+    "/safari/folders/move",
+    "/safari/folders/delete",
+)
 
 
 class BrowserSourceError(RuntimeError):
@@ -140,21 +159,21 @@ def validate_contract(contract: dict[str, Any]) -> None:
     if export.get("profile_scope") != "shared_across_safari_profiles":
         raise BrowserSourceError("Safari bookmark profile scope is invalid")
     for source_id, source in by_id.items():
-        if source_id not in {"macos_data_cli", "safari_export_zip"} and source.get("item_enumeration_supported"):
+        if source_id not in {"mpia_cli", "safari_export_zip"} and source.get("item_enumeration_supported"):
             raise BrowserSourceError(f"{source_id} must not be selected for item enumeration")
-    adapter = by_id["macos_data_cli"]
+    adapter = by_id["mpia_cli"]
     if adapter.get("support") != "supported_cli_adapter":
-        raise BrowserSourceError("macos-data must remain the preferred supported CLI adapter")
+        raise BrowserSourceError("mpia must remain the preferred supported CLI adapter")
     if adapter.get("content_kinds") != ["bookmark", "reading_list"]:
-        raise BrowserSourceError("macos-data must enumerate bookmarks and Reading List")
-    if adapter.get("minimum_read_version") != "0.8.0":
-        raise BrowserSourceError("macos-data minimum read version must be 0.8.0")
+        raise BrowserSourceError("mpia must enumerate bookmarks and Reading List")
+    if adapter.get("minimum_read_version") != "0.9.3":
+        raise BrowserSourceError("mpia minimum read version must be 0.9.3")
     if adapter.get("direct_internal_store_access") != "forbidden":
-        raise BrowserSourceError("the skill must not bypass the macos-data Safari adapter")
-    if adapter.get("minimum_local_write_version") != "0.8.1":
-        raise BrowserSourceError("macos-data minimum local write version must be 0.8.1")
+        raise BrowserSourceError("the skill must not bypass the mpia Safari adapter")
+    if adapter.get("minimum_local_write_version") != "0.9.3":
+        raise BrowserSourceError("mpia minimum local write version must be 0.9.3")
     if adapter.get("ordinary_bookmark_write_status") != "available_local_only":
-        raise BrowserSourceError("macos-data ordinary bookmark writes must preserve the local-only boundary")
+        raise BrowserSourceError("mpia ordinary bookmark writes must preserve the local-only boundary")
     if adapter.get("cross_device_sync_status") != "not_verified":
         raise BrowserSourceError("local plist mutation must not claim cross-device sync")
     internal = by_id["safari_internal_bookmarks_plist"]
@@ -178,7 +197,7 @@ def validate(path: Path = CONTRACT_PATH) -> dict[str, Any]:
         "status": "passed",
         "browsers": contract["scope"]["browsers"],
         "content_kinds": contract["scope"]["content_kinds"],
-        "preferred_live_read_source": "macos_data_cli",
+        "preferred_live_read_source": "mpia_cli",
         "immutable_evidence_source": "safari_export_zip",
         "errors": [],
     }
@@ -191,17 +210,73 @@ def _version_tuple(value: str) -> tuple[int, int, int] | None:
     return tuple(int(part) for part in match.groups())
 
 
-def inspect_macos_data(
+def _mpia_route_paths(payload: str) -> set[str]:
+    """Extract declared route paths from an /agent/manifest response."""
+
+    try:
+        document = json.loads(payload)
+    except json.JSONDecodeError:
+        return set()
+    data = document.get("data") if isinstance(document, dict) else None
+    routes = data.get("routes") if isinstance(data, dict) else None
+    if not isinstance(routes, list):
+        return set()
+    return {
+        route.get("path")
+        for route in routes
+        if isinstance(route, dict) and isinstance(route.get("path"), str)
+    }
+
+
+def _mpia_schema_status(payload: str, returncode: int) -> dict[str, Any]:
+    """Classify a bounded read attempt by envelope only.
+
+    The response body is never inspected beyond ``ok`` and ``error.code``; no
+    bookmark or Reading List item ever leaves this function.
+    """
+
+    try:
+        document = json.loads(payload)
+    except json.JSONDecodeError:
+        return {"probe": "unreadable", "parses": None, "error_code": None}
+    if not isinstance(document, dict):
+        return {"probe": "unreadable", "parses": None, "error_code": None}
+    if document.get("ok") is True:
+        return {"probe": "read", "parses": True, "error_code": None}
+    error = document.get("error")
+    code = error.get("code") if isinstance(error, dict) else None
+    return {"probe": "read", "parses": False, "error_code": code}
+
+
+def _mpia_permission(payload: str) -> dict[str, Any]:
+    """Read the Safari authorization state without touching item content."""
+
+    try:
+        document = json.loads(payload)
+    except json.JSONDecodeError:
+        return {"probe": "unreadable", "bookmarks_readable": None, "automation": None}
+    data = document.get("data") if isinstance(document, dict) else None
+    if not isinstance(data, dict):
+        return {"probe": "unreadable", "bookmarks_readable": None, "automation": None}
+    return {
+        "probe": "read",
+        "bookmarks_readable": data.get("bookmarksReadable"),
+        "automation": data.get("automation"),
+        "reading_list_add_available": data.get("readingListAddAvailable"),
+    }
+
+
+def inspect_mpia(
     *,
     binary: Path | None = None,
     runner: Runner = subprocess.run,
 ) -> dict[str, Any]:
-    """Probe only the public macos-data CLI contract; never emit Safari items."""
+    """Probe only the public mpia CLI contract; never emit Safari items."""
 
-    configured = os.environ.get("MACOS_DATA_CLI")
-    command = str(binary) if binary is not None else configured or shutil.which("macos-data")
+    configured = os.environ.get("MPIA_CLI")
+    command = str(binary) if binary is not None else configured or shutil.which("mpia")
     base = {
-        "adapter": "macos-data",
+        "adapter": "mpia",
         "privacy_boundary": "public_cli_capability_metadata_only",
         "private_item_content_emitted": False,
         "ordinary_bookmark_write_status": "unavailable_public_cli",
@@ -209,7 +284,8 @@ def inspect_macos_data(
         "selected_read_source": "safari_export_zip",
     }
     if not command:
-        return {**base, "present": False, "version": None, "read_status": "binary_unavailable"}
+        return {**base, "present": False, "version": None, "read_status": "binary_unavailable",
+                "authorization": {"probe": "not_run", "bookmarks_readable": None, "automation": None}}
     try:
         version_result = runner(
             [command, "--version"],
@@ -218,45 +294,79 @@ def inspect_macos_data(
             check=False,
             timeout=5,
         )
-        help_result = runner(
-            [command, "--help"],
+        manifest_result = runner(
+            [command, "GET", MPIA_MANIFEST_ROUTE],
             capture_output=True,
             text=True,
             check=False,
-            timeout=5,
+            timeout=15,
+        )
+        permission_result = runner(
+            [command, "OPTIONS", MPIA_PERMISSION_ROUTE],
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=10,
+        )
+        schema_result = runner(
+            [command, "GET", MPIA_SCHEMA_PROBE_ROUTE],
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=20,
         )
     except (OSError, subprocess.SubprocessError):
-        return {**base, "present": False, "version": None, "read_status": "probe_failed"}
+        return {**base, "present": False, "version": None, "read_status": "probe_failed",
+                "authorization": {"probe": "not_run", "bookmarks_readable": None, "automation": None}}
 
+    authorization = _mpia_permission(permission_result.stdout or permission_result.stderr or "")
+    schema = _mpia_schema_status(
+        schema_result.stdout or schema_result.stderr or "", schema_result.returncode
+    )
     raw_version = (version_result.stdout or version_result.stderr).strip()
     parsed = _version_tuple(raw_version)
     version = ".".join(str(part) for part in parsed) if parsed else None
     if version_result.returncode != 0 or parsed is None:
-        status = "version_unknown"
-    elif parsed < MACOS_DATA_MINIMUM_READ_VERSION:
-        status = "version_too_old"
+        return {**base, "present": True, "version": version, "read_status": "version_unknown",
+                "authorization": authorization, "store_schema": schema}
+    if parsed < MPIA_MINIMUM_READ_VERSION:
+        return {**base, "present": True, "version": version, "read_status": "version_too_old",
+                "authorization": authorization, "store_schema": schema}
+
+    routes = _mpia_route_paths(manifest_result.stdout or manifest_result.stderr or "")
+    if manifest_result.returncode != 0 or not routes:
+        status = "contract_missing"
+    elif all(route in routes for route in MPIA_REQUIRED_READ_ROUTES):
+        status = "available"
     else:
-        help_text = f"{help_result.stdout}\n{help_result.stderr}"
-        required = ("bookmarks list", "bookmarks query", "bookmarks get", "reading-list list")
-        status = "available" if help_result.returncode == 0 and all(marker in help_text for marker in required) else "contract_missing"
-    help_text = f"{help_result.stdout}\n{help_result.stderr}"
-    local_write_markers = (
-        "bookmarks create|edit|move|delete",
-        "folders create|rename|move|delete",
-        "Guarded local-only",
-    )
+        status = "contract_missing"
+
+    # A declared route is not an authorized route. Full Disk Access is granted to
+    # the CLI identity (com.xvk.mpia.cli), and the rename from macos-data-cli reset
+    # that grant, so contract availability and readability must stay separate.
+    if status == "available" and authorization.get("bookmarks_readable") is False:
+        status = "authorization_required"
+
+    # A declared, authorized route can still fail to parse the on-disk store.
+    # Safari ships schema changes independently of the adapter, so an adapter
+    # that cannot read this Mac's Bookmarks.plist must never be selected as the
+    # live path merely because its routes and grants exist.
+    if status == "available" and schema.get("parses") is False:
+        status = "store_schema_unsupported"
+
     local_write_available = (
         status == "available"
-        and parsed is not None
-        and parsed >= MACOS_DATA_MINIMUM_LOCAL_WRITE_VERSION
-        and all(marker in help_text for marker in local_write_markers)
+        and parsed >= MPIA_MINIMUM_LOCAL_WRITE_VERSION
+        and all(route in routes for route in MPIA_REQUIRED_WRITE_ROUTES)
     )
     return {
         **base,
         "present": True,
         "version": version,
         "read_status": status,
-        "selected_read_source": "macos_data_cli" if status == "available" else "safari_export_zip",
+        "authorization": authorization,
+        "store_schema": schema,
+        "selected_read_source": "mpia_cli" if status == "available" else "safari_export_zip",
         "ordinary_bookmark_write_status": (
             "available_local_only" if local_write_available else "unavailable_public_cli"
         ),
@@ -269,7 +379,7 @@ def inspect_safari(
     app_path: Path = Path("/Applications/Safari.app"),
     home: Path | None = None,
     safaridriver_path: Path = Path("/usr/bin/safaridriver"),
-    macos_data_binary: Path | None = None,
+    mpia_binary: Path | None = None,
     runner: Runner = subprocess.run,
 ) -> dict[str, Any]:
     """Inspect app/interface presence without opening Safari bookmark content."""
@@ -289,13 +399,13 @@ def inspect_safari(
     except OSError:
         sdef = ""
     internal_path = home / "Library" / "Safari" / "Bookmarks.plist"
-    macos_data = inspect_macos_data(binary=macos_data_binary, runner=runner)
-    read_priority = ["macos_data_cli", "safari_export_zip", "manual_safari_export_ui"]
-    if macos_data["read_status"] != "available":
+    mpia = inspect_mpia(binary=mpia_binary, runner=runner)
+    read_priority = ["mpia_cli", "safari_export_zip", "manual_safari_export_ui"]
+    if mpia["read_status"] != "available":
         read_priority = ["safari_export_zip", "manual_safari_export_ui"]
     local_write_priority = (
-        ["macos_data_cli"]
-        if macos_data["ordinary_bookmark_write_status"] == "available_local_only"
+        ["mpia_cli"]
+        if mpia["ordinary_bookmark_write_status"] == "available_local_only"
         else []
     )
     return {
@@ -313,7 +423,7 @@ def inspect_safari(
             "selected_categories": "bookmarks_and_reading_list_only",
             "content_read": False,
         },
-        "macos_data": macos_data,
+        "mpia": mpia,
         "execution_priority": {
             "live_read": read_priority,
             "immutable_evidence": ["safari_export_zip"],
@@ -346,10 +456,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("validate", help="validate the tracked Safari source contract")
-    inspect_parser = subparsers.add_parser("inspect-safari", help="inspect Safari and macos-data capability metadata without reading items")
-    inspect_parser.add_argument("--macos-data", type=Path, help="explicit macos-data binary; otherwise use MACOS_DATA_CLI or PATH")
+    inspect_parser = subparsers.add_parser("inspect-safari", help="inspect Safari and mpia capability metadata without reading items")
+    inspect_parser.add_argument("--mpia", type=Path, help="explicit mpia binary; otherwise use MPIA_CLI or PATH")
     args = parser.parse_args()
-    result = validate() if args.command == "validate" else inspect_safari(macos_data_binary=args.macos_data)
+    result = validate() if args.command == "validate" else inspect_safari(mpia_binary=args.mpia)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("status", "passed") == "passed" else 1
 

@@ -40,7 +40,7 @@ python3 scripts/icloud_git_guard.py inspect --repo .
 [`icloud-git-integrity.md`](icloud-git-integrity.md) 先完成 grouped
 materialize、复检和只读 Git verification。不要把 `dataless` 当成损坏，也
 不要迁出 iCloud 或删除 `.git`。通过后再确认
-`workflows/infra_ctrl_worflows/install_my_macos_apps/` 子模块内容完整
+`workflows/infra_ctrl_worflows/macomrade/` 子模块内容完整
 （`git submodule status` 无 `-` 前缀）。
 
 ## 第 2 步：联网

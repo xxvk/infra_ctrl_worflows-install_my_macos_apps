@@ -16,8 +16,8 @@ python3 scripts/state_paths.py info
 Precedence is deterministic:
 
 1. per-command `--state-dir PATH`;
-2. `INSTALL_MY_MACOS_APPS_STATE_DIR`;
-3. `~/Library/Application Support/install-macos-apps/state/<hashed-machine-id>/`.
+2. `MACOMRADE_STATE_DIR`;
+3. `~/Library/Application Support/macomrade/state/<hashed-machine-id>/`.
 
 The machine ID is a short SHA-256-derived scope. The raw platform UUID is not
 written to the path, repository, state records, or terminal output.

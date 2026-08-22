@@ -40,56 +40,85 @@ exact `FREEZE BROWSER PLAN` confirmation and never writes Safari.
 `apply browser` remains read-only and returns `blocked` with
 `supported_item_write_interface_unavailable` after a successful preflight;
 it is never the live-write route.
-`scan browser-capabilities` probes only Safari metadata plus `macos-data`
-version/root help. When `macos-data >= 0.8.0` exposes its Safari read commands,
-live list/query/get work is CLI-first. When installed `macos-data >= 0.8.1`
-also exposes guarded bookmark/folder CRUD, **that CLI is the direct local-only
-write route for bookmark and folder organization** — see the CRUD contract
-below. The export-bound `apply browser` bridge remains blocked until it can
-map and verify a frozen plan safely, and is not used for live organization.
-`scan browser` remains the immutable-export route. An installed older binary
-does not inherit capability from a newer source checkout. Use
-`MACOS_DATA_CLI=/path/to/macos-data` explicitly when a reviewed build should
+`scan browser-capabilities` probes only Safari metadata plus the public `mpia`
+contract: `--version`, the `/agent/manifest` route table, `OPTIONS
+/safari/permission`, and one bounded read whose envelope alone (`ok` and
+`error.code`) is inspected. It never opens the bookmark plist or emits an item.
+
+The probe reports three gates separately, and all three must pass before the
+CLI is selected:
+
+| `read_status` | Meaning | Live path |
+| --- | --- | --- |
+| `binary_unavailable` / `version_too_old` / `contract_missing` | no usable `mpia >= 0.9.3` routes | export |
+| `authorization_required` | routes exist, Full Disk Access does not | export |
+| `store_schema_unsupported` | routes and grant exist, adapter cannot parse this Mac's `Bookmarks.plist` | export |
+| `available` | all three pass | **`mpia` CLI** |
+
+When `read_status` is `available` and the write routes are present, **that CLI
+is the direct local-only write route for bookmark and folder organization** —
+see the CRUD contract below. The export-bound `apply browser` bridge remains
+blocked until it can map and verify a frozen plan safely, and is not used for
+live organization. `scan browser` remains the immutable-export route. An
+installed older binary does not inherit capability from a newer source
+checkout. Use `MPIA_CLI=/path/to/mpia` explicitly when a reviewed build should
 take precedence over PATH.
+
+Authorization is granted to the CLI identity `com.xvk.mpia.cli`. The rename
+from `macos-data-cli` reset every prior TCC grant, so Full Disk Access must be
+granted again even on a Mac where the old binary worked.
 
 ### Local-only CLI CRUD (default write path)
 
-With `macos-data >= 0.8.1`, bookmark and folder organization runs through the
-guarded CRUD commands. Input is strict JSON on `--stdin` (or `--input`).
-Dry-run is the default; copy `sourceSHA256Before` into `expectedSourceSHA256`
-for `--apply`. **Safari must be fully quit** before any apply. Deletes require
-the exact confirmation phrase. Every result reports `syncStatus=local_only`:
-the user triggers the final iCloud synchronization by reopening Safari.
+With `mpia >= 0.9.3`, bookmark and folder organization runs through the guarded
+CRUD routes. Input is strict inline JSON on `--body`; **0.9.3 removed
+`--stdin`**. Dry-run is the default; copy `sourceSHA256Before` into
+`expectedSourceSHA256` for `--apply`. **Safari must be fully quit** before any
+apply. Deletes require the exact confirmation phrase. Every result reports
+`syncStatus=local_only`: the user triggers the final iCloud synchronization by
+reopening Safari.
+
+> [!warning] Inline JSON is visible to other processes
+> `--body` values land in process arguments and shell history, and bookmark
+> titles and URLs are private content. Treat every command below as exposing
+> its payload on a shared machine, and never place a secret in one. Piping to
+> `--stdin` is no longer an option; if that exposure is unacceptable, use the
+> export-bound path instead of working around it.
 
 ```sh
 # create one bookmark
-printf '%s' '{"parentID":"<folder-id>","index":0,"title":"Example","url":"https://example.com"}' \
-  | macos-data safari bookmarks create --stdin --format json
+mpia POST "/safari/bookmarks/create" \
+  --body '{"parentID":"<folder-id>","index":0,"title":"Example","url":"https://example.com"}'
 
 # edit: dry-run first for the source hash, then apply with it
-printf '%s' '{"id":"<bookmark-id>","title":"Updated","expectedSourceSHA256":"<dry-run-hash>"}' \
-  | macos-data safari bookmarks edit --stdin --apply --format json
+mpia PATCH "/safari/bookmarks/edit" \
+  --body '{"id":"<bookmark-id>","title":"Updated","expectedSourceSHA256":"<dry-run-hash>"}' \
+  --apply
 
 # move one bookmark
-printf '%s' '{"id":"<bookmark-id>","parentID":"<target-folder-id>","index":0,"expectedSourceSHA256":"<dry-run-hash>"}' \
-  | macos-data safari bookmarks move --stdin --apply --format json
+mpia PATCH "/safari/bookmarks/move" \
+  --body '{"id":"<bookmark-id>","parentID":"<target-folder-id>","index":0,"expectedSourceSHA256":"<dry-run-hash>"}' \
+  --apply
 
 # delete one bookmark (exact phrase)
-printf '%s' '{"id":"<bookmark-id>","expectedSourceSHA256":"<dry-run-hash>"}' \
-  | macos-data safari bookmarks delete --stdin --apply \
-      --confirm "DELETE SAFARI BOOKMARK" --format json
+mpia DELETE "/safari/bookmarks/delete" \
+  --body '{"id":"<bookmark-id>","expectedSourceSHA256":"<dry-run-hash>"}' \
+  --apply --confirm "DELETE SAFARI BOOKMARK"
 ```
 
-Folder operations mirror the bookmark set (`folders create|rename|move|delete`,
-delete confirmation `DELETE SAFARI FOLDER`, empty folders only). Never
+Folder operations mirror the bookmark set (`POST /safari/folders/create`,
+`PATCH /safari/folders/rename`, `PATCH /safari/folders/move`,
+`DELETE /safari/folders/delete`, delete confirmation `DELETE SAFARI FOLDER`,
+empty folders only). Never
 interpret a successful local read-back as iCloud synchronization; the user
 decides when Safari reopens and syncs.
 
 ### Sorting bookmarks (move + index)
 
-Bookmark ordering inside a folder is the same guarded `bookmarks move`
-operation with a different target index — **no separate reorder command or
-extension is needed**. `bookmarks move` and `folders move` require
+Bookmark ordering inside a folder is the same guarded
+`PATCH /safari/bookmarks/move` operation with a different target index —
+**no separate reorder command or extension is needed**. The bookmark and folder
+move routes require
 `{"id", "parentID", "index"}`; moving an item to a new `index` within its own
 folder is how order is changed, and moving across folders also places the item
 at the requested position. The engine removes the node and inserts it at
@@ -98,12 +127,13 @@ untouched-node preservation check.
 
 ```sh
 # dry-run: returns sourceSHA256Before
-printf '%s' '{"id":"<bookmark-id>","parentID":"<same-folder-id>","index":0}' \
-  | macos-data safari bookmarks move --stdin --format json
+mpia PATCH "/safari/bookmarks/move" \
+  --body '{"id":"<bookmark-id>","parentID":"<same-folder-id>","index":0}' --dry-run
 
 # apply: same payload plus the dry-run hash
-printf '%s' '{"id":"<bookmark-id>","parentID":"<same-folder-id>","index":0,"expectedSourceSHA256":"<dry-run-hash>"}' \
-  | macos-data safari bookmarks move --stdin --apply --format json
+mpia PATCH "/safari/bookmarks/move" \
+  --body '{"id":"<bookmark-id>","parentID":"<same-folder-id>","index":0,"expectedSourceSHA256":"<dry-run-hash>"}' \
+  --apply
 ```
 
 Sorting rules that keep a reorder safe:
@@ -174,7 +204,7 @@ human-readable report is needed:
 ```sh
 ./bin/macomrade scan browser-capabilities
 
-MACOS_DATA_CLI=/path/to/macos-data \
+MPIA_CLI=/path/to/mpia \
   ./bin/macomrade scan browser-capabilities
 
 ./bin/macomrade scan browser ~/Downloads/Safari-Bookmarks.zip \
@@ -254,11 +284,11 @@ MACOS_DATA_CLI=/path/to/macos-data \
   --apply --confirm "FREEZE BROWSER PLAN"
 
 ./bin/macomrade apply browser \
-  ~/Library/Application\ Support/install-macos-apps/state/<machine>/browser/plans/<plan-id>.json \
+  ~/Library/Application\ Support/macomrade/state/<machine>/browser/plans/<plan-id>.json \
   ~/Downloads/Safari-Bookmarks.zip
 
 ./bin/macomrade verify browser \
-  ~/Library/Application\ Support/install-macos-apps/state/<machine>/browser/plans/<plan-id>.json \
+  ~/Library/Application\ Support/macomrade/state/<machine>/browser/plans/<plan-id>.json \
   ~/Downloads/Safari-Bookmarks-after.zip \
   > /tmp/browser-verify.json
 

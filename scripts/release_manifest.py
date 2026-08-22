@@ -19,7 +19,7 @@ from state_paths import add_state_dir_argument, resolve_state_dir
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_INPUTS = (
     "VERSION",
-    "references/app-catalog.json",
+    "references/mac-app-catalog.json",
     "references/release-acceptance-matrix.json",
     "references/schema-registry.json",
     "references/source-policy.json",

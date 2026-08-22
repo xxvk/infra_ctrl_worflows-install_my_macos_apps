@@ -3,8 +3,8 @@
 ## Current support boundary
 
 BR-06 has a transaction-safe planning and verification foundation. Live reads
-prefer the public `macos-data >= 0.8.0` Safari adapter, and the installed
-`macos-data >= 0.8.1` guarded bookmark/folder CRUD is the **default local-only
+prefer the public `mpia >= 0.9.3` Safari adapter, and its guarded
+bookmark/folder CRUD routes are the **default local-only
 write path** for bookmark and folder organization. The planning implementation
 can:
 
@@ -18,7 +18,7 @@ can:
   cross-identity or self merges, conflicting destinations, and plan tampering;
 - compare a second explicit export with the frozen expected fingerprint counts.
 
-`macos-data` 0.8.1 ships guarded atomic mutation of ordinary bookmarks and
+`mpia` 0.9.3 ships guarded atomic mutation of ordinary bookmarks and
 folders as a stable public CLI. **That CLI is the default execution route for
 live organization** (see the CRUD contract below), not the export-bound
 `apply-live-safari` planner bridge, which remains blocked at
@@ -28,7 +28,7 @@ item CRUD substitute.
 
 ### Local-only CRUD contract (default live-write path)
 
-With `macos-data >= 0.8.1`, run `bookmarks create|edit|move|delete` and
+With `mpia >= 0.9.3`, run the `/safari/bookmarks/*` and `/safari/folders/*` routes and
 `folders create|rename|move|delete` directly:
 
 - **Safari must be fully quit** before any write; the CLI fails closed
@@ -160,7 +160,7 @@ not drifted:
 
 ```sh
 python3 scripts/browser_transactions.py verify-preapply \
-  ~/Library/Application\ Support/install-macos-apps/state/<machine>/browser/plans/<plan-id>.json \
+  ~/Library/Application\ Support/macomrade/state/<machine>/browser/plans/<plan-id>.json \
   ~/Downloads/Safari\ Export.zip
 ```
 
@@ -168,7 +168,7 @@ The live command deliberately stops at the interface boundary:
 
 ```sh
 python3 scripts/browser_transactions.py apply-live-safari \
-  ~/Library/Application\ Support/install-macos-apps/state/<machine>/browser/plans/<plan-id>.json \
+  ~/Library/Application\ Support/macomrade/state/<machine>/browser/plans/<plan-id>.json \
   ~/Downloads/Safari\ Export.zip
 ```
 
@@ -177,7 +177,7 @@ Bookmarks-and-Reading-List-only export and verify expected counts:
 
 ```sh
 python3 scripts/browser_transactions.py verify-post-export \
-  ~/Library/Application\ Support/install-macos-apps/state/<machine>/browser/plans/<plan-id>.json \
+  ~/Library/Application\ Support/macomrade/state/<machine>/browser/plans/<plan-id>.json \
   ~/Downloads/Safari\ Export-after.zip
 ```
 

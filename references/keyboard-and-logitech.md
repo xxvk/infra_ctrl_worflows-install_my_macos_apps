@@ -20,7 +20,7 @@ through app component guides:
 - Device profile: `Private/keyboards/logitech-k240-japanese-dictation.yaml`
 - Native K240 listener: `scripts/keyboard-config-logi-k240.swift`
 - Machine-specific observations: machine-local state and
-  `~/Library/Logs/install_my_macos_apps/`
+  `~/Library/Logs/macomrade/`
 
 ### Logitech K240 profile
 
@@ -105,7 +105,7 @@ from the listener:
    (including `~/Applications/PlayCover/YouTube.app`), otherwise Apple Music,
    or Screenshot.app.
 5. Writes operational diagnostics to
-   `~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log`.
+   `~/Library/Logs/macomrade/keyboard-config-logi-k240.log`.
 
 The first validation must run in the foreground. Press F1, F2, F3, F5, and
 F12 one at a time and confirm ChatGPT, Claude, Perplexity, YouTube or Apple Music, and the
@@ -129,9 +129,9 @@ state.
 The installed user-level paths are:
 
 ```text
-Binary:       ~/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240
+Binary:       ~/Library/Application Support/macomrade/bin/keyboard-config-logi-k240
 LaunchAgent:  ~/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist
-Logs:         ~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log
+Logs:         ~/Library/Logs/macomrade/keyboard-config-logi-k240.log
 ```
 
 The `~/Library` directory is hidden. Use `open -R` to locate the binary. Input
@@ -143,7 +143,7 @@ automatically run the following two commands before asking the user to grant
 the permission:
 
 ```sh
-open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open -R "$HOME/Library/Application Support/macomrade/bin/keyboard-config-logi-k240"
 open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent'
 ```
 
@@ -151,7 +151,7 @@ If the log says `Unable to open Logitech receiver`, stop the `KeepAlive` agent,
 authorize the exact binary in Input Monitoring, and reload it:
 
 ```sh
-open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open -R "$HOME/Library/Application Support/macomrade/bin/keyboard-config-logi-k240"
 open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent'
 launchctl bootstrap gui/$(id -u) \
   "$HOME/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist"

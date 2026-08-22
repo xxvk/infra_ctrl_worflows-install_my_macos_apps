@@ -1,9 +1,9 @@
 # Python Core package candidates
 
-状态：候选清单，尚未加入 `app-catalog.json` 或自动安装器。
+状态：候选清单，尚未加入 `mac-app-catalog.json` 或自动安装器。
 
 这份清单服务于本机 Python 工作流和后续多台 Mac bootstrap。当前
-`install_my_macos_apps` 的 catalog/installer 原生支持 Homebrew formula、
+`macomrade` 的 catalog/installer 原生支持 Homebrew formula、
 Homebrew cask 和 CLI，不支持直接把 PyPI wheel 当作独立 catalog item；因此
 先记录政策和分层，不把未经审核的 pip 安装塞进 Core 安装流程。
 
@@ -78,7 +78,7 @@ macOS 应用；在 Apple Silicon 上只记录 resolver 实际安装的 macOS 包
 
 ## 推荐的共享 Core 形态
 
-不要在 `app-catalog.json` 里登记十几个 PyPI wheel。当前采用一个受控的
+不要在 `mac-app-catalog.json` 里登记十几个 PyPI wheel。当前采用一个受控的
 共享 Python package set：
 
 ```yaml

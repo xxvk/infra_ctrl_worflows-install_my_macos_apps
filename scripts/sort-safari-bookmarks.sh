@@ -1,4 +1,25 @@
 #!/usr/bin/env bash
+# ⚠️ SUPERSEDED — DOES NOT RUN AS WRITTEN.
+#
+# This script targets the removed `macos-data safari <noun> <verb> --stdin`
+# surface. Two independent things broke it:
+#
+#   1. Rename + contract change. `macos-data-cli` became `mpia-cli` and 0.9.3
+#      replaced adapter/subcommands with `mpia METHOD "/path"`. There is no
+#      `--stdin`: `--params` / `--body` accept inline JSON only. Porting the
+#      pipes to `--body "$payload"` would put bookmark titles and URLs into
+#      process arguments and shell history, which this skill's privacy boundary
+#      does not allow. A replacement must solve that first, not paper over it.
+#   2. Store schema. mpia 0.9.3 cannot parse Safari 27's Bookmarks.plist
+#      (`SAFARI_SCHEMA_UNSUPPORTED`), so no live CLI bookmark path exists on
+#      this Mac regardless of syntax.
+#
+# The folder ids and operation counts below are frozen from one completed 2026
+# run; they are not reusable inputs. Kept as a record of the safety chain
+# (dry-run -> expectedSourceSHA256 -> apply -> read-back), which the mpia routes
+# preserve. Route mapping lives in references/browser-workflow-cli.md.
+#
+# Delete or rewrite deliberately — do not run.
 # sort-safari-bookmarks.sh — 按重要性排序 4 个文件夹的书签（macos-data CLI）
 #
 # 前置：Safari 完全退出。每项 move：dry-run → apply(expectedSourceSHA256) → read-back。

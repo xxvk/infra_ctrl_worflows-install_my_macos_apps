@@ -9,6 +9,7 @@ dependencies = [
     "pydantic",
     "rich",
     "python-dateutil",
+    "pymobiledevice3==10.10.3",
 ]
 
 [dependency-groups]

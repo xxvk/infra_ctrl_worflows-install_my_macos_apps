@@ -15,12 +15,13 @@ from pathlib import Path
 
 from config_layers import load_app_catalog
 import machine_roles
+import pnpm_global
 from schema_contract import SchemaContractError, load_and_validate
 from state_paths import add_state_dir_argument, resolve_state_dir
 from supply_chain import provenance_for
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG = ROOT / "references" / "app-catalog.json"
+CATALOG = ROOT / "references" / "mac-app-catalog.json"
 STATE = resolve_state_dir()
 APP_DIRS = [
     Path("/Applications"),
@@ -274,6 +275,8 @@ def npm_package_present(app):
     expected = str(app.get("npm_version", ""))
     if not runtime or not expected:
         return False
+    if app.get("npm_install_client", "npm") == "pnpm":
+        return pnpm_global.package_present(runtime, app["npm_package"], expected)
     result = subprocess.run(
         [
             "fnm", "exec", f"--using={runtime}", "npm", "list", "--global",
@@ -466,16 +469,7 @@ def plan(args):
             tap = f" (after brew tap {app['brew_tap']})" if app.get('brew_tap') else ""
             delivery = f"brew install {app['brew_formula']}{tap}"
         elif app.get("npm_package"):
-            package = app["npm_package"]
-            version = app.get("npm_version")
-            runtime = app.get("npm_runtime_version")
-            delivery = (
-                f"fnm exec --using={runtime} npm install --global {package}@{version}"
-                if runtime and version
-                else f"npm install --global {package}@{version}"
-                if version
-                else f"npm install --global {package}"
-            )
+            delivery = shlex.join(install_commands(app)[0])
         elif app.get("runtime_manager") == "fnm":
             delivery = f"fnm install {app['runtime_version']} && fnm default {app['runtime_version']}"
         else:
@@ -506,7 +500,10 @@ def plan(args):
 def run(command, apply):
     print("+", " ".join(command))
     if apply:
-        subprocess.run(command, check=True)
+        env = None
+        if len(command) > 3 and command[:2] == ["fnm", "exec"] and command[3] == "pnpm":
+            env = pnpm_global.runtime_environment(command[2].removeprefix("--using="))
+        subprocess.run(command, check=True, env=env)
 
 
 def install_commands(app, *, force=False):
@@ -560,6 +557,22 @@ def install_commands(app, *, force=False):
             raise ValueError(f"{app['name']}: npm_runtime_manager must be fnm")
         if not runtime:
             raise ValueError(f"{app['name']}: npm_runtime_version must be pinned")
+        client = app.get("npm_install_client", "npm")
+        if client == "pnpm":
+            policy = app.get("npm_lifecycle_policy")
+            allowed = app.get("npm_allowed_builds", [])
+            command = ["fnm", "exec", f"--using={runtime}", "pnpm", "add", "--global"]
+            if policy == "ignore_all" and not allowed:
+                command.append("--ignore-scripts")
+            elif policy == "allow_listed" and allowed:
+                command.extend(f"--allow-build={name}" for name in allowed)
+            else:
+                raise ValueError(f"{app['name']}: invalid pnpm lifecycle policy")
+            command.append(f"{app['npm_package']}@{version}")
+            commands.append(command)
+            return commands
+        if client != "npm":
+            raise ValueError(f"{app['name']}: unsupported npm_install_client")
         commands.append([
             "fnm", "exec", f"--using={runtime}", "npm", "install", "--global",
             f"{app['npm_package']}@{version}",
@@ -635,6 +648,9 @@ def installed_size(app):
         return path_size(result.stdout.strip()) if result.returncode == 0 else 0
     if app.get("npm_package"):
         runtime = str(app.get("npm_runtime_version", ""))
+        if app.get("npm_install_client", "npm") == "pnpm":
+            root = pnpm_global.package_root(runtime, app["npm_package"])
+            return path_size(root) if root else 0
         result = subprocess.run(
             ["fnm", "exec", f"--using={runtime}", "npm", "root", "-g"],
             capture_output=True,

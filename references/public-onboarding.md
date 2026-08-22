@@ -76,7 +76,7 @@ requires no GitHub account or repository credential.
 git clone https://github.com/xxvk/macomrade.git
 cd macomrade
 export MACOMRADE_PUBLIC_ONLY=1
-export INSTALL_MY_MACOS_APPS_STATE_DIR=/tmp/macomrade-public-quickstart
+export MACOMRADE_STATE_DIR=/tmp/macomrade-public-quickstart
 
 python3 scripts/bootstrap_validate.py
 ./bin/macomrade validate
@@ -89,7 +89,7 @@ Review the command output and the temporary records before doing anything
 else:
 
 ```sh
-find "$INSTALL_MY_MACOS_APPS_STATE_DIR" -maxdepth 1 -type f -print
+find "$MACOMRADE_STATE_DIR" -maxdepth 1 -type f -print
 ```
 
 The app plan is advice, not authorization. Do not move from `plan` to `apply`
@@ -202,7 +202,7 @@ operation contract. See
 | Homebrew is absent | The first scan and plan can continue with reduced source evidence. Install Homebrew only after reviewing the official source and supply-chain policy. |
 | A scan reports permission-limited data | Read the named permission requirement; grant it visibly only if that feature is wanted, then rerun and read back. Do not edit TCC databases. |
 | `Private/` is absent | This is valid for a public clone. Use public defaults or create selected overlays from `examples/private/`. |
-| Planning reports no prior scan | Keep the same `INSTALL_MY_MACOS_APPS_STATE_DIR`, rerun `./bin/macomrade scan apps`, then plan again. |
+| Planning reports no prior scan | Keep the same `MACOMRADE_STATE_DIR`, rerun `./bin/macomrade scan apps`, then plan again. |
 | Homebrew warns about a prerelease macOS version | Treat results as best effort, avoid broad upgrades, and do not report the beta run as stable-platform acceptance. |
 | A command would require `sudo`, account credentials, or a security confirmation | Stop at the visible handoff. Never paste the secret into an issue, diagnostic bundle, repository file, or agent chat. |
 

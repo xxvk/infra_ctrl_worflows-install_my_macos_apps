@@ -22,7 +22,7 @@ Evaluate the public workflow without Homebrew, an Apple ID, administrator access
 git clone https://github.com/xxvk/macomrade.git
 cd macomrade
 export MACOMRADE_PUBLIC_ONLY=1
-export INSTALL_MY_MACOS_APPS_STATE_DIR=/tmp/macomrade-public-quickstart
+export MACOMRADE_STATE_DIR=/tmp/macomrade-public-quickstart
 
 ./bin/macomrade validate
 ./bin/macomrade scan apps
@@ -274,7 +274,7 @@ layout. The receiver ID alone does not uniquely identify the paired keyboard.
    confirm that YouTube opens when installed, otherwise Apple Music opens. Test left Command twice in a text field to
    confirm that Dictation starts or stops. Stop the
    foreground process after testing. The listener writes diagnostics to
-   `~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log`.
+   `~/Library/Logs/macomrade/keyboard-config-logi-k240.log`.
 
 5. If a function key is captured in the log but its action does not appear,
    verify that the relevant system app exists. For F3, verify that
@@ -295,15 +295,15 @@ does not uniquely prove that the paired physical keyboard is K240.
 The installed user-level locations are:
 
 ```text
-Binary:       ~/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240
+Binary:       ~/Library/Application Support/macomrade/bin/keyboard-config-logi-k240
 LaunchAgent:  ~/Library/LaunchAgents/com.xvk.install-my-macos-apps.keyboard-config-logi-k240.plist
-Logs:         ~/Library/Logs/install_my_macos_apps/keyboard-config-logi-k240.log
+Logs:         ~/Library/Logs/macomrade/keyboard-config-logi-k240.log
 ```
 
 The `~/Library` directory is hidden in Finder. Locate the binary with:
 
 ```sh
-open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open -R "$HOME/Library/Application Support/macomrade/bin/keyboard-config-logi-k240"
 ```
 
 Input Monitoring is protected by macOS TCC. CLI can open the settings page but
@@ -314,7 +314,7 @@ automatically locate the new binary and open both Finder and the Input
 Monitoring page before asking the user to enable it:
 
 ```sh
-open -R "$HOME/Library/Application Support/install_my_macos_apps/bin/keyboard-config-logi-k240"
+open -R "$HOME/Library/Application Support/macomrade/bin/keyboard-config-logi-k240"
 open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_ListenEvent'
 ```
 
@@ -514,7 +514,7 @@ python3 scripts/docker_desktop_cleanup.py remove --confirm "REMOVE DOCKER DESKTO
 ## Local records
 
 Runtime records are stored under
-`~/Library/Application Support/install-macos-apps/state/<hashed-machine-id>/`.
+`~/Library/Application Support/macomrade/state/<hashed-machine-id>/`.
 Resolve the exact path with `python3 scripts/state_paths.py path`. The tracked
 `state/README.md` and `state/locator.json` contain no machine observations.
 See

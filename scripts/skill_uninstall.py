@@ -91,7 +91,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apply", action="store_true", help="actually remove; default is dry-run preview")
     parser.add_argument("--confirm", default="", help=f'exact token: "{CONFIRM_UNINSTALL}"')
-    parser.add_argument("--remove-logs", action="store_true", help="also remove ~/Library/Logs/install_my_macos_apps (kept by default)")
+    parser.add_argument("--remove-logs", action="store_true", help="also remove ~/Library/Logs/macomrade (kept by default)")
     args = parser.parse_args()
     if args.apply and args.confirm != CONFIRM_UNINSTALL:
         parser.error(f'--apply requires --confirm "{CONFIRM_UNINSTALL}"')

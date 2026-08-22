@@ -1,0 +1,2441 @@
+{
+  "schema_version": 1,
+  "apps": [
+    {
+      "name": "WeChat",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.tencent.mm",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.tencent.mm",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/wechat.md",
+      "note": "Cross-platform: iOS com.tencent.xin",
+      "login_required": true
+    },
+    {
+      "name": "Telegram",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.telegram.messenger",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.telegram.messenger",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/telegram.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Notion",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "notion.id",
+      "play_store_url": "https://play.google.com/store/apps/details?id=notion.id",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/notion.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "WhatsApp",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.whatsapp",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.whatsapp",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/whatsapp.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Instagram",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.instagram.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.instagram.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/instagram.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Zoom",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "us.zoom.videomeetings",
+      "play_store_url": "https://play.google.com/store/apps/details?id=us.zoom.videomeetings",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/zoom.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Chrome",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.android.chrome",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.android.chrome",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/chrome.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "X (Twitter)",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.twitter.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.twitter.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/x-(twitter).md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Microsoft Excel",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.microsoft.office.excel",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.microsoft.office.excel",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/microsoft-excel.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "LINE",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.naver.line.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.naver.line.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/line.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Slack",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.Slack",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.Slack",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/slack.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "bilibili",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "tv.danmaku.bili",
+      "play_store_url": "https://play.google.com/store/apps/details?id=tv.danmaku.bili",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/bilibili.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Microsoft Teams",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.microsoft.teams",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.microsoft.teams",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/microsoft-teams.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "ChatGPT",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.openai.chatgpt",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.openai.chatgpt",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/chatgpt.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Claude by Anthropic",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.anthropic.claude",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.anthropic.claude",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/claude-by-anthropic.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Google Gemini",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.bard",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.bard",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-gemini.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Perplexity",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "ai.perplexity.app.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=ai.perplexity.app.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/perplexity.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "DeepSeek - AI Assistant",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.deepseek.chat",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.deepseek.chat",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/deepseek---ai-assistant.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Microsoft Copilot",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.microsoft.bing",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.microsoft.bing",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/microsoft-copilot.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Kimi",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.moonshot.kimichat",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.moonshot.kimichat",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/kimi.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Obsidian - Connected Notes",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "md.obsidian",
+      "play_store_url": "https://play.google.com/store/apps/details?id=md.obsidian",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/obsidian---connected-notes.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "GitHub",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.github.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.github.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/github.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Google Maps",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.maps",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.maps",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-maps.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Google Translate",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.translate",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.translate",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-translate.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Google Drive",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.docs",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.docs",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-drive.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Google Sheets",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.docs.editors.sheets",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.docs.editors.sheets",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-sheets.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Microsoft Outlook",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.microsoft.office.outlook",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.microsoft.office.outlook",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/microsoft-outlook.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "1Password",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.onepassword.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.onepassword.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/1password.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Wise",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.transferwise.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.transferwise.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/wise.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Google Authenticator",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.authenticator2",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-authenticator.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Google Cloud",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.cloudconsole",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.cloudconsole",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-cloud.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "1.1.1.1: Faster Internet",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.cloudflare.onedotonedotonedotone",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.cloudflare.onedotonedotonedotone",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/1.1.1.1-faster-internet.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Duolingo",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.duolingo",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.duolingo",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/duolingo.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Khan Academy",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.khanacademy.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.khanacademy.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/khan-academy.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "YouTube",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.youtube",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.youtube",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/youtube.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "YouTube Music",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.youtube.music",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.youtube.music",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/youtube-music.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": false
+    },
+    {
+      "name": "Netflix",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.netflix.mediaclient",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.netflix.mediaclient",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/netflix.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "CapCut",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.lemon.lvoverseas",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.lemon.lvoverseas",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/capcut.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Canva",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.canva.editor",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.canva.editor",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/canva.md",
+      "note": "v0 core mapped from iOS catalog (2026-08)",
+      "login_required": true
+    },
+    {
+      "name": "Aurora Store",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.aurora.store",
+      "play_store_url": "https://f-droid.org/packages/com.aurora.store/",
+      "apk_source": "fdroid",
+      "allowed_apk_sources": [
+        "fdroid",
+        "apk_pure",
+        "github_release"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "min_android_version": "6.0",
+      "size_mb": 9,
+      "account_required": false,
+      "check_command": "adb shell pm list packages | grep com.aurora.store",
+      "guide": "components/android-guides/aurora-store.md",
+      "note": "Alternative Play Store client (anonymous login, token dispenser); NOT distributed on Google Play (Play listing is stale/unofficial). Added 2026-08-21 after Pixel 11 install verification.",
+      "login_required": true
+    },
+    {
+      "name": "Discord",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.discord",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.discord",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/discord.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.hammerandchisel.discord",
+      "login_required": true
+    },
+    {
+      "name": "Facebook",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.facebook.katana",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.facebook.katana",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/facebook.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.facebook.Facebook",
+      "login_required": true
+    },
+    {
+      "name": "Meta AI",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.facebook.stella",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.facebook.stella",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/meta-ai.md",
+      "note": "core expansion 2026-08 (user selection); Android official package com.facebook.stella; not installed on Pixel, login skipped by user (2026-08-22)",
+      "login_required": true
+    },
+    {
+      "name": "NotebookLM",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.labs.language.tailwind",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.labs.language.tailwind",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/notebooklm.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.google.NotebookLM; Play 上显示为 Gemini Notebook",
+      "login_required": false
+    },
+    {
+      "name": "Google One",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.subscriptions.red",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.subscriptions.red",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-one.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.google.one",
+      "login_required": false
+    },
+    {
+      "name": "DuckDuckGo",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.duckduckgo.mobile.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.duckduckgo.mobile.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/duckduckgo.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.duckduckgo.mobile.ios",
+      "login_required": false
+    },
+    {
+      "name": "Figma",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.figma.mirror",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.figma.mirror",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/figma.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.figma.FigmaMirror; Android 为 Figma Mirror 查看器",
+      "login_required": true
+    },
+    {
+      "name": "Shazam",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.shazam.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.shazam.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/shazam.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.shazam.Shazam",
+      "login_required": false
+    },
+    {
+      "name": "Apple Music",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.apple.android.music",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.apple.android.music",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/apple-music.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.apple.Music; Apple 生态 Android 版",
+      "login_required": true
+    },
+    {
+      "name": "Apple TV",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.apple.atve.androidtv.appletv",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.apple.atve.androidtv.appletv",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/apple-tv.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.apple.tv; Android 为 Android TV 版，手机可装",
+      "login_required": true
+    },
+    {
+      "name": "VLC",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.videolan.vlc",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.videolan.vlc",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/vlc.md",
+      "note": "core expansion 2026-08 (user selection); iOS org.videolan.vlc-ios",
+      "login_required": false
+    },
+    {
+      "name": "Disney+",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.disney.disneyplus",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.disney.disneyplus",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/disney.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.disney.disneyplus",
+      "login_required": true
+    },
+    {
+      "name": "Amazon Prime Video",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.amazon.avod.thirdpartyclient",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.amazon.avod.thirdpartyclient",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/amazon-prime-video.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.amazon.aiv.AIVApp",
+      "login_required": true
+    },
+    {
+      "name": "Wikipedia",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.wikipedia",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.wikipedia",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/wikipedia.md",
+      "note": "core expansion 2026-08 (user selection); iOS org.wikimedia.wikipedia",
+      "login_required": false
+    },
+    {
+      "name": "Coursera",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.coursera.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.coursera.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/coursera.md",
+      "note": "core expansion 2026-08 (user selection); iOS org.coursera.coursera",
+      "login_required": true
+    },
+    {
+      "name": "Revolut",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.revolut.revolut",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.revolut.revolut",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/revolut.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.revolut.revolut",
+      "login_required": true
+    },
+    {
+      "name": "PayPal",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.paypal.android.p2pmobile",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.paypal.android.p2pmobile",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/paypal.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.yourcompany.PPClient",
+      "login_required": true
+    },
+    {
+      "name": "Binance",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.binance.dev",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.binance.dev",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/binance.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.czzhao.binance; 国际版（US 区下架，JP/SG 可用）",
+      "login_required": true
+    },
+    {
+      "name": "PayPay",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.ne.paypay.android.app",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.ne.paypay.android.app",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/paypay.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.smart.paypay",
+      "login_required": true
+    },
+    {
+      "name": "Amazon Japan",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.amazon.mShop.android.shopping",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/amazon-japan.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.amazon.AmazonJP; 日亚 App；Play 包名同 Amazon Shopping",
+      "login_required": true
+    },
+    {
+      "name": "AliExpress",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.alibaba.aliexpresshd",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.alibaba.aliexpresshd",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/aliexpress.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.alibaba.iAliexpress",
+      "login_required": true
+    },
+    {
+      "name": "Airbnb",
+      "category": "Travel",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.airbnb.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.airbnb.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/airbnb.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.airbnb.app",
+      "login_required": true
+    },
+    {
+      "name": "Booking.com",
+      "category": "Travel",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.booking",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.booking",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/booking.com.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.booking.BookingApp",
+      "login_required": true
+    },
+    {
+      "name": "Uber",
+      "category": "Travel",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.ubercab",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.ubercab",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/uber.md",
+      "note": "core expansion 2026-08 (user selection); iOS com.ubercab.UberClient",
+      "login_required": true
+    },
+    {
+      "name": "Gmail",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.gm",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.gm",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/gmail.md",
+      "note": "core expansion 2026-08 (user selection); Pixel 预装",
+      "login_required": false
+    },
+    {
+      "name": "Google Meet",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.meetings",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.meetings",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-meet.md",
+      "note": "core expansion 2026-08 (user selection); 需安装",
+      "login_required": false
+    },
+    {
+      "name": "Google Calendar",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.calendar",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.calendar",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-calendar.md",
+      "note": "core expansion 2026-08 (user selection); Pixel 预装",
+      "login_required": false
+    },
+    {
+      "name": "Google Photos",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.photos",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.photos",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-photos.md",
+      "note": "core expansion 2026-08 (user selection); Pixel 预装",
+      "login_required": false
+    },
+    {
+      "name": "Tailscale",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.tailscale.ipn",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.tailscale.ipn",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/tailscale.md",
+      "note": "core expansion 2026-08 (user selection); iOS core 已有，Android 补齐",
+      "login_required": true
+    },
+    {
+      "name": "Termius",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.server.auditor.ssh.client",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.server.auditor.ssh.client",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/termius.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Speedtest",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.zwanoo.android.speedtest",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.zwanoo.android.speedtest",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/speedtest.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": false
+    },
+    {
+      "name": "F-Droid",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "org.fdroid.fdroid",
+      "play_store_url": "https://play.google.com/store/apps/details?id=org.fdroid.fdroid",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/f-droid.md",
+      "note": "core expansion 2026-08 (user selection); 仅 Android（无 iOS 对应）",
+      "login_required": false
+    },
+    {
+      "name": "AWS Console",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.amazon.aws.console.mobile",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.amazon.aws.console.mobile",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/aws-console.md",
+      "note": "core expansion 2026-08 (user selection); iOS core 已有，Android 补齐",
+      "login_required": true
+    },
+    {
+      "name": "メルカリ（Mercari 日本版）",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.kouzoh.mercari",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.kouzoh.mercari",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/mercari.md",
+      "note": "core expansion 2026-08 (user selection); 日本版 com.kouzoh.mercari（Play 商店安装）。美版 com.mercariapp.mercari 于 2026-08-22 经用户确认卸载，见 ignore-list.json",
+      "login_required": true
+    },
+    {
+      "name": "OKX",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.okinc.okex.gp",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.okinc.okex.gp",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/okx.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Suica",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.mobilesuica.msb.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.mobilesuica.msb.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/suica.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "小红书",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.xingin.xhs",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.xingin.xhs",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/小红书.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "知乎",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.zhihu.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.zhihu.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/知乎.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "niconico",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.nicovideo.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.nicovideo.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/niconico.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "eBay",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.ebay.mobile",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.ebay.mobile",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/ebay.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Yahoo!乗換案内",
+      "category": "Travel",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.yahoo.android.apps.transit",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.yahoo.android.apps.transit",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/yahoonorikae.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Threads",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.instagram.barcelona",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.instagram.barcelona",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/threads.md",
+      "note": "core expansion 2026-08 (user selection); official Android package corrected 2026-08-22",
+      "login_required": true
+    },
+    {
+      "name": "TED",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.ted.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.ted.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/ted.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Google Home",
+      "category": "Smart home",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.chromecast.app",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.chromecast.app",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-home.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": false
+    },
+    {
+      "name": "Google Fit",
+      "category": "Health",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.google.android.apps.fitness",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.fitness",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/google-fit.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": false
+    },
+    {
+      "name": "Reddit",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.reddit.frontpage",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.reddit.frontpage",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/reddit.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Snapchat",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.snapchat.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.snapchat.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/snapchat.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Trello",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.trello",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.trello",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/trello.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Asana",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.asana.app",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.asana.app",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/asana.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "LinkedIn",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.linkedin.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.linkedin.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/linkedin.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "Microsoft Authenticator",
+      "category": "Security",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.azure.authenticator",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.azure.authenticator",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/microsoft-authenticator.md",
+      "note": "core expansion 2026-08 (user selection)",
+      "login_required": true
+    },
+    {
+      "name": "EZVIZ",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "candidate",
+      "play_store_package": "com.videogo",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.videogo",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/ezviz.md",
+      "note": "optional (user: install on demand only)"
+    },
+    {
+      "name": "楽天銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.rakuten_bank.rakutenbank",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.rakuten_bank.rakutenbank",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/楽天銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region",
+      "login_required": true
+    },
+    {
+      "name": "三井住友銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.smbc.direct",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.smbc.direct",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/三井住友銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region",
+      "login_required": true
+    },
+    {
+      "name": "三菱UFJ銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.mufg.bk.applisp.app",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.mufg.bk.applisp.app",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/三菱ufj銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region",
+      "login_required": true
+    },
+    {
+      "name": "みずほ銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.mizuhobank.banking",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.mizuhobank.banking",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/みずほ銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region",
+      "login_required": true
+    },
+    {
+      "name": "SBI証券",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.sbisec.hyperkabu2",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.sbisec.hyperkabu2",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/sbi証券.md",
+      "note": "core expansion 2026-08 (user selection); Japan region | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package jp.co.sbisec.hyperkabu2",
+      "login_required": true
+    },
+    {
+      "name": "楽天証券",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.rakuten_sec.ispeed",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.rakuten_sec.ispeed",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/楽天証券.md",
+      "note": "core expansion 2026-08 (user selection); Japan region | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package jp.co.rakuten_sec.ispeed",
+      "login_required": true
+    },
+    {
+      "name": "楽天ペイ",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.rakuten.pay",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.rakuten.pay",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/楽天ペイ.md",
+      "note": "core expansion 2026-08 (user selection); Japan region",
+      "login_required": true
+    },
+    {
+      "name": "Ponta",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.ponta.myponta",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.ponta.myponta",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/ponta.md",
+      "note": "core expansion 2026-08 (user selection); Japan region | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package jp.ponta.myponta",
+      "login_required": true
+    },
+    {
+      "name": "nanaco",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.nanaco.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.nanaco.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/nanaco.md",
+      "note": "core expansion 2026-08 (user selection); Japan region | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package jp.nanaco.android",
+      "login_required": true
+    },
+    {
+      "name": "iAEON",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.aeonmy.myaeon",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.aeonmy.myaeon",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/iaeon.md",
+      "note": "core expansion 2026-08 (user selection); Japan region",
+      "login_required": true
+    },
+    {
+      "name": "Rakuten Link",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.rakuten.mobile.rcs",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.rakuten.mobile.rcs",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": true,
+      "guide": "components/android-guides/rakuten-link.md",
+      "note": "core expansion 2026-08 (user: SIM/phone management); Japan region | not installed: region-limited (CN/JP/other), needs region account | pkg = device package jp.co.rakuten.mobile.rcs",
+      "login_required": true
+    },
+    {
+      "name": "TRAE - AI Work Assistant",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.bytedance.trae.overseas",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.bytedance.trae.overseas",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/trae---ai-work-assistant.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.stone.solo.i18n | catalog-only: CN/JP region, anonymous US account cannot download | pkg fixed to com.bytedance.trae.overseas | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "moomoo証券",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.moomoo.trade.jp",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.moomoo.trade.jp",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/moomoo証券.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.moomoo.mm | catalog-only: CN/JP region, anonymous US account cannot download | pkg fixed to com.moomoo.trade.jp | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "NHK gogaku",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.or.nhk.gogaku",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.or.nhk.gogaku",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/nhk-gogaku.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.or.nhk.gogaku | installed 2026-08-22, login pending",
+      "login_required": false
+    },
+    {
+      "name": "IKEA",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.ingka.ikea.app",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.ingka.ikea.app",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/ikea.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.ingka.ikea.app | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "みなトクPAY",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.tokyo.minato.rsa",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.tokyo.minato.rsa",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/みなトクpay.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.tokyo.minato.rsa | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "ホットペッパー",
+      "category": "Lifestyle",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.hotpepper.android.beauty.hair",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.hotpepper.android.beauty.hair",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/hotpepper.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.co.recruit.mtl.beauty.salon | catalog-only: CN/JP region, anonymous US account cannot download | pkg fixed to jp.hotpepper.android.beauty.hair | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "郵便局アプリ",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.jppost.pfapp",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.jppost.pfapp",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/郵便局app.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.jppost.pfapp | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "HubSpot",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.hubspot.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.hubspot.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/hubspot.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.hubspot.CRMAppRelease | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "IDARE",
+      "category": "Lifestyle",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.fivot.idare",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.fivot.idare",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/idare.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.co.fivot.idare | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "Tinder",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.tinder",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.tinder",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/tinder.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.cardify.tinder | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "TikTok",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.zhiliaoapp.musically",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/tiktok.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.ss.iphone.ugc.Ame | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "ワンバンク",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.smartbank.b43",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.smartbank.b43",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/ワンバンク.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.co.smartbank.b43 | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "Qwen Studio",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "ai.qwenlm.chat.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=ai.qwenlm.chat.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/qwen-studio.md",
+      "note": "core sync from iOS catalog (2026-08); iOS ai.qwenlm.chat.ios | catalog-only: CN/JP region, anonymous US account cannot download | pkg fixed to ai.qwenlm.chat.android | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "ICカードリーダー",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.moneyforward.nfcreader",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.moneyforward.nfcreader",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/iccardreader.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.moneyforward.Reader | catalog-only: CN/JP region, anonymous US account cannot download | pkg fixed to com.moneyforward.nfcreader | installed (user or auto) 2026-08-22, login pending",
+      "login_required": false
+    },
+    {
+      "name": "Baicizhan",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.jiongji.andriod.card",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.jiongji.andriod.card",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/baicizhan.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.chaoui.jiongji100CN | installed 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "AdGuard VPN",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.adguard.vpn",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.adguard.vpn",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/adguard-vpn.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.adguard.ios.AdGuardVPN | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "Bloomberg Professional",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.bloomberg.android.plus",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.bloomberg.android.plus",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/bloomberg-professional.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.bloomberg.mobile.anywhere | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package com.bloomberg.android.plus",
+      "login_required": false
+    },
+    {
+      "name": "Eight",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "net.eightcard",
+      "play_store_url": "https://play.google.com/store/apps/details?id=net.eightcard",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/eight.md",
+      "note": "core sync from iOS catalog (2026-08); iOS net.8card.eight | not installed: region-limited (CN/JP/other), needs region account",
+      "login_required": true
+    },
+    {
+      "name": "MOJisho",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.mojitec.mojidict",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.mojitec.mojidict",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/mojisho.md",
+      "note": "core sync from iOS catalog (2026-08); iOS 3EW3QF484M.MojiDict | not installed: region-limited (CN/JP/other), needs region account | pkg = device package com.mojitec.mojidict, installed",
+      "login_required": true
+    },
+    {
+      "name": "MoneyForward",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.moneyforward.android.app",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.moneyforward.android.app",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/moneyforward.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.moneyforward.moneyfwd | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package com.moneyforward.android.app",
+      "login_required": true
+    },
+    {
+      "name": "Starlink",
+      "category": "Smart home",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.starlink.mobile",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.starlink.mobile",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/starlink.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.starlink.mobile | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    },
+    {
+      "name": "World App",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.worldcoin",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.worldcoin",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/world-app.md",
+      "note": "core sync from iOS catalog (2026-08); iOS org.worldcoin.insight | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package com.worldcoin",
+      "login_required": true
+    },
+    {
+      "name": "ビューカード",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.viewcard.viewcardapp.android",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.viewcard.viewcardapp.android",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/ビューcard.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.co.viewcard.viewcardapp.ios | not installed: region-limited (CN/JP/other), needs region account | pkg fixed to actual device package jp.co.viewcard.viewcardapp.android",
+      "login_required": true
+    },
+    {
+      "name": "ヤマト運輸",
+      "category": "Lifestyle",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "jp.co.kuronekoyamato.KuronekoyamatoOfficialApp",
+      "play_store_url": "https://play.google.com/store/apps/details?id=jp.co.kuronekoyamato.KuronekoyamatoOfficialApp",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/ヤマトtransport.md",
+      "note": "core sync from iOS catalog (2026-08); iOS jp.co.kuronekoyamato.KuronekoyamatoOfficialApp | not installed: region-limited (CN/JP/other), needs region account | pkg = device package jp.co.kuronekoyamato.KuronekoyamatoOfficialApp",
+      "login_required": true
+    },
+    {
+      "name": "紙面ビューアー",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "play_store_package": "com.nikkei.viewer",
+      "play_store_url": "https://play.google.com/store/apps/details?id=com.nikkei.viewer",
+      "apk_source": "play_store",
+      "allowed_apk_sources": [
+        "play_store"
+      ],
+      "supported_abis": [
+        "arm64-v8a"
+      ],
+      "account_required": false,
+      "guide": "components/android-guides/紙面ビューアー.md",
+      "note": "core sync from iOS catalog (2026-08); iOS com.nikkei.viewer | installed (user or auto) 2026-08-22, login pending",
+      "login_required": true
+    }
+  ]
+}

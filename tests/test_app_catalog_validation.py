@@ -19,7 +19,7 @@ import validate_app_catalog  # noqa: E402
 
 class AppCatalogValidationTests(unittest.TestCase):
     def test_dsh_desktop_is_the_pinned_hairyf_tauri_dmg(self) -> None:
-        catalog = json.loads((ROOT / "references/app-catalog.json").read_text())
+        catalog = json.loads((ROOT / "references/mac-app-catalog.json").read_text())
         by_name = {app["name"]: app for app in catalog["apps"]}
         desktop = by_name["DeepSeek Harness Desktop"]
         self.assertEqual(desktop["tier"], "core")
@@ -30,14 +30,14 @@ class AppCatalogValidationTests(unittest.TestCase):
             desktop["github_repository"],
             "https://github.com/hairyf/deepseek-harness-desktop",
         )
-        self.assertEqual(desktop["github_release"], "v0.1.10")
+        self.assertEqual(desktop["github_release"], "v0.7.1")
         self.assertEqual(
             desktop["github_artifact"],
-            "Deepseek.Harness.Desktop_0.1.10_aarch64.dmg",
+            "Deepseek.Harness.Desktop_0.7.1_aarch64.dmg",
         )
         self.assertEqual(
             desktop["artifact_sha256"],
-            "645deba675e888b52601b023b244e1622c23deafc2ede16894ba301fe43097ac",
+            "e6f608d7fb66cdf27d7f7d361996c98134473944ffdf536a98e47bbad2fb4a01",
         )
         self.assertEqual(
             desktop["application_path"],
@@ -68,7 +68,7 @@ class AppCatalogValidationTests(unittest.TestCase):
         self.assertNotIn("jangrui/tap", policy["third_party_homebrew"])
 
     def test_xcodes_app_is_a_core_homebrew_cask(self) -> None:
-        catalog = json.loads((ROOT / "references/app-catalog.json").read_text())
+        catalog = json.loads((ROOT / "references/mac-app-catalog.json").read_text())
         by_name = {app["name"]: app for app in catalog["apps"]}
         xcodes = by_name["Xcodes"]
         self.assertEqual(xcodes["tier"], "core")
@@ -90,8 +90,21 @@ class AppCatalogValidationTests(unittest.TestCase):
         ):
             self.assertIn(expected, guide)
 
+    def test_codex_cli_documents_the_reviewed_chatgpt_bundle_fallback(self) -> None:
+        catalog = json.loads((ROOT / "references/mac-app-catalog.json").read_text())
+        codex = next(app for app in catalog["apps"] if app["name"] == "Codex CLI")
+        guide = (ROOT / codex["guide"]).read_text(encoding="utf-8")
+        for expected in (
+            "/Applications/ChatGPT.app/Contents/Resources/codex",
+            '"$HOME/.local/bin/codex"',
+            "codesign --verify --strict",
+            "Do not run `codex update`",
+            "~/.codex/config.toml",
+        ):
+            self.assertIn(expected, guide)
+
     def test_repository_node_runtime_and_npm_globals_use_fnm_24(self) -> None:
-        catalog = json.loads((ROOT / "references/app-catalog.json").read_text())
+        catalog = json.loads((ROOT / "references/mac-app-catalog.json").read_text())
         by_name = {app["name"]: app for app in catalog["apps"]}
         node = by_name["node"]
         self.assertEqual(node["runtime_manager"], "fnm")

@@ -14,11 +14,12 @@ from pathlib import Path
 from typing import Any, Callable
 
 from config_layers import load_app_catalog, load_json
+import pnpm_global
 from state_paths import add_state_dir_argument, resolve_state_dir
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE_CATALOG = ROOT / "references/app-catalog.json"
+BASE_CATALOG = ROOT / "references/mac-app-catalog.json"
 PRIVATE_OVERLAY = ROOT / "Private/app-catalog-overlay.json"
 POLICY_PATH = ROOT / "references/source-policy.json"
 CONFIRM_CAPTURE = "CAPTURE SUPPLY CHAIN STATE"
@@ -87,6 +88,9 @@ def provenance_for(app: dict[str, Any]) -> dict[str, Any]:
         "runtime_version",
         "npm_runtime_manager",
         "npm_runtime_version",
+        "npm_install_client",
+        "npm_lifecycle_policy",
+        "npm_allowed_builds",
     ):
         if app.get(key) is not None:
             result[key] = app[key]
@@ -123,10 +127,10 @@ def _execution_findings(root: Path) -> list[dict[str, Any]]:
 def validate(root: Path = ROOT) -> dict[str, Any]:
     root = root.resolve()
     policy = load_json(root / "references/source-policy.json")
-    base = load_json(root / "references/app-catalog.json")
+    base = load_json(root / "references/mac-app-catalog.json")
     overlay_path = root / "Private/app-catalog-overlay.json"
     merged = load_app_catalog(
-        root / "references/app-catalog.json",
+        root / "references/mac-app-catalog.json",
         overlay_path,
     )
     overlay = load_json(overlay_path) if overlay_path.is_file() else {"apps": {}}
@@ -141,7 +145,7 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
     allowed_review_statuses = {
         "catalog_or_remove",
         "retirement_cleanup_candidate",
-        "managed_by_macos_data_project",
+        "managed_by_mpia_project",
     }
     for tap, entry in observed_taps.items():
         if tap in managed_taps:
@@ -179,15 +183,29 @@ def validate(root: Path = ROOT) -> dict[str, Any]:
             package = str(app.get("brew_cask") or app.get("brew_formula"))
             if package not in entry.get("packages", []):
                 errors.append(f"{name}: package is not allowlisted for {tap}")
-            if app.get("brew_trust_cask") != package:
+            trust_scope = entry.get("trust", {}).get("scope")
+            if trust_scope == "tap":
+                # Tap-wide trust is allowed only when the policy entry declares it
+                # deliberately. It auto-loads any future cask the tap gains, so it
+                # is reserved for first-party taps and must be recorded as such.
+                if not entry.get("first_party"):
+                    errors.append(f"{name}: tap-scoped trust requires first_party in policy")
+                if app.get("brew_trust_tap") != tap:
+                    errors.append(f"{name}: brew_trust_tap must name the trusted tap")
+            elif app.get("brew_trust_cask") != package:
                 errors.append(f"{name}: trust must be scoped to the exact cask")
         elif source_class == "npm_global":
             package = str(app.get("npm_package"))
-            expected = policy.get("npm_globals", {}).get(package, {}).get("version")
+            npm_policy = policy.get("npm_globals", {}).get(package, {})
+            expected = npm_policy.get("version")
             if not EXACT_VERSION.fullmatch(str(app.get("npm_version", ""))):
                 errors.append(f"{name}: npm_version must be exact")
             elif app.get("npm_version") != expected:
                 errors.append(f"{name}: npm_version does not match source policy")
+            for key in ("install_client", "lifecycle_policy", "allowed_builds"):
+                catalog_key = f"npm_{key}"
+                if app.get(catalog_key) != npm_policy.get(key):
+                    errors.append(f"{name}: {catalog_key} does not match source policy")
         elif source_class == "github_source":
             entry = policy.get("github_sources", {}).get(name)
             if not entry:
@@ -291,12 +309,26 @@ def inspect_live(
             }
         )
     dependencies = npm.get("dependencies", {}) if isinstance(npm, dict) else {}
+    needs_pnpm = any(
+        row.get("install_client") == "pnpm"
+        for row in policy.get("npm_globals", {}).values()
+    )
+    try:
+        pnpm_dependencies = pnpm_global.global_packages("24", runner=runner) if needs_pnpm else {}
+    except (RuntimeError, ValueError):
+        pnpm_dependencies = {}
     npm_results = []
     for package, expected in policy.get("npm_globals", {}).items():
-        observed = dependencies.get(package, {}).get("version")
+        client = expected.get("install_client", "npm")
+        observed = (
+            pnpm_dependencies.get(package)
+            if client == "pnpm"
+            else dependencies.get(package, {}).get("version")
+        )
         npm_results.append(
             {
                 "package": package,
+                "install_client": client,
                 "expected_version": expected.get("version"),
                 "observed_version": observed,
                 "status": "match" if observed == expected.get("version") else "missing" if not observed else "drift",

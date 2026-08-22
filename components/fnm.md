@@ -27,7 +27,7 @@ Activate the default Node version in Zsh by adding exactly one labelled
 initializer to `~/.zshrc`:
 
 ```sh
-# install-macos-apps: fnm Node version manager
+# macomrade: fnm Node version manager
 eval "$(fnm env --shell zsh)"
 ```
 

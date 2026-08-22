@@ -25,7 +25,7 @@ DEFAULT_REQUIRED_WORKTREE_PATHS = (
     "SKILL.md",
     "README.md",
     "VERSION",
-    "references/app-catalog.json",
+    "references/mac-app-catalog.json",
 )
 UNAVAILABLE_FLAGS = {"dataless", "offline", "archived"}
 

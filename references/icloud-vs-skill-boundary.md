@@ -37,7 +37,7 @@ to handle.
 ## Not handled by iCloud — this skill's actual scope
 
 - **Installed applications and their sources** (Homebrew, App Store, direct
-  download) — `references/app-catalog.json` + `scripts/macos_apps.py`.
+  download) — `references/mac-app-catalog.json` + `scripts/macos_apps.py`.
 - **App-specific/local preferences not tied to an Apple framework** — Dock
   order, keyboard/HID mappings, Finder view settings, screenshot location,
   notification authorization, Focus database *presence* — all in

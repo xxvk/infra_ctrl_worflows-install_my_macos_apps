@@ -1,242 +1,256 @@
 {
-  "schema_version": 1,
-  "kind": "json_schema_registry",
-  "dialect": "https://json-schema.org/draft/2020-12/schema",
-  "formats": {
-    "catalog": {
-      "current_version": 1,
-      "schema": "schemas/catalog-v1.schema.json",
-      "tracked_examples": [
-        "references/app-catalog.json",
-        "tests/fixtures/macos_apps/catalog.json"
-      ]
-    },
-    "settings": {
-      "current_version": 1,
-      "schema": "schemas/settings-v1.schema.json",
-      "tracked_examples": [
-        "settings/dock-order.json",
-        "settings/system-preferences-values.json",
-        "examples/private/dock-order.json",
-        "examples/private/system-preferences-values.json"
-      ]
-    },
-    "private-overlay": {
-      "current_version": 1,
-      "schema": "schemas/private-overlay-v1.schema.json",
-      "tracked_examples": [
-        "examples/private/app-catalog-overlay.json"
-      ]
-    },
-    "app-plan": {
-      "current_version": 1,
-      "schema": "schemas/app-plan-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/app-plan-v1.json"
-      ]
-    },
-    "state-record": {
-      "current_version": 1,
-      "schema": "schemas/state-record-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/state-record-v1.json"
-      ]
-    },
-    "diagnostic-result": {
-      "current_version": 1,
-      "schema": "schemas/diagnostic-result-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/diagnostic-result-v1.json"
-      ]
-    },
-    "diagnostic-bundle": {
-      "current_version": 1,
-      "schema": "schemas/diagnostic-bundle-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/diagnostic-bundle-v1.json"
-      ]
-    },
-    "machine-role-catalog": {
-      "current_version": 1,
-      "schema": "schemas/machine-role-catalog-v1.schema.json",
-      "tracked_examples": [
-        "settings/machine-roles.json"
-      ]
-    },
-    "localization-catalog": {
-      "current_version": 1,
-      "schema": "schemas/localization-catalog-v1.schema.json",
-      "tracked_examples": [
-        "locales/messages.en.json",
-        "locales/messages.ja.json",
-        "locales/messages.zh-Hans.json"
-      ]
-    },
-    "app-adapter-catalog": {
-      "current_version": 1,
-      "schema": "schemas/app-adapter-catalog-v1.schema.json",
-      "tracked_examples": [
-        "settings/app-adapters.json"
-      ]
-    },
-    "performance-budget": {
-      "current_version": 1,
-      "schema": "schemas/performance-budget-v1.schema.json",
-      "tracked_examples": [
-        "settings/performance-budgets.json"
-      ]
-    },
-    "drift-monitor-policy": {
-      "current_version": 1,
-      "schema": "schemas/drift-monitor-policy-v1.schema.json",
-      "tracked_examples": [
-        "settings/drift-monitor.json"
-      ]
-    },
-    "publication-audit-policy": {
-      "current_version": 1,
-      "schema": "schemas/publication-audit-policy-v1.schema.json",
-      "tracked_examples": [
-        "settings/publication-audit-policy.json"
-      ]
-    },
-    "release-manifest": {
-      "current_version": 1,
-      "schema": "schemas/release-manifest-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/release-manifest-v1.json"
-      ]
-    },
-    "storage-policy": {
-      "current_version": 1,
-      "schema": "schemas/storage-policy-v1.schema.json",
-      "tracked_examples": [
-        "settings/storage-policy.json",
-        "examples/private/storage-policy.json"
-      ]
-    },
-    "storage-scan": {
-      "current_version": 1,
-      "schema": "schemas/storage-scan-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/storage-scan-v1.json"
-      ]
-    },
-    "storage-decision-ledger": {
-      "current_version": 1,
-      "schema": "schemas/storage-decision-ledger-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/storage-decision-ledger-v1.json"
-      ]
-    },
-    "storage-plan": {
-      "current_version": 1,
-      "schema": "schemas/storage-plan-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/storage-plan-v1.json"
-      ]
-    },
-    "storage-transaction": {
-      "current_version": 1,
-      "schema": "schemas/storage-transaction-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/storage-transaction-v1.json"
-      ]
-    },
-    "browser-item": {
-      "current_version": 1,
-      "schema": "schemas/browser-item-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/browser-item-v1.json"
-      ]
-    },
-    "browser-url-policy": {
-      "current_version": 1,
-      "schema": "schemas/browser-url-policy-v1.schema.json",
-      "tracked_examples": [
-        "settings/browser-url-normalization.json"
-      ]
-    },
-    "browser-lifecycle-policy": {
-      "current_version": 1,
-      "schema": "schemas/browser-lifecycle-policy-v1.schema.json",
-      "tracked_examples": [
-        "settings/browser-lifecycle-policy.json"
-      ]
-    },
-    "browser-decision-ledger": {
-      "current_version": 1,
-      "schema": "schemas/browser-decision-ledger-v1.schema.json",
-      "tracked_examples": [
-        "examples/private/browser-decision-ledger.json"
-      ]
-    },
-    "browser-transaction-plan": {
-      "current_version": 1,
-      "schema": "schemas/browser-transaction-plan-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/browser-transaction-plan-v1.json"
-      ]
-    },
-    "browser-acceptance": {
-      "current_version": 1,
-      "schema": "schemas/browser-acceptance-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/browser-acceptance-v1.json"
-      ]
-    },
-    "browser-private-duplicate-review": {
-      "current_version": 1,
-      "schema": "schemas/browser-private-duplicate-review-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/browser-private-duplicate-review-v1.json"
-      ]
-    },
-    "browser-organization": {
-      "current_version": 1,
-      "schema": "schemas/browser-organization-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/browser-organization-v1.json"
-      ]
-    },
-    "browser-gateway-policy": {
-      "current_version": 1,
-      "schema": "schemas/browser-gateway-policy-v1.schema.json",
-      "tracked_examples": [
-        "settings/browser-gateway-policy.json",
-        "tests/fixtures/schema_contract/browser-gateway-policy-v1.json"
-      ]
-    },
-    "browser-gateway-wave": {
-      "current_version": 1,
-      "schema": "schemas/browser-gateway-wave-v1.schema.json",
-      "tracked_examples": [
-        "tests/fixtures/schema_contract/browser-gateway-wave-v1.json"
-      ]
-    },
-    "browser-gateway-pilot": {
-      "current_version": 1,
-      "schema": "schemas/browser-gateway-pilot-v1.schema.json",
-      "tracked_examples": []
-    },
-    "browser-gateway-convergence": {
-      "current_version": 1,
-      "schema": "schemas/browser-gateway-convergence-v1.schema.json",
-      "tracked_examples": []
-    },
-    "browser-gateway-order": {
-      "current_version": 1,
-      "schema": "schemas/browser-gateway-order-v1.schema.json",
-      "tracked_examples": []
-    }
+ "schema_version": 1,
+ "kind": "json_schema_registry",
+ "dialect": "https://json-schema.org/draft/2020-12/schema",
+ "formats": {
+  "catalog": {
+   "current_version": 1,
+   "schema": "schemas/catalog-v1.schema.json",
+   "tracked_examples": [
+    "references/mac-app-catalog.json",
+    "tests/fixtures/macos_apps/catalog.json"
+   ]
   },
-  "migration_policy": {
-    "supported_versions": [
-      0,
-      1
-    ],
-    "upgrade_0_to_1": "Add schema_version: 1 and preserve every existing field.",
-    "downgrade_1_to_0": "Remove only schema_version after explicit downgrade authorization.",
-    "write_mode": "Preview by default; applied migration writes a separate non-conflicting output and verifies its hash."
+  "settings": {
+   "current_version": 1,
+   "schema": "schemas/settings-v1.schema.json",
+   "tracked_examples": [
+    "settings/dock-order.json",
+    "settings/system-preferences-values.json",
+    "examples/private/dock-order.json",
+    "examples/private/system-preferences-values.json"
+   ]
+  },
+  "private-overlay": {
+   "current_version": 1,
+   "schema": "schemas/private-overlay-v1.schema.json",
+   "tracked_examples": [
+    "examples/private/app-catalog-overlay.json"
+   ]
+  },
+  "app-plan": {
+   "current_version": 1,
+   "schema": "schemas/app-plan-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/app-plan-v1.json"
+   ]
+  },
+  "state-record": {
+   "current_version": 1,
+   "schema": "schemas/state-record-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/state-record-v1.json"
+   ]
+  },
+  "diagnostic-result": {
+   "current_version": 1,
+   "schema": "schemas/diagnostic-result-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/diagnostic-result-v1.json"
+   ]
+  },
+  "diagnostic-bundle": {
+   "current_version": 1,
+   "schema": "schemas/diagnostic-bundle-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/diagnostic-bundle-v1.json"
+   ]
+  },
+  "machine-role-catalog": {
+   "current_version": 1,
+   "schema": "schemas/machine-role-catalog-v1.schema.json",
+   "tracked_examples": [
+    "settings/machine-roles.json"
+   ]
+  },
+  "localization-catalog": {
+   "current_version": 1,
+   "schema": "schemas/localization-catalog-v1.schema.json",
+   "tracked_examples": [
+    "locales/messages.en.json",
+    "locales/messages.ja.json",
+    "locales/messages.zh-Hans.json"
+   ]
+  },
+  "app-adapter-catalog": {
+   "current_version": 1,
+   "schema": "schemas/app-adapter-catalog-v1.schema.json",
+   "tracked_examples": [
+    "settings/app-adapters.json"
+   ]
+  },
+  "performance-budget": {
+   "current_version": 1,
+   "schema": "schemas/performance-budget-v1.schema.json",
+   "tracked_examples": [
+    "settings/performance-budgets.json"
+   ]
+  },
+  "drift-monitor-policy": {
+   "current_version": 1,
+   "schema": "schemas/drift-monitor-policy-v1.schema.json",
+   "tracked_examples": [
+    "settings/drift-monitor.json"
+   ]
+  },
+  "publication-audit-policy": {
+   "current_version": 1,
+   "schema": "schemas/publication-audit-policy-v1.schema.json",
+   "tracked_examples": [
+    "settings/publication-audit-policy.json"
+   ]
+  },
+  "release-manifest": {
+   "current_version": 1,
+   "schema": "schemas/release-manifest-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/release-manifest-v1.json"
+   ]
+  },
+  "storage-policy": {
+   "current_version": 1,
+   "schema": "schemas/storage-policy-v1.schema.json",
+   "tracked_examples": [
+    "settings/storage-policy.json",
+    "examples/private/storage-policy.json"
+   ]
+  },
+  "storage-scan": {
+   "current_version": 1,
+   "schema": "schemas/storage-scan-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/storage-scan-v1.json"
+   ]
+  },
+  "storage-decision-ledger": {
+   "current_version": 1,
+   "schema": "schemas/storage-decision-ledger-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/storage-decision-ledger-v1.json"
+   ]
+  },
+  "storage-plan": {
+   "current_version": 1,
+   "schema": "schemas/storage-plan-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/storage-plan-v1.json"
+   ]
+  },
+  "storage-transaction": {
+   "current_version": 1,
+   "schema": "schemas/storage-transaction-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/storage-transaction-v1.json"
+   ]
+  },
+  "browser-item": {
+   "current_version": 1,
+   "schema": "schemas/browser-item-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/browser-item-v1.json"
+   ]
+  },
+  "browser-url-policy": {
+   "current_version": 1,
+   "schema": "schemas/browser-url-policy-v1.schema.json",
+   "tracked_examples": [
+    "settings/browser-url-normalization.json"
+   ]
+  },
+  "browser-lifecycle-policy": {
+   "current_version": 1,
+   "schema": "schemas/browser-lifecycle-policy-v1.schema.json",
+   "tracked_examples": [
+    "settings/browser-lifecycle-policy.json"
+   ]
+  },
+  "browser-decision-ledger": {
+   "current_version": 1,
+   "schema": "schemas/browser-decision-ledger-v1.schema.json",
+   "tracked_examples": [
+    "examples/private/browser-decision-ledger.json"
+   ]
+  },
+  "browser-transaction-plan": {
+   "current_version": 1,
+   "schema": "schemas/browser-transaction-plan-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/browser-transaction-plan-v1.json"
+   ]
+  },
+  "browser-acceptance": {
+   "current_version": 1,
+   "schema": "schemas/browser-acceptance-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/browser-acceptance-v1.json"
+   ]
+  },
+  "browser-private-duplicate-review": {
+   "current_version": 1,
+   "schema": "schemas/browser-private-duplicate-review-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/browser-private-duplicate-review-v1.json"
+   ]
+  },
+  "browser-organization": {
+   "current_version": 1,
+   "schema": "schemas/browser-organization-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/browser-organization-v1.json"
+   ]
+  },
+  "browser-gateway-policy": {
+   "current_version": 1,
+   "schema": "schemas/browser-gateway-policy-v1.schema.json",
+   "tracked_examples": [
+    "settings/browser-gateway-policy.json",
+    "tests/fixtures/schema_contract/browser-gateway-policy-v1.json"
+   ]
+  },
+  "browser-gateway-wave": {
+   "current_version": 1,
+   "schema": "schemas/browser-gateway-wave-v1.schema.json",
+   "tracked_examples": [
+    "tests/fixtures/schema_contract/browser-gateway-wave-v1.json"
+   ]
+  },
+  "browser-gateway-pilot": {
+   "current_version": 1,
+   "schema": "schemas/browser-gateway-pilot-v1.schema.json",
+   "tracked_examples": []
+  },
+  "browser-gateway-convergence": {
+   "current_version": 1,
+   "schema": "schemas/browser-gateway-convergence-v1.schema.json",
+   "tracked_examples": []
+  },
+  "browser-gateway-order": {
+   "current_version": 1,
+   "schema": "schemas/browser-gateway-order-v1.schema.json",
+   "tracked_examples": []
+  },
+  "ios-catalog": {
+   "current_version": 1,
+   "schema": "schemas/ios-app-catalog-v1.schema.json",
+   "tracked_examples": [
+    "references/ios-app-catalog.json"
+   ]
+  },
+  "android-catalog": {
+   "current_version": 1,
+   "schema": "schemas/android-app-catalog-v1.schema.json",
+   "tracked_examples": [
+    "references/android-app-catalog.json"
+   ]
   }
+ },
+ "migration_policy": {
+  "supported_versions": [
+   0,
+   1
+  ],
+  "upgrade_0_to_1": "Add schema_version: 1 and preserve every existing field.",
+  "downgrade_1_to_0": "Remove only schema_version after explicit downgrade authorization.",
+  "write_mode": "Preview by default; applied migration writes a separate non-conflicting output and verifies its hash."
+ }
 }

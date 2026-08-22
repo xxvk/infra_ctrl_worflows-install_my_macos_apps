@@ -1,0 +1,912 @@
+{
+  "schema_version": 1,
+  "kind": "cross_platform_app_map",
+  "purpose": "Map the same application across iOS and Android package identifiers, so an iOS core catalog can drive Android Play Store installs.",
+  "entries": [
+    {
+      "app_name": "WeChat",
+      "ios_bundle_id": "com.tencent.xin",
+      "play_store_package": "com.tencent.mm",
+      "verified": true,
+      "note": "Play Store package verified (HTTP 200)"
+    },
+    {
+      "app_name": "Telegram",
+      "ios_bundle_id": "ph.telegra.Telegraph",
+      "play_store_package": "org.telegram.messenger",
+      "verified": true,
+      "note": "Play Store package verified (HTTP 200)"
+    },
+    {
+      "app_name": "Notion",
+      "ios_bundle_id": "notion.id",
+      "play_store_package": "notion.id",
+      "verified": true,
+      "note": "Play Store package verified (HTTP 200); same id on both platforms"
+    },
+    {
+      "app_name": "WhatsApp",
+      "ios_bundle_id": "net.whatsapp.WhatsApp",
+      "play_store_package": "com.whatsapp",
+      "verified": true
+    },
+    {
+      "app_name": "Instagram",
+      "ios_bundle_id": "com.burbn.instagram",
+      "play_store_package": "com.instagram.android",
+      "verified": true
+    },
+    {
+      "app_name": "Zoom",
+      "ios_bundle_id": "us.zoom.videomeetings",
+      "play_store_package": "us.zoom.videomeetings",
+      "verified": true
+    },
+    {
+      "app_name": "Chrome",
+      "ios_bundle_id": "com.google.chrome.ios",
+      "play_store_package": "com.android.chrome",
+      "verified": true
+    },
+    {
+      "app_name": "X (Twitter)",
+      "ios_bundle_id": "com.atebits.Tweetie2",
+      "play_store_package": "com.twitter.android",
+      "verified": true
+    },
+    {
+      "app_name": "Microsoft Excel",
+      "ios_bundle_id": "com.microsoft.Office.Excel",
+      "play_store_package": "com.microsoft.office.excel",
+      "verified": true
+    },
+    {
+      "app_name": "LINE",
+      "ios_bundle_id": "jp.naver.line",
+      "play_store_package": "jp.naver.line.android",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Slack",
+      "ios_bundle_id": null,
+      "play_store_package": "com.Slack",
+      "verified": true,
+      "note": "Play Store verified"
+    },
+    {
+      "app_name": "Zoom Workplace",
+      "ios_bundle_id": "us.zoom.videomeetings",
+      "play_store_package": "us.zoom.videomeetings",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "X",
+      "ios_bundle_id": "com.atebits.Tweetie2",
+      "play_store_package": "com.twitter.android",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "bilibili",
+      "ios_bundle_id": "tv.danmaku.bilianime",
+      "play_store_package": "tv.danmaku.bili",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Microsoft Teams",
+      "ios_bundle_id": "com.microsoft.skype.teams",
+      "play_store_package": "com.microsoft.teams",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "ChatGPT",
+      "ios_bundle_id": "com.openai.chat",
+      "play_store_package": "com.openai.chatgpt",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Claude by Anthropic",
+      "ios_bundle_id": "com.anthropic.claude",
+      "play_store_package": "com.anthropic.claude",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Gemini",
+      "ios_bundle_id": "com.google.gemini",
+      "play_store_package": "com.google.android.apps.bard",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Perplexity",
+      "ios_bundle_id": "ai.perplexity.app",
+      "play_store_package": "ai.perplexity.app.android",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "DeepSeek - AI Assistant",
+      "ios_bundle_id": "com.deepseek.chat",
+      "play_store_package": "com.deepseek.chat",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Microsoft Copilot",
+      "ios_bundle_id": null,
+      "play_store_package": "com.microsoft.bing",
+      "verified": true,
+      "note": "Play Store verified"
+    },
+    {
+      "app_name": "Grok AI",
+      "ios_bundle_id": "ai.x.GrokApp",
+      "play_store_package": "com.x.ai.grok",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Kimi",
+      "ios_bundle_id": null,
+      "play_store_package": "com.moonshot.kimichat",
+      "verified": true,
+      "note": "Play Store verified"
+    },
+    {
+      "app_name": "Obsidian - Connected Notes",
+      "ios_bundle_id": "md.obsidian",
+      "play_store_package": "md.obsidian",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "GitHub",
+      "ios_bundle_id": "com.github.stormbreaker.prod",
+      "play_store_package": "com.github.android",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Chrome",
+      "ios_bundle_id": "com.google.chrome.ios",
+      "play_store_package": "com.android.chrome",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Maps",
+      "ios_bundle_id": "com.google.Maps",
+      "play_store_package": "com.google.android.apps.maps",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Translate",
+      "ios_bundle_id": "com.google.Translate",
+      "play_store_package": "com.google.android.apps.translate",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Drive",
+      "ios_bundle_id": "com.google.Drive",
+      "play_store_package": "com.google.android.apps.docs",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Sheets",
+      "ios_bundle_id": "com.google.Sheets",
+      "play_store_package": "com.google.android.apps.docs.editors.sheets",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Microsoft Outlook",
+      "ios_bundle_id": "com.microsoft.Office.Outlook",
+      "play_store_package": "com.microsoft.office.outlook",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "1Password",
+      "ios_bundle_id": null,
+      "play_store_package": "com.onepassword.android",
+      "verified": true,
+      "note": "Play Store verified"
+    },
+    {
+      "app_name": "Wise",
+      "ios_bundle_id": null,
+      "play_store_package": "com.transferwise.android",
+      "verified": true,
+      "note": "Play Store verified"
+    },
+    {
+      "app_name": "Google Authenticator",
+      "ios_bundle_id": "com.google.Authenticator",
+      "play_store_package": "com.google.android.apps.authenticator2",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Google Cloud",
+      "ios_bundle_id": "com.google.Vespa",
+      "play_store_package": "com.google.android.apps.cloudconsole",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "AWS Console",
+      "ios_bundle_id": null,
+      "play_store_package": "com.amazonaws.mobileconsole",
+      "verified": false,
+      "note": "no Android app found; AWS access via browser/CLI"
+    },
+    {
+      "app_name": "1.1.1.1: Faster Internet",
+      "ios_bundle_id": "com.cloudflare.1dot1dot1dot1",
+      "play_store_package": "com.cloudflare.onedotonedotonedotone",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Duolingo",
+      "ios_bundle_id": "com.duolingo.DuolingoMobile",
+      "play_store_package": "com.duolingo",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Khan Academy",
+      "ios_bundle_id": "org.khanacademy.Khan-Academy",
+      "play_store_package": "org.khanacademy.android",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "YouTube",
+      "ios_bundle_id": "com.google.ios.youtube",
+      "play_store_package": "com.google.android.youtube",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "YouTube Music",
+      "ios_bundle_id": "com.google.ios.youtubemusic",
+      "play_store_package": "com.google.android.apps.youtube.music",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Netflix",
+      "ios_bundle_id": "com.netflix.Netflix",
+      "play_store_package": "com.netflix.mediaclient",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "CapCut",
+      "ios_bundle_id": "com.lemon.lvoverseas",
+      "play_store_package": "com.lemon.lvoverseas",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Canva",
+      "ios_bundle_id": "com.canva.canvaeditor",
+      "play_store_package": "com.canva.editor",
+      "verified": true,
+      "note": "pending Play Store verification"
+    },
+    {
+      "app_name": "Discord",
+      "ios_bundle_id": "com.hammerandchisel.discord",
+      "play_store_package": "com.discord",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Facebook",
+      "ios_bundle_id": "com.facebook.Facebook",
+      "play_store_package": "com.facebook.katana",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Meta AI",
+      "ios_bundle_id": "com.facebook.stellaapp",
+      "play_store_package": "com.instagram.barcelona",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); Play 上为 Meta AI / Instagram 内置"
+    },
+    {
+      "app_name": "NotebookLM",
+      "ios_bundle_id": "com.google.NotebookLM",
+      "play_store_package": "com.google.android.apps.labs.language.tailwind",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); Play 上显示为 Gemini Notebook"
+    },
+    {
+      "app_name": "Google One",
+      "ios_bundle_id": "com.google.one",
+      "play_store_package": "com.google.android.apps.subscriptions.red",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "DuckDuckGo",
+      "ios_bundle_id": "com.duckduckgo.mobile.ios",
+      "play_store_package": "com.duckduckgo.mobile.android",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Figma",
+      "ios_bundle_id": "com.figma.FigmaMirror",
+      "play_store_package": "com.figma.mirror",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); Android 为 Figma Mirror 查看器"
+    },
+    {
+      "app_name": "Shazam",
+      "ios_bundle_id": "com.shazam.Shazam",
+      "play_store_package": "com.shazam.android",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Apple Music",
+      "ios_bundle_id": "com.apple.Music",
+      "play_store_package": "com.apple.android.music",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); Apple 生态 Android 版"
+    },
+    {
+      "app_name": "Apple TV",
+      "ios_bundle_id": "com.apple.tv",
+      "play_store_package": "com.apple.atve.androidtv.appletv",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); Android 为 Android TV 版，手机可装"
+    },
+    {
+      "app_name": "VLC",
+      "ios_bundle_id": "org.videolan.vlc-ios",
+      "play_store_package": "org.videolan.vlc",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Disney+",
+      "ios_bundle_id": "com.disney.disneyplus",
+      "play_store_package": "com.disney.disneyplus",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Amazon Prime Video",
+      "ios_bundle_id": "com.amazon.aiv.AIVApp",
+      "play_store_package": "com.amazon.avod.thirdpartyclient",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Wikipedia",
+      "ios_bundle_id": "org.wikimedia.wikipedia",
+      "play_store_package": "org.wikipedia",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Coursera",
+      "ios_bundle_id": "org.coursera.coursera",
+      "play_store_package": "org.coursera.android",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Revolut",
+      "ios_bundle_id": "com.revolut.revolut",
+      "play_store_package": "com.revolut.revolut",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "PayPal",
+      "ios_bundle_id": "com.yourcompany.PPClient",
+      "play_store_package": "com.paypal.android.p2pmobile",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Binance",
+      "ios_bundle_id": "com.czzhao.binance",
+      "play_store_package": "com.binance.dev",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); 国际版（US 区下架，JP/SG 可用）"
+    },
+    {
+      "app_name": "PayPay",
+      "ios_bundle_id": "com.smart.paypay",
+      "play_store_package": "jp.ne.paypay.android.app",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Amazon Japan",
+      "ios_bundle_id": "com.amazon.AmazonJP",
+      "play_store_package": "com.amazon.mShop.android.shopping",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08); 日亚 App；Play 包名同 Amazon Shopping"
+    },
+    {
+      "app_name": "AliExpress",
+      "ios_bundle_id": "com.alibaba.iAliexpress",
+      "play_store_package": "com.alibaba.aliexpresshd",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Airbnb",
+      "ios_bundle_id": "com.airbnb.app",
+      "play_store_package": "com.airbnb.android",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Booking.com",
+      "ios_bundle_id": "com.booking.BookingApp",
+      "play_store_package": "com.booking",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Uber",
+      "ios_bundle_id": "com.ubercab.UberClient",
+      "play_store_package": "com.ubercab",
+      "verified": true,
+      "note": "verified via iTunes + Play Store HTTP 200 (2026-08)"
+    },
+    {
+      "app_name": "Gmail",
+      "ios_bundle_id": "com.google.Gmail",
+      "play_store_package": "com.google.android.gm",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Google Meet",
+      "ios_bundle_id": "com.google.Tachyon",
+      "play_store_package": "com.google.android.apps.meetings",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Google Calendar",
+      "ios_bundle_id": "com.google.calendar",
+      "play_store_package": "com.google.android.calendar",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Google Photos",
+      "ios_bundle_id": "com.google.photos",
+      "play_store_package": "com.google.android.apps.photos",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Tailscale",
+      "ios_bundle_id": "io.tailscale.ipn.macos",
+      "play_store_package": "com.tailscale.ipn",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Termius",
+      "ios_bundle_id": "com.crystalnix.ServerAuditor",
+      "play_store_package": "com.server.auditor.ssh.client",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Speedtest",
+      "ios_bundle_id": "com.ookla.speedtest",
+      "play_store_package": "org.zwanoo.android.speedtest",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "AWS Console",
+      "ios_bundle_id": "com.amazonaws.mobileConsole",
+      "play_store_package": "com.amazon.aws.console.mobile",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Mercari",
+      "ios_bundle_id": "com.kouzoh.ios.mercari",
+      "play_store_package": "com.kouzoh.mercari",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "OKX",
+      "ios_bundle_id": "com.okex.OKExAppstoreFull",
+      "play_store_package": "com.okinc.okex.gp",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Suica",
+      "ios_bundle_id": "jp.co.jreast.suica.app",
+      "play_store_package": "com.mobilesuica.msb.android",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "小红书",
+      "ios_bundle_id": "com.xingin.discover",
+      "play_store_package": "com.xingin.xhs",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "知乎",
+      "ios_bundle_id": "com.zhihu.ios",
+      "play_store_package": "com.zhihu.android",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "niconico",
+      "ios_bundle_id": "jp.co.dwango.nicoplayer",
+      "play_store_package": "jp.nicovideo.android",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "eBay",
+      "ios_bundle_id": "com.ebay.iphone",
+      "play_store_package": "com.ebay.mobile",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Yahoo!乗換案内",
+      "ios_bundle_id": "jp.co.yahoo.transit.app",
+      "play_store_package": "jp.co.yahoo.android.apps.transit",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Threads",
+      "ios_bundle_id": "com.burbn.barcelona",
+      "play_store_package": "com.instagram.threadsapp",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "TED",
+      "ios_bundle_id": "com.ted.TED",
+      "play_store_package": "com.ted.android",
+      "verified": true,
+      "note": "verified 2026-08 (iTunes + Play/APKPure)"
+    },
+    {
+      "app_name": "Google Home",
+      "ios_bundle_id": "com.google.Chromecast",
+      "play_store_package": "com.google.android.apps.chromecast.app",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "Google Fit",
+      "ios_bundle_id": "com.google.fit",
+      "play_store_package": "com.google.android.apps.fitness",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "Reddit",
+      "ios_bundle_id": "com.reddit.Reddit",
+      "play_store_package": "com.reddit.frontpage",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "Snapchat",
+      "ios_bundle_id": "com.toyopagroup.picaboo",
+      "play_store_package": "com.snapchat.android",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "Trello",
+      "ios_bundle_id": "com.fogcreek.trello",
+      "play_store_package": "com.trello",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "Asana",
+      "ios_bundle_id": "com.asana.Asana",
+      "play_store_package": "com.asana.app",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "LinkedIn",
+      "ios_bundle_id": "com.linkedin.LinkedIn",
+      "play_store_package": "com.linkedin.android",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "Microsoft Authenticator",
+      "ios_bundle_id": "com.microsoft.azureauthenticator",
+      "play_store_package": "com.azure.authenticator",
+      "verified": true,
+      "note": "verified 2026-08"
+    },
+    {
+      "app_name": "楽天銀行",
+      "ios_bundle_id": "jp.co.rakuten-bank.sapp.rbapp",
+      "play_store_package": "jp.co.rakuten_bank.rakutenbank",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "三井住友銀行",
+      "ios_bundle_id": "jp.co.smbc.direct",
+      "play_store_package": "jp.co.smbc.direct",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "三菱UFJ銀行",
+      "ios_bundle_id": "jp.mufg.bk.openaccount.app",
+      "play_store_package": "jp.mufg.bk.applisp.app",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "みずほ銀行",
+      "ios_bundle_id": "jp.co.mizuhobank.bankingapp",
+      "play_store_package": "jp.co.mizuhobank.banking",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "SBI証券",
+      "ios_bundle_id": "jp.co.sbisec.sbikabu2sp",
+      "play_store_package": "jp.co.sbisec.hyperkabu2",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "楽天証券",
+      "ios_bundle_id": "jp.co.rakuten-sec.iSPEED",
+      "play_store_package": "jp.co.rakuten_sec.ispeed",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "楽天ペイ",
+      "ios_bundle_id": "jp.co.rakuten.pay.shopper",
+      "play_store_package": "jp.co.rakuten.pay",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "Ponta",
+      "ios_bundle_id": "jp.ponta.myponta",
+      "play_store_package": "jp.ponta.myponta",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "nanaco",
+      "ios_bundle_id": "jp.nanaco-net.mobile.app",
+      "play_store_package": "jp.nanaco.android",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "iAEON",
+      "ios_bundle_id": "com.aeonmy.myaeon",
+      "play_store_package": "com.aeonmy.myaeon",
+      "verified": true,
+      "note": "Japan region; verified via Play API 2026-08"
+    },
+    {
+      "app_name": "Rakuten Link",
+      "ios_bundle_id": "jp.co.rakuten.link",
+      "play_store_package": "jp.co.rakuten.link",
+      "verified": true,
+      "note": "SIM/phone management; Japan region"
+    },
+    {
+      "app_name": "TRAE - AI Work Assistant",
+      "ios_bundle_id": "com.stone.solo.i18n",
+      "play_store_package": "com.stone.solo.cn",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "moomoo証券",
+      "ios_bundle_id": "com.moomoo.mm",
+      "play_store_package": "com.futunn.futu",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "NHK gogaku",
+      "ios_bundle_id": "jp.or.nhk.gogaku",
+      "play_store_package": "jp.or.nhk.gogaku",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "IKEA",
+      "ios_bundle_id": "com.ingka.ikea.app",
+      "play_store_package": "com.ingka.ikea.app",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "みなトクPAY",
+      "ios_bundle_id": "jp.tokyo.minato.rsa",
+      "play_store_package": "jp.tokyo.minato.rsa",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "ホットペッパー",
+      "ios_bundle_id": "jp.co.recruit.mtl.beauty.salon",
+      "play_store_package": "jp.co.recruit.hotpepperbeauty",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "郵便局アプリ",
+      "ios_bundle_id": "jp.jppost.pfapp",
+      "play_store_package": "jp.jppost.pfapp",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "HubSpot",
+      "ios_bundle_id": "com.hubspot.CRMAppRelease",
+      "play_store_package": "com.hubspot.android",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "IDARE",
+      "ios_bundle_id": "jp.co.fivot.idare",
+      "play_store_package": "jp.co.fivot.idare",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "Tinder",
+      "ios_bundle_id": "com.cardify.tinder",
+      "play_store_package": "com.tinder",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "TikTok",
+      "ios_bundle_id": "com.ss.iphone.ugc.Ame",
+      "play_store_package": "com.zhiliaoapp.musically",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "ワンバンク",
+      "ios_bundle_id": "jp.co.smartbank.b43",
+      "play_store_package": "jp.co.smartbank.b43",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "Qwen Studio",
+      "ios_bundle_id": "ai.qwenlm.chat.ios",
+      "play_store_package": "com.alibaba.qwen",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "ICカードリーダー",
+      "ios_bundle_id": "com.moneyforward.Reader",
+      "play_store_package": "com.moneyforward.reader",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "Baicizhan",
+      "ios_bundle_id": "com.chaoui.jiongji100CN",
+      "play_store_package": "com.jiongji.andriod.card",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "AdGuard VPN",
+      "ios_bundle_id": "com.adguard.ios.AdGuardVPN",
+      "play_store_package": "com.adguard.vpn",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "Bloomberg Professional",
+      "ios_bundle_id": "com.bloomberg.mobile.anywhere",
+      "play_store_package": "com.bloomberg.android.plus",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "Eight",
+      "ios_bundle_id": "net.8card.eight",
+      "play_store_package": "net.eightcard",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "MOJisho",
+      "ios_bundle_id": "3EW3QF484M.MojiDict",
+      "play_store_package": "com.mojitec.mojidict",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "MoneyForward",
+      "ios_bundle_id": "com.moneyforward.moneyfwd",
+      "play_store_package": "com.moneyforward.android.app",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "Starlink",
+      "ios_bundle_id": "com.starlink.mobile",
+      "play_store_package": "com.starlink.mobile",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "World App",
+      "ios_bundle_id": "org.worldcoin.insight",
+      "play_store_package": "com.worldcoin",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "ビューカード",
+      "ios_bundle_id": "jp.co.viewcard.viewcardapp.ios",
+      "play_store_package": "jp.co.viewcard.viewcardapp.android",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "ヤマト運輸",
+      "ios_bundle_id": "jp.co.kuronekoyamato.KuronekoyamatoOfficialApp",
+      "play_store_package": "jp.co.kuronekoyamato.kuronekoyamato",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    },
+    {
+      "app_name": "紙面ビューアー",
+      "ios_bundle_id": "com.nikkei.viewer",
+      "play_store_package": "com.nikkei.viewer",
+      "verified": true,
+      "note": "synced from iOS core 2026-08"
+    }
+  ],
+  "pending": []
+}

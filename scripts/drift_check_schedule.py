@@ -26,7 +26,7 @@ SKILL_ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = SKILL_ROOT / "templates/drift-check.launchagent.plist"
 LABEL = "com.xvk.install-my-macos-apps.drift-check"
 DESTINATION = HOME / f"Library/LaunchAgents/{LABEL}.plist"
-LOG_DIR = HOME / "Library/Logs/install_my_macos_apps"
+LOG_DIR = HOME / "Library/Logs/macomrade"
 
 
 def _xml_escape(text: str) -> str:

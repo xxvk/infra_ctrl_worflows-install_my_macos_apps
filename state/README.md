@@ -10,11 +10,11 @@ python3 scripts/state_paths.py path
 The default is:
 
 ```text
-~/Library/Application Support/install-macos-apps/state/<hashed-machine-id>/
+~/Library/Application Support/macomrade/state/<hashed-machine-id>/
 ```
 
 `--state-dir PATH` overrides the default for one command.
-`INSTALL_MY_MACOS_APPS_STATE_DIR` overrides it for a process tree, including
+`MACOMRADE_STATE_DIR` overrides it for a process tree, including
 bootstrap child commands. The CLI option has higher precedence.
 
 Only this README and `locator.json` belong in the tracked compatibility

@@ -17,7 +17,7 @@ python3 -m unittest tests/test_skill_structure.py >/dev/null
 python3 -m unittest tests/test_state_migration.py >/dev/null
 # Compile-check every tracked script, not a hand-maintained subset --
 # a script added later is covered automatically instead of silently skipped.
-PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/install-macos-apps-pycache" \
+PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/macomrade-pycache" \
 python3 -m py_compile scripts/*.py
 python3 -m json.tool settings/system-preferences-values.json >/dev/null
 
@@ -34,9 +34,9 @@ python3 -c "
 import sys
 sys.path.insert(0, 'scripts')
 from drift_check_schedule import render_plist
-open('/tmp/install-macos-apps-drift-check-rendered.plist', 'w').write(render_plist())
+open('/tmp/macomrade-drift-check-rendered.plist', 'w').write(render_plist())
 "
-plutil -lint /tmp/install-macos-apps-drift-check-rendered.plist >/dev/null
+plutil -lint /tmp/macomrade-drift-check-rendered.plist >/dev/null
 
 python3 scripts/macos_apps.py scan
 python3 scripts/macos_apps.py plan --profile auto

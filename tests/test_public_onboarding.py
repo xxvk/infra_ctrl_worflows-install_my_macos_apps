@@ -43,7 +43,7 @@ class PublicOnboardingTests(unittest.TestCase):
         quick_start = self.section("Ten-minute read-only quick start")
         for required in (
             "MACOMRADE_PUBLIC_ONLY",
-            "INSTALL_MY_MACOS_APPS_STATE_DIR",
+            "MACOMRADE_STATE_DIR",
             "./bin/macomrade validate",
             "./bin/macomrade verify schemas",
             "./bin/macomrade scan apps",

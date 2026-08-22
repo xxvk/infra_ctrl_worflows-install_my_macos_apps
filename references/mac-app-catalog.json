@@ -1120,14 +1120,17 @@
    "name": "pnpm",
    "category": "Developer CLI",
    "tier": "core",
+   "lifecycle_status": "active",
    "brew_formula": "pnpm",
-   "check_command": "pnpm",
+   "check_command": "fnm exec --using=24 pnpm --version",
    "official_url": "https://pnpm.io/installation",
    "size_gb": 0.02,
    "install_after": [
     "node"
    ],
-   "follow_up": [],
+   "follow_up": [
+    "Run pnpm through fnm Node 24 for Core global packages and apply the package-specific lifecycle-script policy"
+   ],
    "guide": "components/pnpm.md",
    "download_estimate_bytes": 20000000,
    "download_estimate_method": "catalog_size_gb_planning_estimate",
@@ -1654,21 +1657,6 @@
    "download_estimate_method": "catalog_size_gb_planning_estimate"
   },
   {
-   "name": "Temurin Java",
-   "category": "Developer runtime",
-   "tier": "core",
-   "brew_cask": "temurin",
-   "check_command": "java -version",
-   "official_url": "https://adoptium.net/temurin/",
-   "size_gb": 0.2,
-   "guide": "components/temurin.md",
-   "follow_up": [
-    "Do not change the default Java runtime automatically when multiple JDKs are installed"
-   ],
-   "download_estimate_bytes": 200000000,
-   "download_estimate_method": "homebrew_cask_metadata"
-  },
-  {
    "name": "Android platform tools",
    "category": "Android tools",
    "tier": "core",
@@ -1753,9 +1741,9 @@
    ],
    "official_url": "https://github.com/hairyf/deepseek-harness-desktop",
    "github_repository": "https://github.com/hairyf/deepseek-harness-desktop",
-   "github_release": "v0.1.10",
-   "github_artifact": "Deepseek.Harness.Desktop_0.1.10_aarch64.dmg",
-   "artifact_sha256": "645deba675e888b52601b023b244e1622c23deafc2ede16894ba301fe43097ac",
+   "github_release": "v0.7.1",
+   "github_artifact": "Deepseek.Harness.Desktop_0.7.1_aarch64.dmg",
+   "artifact_sha256": "e6f608d7fb66cdf27d7f7d361996c98134473944ffdf536a98e47bbad2fb4a01",
    "blocked_releases": [
     {
      "repository": "https://github.com/anywhere-labs/deepseek-harness-desktop",
@@ -1775,14 +1763,16 @@
    "size_gb": 0.22,
    "follow_up": [
     "Open Deepseek Harness Desktop once and verify the separately downloaded Harness runtime reaches http://127.0.0.1:3080",
-    "Treat the desktop app's isolated DSH_HOME as independent from ~/.dsh and never migrate credentials or plugins automatically",
+    "The desktop state root is NOT an isolated DSH_HOME: from v0.7.1 first launch writes ~/.dsh/profiles/web/pnpm-workspace.yaml and .npmrc, so install mutates shared CLI state; capture that directory first and never migrate credentials or plugins automatically",
+    "First launch installs a fixed third-party git plugin set with no separate authorization step and extends pnpm allowBuilds (dsh-better-sidebar, node-pty), executing package build scripts; review the preinstall list before launching and record the resulting allowBuilds entries",
     "Verify warm-idle CPU and memory across three samples before retiring a previous desktop client",
     "Keep the global dsh CLI as a separately verified deliverable and repoint its wrapper after runtime-layout changes",
-    "The reviewed v0.1.10 artifact is ad-hoc signed and not notarized; never automate quarantine removal or disable Gatekeeper",
+    "Every reviewed release through v0.7.1 is ad-hoc signed, has no Team ID, and carries no notarization ticket; never automate quarantine removal or disable Gatekeeper, and note explicitly when a non-quarantining download meant no Gatekeeper prompt appeared",
+    "Upstream ships very fast (28 tags between v0.1.10 and v0.7.1 in one week); re-freeze asset name, size, and SHA-256 from release metadata rather than trusting the pinned record",
     "Treat this as a community desktop shell, not an official DeepSeek product"
    ],
    "guide": "components/deepseek-harness-desktop.md",
-   "download_estimate_bytes": 5671019,
+   "download_estimate_bytes": 6854317,
    "download_estimate_method": "github_release_asset_metadata"
   },
   {
@@ -1818,14 +1808,16 @@
    ],
    "guide": "components/dsh-computer-use.md",
    "download_estimate_bytes": 3000000,
-   "download_estimate_method": "cask_installed_size"
+   "download_estimate_method": "cask_installed_size",
+   "brew_tap_revision": "03a0f624c4abc3d89b88f1517af824294b90d469",
+   "brew_trust_cask": "zrui-c/tap/dsh-computer-use"
   },
   {
    "name": "Cloudflare Wrangler",
    "category": "Cloud CLI",
    "tier": "core",
    "npm_package": "wrangler",
-   "npm_version": "4.123.0",
+   "npm_version": "4.125.0",
    "npm_runtime_manager": "fnm",
    "npm_runtime_version": "24",
    "check_command": "wrangler",
@@ -1843,7 +1835,7 @@
    "category": "Web development CLI",
    "tier": "core",
    "npm_package": "wp-studio",
-   "npm_version": "1.17.0",
+   "npm_version": "1.18.0",
    "npm_runtime_manager": "fnm",
    "npm_runtime_version": "24",
    "check_command": "studio",
@@ -2275,6 +2267,7 @@
    "official_url": "https://playcover.io/",
    "delivery_method": "playcover-ipa",
    "allowed_sources": [
+    "app_store",
     "playcover"
    ],
    "allow_multiple_bundles": true,
@@ -2286,7 +2279,13 @@
    ],
    "guide": "components/playcover-learning-apps.md",
    "download_estimate_bytes": 0,
-   "download_estimate_method": "local-existing-playcover-apps"
+   "download_estimate_method": "local-existing-playcover-apps",
+   "note": "On Apple Silicon several of these titles install natively from the App Store as \"Designed for iPad\" builds and are not managed by PlayCover. App Store is the recommended source for those. A native App Store build and a PlayCover import both carry Wrapper/iTunesMetadata.plist, so the receipt alone cannot tell them apart: check the signing authority (Apple iPhone OS Application Signing) and whether the bundle appears under PlayCover's managed Applications directory.",
+   "follow_up": [
+    "Prefer the App Store for titles that install natively on Apple Silicon; use PlayCover only for titles the App Store will not deliver",
+    "Do not treat an App Store receipt as proof of a PlayCover import, or the reverse",
+    "Never automate Apple ID sign-in or purchase when acquiring these titles"
+   ]
   },
   {
    "name": "Obsidian Web Clipper — Chrome",
@@ -2346,6 +2345,473 @@
    "guide": "components/obsidian-web-clipper.md",
    "download_estimate_bytes": 0,
    "download_estimate_method": "app_store_extension"
+  },
+  {
+   "name": "@deepseek-ai/dsh",
+   "aliases": [
+    "dsh CLI",
+    "DeepSeek Harness engine"
+   ],
+   "category": "AI development",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "npm_global",
+   "delivery_method": "npm-global",
+   "npm_global": "@deepseek-ai/dsh",
+   "npm_version": "0.1.0-rc.7",
+   "official_url": "https://github.com/deepseek-ai/deepseek-harness",
+   "check_command": "fnm exec --using=24 dsh --version",
+   "account_required": false,
+   "size_gb": 0.01,
+   "follow_up": [
+    "Verify dsh resolves under fnm Node 24 in a fresh login shell",
+    "Ensure the fnm global dsh takes precedence over the ~/.local/bin app wrapper",
+    "Run dsh --profile web --dump-config and verify the composed plugin tree",
+    "Keep npm global prefix under the fnm Node 24 installation"
+   ],
+   "guide": "components/dsh-npm-engine.md",
+   "download_estimate_bytes": 117400,
+   "download_estimate_method": "npm_unpacked_size"
+  },
+  {
+   "name": "@google/design.md",
+   "aliases": [
+    "design.md",
+    "designmd"
+   ],
+   "category": "Developer tools",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "npm_global",
+   "delivery_method": "npm-global",
+   "npm_global": "@google/design.md",
+   "npm_version": "0.4.0",
+   "official_url": "https://github.com/google-labs-code/design.md",
+   "check_command": "fnm exec --using=24 design.md --version",
+   "account_required": false,
+   "size_gb": 0.01,
+   "follow_up": [
+    "Verify design.md resolves under fnm Node 24 in a fresh login shell",
+    "Run design.md lint on one DESIGN.md file and verify the output",
+    "Run designmd export and verify the exported artifact",
+    "Keep npm global prefix under the fnm Node 24 installation"
+   ],
+   "guide": "components/google-design-md.md",
+   "download_estimate_bytes": 1600000,
+   "download_estimate_method": "npm_unpacked_size"
+  },
+  {
+   "name": "apkeep",
+   "category": "Android tools",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-formula",
+   "brew_formula": "apkeep",
+   "official_url": "https://github.com/EFForg/apkeep",
+   "check_command": "apkeep --version",
+   "account_required": false,
+   "size_gb": 0.01,
+   "follow_up": [
+    "Use apkeep with -d google-play only after obtaining a user-provided OAuth/AAS token",
+    "Never store Google credentials or tokens in the catalog or any tracked file",
+    "Prefer -d f-droid for open-source apps; evaluate third-party APK mirrors before use",
+    "Record downloaded APK paths and sha256 in machine-local state only"
+   ],
+   "guide": "components/apkeep.md",
+   "download_estimate_bytes": 10000000,
+   "download_estimate_method": "brew_bottle_estimate"
+  },
+  {
+   "name": "CC Switch",
+   "aliases": [
+    "cc-switch"
+   ],
+   "category": "Developer tools",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-cask",
+   "brew_cask": "cc-switch",
+   "official_url": "https://github.com/farion1231/cc-switch",
+   "bundle_identifiers": [
+    "com.ccswitch.desktop"
+   ],
+   "application_path": "/Applications/CC Switch.app",
+   "check_command": "test -d '/Applications/CC Switch.app'",
+   "account_required": false,
+   "size_gb": 0.2,
+   "follow_up": [
+    "Open CC Switch and review provider/API-key configuration",
+    "Never store API keys or tokens in the catalog or any tracked file",
+    "Verify provider profiles work with the intended AI coding agents",
+    "Confirm the installed version is at least the cask version"
+   ],
+   "guide": "components/cc-switch.md",
+   "download_estimate_bytes": 200000000,
+   "download_estimate_method": "cask_dmg_metadata"
+  },
+  {
+   "name": "Figma",
+   "category": "Design",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-cask",
+   "brew_cask": "figma",
+   "official_url": "https://www.figma.com/",
+   "bundle_identifiers": [
+    "com.figma.Desktop"
+   ],
+   "application_path": "/Applications/Figma.app",
+   "check_command": "test -d '/Applications/Figma.app'",
+   "allowed_sources": [
+    "homebrew",
+    "official_web",
+    "manual_or_unknown"
+   ],
+   "account_required": true,
+   "size_gb": 0.4,
+   "follow_up": [
+    "Sign in with the intended Figma account; never automate login",
+    "Verify the account shown in Figma before continuing",
+    "Review font/plugin/asset sync settings",
+    "Confirm the installed version is at least the cask version"
+   ],
+   "guide": "components/figma.md",
+   "download_estimate_bytes": 350000000,
+   "download_estimate_method": "cask_zip_metadata"
+  },
+  {
+   "name": "go-ios",
+   "aliases": [
+    "ios",
+    "go-ios CLI",
+    "iOS automation"
+   ],
+   "category": "Developer tools",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "npm_global",
+   "delivery_method": "npm-global",
+   "npm_package": "go-ios",
+   "npm_version": "1.3.2",
+   "npm_runtime_manager": "fnm",
+   "npm_runtime_version": "24",
+   "check_command": "ios version",
+   "official_url": "https://github.com/danielpaulus/go-ios",
+   "size_gb": 0.1,
+   "guide": "components/go-ios.md",
+   "follow_up": [
+    "Verify `ios version` and `ios list` enumerate the connected iPhone",
+    "iOS 17+ features (screenshot, springboard) need `ios tunnel start` + Developer Image; core read ops (apps, devicename, date, syslog) work without",
+    "Use `ios apps` JSON for cross-checking the libimobiledevice app list",
+    "SpringBoard layout read via Go module (ios/springboard); not exposed as CLI yet"
+   ],
+   "download_estimate_bytes": 100000000,
+   "download_estimate_method": "catalog_size_gb_planning_estimate"
+  },
+  {
+   "name": "libimobiledevice",
+   "aliases": [
+    "idevice_id",
+    "idevicepair",
+    "iOS device tools"
+   ],
+   "category": "Developer tools",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-formula",
+   "brew_formula": "libimobiledevice",
+   "official_url": "https://www.libimobiledevice.org/",
+   "check_command": "idevice_id -l",
+   "size_gb": 0.05,
+   "guide": "components/libimobiledevice.md",
+   "follow_up": [
+    "Install companion `ideviceinstaller` (brew install ideviceinstaller) for app list/install management",
+    "Pair the iPhone: `idevicepair pair` (accept trust dialog on the iPhone)",
+    "Verify: `ideviceinstaller list --user` enumerates installed apps",
+    "libimobiledevice gives authoritative bundle-id list without reading private databases"
+   ],
+   "download_estimate_bytes": 50000000,
+   "download_estimate_method": "catalog_size_gb_planning_estimate",
+   "cli_path": "/opt/homebrew/bin/idevice_id"
+  },
+  {
+   "name": "mpia",
+   "aliases": [
+    "mpia-cli",
+    "macos-data"
+   ],
+   "category": "Developer CLI",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-cask",
+   "brew_cask": "xxvk/tap/mpia",
+   "brew_tap": "xxvk/tap",
+   "brew_tap_repository": "https://github.com/xxvk/homebrew-tap",
+   "brew_tap_revision": "3216ff7bf6b924aaca71392b4c2026097a06bb08",
+   "brew_trust_tap": "xxvk/tap",
+   "brew_formula": null,
+   "allowed_sources": [
+    "homebrew"
+   ],
+   "official_url": "https://github.com/xxvk/mpia-cli",
+   "github_repository": "https://github.com/xxvk/mpia-cli",
+   "bundle_identifiers": [
+    "com.xvk.mpia.cli"
+   ],
+   "application_path": "/Applications/mpia.app",
+   "check_command": "mpia --version",
+   "account_required": false,
+   "size_gb": 0.01,
+   "follow_up": [
+    "Tap and trust narrowly: brew tap xxvk/tap then brew trust --cask xxvk/tap/mpia; never trust the whole tap",
+    "The cask is ad-hoc signed and not notarized, so Gatekeeper kills the binary (exit 137) until its quarantine attribute is removed; remove only mpia's attribute and never disable Gatekeeper",
+    "Grant Full Disk Access to the com.xvk.mpia.cli identity for Safari bookmark reads; the rename from macos-data-cli reset every prior TCC grant",
+    "Renamed from macos-data-cli; 0.9.3 removed the adapter/subcommand syntax in favour of mpia METHOD \"/path\"",
+    "Verify with mpia GET \"/agent/manifest\" and mpia OPTIONS \"/safari/permission\""
+   ],
+   "guide": "components/mpia.md",
+   "download_estimate_bytes": 7500000,
+   "download_estimate_method": "github_release_asset_metadata"
+  },
+  {
+   "name": "Open Design",
+   "category": "Design",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-cask",
+   "brew_cask": "open-design",
+   "official_url": "https://open-design.ai/",
+   "github_repository": "https://github.com/nexu-io/open-design",
+   "bundle_identifiers": [
+    "io.open-design.desktop"
+   ],
+   "application_path": "/Applications/Open Design.app",
+   "check_command": "test -d '/Applications/Open Design.app'",
+   "allowed_sources": [
+    "homebrew",
+    "github",
+    "official_web",
+    "manual_or_unknown"
+   ],
+   "account_required": false,
+   "size_gb": 0.3,
+   "follow_up": [
+    "Open Open Design and verify local-first project creation",
+    "Verify agent-native design features work from the local runtime",
+    "Review storage location and sync choices",
+    "Confirm the installed version is at least the cask version"
+   ],
+   "guide": "components/open-design.md",
+   "download_estimate_bytes": 300000000,
+   "download_estimate_method": "cask_dmg_metadata"
+  },
+  {
+   "name": "Pi Coding Agent",
+   "aliases": [
+    "pi"
+   ],
+   "category": "AI developer agent",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "npm_global",
+   "delivery_method": "pnpm-global",
+   "npm_package": "@earendil-works/pi-coding-agent",
+   "npm_version": "0.84.2",
+   "npm_runtime_manager": "fnm",
+   "npm_runtime_version": "24",
+   "npm_install_client": "pnpm",
+   "npm_lifecycle_policy": "ignore_all",
+   "npm_dist_integrity": "sha512-l4E+B7hgXKWddRo8bC/eSue2aWZjEgJ9xIpf5p0Og+lq8a2TArCwJ0HCoCPCgaBP/tN4zbYH/wOwvx9pJpeLCA==",
+   "npm_dist_unpacked_bytes": 13709606,
+   "check_command": "fnm exec --using=24 pi --version",
+   "official_url": "https://github.com/earendil-works/pi",
+   "install_after": [
+    "node",
+    "pnpm"
+   ],
+   "guide": "components/pi-coding-agent.md",
+   "size_gb": 0.15,
+   "follow_up": [
+    "Run Pi only inside trusted repositories because it is not an operating-system sandbox",
+    "Complete provider or subscription authentication interactively and keep credentials out of Git",
+    "Verify the exact Pi version under fnm Node 24 before installing PI WEB"
+   ],
+   "download_estimate_bytes": 150000000,
+   "download_estimate_method": "catalog_size_gb_planning_estimate"
+  },
+  {
+   "name": "PI WEB",
+   "aliases": [
+    "pi-web"
+   ],
+   "category": "AI developer agent",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "npm_global",
+   "delivery_method": "pnpm-global",
+   "npm_package": "@jmfederico/pi-web",
+   "npm_version": "1.202608.1",
+   "npm_runtime_manager": "fnm",
+   "npm_runtime_version": "24",
+   "npm_install_client": "pnpm",
+   "npm_lifecycle_policy": "allow_listed",
+   "npm_allowed_builds": [
+    "node-pty"
+   ],
+   "npm_dist_integrity": "sha512-Ii44LIPjQ2MVmroqq6ZzSpF2M7OIpywCFr8f1XM55fc+7jXVlRUnNpytqZ1BJRXE5IhfO8Cgz4IE1/vJ3lrfWg==",
+   "npm_dist_unpacked_bytes": 5249555,
+   "npm_peer_requirement": "@earendil-works/pi-coding-agent >=0.84.0",
+   "check_command": "fnm exec --using=24 pi-web version",
+   "official_url": "https://pi-web.dev/",
+   "install_after": [
+    "Pi Coding Agent"
+   ],
+   "guide": "components/pi-web.md",
+   "size_gb": 0.15,
+   "follow_up": [
+    "Review and separately approve creation of PI WEB per-user services with pi-web install",
+    "Run pi-web doctor, status, and version after service installation",
+    "Verify http://127.0.0.1:8504 locally and never expose it directly to the public internet"
+   ],
+   "download_estimate_bytes": 150000000,
+   "download_estimate_method": "catalog_size_gb_planning_estimate"
+  },
+  {
+   "name": "pymobiledevice3",
+   "aliases": [
+    "pymd3",
+    "iOS automation (Python)"
+   ],
+   "category": "Developer tools",
+   "tier": "core",
+   "lifecycle_status": "active",
+   "source": "pip_venv",
+   "delivery_method": "python-venv",
+   "official_url": "https://github.com/doronz88/pymobiledevice3",
+   "check_command": "pymobiledevice3 --version",
+   "size_gb": 0.05,
+   "guide": "components/pymobiledevice3.md",
+   "follow_up": [
+    "Create venv and pip install pymobiledevice3",
+    "Preferred iOS home-screen layout exporter (widget kind + size)",
+    "SpringBoard subcommands ignore --udid; top-level commands take it after the command"
+   ],
+   "download_estimate_bytes": 50000000,
+   "download_estimate_method": "catalog_size_gb_planning_estimate"
+  },
+  {
+   "name": "SwiftMTP",
+   "aliases": [
+    "swiftmtp-cli"
+   ],
+   "category": "File transfer",
+   "tier": "optional",
+   "lifecycle_status": "active",
+   "source": "homebrew",
+   "delivery_method": "homebrew-cask",
+   "brew_cask": "neighbor-z/swiftmtp/swiftmtp",
+   "brew_tap": "neighbor-z/swiftmtp",
+   "brew_tap_repository": "https://github.com/neighbor-z/homebrew-swiftmtp",
+   "brew_tap_revision": "38d356054a70001dc790b5da4cb7cea4e3690f09",
+   "brew_trust_cask": "neighbor-z/swiftmtp/swiftmtp",
+   "official_url": "https://neighbor-z.github.io/swiftmtp-website/",
+   "github_repository": "https://github.com/Neighbor-Z/SwiftMTP",
+   "github_release": "v1.2.4",
+   "bundle_identifiers": [
+    "me.neighborz.swiftmtp"
+   ],
+   "application_path": "/Applications/SwiftMTP.app",
+   "cli_path": "/Applications/SwiftMTP.app/Contents/MacOS/swiftmtp-cli",
+   "check_command": "'/Applications/SwiftMTP.app/Contents/MacOS/swiftmtp-cli' --version",
+   "allowed_sources": [
+    "homebrew",
+    "github",
+    "manual_or_unknown"
+   ],
+   "account_required": false,
+   "size_gb": 0.02,
+   "follow_up": [
+    "Verify the exact Tap remote and pinned revision before package-scoped trust",
+    "Review the ad-hoc signature and use the visible macOS security flow if first launch is blocked",
+    "Quit Android File Transfer, Image Capture, and other competing MTP clients before connecting a device",
+    "Connect and unlock the intended Android device, select File Transfer mode, and verify read-only CLI discovery"
+   ],
+   "guide": "components/swiftmtp.md",
+   "download_estimate_bytes": 5482254,
+   "download_estimate_method": "homebrew_cached_cask_artifact"
+  },
+  {
+   "name": "TencentMeeting",
+   "aliases": [
+    "腾讯会议",
+    "Tencent Meeting"
+   ],
+   "category": "Communication",
+   "tier": "optional",
+   "lifecycle_status": "active",
+   "source": "official_web",
+   "delivery_method": "vendor-download",
+   "brew_cask": null,
+   "brew_formula": null,
+   "allowed_sources": [
+    "official_web",
+    "manual_or_unknown"
+   ],
+   "official_url": "https://meeting.tencent.com/download/",
+   "bundle_identifiers": [
+    "com.tencent.meeting"
+   ],
+   "application_path": "/Applications/TencentMeeting.app",
+   "check_command": "test -d '/Applications/TencentMeeting.app'",
+   "account_required": true,
+   "size_gb": 0.45,
+   "follow_up": [
+    "Sign in with the intended account; never automate login",
+    "Review camera, microphone, and screen-recording grants before the first meeting"
+   ],
+   "guide": "components/tencentmeeting.md",
+   "download_estimate_bytes": 474000000,
+   "download_estimate_method": "observed_installed_size"
+  },
+  {
+   "name": "UTM",
+   "aliases": [
+    "UTM Virtual Machines"
+   ],
+   "category": "Virtualization",
+   "tier": "optional",
+   "lifecycle_status": "active",
+   "source": "official_web",
+   "delivery_method": "vendor-download",
+   "brew_cask": "utm",
+   "brew_formula": null,
+   "allowed_sources": [
+    "official_web",
+    "homebrew",
+    "app_store",
+    "manual_or_unknown"
+   ],
+   "official_url": "https://mac.getutm.app/",
+   "bundle_identifiers": [
+    "com.utmapp.UTM"
+   ],
+   "application_path": "/Applications/UTM.app",
+   "check_command": "test -d '/Applications/UTM.app'",
+   "account_required": false,
+   "size_gb": 1.1,
+   "follow_up": [
+    "Guest VM disk images live outside the bundle; account for them separately in storage planning",
+    "The App Store build is paid and the website build is free; do not silently substitute one for the other"
+   ],
+   "guide": "components/utm.md",
+   "download_estimate_bytes": 1180000000,
+   "download_estimate_method": "observed_installed_size"
   }
  ]
 }

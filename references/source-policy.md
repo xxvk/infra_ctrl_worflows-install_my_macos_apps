@@ -9,7 +9,9 @@ state records what a particular Mac actually observed.
 
 - Never execute a network response directly in a shell.
 - Never bootstrap Homebrew automatically from a mutable network script.
-- Pin npm globals to exact versions.
+- Pin npm-registry globals to exact versions, registry integrity, install
+  client, and lifecycle-script policy. pnpm global installs may disable every
+  script or allow only named reviewed build packages; never approve all.
 - For third-party Homebrew taps, verify the exact repository and full reviewed
   commit before granting trust. Trust only the required cask, never the tap.
 - Pin executable GitHub artifacts to a full commit and verify SHA-256 before
@@ -35,7 +37,7 @@ Validate tracked definitions without touching the machine:
 python3 scripts/supply_chain.py validate
 ```
 
-Inspect current Homebrew taps/trust and the two managed npm globals:
+Inspect current Homebrew taps/trust and all managed npm-registry globals:
 
 ```sh
 python3 scripts/supply_chain.py inspect

@@ -38,7 +38,7 @@ silently expand the 0.1.0 release-candidate gate.
       Finder **Keep Downloaded** remains a visible manual preference; absence
       of `dataless` is the supported CLI read-back.
 - [x] **RC-02 — Move runtime `state/` to truly machine-local storage.** Default
-      to `~/Library/Application Support/install-macos-apps/state/<machine-id>/`,
+      to `~/Library/Application Support/macomrade/state/<machine-id>/`,
       support an explicit `--state-dir` or environment override, retain a
       compatibility locator in the repository, and migrate all existing state
       copy-first with count/hash/read-back verification before any source
@@ -1058,7 +1058,7 @@ review before promoting any item into an implementation task.
       added private macOS-runner billing/availability failure modes without
       validating the target Mac. Local macOS validation is the accepted
       0.1.0 quality gate; a unified local release-check remains part of RC-06.
-- [x] Add a JSON Schema validation script for `references/app-catalog.json`
+- [x] Add a JSON Schema validation script for `references/mac-app-catalog.json`
       (required fields, source consistency) as the catalog grows past 128
       entries, to prevent manual-edit data corruption.
       Resolved: added `scripts/validate_app_catalog.py` (hand-rolled, no

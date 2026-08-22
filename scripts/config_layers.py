@@ -16,7 +16,7 @@ from schema_contract import SchemaContractError, load_and_validate
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "Private" / "manifest.json"
-DEFAULT_CATALOG = ROOT / "references" / "app-catalog.json"
+DEFAULT_CATALOG = ROOT / "references" / "mac-app-catalog.json"
 DEFAULT_CATALOG_OVERLAY = ROOT / "Private" / "app-catalog-overlay.json"
 PUBLIC_ONLY_ENV = "MACOMRADE_PUBLIC_ONLY"
 FORBIDDEN_KEYS = {

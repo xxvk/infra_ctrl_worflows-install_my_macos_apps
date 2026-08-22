@@ -1,9 +1,9 @@
 ---
-name: install-macos-apps
-description: Scan a Mac for installed applications, compare it with a persistent personal macOS app catalog, and create or execute a capacity-aware installation plan. Use when setting up a new Mac, auditing missing apps, maintaining a personal app inventory, installing selected apps with Homebrew, or documenting download sources, accounts, licenses, privacy permissions, system preferences, hardware mappings, and post-install verification.
+name: macomrade
+description: "One-sync Mac readiness and lifecycle automation: scan and plan installed applications against a persistent personal catalog, install with Homebrew or approved sources, manage permissions/preferences/bootstrap, audit and clean storage (iCloud, caches, application adapters), organize Safari bookmarks and Reading Lists via CLI CRUD, operate a renewable knowledge gateway, manage WeChat group lifecycle and iPhone Home Screen organization through visible interfaces, and verify every change by read-back. Use when setting up a new Mac, auditing missing apps, maintaining the app inventory, managing local storage or bookmarks, or documenting download sources, accounts, licenses, permissions, and post-install verification."
 ---
 
-# Install My macOS Apps
+# macomrade
 
 Use this skill from its synced source folder. Treat the catalog and tracked
 configuration as desired state; never infer that an app, permission, account,
@@ -74,6 +74,8 @@ Do not load unrelated references.
 | Browser bookmarks and Reading List | [safari-bookmark-reading-list-sources.md](references/safari-bookmark-reading-list-sources.md), [browser-item-schema.md](references/browser-item-schema.md), [browser-url-normalization.md](references/browser-url-normalization.md), [browser-decision-memory.md](references/browser-decision-memory.md), [browser-organization.md](references/browser-organization.md), [browser-knowledge-gateway.md](references/browser-knowledge-gateway.md), [browser-transaction-safety.md](references/browser-transaction-safety.md), [browser-workflow-cli.md](references/browser-workflow-cli.md), and [browser-live-acceptance.md](references/browser-live-acceptance.md) | Verifying supported Safari sources, parsing and preserving an explicit private Bookmarks-and-Reading-List-only export, checking Xcode/Safari 27 capability gates, defining private item identity, reviewing explainable duplicates, compiling the conceptual Private taxonomy and its ranked one-level system-Favorites projection, auditing bounded knowledge-gateway capacity and renewal pressure, freezing and verifying the manual non-authorizing gateway pilot, freezing and verifying a non-executable browser plan, using redacted macomrade routes/reports, or running Safari-only BR-08 acceptance |
 | Public repository release | [public-release-readiness.md](references/public-release-readiness.md) | Auditing, separating personal configuration, licensing, rehearsing, or changing repository visibility |
 | Local macOS account removal | [account-removal.md](references/account-removal.md) | Retiring a local account through preflight, visible authorization, deletion, and post-delete verification |
+| iOS application lifecycle | [ios-application-workflow.md](references/ios-application-workflow.md) | Inventorizing or installing iPhone/iPad apps, syncing via App Store, or auditing the iOS catalog |
+| Android application lifecycle | [android-application-workflow.md](references/android-application-workflow.md) | Inventorizing or installing Android apps, Play Store/APK sources (apkeep), auditing the Android catalog, or controlling the launcher home screen (icons/widgets) via adb |
 
 App-specific installation and verification details live in the catalog entry's
 `guide` under `components/`. Read that guide before changing the app.
@@ -87,16 +89,57 @@ remain supporting evidence, not substitutes for this entry point.
 
 Run `./bin/macomrade scan browser-capabilities` before choosing a Safari data
 path. For live bookmark or Reading List enumeration, query, and item read, use
-`macos-data` first when its public Safari read contract is available (minimum
-`0.8.0`; `MACOS_DATA_CLI` may select a non-PATH build). The skill must call the
+`mpia` first when its public Safari read contract is available (minimum
+`0.9.3`; `MPIA_CLI` may select a non-PATH build). The skill must call the
 adapter and must never parse or modify `~/Library/Safari/Bookmarks.plist`
-directly — all local mutation goes through the guarded `macos-data` CLI.
+directly — all local mutation goes through the guarded `mpia` CLI.
 
-**Default write path — guarded local-only CLI CRUD.** When `macos-data >=
-0.8.1` is installed and its Safari CRUD commands are available, bookmark and
-folder organization is executed with `bookmarks create|edit|move|delete` and
-`folders create|rename|move|delete`. This is the default path for incremental
-bookmark organization. Contract:
+`mpia` is the renamed `macos-data-cli`. 0.9.3 removed the adapter/subcommand
+surface; every call is now REST-style:
+
+```sh
+mpia METHOD "/path" [--params JSON] [--body JSON] [--dry-run|--apply] [--confirm PHRASE]
+mpia GET "/agent/manifest"        # every route, method, schema, and exit code
+mpia OPTIONS "/safari/permission" # authorization state, no item content
+```
+
+`--params` and `--body` take inline JSON only — there is no `--stdin`. Inline
+JSON lands in process arguments and shell history, so never place bookmark
+titles, URLs, or any secret in them without accepting that exposure.
+
+**Three independent gates, in order.** A declared route is not an authorized
+route, and an authorized route is not a parsable store. `scan
+browser-capabilities` reports all three separately; never collapse them:
+
+1. `read_status: version_too_old | contract_missing` — the binary or its routes
+   are unusable.
+2. `read_status: authorization_required` — routes exist, Full Disk Access does
+   not. The rename to `com.xvk.mpia.cli` **reset every TCC grant**, so a Mac
+   that worked under `macos-data` must be authorized again.
+3. `read_status: store_schema_unsupported` — routes and grants exist, but the
+   adapter cannot parse this Mac's `Bookmarks.plist`. Safari ships schema
+   changes independently of the adapter.
+
+Only `read_status: available` selects the CLI path. Anything else falls back to
+the explicit export, and the skill must say which gate failed.
+
+**Default write path — guarded local-only CLI CRUD.** When `mpia >= 0.9.3` is
+installed, authorized, and able to parse the store, bookmark and folder
+organization is executed through these routes:
+
+| Operation | Route |
+| --- | --- |
+| create bookmark | `POST /safari/bookmarks/create` |
+| edit bookmark | `PATCH /safari/bookmarks/edit` |
+| move/reorder bookmark | `PATCH /safari/bookmarks/move` |
+| delete bookmark | `DELETE /safari/bookmarks/delete` |
+| create folder | `POST /safari/folders/create` |
+| rename folder | `PATCH /safari/folders/rename` |
+| move folder | `PATCH /safari/folders/move` |
+| delete folder | `DELETE /safari/folders/delete` |
+| read | `GET /safari/bookmarks/list\|get\|query`, `GET /safari/reading-list/list\|get\|query` |
+
+This is the default path for incremental bookmark organization. Contract:
 
 - **Safari must be fully quit before any write**; the CLI fails closed
   otherwise. Confirm quiescence (`pgrep Safari` empty) before every apply batch.
@@ -113,13 +156,13 @@ bookmark organization. Contract:
   planner to live CRUD automatically.
 
 **Sorting is the same guarded move.** Reordering bookmarks within a folder is
-`bookmarks move` (or `folders move`) with a target `index` — no separate
-reorder command or extension exists or is needed. Move an item to a new index
+`PATCH /safari/bookmarks/move` (or `/safari/folders/move`) with a target
+`index` — no separate reorder command or extension exists or is needed. Move an item to a new index
 in its own folder to change order, or across folders to relocate. Plan the
 complete desired order first, emit one move per item with its target index,
 execute in descending index order so earlier moves do not shift later target
-positions, and verify each move by read-back plus a final full `bookmarks
-list`. Ordering is `local_only` until the user reopens Safari. See
+positions, and verify each move by read-back plus a final full `GET
+/safari/bookmarks/list`. Ordering is `local_only` until the user reopens Safari. See
 [browser-workflow-cli.md](references/browser-workflow-cli.md#sorting-bookmarks-move--index)
 and [browser-transaction-safety.md](references/browser-transaction-safety.md#sorting-contract-move--index).
 
@@ -261,7 +304,7 @@ interruption, idempotency, and record contracts. Run
 
 ## Catalog and documentation contract
 
-`references/app-catalog.json` is installation metadata source of truth.
+`references/mac-app-catalog.json` is installation metadata source of truth.
 The iCloud-synced `Private/app-catalog-overlay.json` supplies approved personal
 fields when present; public-only clones operate without it. Keep
 catalog names stable, declare the intended source, link a component guide, and
@@ -287,9 +330,9 @@ for the exact source-specific and component-integrity rules.
 ## Persistent records and local validation
 
 Runtime state defaults to
-`~/Library/Application Support/install-macos-apps/state/<hashed-machine-id>/`.
+`~/Library/Application Support/macomrade/state/<hashed-machine-id>/`.
 A command-level `--state-dir` overrides
-`INSTALL_MY_MACOS_APPS_STATE_DIR`, which overrides the default. The tracked
+`MACOMRADE_STATE_DIR`, which overrides the default. The tracked
 `state/README.md` and `state/locator.json` are compatibility locators only.
 
 After substantive changes, run:

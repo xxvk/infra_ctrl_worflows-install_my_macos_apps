@@ -1,0 +1,5396 @@
+{
+  "schema_version": 1,
+  "apps": [
+    {
+      "name": "WeChat",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.tencent.xin",
+      "app_store_id": "414478124",
+      "app_store_url": "https://apps.apple.com/app/id414478124",
+      "region_availability": [],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/wechat.md",
+      "note": "Cross-platform: Android com.tencent.mm"
+    },
+    {
+      "name": "Telegram",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "ph.telegra.Telegraph",
+      "app_store_id": "686449807",
+      "app_store_url": "https://apps.apple.com/app/id686449807",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/telegram.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "WhatsApp",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "net.whatsapp.WhatsApp",
+      "app_store_id": "310633997",
+      "app_store_url": "https://apps.apple.com/app/id310633997",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/whatsapp.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "LINE",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.naver.line",
+      "app_store_id": "443904275",
+      "app_store_url": "https://apps.apple.com/app/id443904275",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/line.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Slack",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.tinyspeck.chatlyio",
+      "app_store_id": "618783545",
+      "app_store_url": "https://apps.apple.com/app/id618783545",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/slack.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Zoom Workplace",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "us.zoom.videomeetings",
+      "app_store_id": "546505307",
+      "app_store_url": "https://apps.apple.com/app/id546505307",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/zoom-workplace.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "X",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.atebits.Tweetie2",
+      "app_store_id": "333903271",
+      "app_store_url": "https://apps.apple.com/app/id333903271",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/x.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Instagram",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.burbn.instagram",
+      "app_store_id": "389801252",
+      "app_store_url": "https://apps.apple.com/app/id389801252",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/instagram.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "bilibili",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "tv.danmaku.bilianime",
+      "app_store_id": "930585039",
+      "app_store_url": "https://apps.apple.com/app/id930585039",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/bilibili.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Microsoft Teams",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.microsoft.skype.teams",
+      "app_store_id": "1113153706",
+      "app_store_url": "https://apps.apple.com/app/id1113153706",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/microsoft-teams.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "ChatGPT",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.openai.chat",
+      "app_store_id": "6448311069",
+      "app_store_url": "https://apps.apple.com/app/id6448311069",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/chatgpt.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Claude by Anthropic",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.anthropic.claude",
+      "app_store_id": "6473753684",
+      "app_store_url": "https://apps.apple.com/app/id6473753684",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/claude-by-anthropic.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Gemini",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.gemini",
+      "app_store_id": "6477489729",
+      "app_store_url": "https://apps.apple.com/app/id6477489729",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-gemini.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Perplexity",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "ai.perplexity.app",
+      "app_store_id": "1668000334",
+      "app_store_url": "https://apps.apple.com/app/id1668000334",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/perplexity.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "DeepSeek - AI Assistant",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.deepseek.chat",
+      "app_store_id": "6737597349",
+      "app_store_url": "https://apps.apple.com/app/id6737597349",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/deepseek-ai-assistant.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Microsoft Copilot",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.microsoft.copilot",
+      "app_store_id": "541164041",
+      "app_store_url": "https://apps.apple.com/app/id541164041",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/microsoft-copilot.md",
+      "note": "v0 core from purchase-history extraction (2026-08); bundle id corrected from device (com.microsoft.copilot) 2026-08-21"
+    },
+    {
+      "name": "Grok AI",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "ai.x.GrokApp",
+      "app_store_id": "6670324846",
+      "app_store_url": "https://apps.apple.com/app/id6670324846",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/grok-ai.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "TRAE - AI Work Assistant",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.stone.solo.i18n",
+      "app_store_id": "6761400733",
+      "app_store_url": "https://apps.apple.com/app/id6761400733",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/trae-ai-work-assistant.md",
+      "note": "v0 core from purchase-history extraction (2026-08); bundle id corrected from device (com.stone.solo.i18n) 2026-08-21"
+    },
+    {
+      "name": "Kimi",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.moonshot.kimichat",
+      "app_store_id": "6474233312",
+      "app_store_url": "https://apps.apple.com/app/id6474233312",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/kimi.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Notion",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "notion.id",
+      "app_store_id": "1232780281",
+      "app_store_url": "https://apps.apple.com/app/id1232780281",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/notion.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Obsidian - Connected Notes",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "md.obsidian",
+      "app_store_id": "6469834197",
+      "app_store_url": "https://apps.apple.com/app/id6469834197",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/obsidian-connected-notes.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "GitHub",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.github.stormbreaker.prod",
+      "app_store_id": "1477376905",
+      "app_store_url": "https://apps.apple.com/app/id1477376905",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/github.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Chrome",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.chrome.ios",
+      "app_store_id": "535886823",
+      "app_store_url": "https://apps.apple.com/app/id535886823",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-chrome.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Maps",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Maps",
+      "app_store_id": "585027354",
+      "app_store_url": "https://apps.apple.com/app/id585027354",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-maps.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Translate",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Translate",
+      "app_store_id": "414706506",
+      "app_store_url": "https://apps.apple.com/app/id414706506",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-translate.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Drive",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Drive",
+      "app_store_id": "507874739",
+      "app_store_url": "https://apps.apple.com/app/id507874739",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-drive.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Sheets",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Sheets",
+      "app_store_id": "842849113",
+      "app_store_url": "https://apps.apple.com/app/id842849113",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-sheets.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Microsoft Outlook",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.microsoft.Office.Outlook",
+      "app_store_id": "951937596",
+      "app_store_url": "https://apps.apple.com/app/id951937596",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/microsoft-outlook.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "1Password",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.1password.1password",
+      "app_store_id": "1511601750",
+      "app_store_url": "https://apps.apple.com/app/id1511601750",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/1password.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "moomoo証券",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.moomoo.mm",
+      "app_store_id": "1440255819",
+      "app_store_url": "https://apps.apple.com/app/id1440255819",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/moomoo証券.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "东方财富-股票、炒股、理财",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.eastmoney.iphone",
+      "app_store_id": "423525686",
+      "app_store_url": "https://apps.apple.com/app/id423525686",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/东方财富-股票-炒股-理财.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Wise",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.transferwise.Transferwise",
+      "app_store_id": "612261027",
+      "app_store_url": "https://apps.apple.com/app/id612261027",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/wise.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Tailscale",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "io.tailscale.ipn.ios",
+      "app_store_id": "1470499037",
+      "app_store_url": "https://apps.apple.com/app/id1470499037",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/tailscale.md",
+      "note": "v0 core from purchase history; bundle id corrected from device (io.tailscale.ipn.ios) 2026-08-21"
+    },
+    {
+      "name": "Google Authenticator",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Authenticator",
+      "app_store_id": "6449716934",
+      "app_store_url": "https://apps.apple.com/app/id6449716934",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-authenticator.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Google Cloud",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Vespa",
+      "app_store_id": "1005120814",
+      "app_store_url": "https://apps.apple.com/app/id1005120814",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-cloud.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "AWS Console",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.amazonaws.mobileConsole",
+      "app_store_id": "580990573",
+      "app_store_url": "https://apps.apple.com/app/id580990573",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/aws-console.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "1.1.1.1: Faster Internet",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.cloudflare.1dot1dot1dot1",
+      "app_store_id": "1423538627",
+      "app_store_url": "https://apps.apple.com/app/id1423538627",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/1-1-1-1-faster-internet.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Duolingo",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.duolingo.DuolingoMobile",
+      "app_store_id": "570060128",
+      "app_store_url": "https://apps.apple.com/app/id570060128",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/duolingo.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Khan Academy",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.khanacademy.Khan-Academy",
+      "app_store_id": "469863705",
+      "app_store_url": "https://apps.apple.com/app/id469863705",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/khan-academy.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "NHK gogaku",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.or.nhk.gogaku",
+      "app_store_id": "1039263781",
+      "app_store_url": "https://apps.apple.com/app/id1039263781",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/nhk-gogaku.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "MOJisho",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "3EW3QF484M.MojiDict",
+      "app_store_id": "1021094295",
+      "app_store_url": "https://apps.apple.com/app/id1021094295",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mojisho.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "YouTube",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.ios.youtube",
+      "app_store_id": "544007664",
+      "app_store_url": "https://apps.apple.com/app/id544007664",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/youtube.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "YouTube Music",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.ios.youtubemusic",
+      "app_store_id": "1017492454",
+      "app_store_url": "https://apps.apple.com/app/id1017492454",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/youtube-music.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Netflix",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.netflix.Netflix",
+      "app_store_id": "363590051",
+      "app_store_url": "https://apps.apple.com/app/id363590051",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/netflix.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "CapCut",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.lemon.lvoverseas",
+      "app_store_id": "1500855883",
+      "app_store_url": "https://apps.apple.com/app/id1500855883",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/capcut.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Canva",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.canva.canvaeditor",
+      "app_store_id": "897446215",
+      "app_store_url": "https://apps.apple.com/app/id897446215",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/canva.md",
+      "note": "v0 core from purchase-history extraction (2026-08)"
+    },
+    {
+      "name": "Discord",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.hammerandchisel.discord",
+      "app_store_id": 985746746,
+      "app_store_url": "https://apps.apple.com/app/id985746746",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/discord.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Facebook",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.facebook.Facebook",
+      "app_store_id": 284882215,
+      "app_store_url": "https://apps.apple.com/app/id284882215",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/facebook.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Meta AI",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.facebook.stellaapp",
+      "app_store_id": 1558240027,
+      "app_store_url": "https://apps.apple.com/app/id1558240027",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/meta-ai.md",
+      "note": "core expansion 2026-08 (user selection); Play 上为 Meta AI / Instagram 内置"
+    },
+    {
+      "name": "NotebookLM",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.NotebookLM",
+      "app_store_id": 6737527615,
+      "app_store_url": "https://apps.apple.com/app/id6737527615",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/notebooklm.md",
+      "note": "core expansion 2026-08 (user selection); Play 上显示为 Gemini Notebook"
+    },
+    {
+      "name": "Google One",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.one",
+      "app_store_id": 1451784328,
+      "app_store_url": "https://apps.apple.com/app/id1451784328",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-one.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "DuckDuckGo",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.duckduckgo.mobile.ios",
+      "app_store_id": 663592361,
+      "app_store_url": "https://apps.apple.com/app/id663592361",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/duckduckgo.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Figma",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.figma.FigmaMirror",
+      "app_store_id": 1152747299,
+      "app_store_url": "https://apps.apple.com/app/id1152747299",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/figma.md",
+      "note": "core expansion 2026-08 (user selection); Android 为 Figma Mirror 查看器"
+    },
+    {
+      "name": "Shazam",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.shazam.Shazam",
+      "app_store_id": 284993459,
+      "app_store_url": "https://apps.apple.com/app/id284993459",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/shazam.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Apple Music",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.Music",
+      "app_store_id": 1108187390,
+      "app_store_url": "https://apps.apple.com/app/id1108187390",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/apple-music.md",
+      "note": "core expansion 2026-08 (user selection); Apple 生态 Android 版"
+    },
+    {
+      "name": "Apple TV",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.tv",
+      "app_store_id": 1174078549,
+      "app_store_url": "https://apps.apple.com/app/id1174078549",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/apple-tv.md",
+      "note": "core expansion 2026-08 (user selection); Android 为 Android TV 版，手机可装"
+    },
+    {
+      "name": "VLC",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.videolan.vlc-ios",
+      "app_store_id": 650377962,
+      "app_store_url": "https://apps.apple.com/app/id650377962",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/vlc.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Disney+",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.disney.disneyplus",
+      "app_store_id": 1446075923,
+      "app_store_url": "https://apps.apple.com/app/id1446075923",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/disney.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Amazon Prime Video",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.amazon.aiv.AIVApp",
+      "app_store_id": 545519333,
+      "app_store_url": "https://apps.apple.com/app/id545519333",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/amazon-prime-video.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Wikipedia",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.wikimedia.wikipedia",
+      "app_store_id": 324715238,
+      "app_store_url": "https://apps.apple.com/app/id324715238",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/wikipedia.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Coursera",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.coursera.coursera",
+      "app_store_id": 736535961,
+      "app_store_url": "https://apps.apple.com/app/id736535961",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/coursera.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Revolut",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.revolut.revolut",
+      "app_store_id": 932493382,
+      "app_store_url": "https://apps.apple.com/app/id932493382",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/revolut.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "PayPal",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.yourcompany.PPClient",
+      "app_store_id": 283646709,
+      "app_store_url": "https://apps.apple.com/app/id283646709",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/paypal.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Binance",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.czzhao.binance",
+      "app_store_id": 1436799971,
+      "app_store_url": "https://apps.apple.com/app/id1436799971",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/binance.md",
+      "note": "core expansion 2026-08 (user selection); 国际版（US 区下架，JP/SG 可用）"
+    },
+    {
+      "name": "PayPay",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.pay2.app.ios",
+      "app_store_id": 1523253553,
+      "app_store_url": "https://apps.apple.com/app/id1523253553",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/paypay.md",
+      "note": "core expansion 2026-08; bundle id corrected (jp.pay2.app.ios); NOT currently installed on device (only PayPay証券 present)"
+    },
+    {
+      "name": "Amazon Japan",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.amazon.AmazonJP",
+      "app_store_id": 374254473,
+      "app_store_url": "https://apps.apple.com/app/id374254473",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/amazon-japan.md",
+      "note": "core expansion 2026-08 (user selection); 日亚 App；Play 包名同 Amazon Shopping"
+    },
+    {
+      "name": "AliExpress",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.alibaba.iAliexpress",
+      "app_store_id": 436672029,
+      "app_store_url": "https://apps.apple.com/app/id436672029",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/aliexpress.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Airbnb",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.airbnb.app",
+      "app_store_id": 401626263,
+      "app_store_url": "https://apps.apple.com/app/id401626263",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/airbnb.md",
+      "note": "core expansion 2026-08 (user selection); downgraded to optional 2026-08-21 (low usage)"
+    },
+    {
+      "name": "Booking.com",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.booking.BookingApp",
+      "app_store_id": 367003839,
+      "app_store_url": "https://apps.apple.com/app/id367003839",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/booking-com.md",
+      "note": "core expansion 2026-08 (user selection); downgraded to optional 2026-08-21 (low usage)"
+    },
+    {
+      "name": "Uber",
+      "category": "Travel",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ubercab.UberClient",
+      "app_store_id": 368677368,
+      "app_store_url": "https://apps.apple.com/app/id368677368",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/uber.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Gmail",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Gmail",
+      "app_store_id": 422689480,
+      "app_store_url": "https://apps.apple.com/app/id422689480",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/gmail.md",
+      "note": "core expansion 2026-08 (user selection); Pixel 预装"
+    },
+    {
+      "name": "Google Meet",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Tachyon",
+      "app_store_id": 1096918571,
+      "app_store_url": "https://apps.apple.com/app/id1096918571",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-meet.md",
+      "note": "core expansion 2026-08 (user selection); 需安装"
+    },
+    {
+      "name": "Google Calendar",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.calendar",
+      "app_store_id": 909319292,
+      "app_store_url": "https://apps.apple.com/app/id909319292",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-calendar.md",
+      "note": "core expansion 2026-08 (user selection); Pixel 预装"
+    },
+    {
+      "name": "Google Photos",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.photos",
+      "app_store_id": 962194608,
+      "app_store_url": "https://apps.apple.com/app/id962194608",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-photos.md",
+      "note": "core expansion 2026-08 (user selection); Pixel 预装"
+    },
+    {
+      "name": "Termius",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.crystalnix.ServerAuditor",
+      "app_store_id": 549039908,
+      "app_store_url": "https://apps.apple.com/app/id549039908",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/termius.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Speedtest",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ookla.speedtest",
+      "app_store_id": 300704847,
+      "app_store_url": "https://apps.apple.com/app/id300704847",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/speedtest.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Mercari",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.kouzoh.ios.mercari",
+      "app_store_id": 896130944,
+      "app_store_url": "https://apps.apple.com/app/id896130944",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mercari.md",
+      "note": "core expansion 2026-08 (user selection); bundle id corrected from device (com.kouzoh.ios.mercari) 2026-08-21"
+    },
+    {
+      "name": "OKX",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.okex.OKExAppstoreFull",
+      "app_store_id": 1327268470,
+      "app_store_url": "https://apps.apple.com/app/id1327268470",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/okx.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Suica",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.jreast.suica.app",
+      "app_store_id": 1156875272,
+      "app_store_url": "https://apps.apple.com/app/id1156875272",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/suica.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "小红书",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.xingin.discover",
+      "app_store_id": 741292507,
+      "app_store_url": "https://apps.apple.com/app/id741292507",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/小红书.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "知乎",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.zhihu.ios",
+      "app_store_id": 432274380,
+      "app_store_url": "https://apps.apple.com/app/id432274380",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/知乎.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "niconico",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.dwango.nicoplayer",
+      "app_store_id": 307764057,
+      "app_store_url": "https://apps.apple.com/app/id307764057",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/niconico.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "eBay",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ebay.iphone",
+      "app_store_id": 282614216,
+      "app_store_url": "https://apps.apple.com/app/id282614216",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ebay.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Yahoo!乗換案内",
+      "category": "Travel",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.yahoo.transit.app",
+      "app_store_id": 291676451,
+      "app_store_url": "https://apps.apple.com/app/id291676451",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/yahoonorikae.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Threads",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.burbn.barcelona",
+      "app_store_id": 6446901002,
+      "app_store_url": "https://apps.apple.com/app/id6446901002",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/threads.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "TED",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ted.TED",
+      "app_store_id": 376183339,
+      "app_store_url": "https://apps.apple.com/app/id376183339",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ted.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Google Home",
+      "category": "Smart home",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.Chromecast",
+      "app_store_id": 680819774,
+      "app_store_url": "https://apps.apple.com/app/id680819774",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-home.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Google Fit",
+      "category": "Health",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.fit",
+      "app_store_id": 1433864494,
+      "app_store_url": "https://apps.apple.com/app/id1433864494",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-fit.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Reddit",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.reddit.Reddit",
+      "app_store_id": 1064216828,
+      "app_store_url": "https://apps.apple.com/app/id1064216828",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/reddit.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Snapchat",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.toyopagroup.picaboo",
+      "app_store_id": 447188370,
+      "app_store_url": "https://apps.apple.com/app/id447188370",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/snapchat.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Trello",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.fogcreek.trello",
+      "app_store_id": 461504587,
+      "app_store_url": "https://apps.apple.com/app/id461504587",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/trello.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Asana",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.asana.Asana",
+      "app_store_id": 489969512,
+      "app_store_url": "https://apps.apple.com/app/id489969512",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/asana.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "LinkedIn",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.linkedin.LinkedIn",
+      "app_store_id": 288429040,
+      "app_store_url": "https://apps.apple.com/app/id288429040",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/linkedin.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "Microsoft Authenticator",
+      "category": "Security",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.microsoft.azureauthenticator",
+      "app_store_id": 983156458,
+      "app_store_url": "https://apps.apple.com/app/id983156458",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/microsoft-authenticator.md",
+      "note": "core expansion 2026-08 (user selection)"
+    },
+    {
+      "name": "EZVIZ",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "candidate",
+      "ios_bundle_id": "com.ezviz.iphone",
+      "app_store_id": 903259446,
+      "app_store_url": "https://apps.apple.com/app/id903259446",
+      "region_availability": [],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ezviz.md",
+      "note": "optional (user: install on demand only)"
+    },
+    {
+      "name": "楽天銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten-bank.sapp.rbapp",
+      "app_store_id": 391048295,
+      "app_store_url": "https://apps.apple.com/app/id391048295",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/楽天銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "三井住友銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.smbc.direct",
+      "app_store_id": 594457652,
+      "app_store_url": "https://apps.apple.com/app/id594457652",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/三井住友銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "三菱UFJ銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.mufg.bk.applisp.01",
+      "app_store_id": 1139979990,
+      "app_store_url": "https://apps.apple.com/app/id1139979990",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/三菱ufj銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region; bundle id corrected from device (jp.mufg.bk.applisp.01) 2026-08-21"
+    },
+    {
+      "name": "みずほ銀行",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.mizuhobank.bankingapp",
+      "app_store_id": 839890478,
+      "app_store_url": "https://apps.apple.com/app/id839890478",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/みずほ銀行.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "SBI証券",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.sbisec.sbikabu2sp",
+      "app_store_id": 1240742779,
+      "app_store_url": "https://apps.apple.com/app/id1240742779",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/sbi証券.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "楽天証券",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten-sec.iSPEED",
+      "app_store_id": 389339704,
+      "app_store_url": "https://apps.apple.com/app/id389339704",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/楽天証券.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "楽天ペイ",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten.pay.shopper",
+      "app_store_id": 1139755229,
+      "app_store_url": "https://apps.apple.com/app/id1139755229",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/楽天ペイ.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "Ponta",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.ponta.myponta",
+      "app_store_id": 1036066384,
+      "app_store_url": "https://apps.apple.com/app/id1036066384",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ponta.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "dポイントクラブ",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.nttdocomo.premierclub",
+      "app_store_id": 821434357,
+      "app_store_url": "https://apps.apple.com/app/id821434357",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/dポイントクラブ.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "nanaco",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.nanaco-net.mobile.app",
+      "app_store_id": 1540014396,
+      "app_store_url": "https://apps.apple.com/app/id1540014396",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/nanaco.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "iAEON",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.aeonst.app.myaeon",
+      "app_store_id": 1521113049,
+      "app_store_url": "https://apps.apple.com/app/id1521113049",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/iaeon.md",
+      "note": "core expansion 2026-08; bundle id corrected from device (jp.co.aeonst.app.myaeon)"
+    },
+    {
+      "name": "PASMO",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.pasmo.mobile.app",
+      "app_store_id": 1489151487,
+      "app_store_url": "https://apps.apple.com/app/id1489151487",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/pasmo.md",
+      "note": "core expansion 2026-08 (user selection); Japan region"
+    },
+    {
+      "name": "Rakuten Link",
+      "category": "Communication",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten.link",
+      "app_store_id": 1498877539,
+      "app_store_url": "https://apps.apple.com/app/id1498877539",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": true,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/rakuten-link.md",
+      "note": "core expansion 2026-08 (user: SIM/phone management)"
+    },
+    {
+      "name": "IKEA",
+      "category": "Shopping",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ingka.ikea.app",
+      "app_store_id": 1452164827,
+      "app_store_url": "https://apps.apple.com/app/id1452164827",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ikea.md",
+      "note": "device inventory 2026-08; user selected core; device inventory 2026-08"
+    },
+    {
+      "name": "サンドラッグ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.sundrug.ios.app",
+      "app_store_id": 953327495,
+      "app_store_url": "https://apps.apple.com/app/id953327495",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/サンドラッグ.md",
+      "note": "Japan drugstore chain app; device inventory 2026-08"
+    },
+    {
+      "name": "ファミマネットワークプリント",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.familymart.famimaphoto",
+      "app_store_id": 1454750155,
+      "app_store_url": "https://apps.apple.com/app/id1454750155",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ファミマネットワークプリント.md",
+      "note": "FamilyMart network print; device inventory 2026-08"
+    },
+    {
+      "name": "松屋フーズ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.matsuyafoods.officialapp",
+      "app_store_id": 662011115,
+      "app_store_url": "https://apps.apple.com/app/id662011115",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/松屋フーズ.md",
+      "note": "Matsuya gyudon chain app; device inventory 2026-08"
+    },
+    {
+      "name": "ローソン",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.lawson.iphone.LAWSON",
+      "app_store_id": 515191813,
+      "app_store_url": "https://apps.apple.com/app/id515191813",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ローソン.md",
+      "note": "Lawson convenience store app; device inventory 2026-08"
+    },
+    {
+      "name": "Peach",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.flypeach.flypeach",
+      "app_store_id": 1235958304,
+      "app_store_url": "https://apps.apple.com/app/id1235958304",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/peach.md",
+      "note": "Peach Aviation LCC app; device inventory 2026-08"
+    },
+    {
+      "name": "映画.com",
+      "category": "Media",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.eiga",
+      "app_store_id": 382023297,
+      "app_store_url": "https://apps.apple.com/app/id382023297",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/映画com.md",
+      "note": "Japan movie info/ticket app; device inventory 2026-08"
+    },
+    {
+      "name": "MacHash",
+      "category": "Developer tools",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.mobileinfocenter.machash",
+      "app_store_id": 407673940,
+      "app_store_url": "https://apps.apple.com/app/id407673940",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/machash.md",
+      "note": "Mac news app; device inventory 2026-08"
+    },
+    {
+      "name": "Mactracker",
+      "category": "Developer tools",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "ca.ianpage.Mactracker",
+      "app_store_id": 311421597,
+      "app_store_url": "https://apps.apple.com/app/id311421597",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mactracker.md",
+      "note": "Mac hardware database; device inventory 2026-08"
+    },
+    {
+      "name": "Kuaishou",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.jiangjia.gif",
+      "app_store_id": 440948110,
+      "app_store_url": "https://apps.apple.com/app/id440948110",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/kuaishou.md",
+      "note": "短視频 platform; device inventory 2026-08; device inventory 2026-08"
+    },
+    {
+      "name": "みなトクPAY",
+      "category": "Japan life",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.tokyo.minato.rsa",
+      "app_store_id": 6502482755,
+      "app_store_url": "https://apps.apple.com/app/id6502482755",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/みなトクpay.md",
+      "note": "Tokyo Minato-ku payment/discount app; device inventory 2026-08"
+    },
+    {
+      "name": "ホットペッパー",
+      "category": "Japan life",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.recruit.mtl.beauty.salon",
+      "app_store_id": 385724144,
+      "app_store_url": "https://apps.apple.com/app/id385724144",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ホットペッパー.md",
+      "note": "Japan beauty/salon booking; device inventory 2026-08"
+    },
+    {
+      "name": "郵便局アプリ",
+      "category": "Japan life",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.jppost.pfapp",
+      "app_store_id": 6450435935,
+      "app_store_url": "https://apps.apple.com/app/id6450435935",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/郵便局アプリ.md",
+      "note": "Japan Post app; device inventory 2026-08"
+    },
+    {
+      "name": "Bloomberg Professional",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.bloomberg.mobile.anywhere",
+      "app_store_id": 407761767,
+      "app_store_url": "https://apps.apple.com/app/id407761767",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/bloomberg-professional.md",
+      "note": "Bloomberg financial info app; device inventory 2026-08"
+    },
+    {
+      "name": "S.BLOX",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.quetta.exchange",
+      "app_store_id": 6503998074,
+      "app_store_url": "https://apps.apple.com/app/id6503998074",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/sblox.md",
+      "note": "Japan crypto exchange; device inventory 2026-08"
+    },
+    {
+      "name": "Too Good To Go",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.moonsted.TGTG",
+      "app_store_id": 1060683933,
+      "app_store_url": "https://apps.apple.com/app/id1060683933",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/too-good-to-go.md",
+      "note": "Food surplus anti-waste app; device inventory 2026-08"
+    },
+    {
+      "name": "JR東日本アプリ",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.jreast.jreastapp",
+      "app_store_id": 820004378,
+      "app_store_url": "https://apps.apple.com/app/id820004378",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/jr東日本アプリ.md",
+      "note": "JR East tickets/route app; device inventory 2026-08"
+    },
+    {
+      "name": "TestFlight",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.TestFlight",
+      "app_store_id": 899247664,
+      "app_store_url": "https://apps.apple.com/app/id899247664",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/testflight.md",
+      "note": "Apple beta distribution; device inventory 2026-08"
+    },
+    {
+      "name": "Apple Invites",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.rsvp",
+      "app_store_id": 6472498645,
+      "app_store_url": "https://apps.apple.com/app/id6472498645",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/apple-invites.md",
+      "note": "Apple event invitation app; device inventory 2026-08"
+    },
+    {
+      "name": "ジモティー",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.jmty.Jmty",
+      "app_store_id": 581838289,
+      "app_store_url": "https://apps.apple.com/app/id581838289",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ジモティー.md",
+      "note": "Japan used/free classifieds; device inventory 2026-08"
+    },
+    {
+      "name": "Panda Remit",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.panda.exchangerate",
+      "app_store_id": 1446518392,
+      "app_store_url": "https://apps.apple.com/app/id1446518392",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/panda-remit.md",
+      "note": "Cross-border remittance; device inventory 2026-08"
+    },
+    {
+      "name": "VポイントPay",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.smbc-card.vpoint",
+      "app_store_id": 1504833985,
+      "app_store_url": "https://apps.apple.com/app/id1504833985",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/vポイントpay.md",
+      "note": "SMBC V point payment; device inventory 2026-08"
+    },
+    {
+      "name": "PayPay証券",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.onetapbuy.jpstock",
+      "app_store_id": 1254383356,
+      "app_store_url": "https://apps.apple.com/app/id1254383356",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/paypay証券.md",
+      "note": "PayPay securities; device inventory 2026-08"
+    },
+    {
+      "name": "MyMQTT",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "io.i15s.mymqtt",
+      "app_store_id": 1634425878,
+      "app_store_url": "https://apps.apple.com/app/id1634425878",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mymqtt.md",
+      "note": "MQTT debug tool; device inventory 2026-08"
+    },
+    {
+      "name": "WAON",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.aeon.aeonpay",
+      "app_store_id": 1471075782,
+      "app_store_url": "https://apps.apple.com/app/id1471075782",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/waon.md",
+      "note": "AEON points/payment; device inventory 2026-08"
+    },
+    {
+      "name": "MoneyForward",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.moneyforward.moneyfwd",
+      "app_store_id": 594145971,
+      "app_store_url": "https://apps.apple.com/app/id594145971",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/moneyforward.md",
+      "note": "Japan finance/asset mgmt; device inventory 2026-08"
+    },
+    {
+      "name": "Numbers",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.Numbers",
+      "app_store_id": 361304891,
+      "app_store_url": "https://apps.apple.com/app/id361304891",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/numbers.md",
+      "note": "Apple spreadsheet; device inventory 2026-08"
+    },
+    {
+      "name": "Pages",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.Pages",
+      "app_store_id": 361309726,
+      "app_store_url": "https://apps.apple.com/app/id361309726",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/pages.md",
+      "note": "Apple word processor; device inventory 2026-08"
+    },
+    {
+      "name": "ビューカード",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.viewcard.viewcardapp.ios",
+      "app_store_id": 1564033547,
+      "app_store_url": "https://apps.apple.com/app/id1564033547",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ビューカード.md",
+      "note": "View card (JR credit card); device inventory 2026-08"
+    },
+    {
+      "name": "HubSpot",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.hubspot.CRMAppRelease",
+      "app_store_id": 1107711722,
+      "app_store_url": "https://apps.apple.com/app/id1107711722",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/hubspot.md",
+      "note": "CRM; device inventory 2026-08"
+    },
+    {
+      "name": "Link to Windows",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.microsoft.LinkToWindows",
+      "app_store_id": 6443686328,
+      "app_store_url": "https://apps.apple.com/app/id6443686328",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/link-to-windows.md",
+      "note": "Microsoft Phone Link; device inventory 2026-08"
+    },
+    {
+      "name": "さとふる",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.satofull.app",
+      "app_store_id": 1523260652,
+      "app_store_url": "https://apps.apple.com/app/id1523260652",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/さとふる.md",
+      "note": "Furusato tax donation; device inventory 2026-08"
+    },
+    {
+      "name": "识日刷题",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "shiri.jlpt.com",
+      "app_store_id": 6749197603,
+      "app_store_url": "https://apps.apple.com/app/id6749197603",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/识日刷题.md",
+      "note": "JLPT study app; device inventory 2026-08"
+    },
+    {
+      "name": "えきねっとチケレス",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ekinetApp.jreast",
+      "app_store_id": 1484923959,
+      "app_store_url": "https://apps.apple.com/app/id1484923959",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/えきねっとチケレス.md",
+      "note": "JR ekinet tickets; device inventory 2026-08"
+    },
+    {
+      "name": "Clips",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.clips",
+      "app_store_id": null,
+      "app_store_url": null,
+      "region_availability": [],
+      "account_required": false,
+      "source": "manual_or_unknown",
+      "allowed_sources": [],
+      "guide": "components/ios-guides/clips.md",
+      "note": "Apple video editor; DISCONTINUED Oct 2025, removed from App Store; device inventory 2026-08"
+    },
+    {
+      "name": "快活CLUB",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.kaikatsu.official",
+      "app_store_id": 958083643,
+      "app_store_url": "https://apps.apple.com/app/id958083643",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/快活club.md",
+      "note": "Japan internet cafe/entertainment; device inventory 2026-08"
+    },
+    {
+      "name": "McDonald's JP",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.mcdonalds.coupon",
+      "app_store_id": 413618155,
+      "app_store_url": "https://apps.apple.com/app/id413618155",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mcdonalds-jp.md",
+      "note": "McDonald's Japan coupons; device inventory 2026-08"
+    },
+    {
+      "name": "Supadex",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.guiolmar.supadex",
+      "app_store_id": 6741071194,
+      "app_store_url": "https://apps.apple.com/app/id6741071194",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/supadex.md",
+      "note": "Supabase database monitor; device inventory 2026-08"
+    },
+    {
+      "name": "DingTalk",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.alibaba.dingtalklite",
+      "app_store_id": 930368978,
+      "app_store_url": "https://apps.apple.com/app/id930368978",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/dingtalk.md",
+      "note": "Alibaba work app (device present; user deprioritized); device inventory 2026-08"
+    },
+    {
+      "name": "Woodstock",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "club.woodstock.app",
+      "app_store_id": null,
+      "app_store_url": null,
+      "region_availability": [],
+      "account_required": false,
+      "source": "manual_or_unknown",
+      "allowed_sources": [],
+      "guide": "components/ios-guides/woodstock.md",
+      "note": "Japan US-stock social trading (Alpaca); App Store id JP-only; device inventory 2026-08"
+    },
+    {
+      "name": "AltStore",
+      "category": "Developer tools",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "io.altstore.AltStore",
+      "app_store_id": null,
+      "app_store_url": null,
+      "region_availability": [],
+      "account_required": false,
+      "source": "manual_or_unknown",
+      "allowed_sources": [],
+      "guide": "components/ios-guides/altstore.md",
+      "note": "Sideload store (not on App Store); device inventory 2026-08"
+    },
+    {
+      "name": "ドコモの銀行",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.netbk.netbanking",
+      "app_store_id": 436755036,
+      "app_store_url": "https://apps.apple.com/app/id436755036",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ドコモの銀行.md",
+      "note": "NTT Docomo net bank; device inventory 2026-08"
+    },
+    {
+      "name": "Temu",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.einnovation.temu",
+      "app_store_id": 1641486558,
+      "app_store_url": "https://apps.apple.com/app/id1641486558",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/temu.md",
+      "note": "Pinduoduo international; device inventory 2026-08"
+    },
+    {
+      "name": "Yahoo!フリマ",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.yahoo.paypayfleamarket",
+      "app_store_id": 1478237405,
+      "app_store_url": "https://apps.apple.com/app/id1478237405",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/yahooフリマ.md",
+      "note": "Yahoo flea market (ex-PayPay flea); device inventory 2026-08"
+    },
+    {
+      "name": "Polymtrade",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "co.median.ios.brjbmo",
+      "app_store_id": 6747924062,
+      "app_store_url": "https://apps.apple.com/app/id6747924062",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/polymtrade.md",
+      "note": "Polymarket trading; device inventory 2026-08"
+    },
+    {
+      "name": "SUBWAY Japan",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.subway.mobile.app",
+      "app_store_id": 6743779475,
+      "app_store_url": "https://apps.apple.com/app/id6743779475",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/subway-japan.md",
+      "note": "Subway Japan app; device inventory 2026-08"
+    },
+    {
+      "name": "三井住友カード",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.smbc-card.vpass",
+      "app_store_id": 838138452,
+      "app_store_url": "https://apps.apple.com/app/id838138452",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/三井住友カード.md",
+      "note": "SMBC card Vpass; device inventory 2026-08"
+    },
+    {
+      "name": "So-net 会員アプリ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.ne.so-net.support",
+      "app_store_id": 1055953844,
+      "app_store_url": "https://apps.apple.com/app/id1055953844",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/so-net-会員アプリ.md",
+      "note": "So-net member app; device inventory 2026-08"
+    },
+    {
+      "name": "中国领事",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.gov.mfa.wjb12308",
+      "app_store_id": 1385502150,
+      "app_store_url": "https://apps.apple.com/app/id1385502150",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/中国领事.md",
+      "note": "China MFA consular service; device inventory 2026-08"
+    },
+    {
+      "name": "マイナポケット",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.nttdata.MynaPocket",
+      "app_store_id": 1579280377,
+      "app_store_url": "https://apps.apple.com/app/id1579280377",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/マイナポケット.md",
+      "note": "Japan My Number pocket; device inventory 2026-08"
+    },
+    {
+      "name": "myTOKYOGAS",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.tokyo-gas.mtgapp",
+      "app_store_id": 1613698189,
+      "app_store_url": "https://apps.apple.com/app/id1613698189",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mytokyogas.md",
+      "note": "Tokyo Gas app; device inventory 2026-08"
+    },
+    {
+      "name": "happn",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "fr.ftw-and-co.whoozer",
+      "app_store_id": 489185828,
+      "app_store_url": "https://apps.apple.com/app/id489185828",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/happn.md",
+      "note": "Dating app; device inventory 2026-08"
+    },
+    {
+      "name": "PrintSmash",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.sharp.printsystem.CvsWifiPrint",
+      "app_store_id": 551942662,
+      "app_store_url": "https://apps.apple.com/app/id551942662",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/printsmash.md",
+      "note": "Convenience store wifi print; device inventory 2026-08"
+    },
+    {
+      "name": "Amazon India",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.amazon.AmazonIN",
+      "app_store_id": 1478350915,
+      "app_store_url": "https://apps.apple.com/app/id1478350915",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/amazon-india.md",
+      "note": "Amazon India (device present); device inventory 2026-08"
+    },
+    {
+      "name": "IDARE",
+      "category": "Japan life",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.fivot.idare",
+      "app_store_id": 1562618580,
+      "app_store_url": "https://apps.apple.com/app/id1562618580",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/idare.md",
+      "note": "Japan cashless app (IDARE); device inventory 2026-08"
+    },
+    {
+      "name": "ICカードリーダー",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.moneyforward.Reader",
+      "app_store_id": 1478688231,
+      "app_store_url": "https://apps.apple.com/app/id1478688231",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/icカードリーダー.md",
+      "note": "MoneyForward IC card reader; device inventory 2026-08"
+    },
+    {
+      "name": "セブン-イレブン",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.sej.omniapp",
+      "app_store_id": 1039171609,
+      "app_store_url": "https://apps.apple.com/app/id1039171609",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/セブン-イレブン.md",
+      "note": "7-Eleven Japan official app; device inventory 2026-08"
+    },
+    {
+      "name": "Powl",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.powl.ios",
+      "app_store_id": 1274420455,
+      "app_store_url": "https://apps.apple.com/app/id1274420455",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/powl.md",
+      "note": "Japan points/walking app; device inventory 2026-08"
+    },
+    {
+      "name": "Rebtel",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.rebtel.Rebtel",
+      "app_store_id": 310755560,
+      "app_store_url": "https://apps.apple.com/app/id310755560",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/rebtel.md",
+      "note": "International calls app; device inventory 2026-08"
+    },
+    {
+      "name": "UNIQLO",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.uniqlo.catalogue",
+      "app_store_id": 460989014,
+      "app_store_url": "https://apps.apple.com/app/id460989014",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/uniqlo.md",
+      "note": "UNIQLO app; device inventory 2026-08"
+    },
+    {
+      "name": "デジタル認証アプリ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.go.digital.auth-and-sign",
+      "app_store_id": 6454900894,
+      "app_store_url": "https://apps.apple.com/app/id6454900894",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/デジタル認証アプリ.md",
+      "note": "Japan digital auth (gov); device inventory 2026-08"
+    },
+    {
+      "name": "バーガーキング",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.burgerkingjapan",
+      "app_store_id": 1456118550,
+      "app_store_url": "https://apps.apple.com/app/id1456118550",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/バーガーキング.md",
+      "note": "Burger King Japan; device inventory 2026-08"
+    },
+    {
+      "name": "温野菜",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.reins.onyasai",
+      "app_store_id": 934637341,
+      "app_store_url": "https://apps.apple.com/app/id934637341",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/温野菜.md",
+      "note": "Shabu-shabu chain; device inventory 2026-08"
+    },
+    {
+      "name": "Shadowing 日本語",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "viennguyen.ios.shadowing",
+      "app_store_id": 1563629217,
+      "app_store_url": "https://apps.apple.com/app/id1563629217",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/shadowing-日本語.md",
+      "note": "Japanese shadowing study; device inventory 2026-08"
+    },
+    {
+      "name": "FAST",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.netflix.Speedtest",
+      "app_store_id": 1133348139,
+      "app_store_url": "https://apps.apple.com/app/id1133348139",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/fast.md",
+      "note": "Netflix speed test; device inventory 2026-08"
+    },
+    {
+      "name": "Tinder",
+      "category": "Social",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.cardify.tinder",
+      "app_store_id": 547702041,
+      "app_store_url": "https://apps.apple.com/app/id547702041",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/tinder.md",
+      "note": "Dating app; device inventory 2026-08"
+    },
+    {
+      "name": "ビックカメラ",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.biccamera.ios.mobile.BicCamera",
+      "app_store_id": 518593576,
+      "app_store_url": "https://apps.apple.com/app/id518593576",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ビックカメラ.md",
+      "note": "Japan electronics chain; device inventory 2026-08"
+    },
+    {
+      "name": "YYC",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.yyc.app2.official",
+      "app_store_id": 1226392156,
+      "app_store_url": "https://apps.apple.com/app/id1226392156",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/yyc.md",
+      "note": "Dating/match app; device inventory 2026-08"
+    },
+    {
+      "name": "焼肉きんぐ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.yakiniku.king",
+      "app_store_id": 1345275897,
+      "app_store_url": "https://apps.apple.com/app/id1345275897",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/焼肉きんぐ.md",
+      "note": "Yakiniku buffet chain; device inventory 2026-08"
+    },
+    {
+      "name": "KFC Japan",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "kfc.app.diorama",
+      "app_store_id": 519131315,
+      "app_store_url": "https://apps.apple.com/app/id519131315",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/kfc-japan.md",
+      "note": "KFC Japan official; device inventory 2026-08"
+    },
+    {
+      "name": "Vitality",
+      "category": "Health",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.vitalityactivemobile.sumitomo",
+      "app_store_id": 1352961017,
+      "app_store_url": "https://apps.apple.com/app/id1352961017",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/vitality.md",
+      "note": "Sumitomo Life health app; device inventory 2026-08"
+    },
+    {
+      "name": "Reality Composer",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.RealityComposer",
+      "app_store_id": 1462358802,
+      "app_store_url": "https://apps.apple.com/app/id1462358802",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/reality-composer.md",
+      "note": "Apple AR creator; device inventory 2026-08"
+    },
+    {
+      "name": "Mi Store",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.mi.global.shop",
+      "app_store_id": 1268565993,
+      "app_store_url": "https://apps.apple.com/app/id1268565993",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mi-store.md",
+      "note": "Xiaomi global store; device inventory 2026-08"
+    },
+    {
+      "name": "Google",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.GoogleMobile",
+      "app_store_id": 284815942,
+      "app_store_url": "https://apps.apple.com/app/id284815942",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google.md",
+      "note": "Google search app; device inventory 2026-08"
+    },
+    {
+      "name": "TikTok",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ss.iphone.ugc.Ame",
+      "app_store_id": 835599320,
+      "app_store_url": "https://apps.apple.com/app/id835599320",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/tiktok.md",
+      "note": "Short video (device bundle com.ss.iphone.ugc.Ame); device inventory 2026-08"
+    },
+    {
+      "name": "ワンバンク",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.smartbank.b43",
+      "app_store_id": 1487752024,
+      "app_store_url": "https://apps.apple.com/app/id1487752024",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ワンバンク.md",
+      "note": "One Bank shared card app; device inventory 2026-08"
+    },
+    {
+      "name": "沪江开心词场",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.hujiang.Cichang-iPad",
+      "app_store_id": 635206028,
+      "app_store_url": "https://apps.apple.com/app/id635206028",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/沪江开心词场.md",
+      "note": "Hujiang vocabulary game; device inventory 2026-08"
+    },
+    {
+      "name": "Supastats",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.supastatsapp.app",
+      "app_store_id": 6751713085,
+      "app_store_url": "https://apps.apple.com/app/id6751713085",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/supastats.md",
+      "note": "Supabase stats; device inventory 2026-08"
+    },
+    {
+      "name": "Multicopy",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.fujifilm.fb.multicopy",
+      "app_store_id": 1562641276,
+      "app_store_url": "https://apps.apple.com/app/id1562641276",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/multicopy.md",
+      "note": "Fujifilm multi-copy print; device inventory 2026-08"
+    },
+    {
+      "name": "WeWork",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.wework.ondemand",
+      "app_store_id": 1507469521,
+      "app_store_url": "https://apps.apple.com/app/id1507469521",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/wework.md",
+      "note": "Coworking space; device inventory 2026-08"
+    },
+    {
+      "name": "スギ薬局",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.sugi.sugitomo",
+      "app_store_id": 853001943,
+      "app_store_url": "https://apps.apple.com/app/id853001943",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/スギ薬局.md",
+      "note": "Sugi pharmacy; device inventory 2026-08"
+    },
+    {
+      "name": "ノジマ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.mnoji.application",
+      "app_store_id": 451436140,
+      "app_store_url": "https://apps.apple.com/app/id451436140",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ノジマ.md",
+      "note": "Nojima electronics; device inventory 2026-08"
+    },
+    {
+      "name": "My3",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "hk.com.three.my3plus",
+      "app_store_id": 926630813,
+      "app_store_url": "https://apps.apple.com/app/id926630813",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/my3.md",
+      "note": "HK Three telecom; device inventory 2026-08"
+    },
+    {
+      "name": "MQTTAnalyzer",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "de.rnd7.MQTTAnalyzer",
+      "app_store_id": 1493015317,
+      "app_store_url": "https://apps.apple.com/app/id1493015317",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mqttanalyzer.md",
+      "note": "MQTT analyzer tool; device inventory 2026-08"
+    },
+    {
+      "name": "ゆうちょ通帳",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.japanpost.jp-bank.bankbookapp",
+      "app_store_id": 1496925861,
+      "app_store_url": "https://apps.apple.com/app/id1496925861",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ゆうちょ通帳.md",
+      "note": "Japan Post passbook app; device inventory 2026-08"
+    },
+    {
+      "name": "Pure",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.getpure.pure-iphone",
+      "app_store_id": 690661663,
+      "app_store_url": "https://apps.apple.com/app/id690661663",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/pure.md",
+      "note": "Dating app; device inventory 2026-08"
+    },
+    {
+      "name": "Vポイント",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.ccc.TSITE",
+      "app_store_id": 468976361,
+      "app_store_url": "https://apps.apple.com/app/id468976361",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/vポイント.md",
+      "note": "V point card (TSITE); device inventory 2026-08"
+    },
+    {
+      "name": "JRE BANK",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten-bank.sapp.jre",
+      "app_store_id": 6462839812,
+      "app_store_url": "https://apps.apple.com/app/id6462839812",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/jre-bank.md",
+      "note": "JR East bank; device inventory 2026-08"
+    },
+    {
+      "name": "外為どっとコム",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.gaitame.mit.gfx",
+      "app_store_id": 1564693486,
+      "app_store_url": "https://apps.apple.com/app/id1564693486",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/外為どっとコム.md",
+      "note": "FX trading app; device inventory 2026-08"
+    },
+    {
+      "name": "Polymarket",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.polymarket.ios-app",
+      "app_store_id": 6648798962,
+      "app_store_url": "https://apps.apple.com/app/id6648798962",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/polymarket.md",
+      "note": "Prediction market; device inventory 2026-08"
+    },
+    {
+      "name": "東京都水道局",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.lg.tokyo.metro.waterworks.suidoapp",
+      "app_store_id": 1638879723,
+      "app_store_url": "https://apps.apple.com/app/id1638879723",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/東京都水道局.md",
+      "note": "Tokyo water bureau; device inventory 2026-08"
+    },
+    {
+      "name": "証明写真ピクチャン",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "c.net.picchan.app1",
+      "app_store_id": 1421050655,
+      "app_store_url": "https://apps.apple.com/app/id1421050655",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/証明写真ピクチャン.md",
+      "note": "ID photo app; device inventory 2026-08"
+    },
+    {
+      "name": "Apple Music Classical",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.music.classical",
+      "app_store_id": 1598433714,
+      "app_store_url": "https://apps.apple.com/app/id1598433714",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/apple-music-classical.md",
+      "note": "Apple Music Classical; device inventory 2026-08"
+    },
+    {
+      "name": "自治体マイページ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.mypg.shiftseven.myapp",
+      "app_store_id": 1671137957,
+      "app_store_url": "https://apps.apple.com/app/id1671137957",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/自治体マイページ.md",
+      "note": "Local gov online services; device inventory 2026-08"
+    },
+    {
+      "name": "Loupe",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "co.mysk.loupe",
+      "app_store_id": 1511419920,
+      "app_store_url": "https://apps.apple.com/app/id1511419920",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/loupe.md",
+      "note": "Sports trading cards; device inventory 2026-08"
+    },
+    {
+      "name": "Iriun Webcam",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "iriun.usb.webcam",
+      "app_store_id": 1439303579,
+      "app_store_url": "https://apps.apple.com/app/id1439303579",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/iriun-webcam.md",
+      "note": "Phone as webcam; device inventory 2026-08"
+    },
+    {
+      "name": "Weibo Lite",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.sina.weibolite",
+      "app_store_id": 1215210046,
+      "app_store_url": "https://apps.apple.com/app/id1215210046",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/weibo-lite.md",
+      "note": "Weibo lite version; device inventory 2026-08"
+    },
+    {
+      "name": "XChat",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.x.xchat",
+      "app_store_id": 6760873038,
+      "app_store_url": "https://apps.apple.com/app/id6760873038",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/xchat.md",
+      "note": "X third-party client; device inventory 2026-08"
+    },
+    {
+      "name": "auじぶん銀行",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.jibunbank.jibunmain",
+      "app_store_id": 412390894,
+      "app_store_url": "https://apps.apple.com/app/id412390894",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/auじぶん銀行.md",
+      "note": "au Jibun bank; device inventory 2026-08"
+    },
+    {
+      "name": "臺北轉運站",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.WanDaTong.tbs",
+      "app_store_id": 1470365154,
+      "app_store_url": "https://apps.apple.com/app/id1470365154",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/臺北轉運站.md",
+      "note": "Taipei bus transfer app; device inventory 2026-08"
+    },
+    {
+      "name": "ハッピー",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.i-bec.happyhills",
+      "app_store_id": 521055533,
+      "app_store_url": "https://apps.apple.com/app/id521055533",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ハッピー.md",
+      "note": "Matching/dating app; device inventory 2026-08"
+    },
+    {
+      "name": "SmartNews",
+      "category": "Media",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.gocro.SmartNews",
+      "app_store_id": 579581125,
+      "app_store_url": "https://apps.apple.com/app/id579581125",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/smartnews.md",
+      "note": "Japan news aggregator; device inventory 2026-08"
+    },
+    {
+      "name": "Qwen Studio",
+      "category": "AI",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "ai.qwenlm.chat.ios",
+      "app_store_id": null,
+      "app_store_url": null,
+      "region_availability": [],
+      "account_required": false,
+      "source": "manual_or_unknown",
+      "allowed_sources": [],
+      "guide": "components/ios-guides/qwen-studio.md",
+      "note": "Alibaba Qwen AI (App Store id unavailable); device inventory 2026-08"
+    },
+    {
+      "name": "ヤマト運輸",
+      "category": "Japan life",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.kuronekoyamato.KuronekoyamatoOfficialApp",
+      "app_store_id": 484435888,
+      "app_store_url": "https://apps.apple.com/app/id484435888",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ヤマト運輸.md",
+      "note": "Yamato transport official; device inventory 2026-08"
+    },
+    {
+      "name": "Microsoft Excel",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.microsoft.Office.Excel",
+      "app_store_id": 586683407,
+      "app_store_url": "https://apps.apple.com/app/id586683407",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/microsoft-excel.md",
+      "note": "Microsoft Excel; device inventory 2026-08"
+    },
+    {
+      "name": "マツキヨココカラ公式",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.matsukiyococokara.app",
+      "app_store_id": 6451037644,
+      "app_store_url": "https://apps.apple.com/app/id6451037644",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/マツキヨココカラ公式.md",
+      "note": "Matsumoto Kiyoshi app; device inventory 2026-08"
+    },
+    {
+      "name": "Yahoo!ショッピング",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.yahoo.Shopping",
+      "app_store_id": 446016180,
+      "app_store_url": "https://apps.apple.com/app/id446016180",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/yahooショッピング.md",
+      "note": "Yahoo shopping; device inventory 2026-08"
+    },
+    {
+      "name": "IAM",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.shiftplus.iammobile.production",
+      "app_store_id": 1636275218,
+      "app_store_url": "https://apps.apple.com/app/id1636275218",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/iam.md",
+      "note": "Identity auth app; device inventory 2026-08"
+    },
+    {
+      "name": "chocoZAP",
+      "category": "Health",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.rizap.fitness24app",
+      "app_store_id": 1613682287,
+      "app_store_url": "https://apps.apple.com/app/id1613682287",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/chocozap.md",
+      "note": "RIZAP 24h gym; device inventory 2026-08"
+    },
+    {
+      "name": "Technogym",
+      "category": "Health",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.technogym.tgapp",
+      "app_store_id": 976506047,
+      "app_store_url": "https://apps.apple.com/app/id976506047",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/technogym.md",
+      "note": "Fitness equipment app; device inventory 2026-08"
+    },
+    {
+      "name": "百度网盘",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.baidu.netdisk",
+      "app_store_id": 547166701,
+      "app_store_url": "https://apps.apple.com/app/id547166701",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/百度网盘.md",
+      "note": "Baidu cloud drive; device inventory 2026-08"
+    },
+    {
+      "name": "Google AI Edge Gallery",
+      "category": "AI",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.AIEdgeGallery",
+      "app_store_id": 6749645337,
+      "app_store_url": "https://apps.apple.com/app/id6749645337",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/google-ai-edge-gallery.md",
+      "note": "Google AI edge gallery; device inventory 2026-08"
+    },
+    {
+      "name": "Apple Developer",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "developer.apple.wwdc-Release",
+      "app_store_id": 640199958,
+      "app_store_url": "https://apps.apple.com/app/id640199958",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/apple-developer.md",
+      "note": "Apple Developer app; device inventory 2026-08"
+    },
+    {
+      "name": "Final Cut Camera",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.FinalCutApp.companion",
+      "app_store_id": 6469552837,
+      "app_store_url": "https://apps.apple.com/app/id6469552837",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/final-cut-camera.md",
+      "note": "Apple pro video capture; device inventory 2026-08"
+    },
+    {
+      "name": "ShortMax",
+      "category": "Media",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "live.shorttv.ios",
+      "app_store_id": 6464002625,
+      "app_store_url": "https://apps.apple.com/app/id6464002625",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/shortmax.md",
+      "note": "Short drama app; device inventory 2026-08"
+    },
+    {
+      "name": "恋与深空",
+      "category": "Games",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.papegames.lysk",
+      "app_store_id": 1618911882,
+      "app_store_url": "https://apps.apple.com/app/id1618911882",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/恋与深空.md",
+      "note": "Otome game; device inventory 2026-08"
+    },
+    {
+      "name": "ニトリ",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.locationvalue.nitori",
+      "app_store_id": 814928018,
+      "app_store_url": "https://apps.apple.com/app/id814928018",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ニトリ.md",
+      "note": "Nitori furniture; device inventory 2026-08"
+    },
+    {
+      "name": "価格.com",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.kakaku.kakakucomapp",
+      "app_store_id": 967911889,
+      "app_store_url": "https://apps.apple.com/app/id967911889",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/価格com.md",
+      "note": "Japan price comparison; device inventory 2026-08"
+    },
+    {
+      "name": "GO",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.dena.automotive.taxibell",
+      "app_store_id": 1254341709,
+      "app_store_url": "https://apps.apple.com/app/id1254341709",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/go.md",
+      "note": "Japan taxi app; device inventory 2026-08"
+    },
+    {
+      "name": "ファミペイ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.family.familymart-app",
+      "app_store_id": 1138196572,
+      "app_store_url": "https://apps.apple.com/app/id1138196572",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ファミペイ.md",
+      "note": "FamilyMart payment; device inventory 2026-08"
+    },
+    {
+      "name": "JRE POINT",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.jreast.JrePoint",
+      "app_store_id": 1081293054,
+      "app_store_url": "https://apps.apple.com/app/id1081293054",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/jre-point.md",
+      "note": "JR East points; device inventory 2026-08"
+    },
+    {
+      "name": "Shadowing Japanese",
+      "category": "Learning",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.tiennt.shadowingjapanese",
+      "app_store_id": 1496716900,
+      "app_store_url": "https://apps.apple.com/app/id1496716900",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/shadowing-japanese.md",
+      "note": "Japanese shadowing study; device inventory 2026-08"
+    },
+    {
+      "name": "Eight",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "net.8card.eight",
+      "app_store_id": 444423637,
+      "app_store_url": "https://apps.apple.com/app/id444423637",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/eight.md",
+      "note": "Business card app; device inventory 2026-08"
+    },
+    {
+      "name": "Apple Store",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.store.Jolly",
+      "app_store_id": 375380948,
+      "app_store_url": "https://apps.apple.com/app/id375380948",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/apple-store.md",
+      "note": "Apple retail store app; device inventory 2026-08"
+    },
+    {
+      "name": "World App",
+      "category": "Finance",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.worldcoin.insight",
+      "app_store_id": 1560859847,
+      "app_store_url": "https://apps.apple.com/app/id1560859847",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/world-app.md",
+      "note": "Worldcoin wallet; device inventory 2026-08"
+    },
+    {
+      "name": "Gausium Mobile",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.gaussian.gsbot",
+      "app_store_id": 6757074443,
+      "app_store_url": "https://apps.apple.com/app/id6757074443",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/gausium-mobile.md",
+      "note": "Cleaning robot app; device inventory 2026-08"
+    },
+    {
+      "name": "アソビュー！",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.asoview.app",
+      "app_store_id": 1303314426,
+      "app_store_url": "https://apps.apple.com/app/id1303314426",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/アソビュー！.md",
+      "note": "Japan activity booking; device inventory 2026-08"
+    },
+    {
+      "name": "今話したい",
+      "category": "Learning",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "idv.wcl.imahanashitai",
+      "app_store_id": 1439727086,
+      "app_store_url": "https://apps.apple.com/app/id1439727086",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/今話したい.md",
+      "note": "Japanese/English speaking practice; device inventory 2026-08"
+    },
+    {
+      "name": "金十数据",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.jin10.lgd",
+      "app_store_id": 901284508,
+      "app_store_url": "https://apps.apple.com/app/id901284508",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/金十数据.md",
+      "note": "Financial news/terminal; device inventory 2026-08"
+    },
+    {
+      "name": "大戸屋ごはん処",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.uplink-app.CouponApp5-Chain-11745",
+      "app_store_id": 1477602455,
+      "app_store_url": "https://apps.apple.com/app/id1477602455",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/大戸屋ごはん処.md",
+      "note": "Ootoya restaurant app; device inventory 2026-08"
+    },
+    {
+      "name": "Japan Wi-Fi auto-connect",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.nttbp.jw2",
+      "app_store_id": 1461015351,
+      "app_store_url": "https://apps.apple.com/app/id1461015351",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/japan-wi-fi-auto-connect.md",
+      "note": "Japan wifi auto-connect; device inventory 2026-08"
+    },
+    {
+      "name": "不動産検索",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.nifty.myhome.buy",
+      "app_store_id": 717072560,
+      "app_store_url": "https://apps.apple.com/app/id717072560",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/不動産検索.md",
+      "note": "Nifty property search (buy); device inventory 2026-08"
+    },
+    {
+      "name": "Feeld",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.3nder.threender",
+      "app_store_id": 887914690,
+      "app_store_url": "https://apps.apple.com/app/id887914690",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/feeld.md",
+      "note": "Dating app; device inventory 2026-08"
+    },
+    {
+      "name": "なか卯",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.zensho.nakau",
+      "app_store_id": 1489893366,
+      "app_store_url": "https://apps.apple.com/app/id1489893366",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/なか卯.md",
+      "note": "Nakau gyudon chain; device inventory 2026-08"
+    },
+    {
+      "name": "with",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "is.with.ignis",
+      "app_store_id": 1080235090,
+      "app_store_url": "https://apps.apple.com/app/id1080235090",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/with.md",
+      "note": "Japan matching app; device inventory 2026-08"
+    },
+    {
+      "name": "律动",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.jiuqiu.blockbeats",
+      "app_store_id": 1482096104,
+      "app_store_url": "https://apps.apple.com/app/id1482096104",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/律动.md",
+      "note": "Crypto news (BlockBeats); device inventory 2026-08"
+    },
+    {
+      "name": "かんたんnetprint",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.fujifilm.fb.netprint.kantan",
+      "app_store_id": 1552990335,
+      "app_store_url": "https://apps.apple.com/app/id1552990335",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/かんたんnetprint.md",
+      "note": "Easy netprint (7-11); device inventory 2026-08"
+    },
+    {
+      "name": "リーベイツ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten.rebates",
+      "app_store_id": 1190037209,
+      "app_store_url": "https://apps.apple.com/app/id1190037209",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/リーベイツ.md",
+      "note": "Rakuten rebates; device inventory 2026-08"
+    },
+    {
+      "name": "SwitchBot",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.wohand.wohand",
+      "app_store_id": 1087374760,
+      "app_store_url": "https://apps.apple.com/app/id1087374760",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/switchbot.md",
+      "note": "SwitchBot smart home; device inventory 2026-08"
+    },
+    {
+      "name": "楽天カード",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten-card.RakutenCard",
+      "app_store_id": 570105907,
+      "app_store_url": "https://apps.apple.com/app/id570105907",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/楽天カード.md",
+      "note": "Rakuten credit card; device inventory 2026-08"
+    },
+    {
+      "name": "AdGuard VPN",
+      "category": "Developer tools",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.adguard.ios.AdGuardVPN",
+      "app_store_id": 1525373602,
+      "app_store_url": "https://apps.apple.com/app/id1525373602",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/adguard-vpn.md",
+      "note": "Ad blocker / VPN; device inventory 2026-08"
+    },
+    {
+      "name": "YouTube Studio",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.google.ios.ytcreator",
+      "app_store_id": 888530356,
+      "app_store_url": "https://apps.apple.com/app/id888530356",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/youtube-studio.md",
+      "note": "YouTube creator studio; device inventory 2026-08"
+    },
+    {
+      "name": "Keynote",
+      "category": "Productivity",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.Keynote",
+      "app_store_id": 361285480,
+      "app_store_url": "https://apps.apple.com/app/id361285480",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/keynote.md",
+      "note": "Apple presentations; device inventory 2026-08"
+    },
+    {
+      "name": "iMovie",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.apple.iMovie",
+      "app_store_id": 377298193,
+      "app_store_url": "https://apps.apple.com/app/id377298193",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/imovie.md",
+      "note": "Apple video editor; device inventory 2026-08"
+    },
+    {
+      "name": "Brave",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.brave.ios.browser",
+      "app_store_id": 1052879175,
+      "app_store_url": "https://apps.apple.com/app/id1052879175",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/brave.md",
+      "note": "Privacy browser; device inventory 2026-08"
+    },
+    {
+      "name": "EZVIZ",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.hikvision.ezviz",
+      "app_store_id": 886947564,
+      "app_store_url": "https://apps.apple.com/app/id886947564",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ezviz.md",
+      "note": "Security camera app; device inventory 2026-08"
+    },
+    {
+      "name": "Base App",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "org.toshi.distribution",
+      "app_store_id": 1278383455,
+      "app_store_url": "https://apps.apple.com/app/id1278383455",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/base-app.md",
+      "note": "Base crypto wallet; device inventory 2026-08"
+    },
+    {
+      "name": "9to5Mac",
+      "category": "Developer tools",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.9to5mac.terminal",
+      "app_store_id": 955138289,
+      "app_store_url": "https://apps.apple.com/app/id955138289",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/9to5mac.md",
+      "note": "Mac tech news; device inventory 2026-08"
+    },
+    {
+      "name": "モッピー",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.moppy.app.MoppyApp",
+      "app_store_id": 1501495023,
+      "app_store_url": "https://apps.apple.com/app/id1501495023",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/モッピー.md",
+      "note": "Japan points app; device inventory 2026-08"
+    },
+    {
+      "name": "Charts",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.mrarich.charts",
+      "app_store_id": 1612680145,
+      "app_store_url": "https://apps.apple.com/app/id1612680145",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/charts.md",
+      "note": "Supabase charts; device inventory 2026-08"
+    },
+    {
+      "name": "Zello",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.zello.client.main",
+      "app_store_id": 508231856,
+      "app_store_url": "https://apps.apple.com/app/id508231856",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/zello.md",
+      "note": "Walkie talkie app; device inventory 2026-08"
+    },
+    {
+      "name": "GS O&M Assistant",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.gaussian.tool",
+      "app_store_id": 6757074443,
+      "app_store_url": "https://apps.apple.com/app/id6757074443",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/gs-o&m-assistant.md",
+      "note": "Gausium robot ops; device inventory 2026-08"
+    },
+    {
+      "name": "PANews",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "shanghai.panewsApp.com",
+      "app_store_id": 1543133117,
+      "app_store_url": "https://apps.apple.com/app/id1543133117",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/panews.md",
+      "note": "Blockchain news; device inventory 2026-08"
+    },
+    {
+      "name": "ライフ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.lifecorp.ios.app",
+      "app_store_id": 1427288237,
+      "app_store_url": "https://apps.apple.com/app/id1427288237",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ライフ.md",
+      "note": "Life supermarket; device inventory 2026-08"
+    },
+    {
+      "name": "ハピタス",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.hapitas.appnativeside",
+      "app_store_id": 1475444626,
+      "app_store_url": "https://apps.apple.com/app/id1475444626",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ハピタス.md",
+      "note": "Japan points app; device inventory 2026-08"
+    },
+    {
+      "name": "SF INTERNATIONAL",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.sf-express.IAPP",
+      "app_store_id": 1517762240,
+      "app_store_url": "https://apps.apple.com/app/id1517762240",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/sf-international.md",
+      "note": "SF Express intl; device inventory 2026-08"
+    },
+    {
+      "name": "au PAY",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.kddi.auwalletapp",
+      "app_store_id": 862800897,
+      "app_store_url": "https://apps.apple.com/app/id862800897",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/au-pay.md",
+      "note": "au payment app; device inventory 2026-08"
+    },
+    {
+      "name": "DAISO",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.daisojapan",
+      "app_store_id": 6466987025,
+      "app_store_url": "https://apps.apple.com/app/id6466987025",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/daiso.md",
+      "note": "Daiso store app; device inventory 2026-08"
+    },
+    {
+      "name": "マイナポータル",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.go.cao.mpa.iOS",
+      "app_store_id": 1476359069,
+      "app_store_url": "https://apps.apple.com/app/id1476359069",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/マイナポータル.md",
+      "note": "Japan My Number portal; device inventory 2026-08"
+    },
+    {
+      "name": "SUUMO",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.recruit.suumo",
+      "app_store_id": 359578668,
+      "app_store_url": "https://apps.apple.com/app/id359578668",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/suumo.md",
+      "note": "Japan property search; device inventory 2026-08"
+    },
+    {
+      "name": "Dola",
+      "category": "AI",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.bot.cici",
+      "app_store_id": null,
+      "app_store_url": null,
+      "region_availability": [],
+      "account_required": false,
+      "source": "manual_or_unknown",
+      "allowed_sources": [],
+      "guide": "components/ios-guides/dola.md",
+      "note": "AI assistant (App Store id unavailable); device inventory 2026-08"
+    },
+    {
+      "name": "iKnow!",
+      "category": "Learning",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.cerego.iknow",
+      "app_store_id": 417713473,
+      "app_store_url": "https://apps.apple.com/app/id417713473",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/iknow.md",
+      "note": "English/Japanese study; device inventory 2026-08"
+    },
+    {
+      "name": "AEON Pay",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.aeon.credit.ios.wallet",
+      "app_store_id": 1100564842,
+      "app_store_url": "https://apps.apple.com/app/id1100564842",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/aeon-pay.md",
+      "note": "AEON payment app; device inventory 2026-08"
+    },
+    {
+      "name": "TRUSTDOCK",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "io.trustdock.app",
+      "app_store_id": 1457636559,
+      "app_store_url": "https://apps.apple.com/app/id1457636559",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/trustdock.md",
+      "note": "Identity verification; device inventory 2026-08"
+    },
+    {
+      "name": "Linksys",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.cisco.hnbu.connectcloud",
+      "app_store_id": 533516503,
+      "app_store_url": "https://apps.apple.com/app/id533516503",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/linksys.md",
+      "note": "Linksys router app; device inventory 2026-08"
+    },
+    {
+      "name": "すき家",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.sukiya.moap",
+      "app_store_id": 1452441389,
+      "app_store_url": "https://apps.apple.com/app/id1452441389",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/すき家.md",
+      "note": "Sukiya gyudon; device inventory 2026-08"
+    },
+    {
+      "name": "ゆうちょ認証",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.japanpost.jp-bank.FIDO-app",
+      "app_store_id": 1467172341,
+      "app_store_url": "https://apps.apple.com/app/id1467172341",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ゆうちょ認証.md",
+      "note": "Japan Post FIDO auth; device inventory 2026-08"
+    },
+    {
+      "name": "東京都公式アプリ",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.lg.tokyo.metro.app",
+      "app_store_id": 6738757643,
+      "app_store_url": "https://apps.apple.com/app/id6738757643",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/東京都公式アプリ.md",
+      "note": "Tokyo metro official; device inventory 2026-08"
+    },
+    {
+      "name": "邮政EMS",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.ems.newemsexpress",
+      "app_store_id": 1242727213,
+      "app_store_url": "https://apps.apple.com/app/id1242727213",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/邮政ems.md",
+      "note": "China Post EMS; device inventory 2026-08"
+    },
+    {
+      "name": "uSMART SG",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.usmart.global.sg.stock",
+      "app_store_id": 1600023952,
+      "app_store_url": "https://apps.apple.com/app/id1600023952",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/usmart-sg.md",
+      "note": "Singapore broker; device inventory 2026-08"
+    },
+    {
+      "name": "Starlink",
+      "category": "Smart home",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.starlink.mobile",
+      "app_store_id": 1537177988,
+      "app_store_url": "https://apps.apple.com/app/id1537177988",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/starlink.md",
+      "note": "Starlink management; device inventory 2026-08"
+    },
+    {
+      "name": "DJI Fly",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.dji.golite",
+      "app_store_id": 1479649251,
+      "app_store_url": "https://apps.apple.com/app/id1479649251",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/dji-fly.md",
+      "note": "DJI drone app; device inventory 2026-08"
+    },
+    {
+      "name": "TruthSocial",
+      "category": "Communication",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.tmediatech.truthsocial",
+      "app_store_id": 1586018825,
+      "app_store_url": "https://apps.apple.com/app/id1586018825",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/truthsocial.md",
+      "note": "Social app; device inventory 2026-08"
+    },
+    {
+      "name": "VELTRA",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.veltra.ios.traveler",
+      "app_store_id": 1108324828,
+      "app_store_url": "https://apps.apple.com/app/id1108324828",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/veltra.md",
+      "note": "Japan tour booking; device inventory 2026-08"
+    },
+    {
+      "name": "Yahoo!マップ",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.yahoo.maps",
+      "app_store_id": 289567151,
+      "app_store_url": "https://apps.apple.com/app/id289567151",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/yahooマップ.md",
+      "note": "Yahoo maps; device inventory 2026-08"
+    },
+    {
+      "name": "Typeless",
+      "category": "Productivity",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.typeless.mobile",
+      "app_store_id": 6749257650,
+      "app_store_url": "https://apps.apple.com/app/id6749257650",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/typeless.md",
+      "note": "AI voice keyboard; device inventory 2026-08"
+    },
+    {
+      "name": "MDCアプリ",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.mufg.cr.app4",
+      "app_store_id": 1530905195,
+      "app_store_url": "https://apps.apple.com/app/id1530905195",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/mdcアプリ.md",
+      "note": "MUFG credit card; device inventory 2026-08"
+    },
+    {
+      "name": "ANA Mileage",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.ana.anamile",
+      "app_store_id": 382028327,
+      "app_store_url": "https://apps.apple.com/app/id382028327",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ana-mileage.md",
+      "note": "ANA mileage app; device inventory 2026-08"
+    },
+    {
+      "name": "Oral-B",
+      "category": "Health",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.pg.oralb.1314.im.0046",
+      "app_store_id": 698092608,
+      "app_store_url": "https://apps.apple.com/app/id698092608",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/oral-b.md",
+      "note": "Oral-B toothbrush app; device inventory 2026-08"
+    },
+    {
+      "name": "My UQ mobile",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.uqmobile.uqmobileportalapp.ios",
+      "app_store_id": 1117312593,
+      "app_store_url": "https://apps.apple.com/app/id1117312593",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/my-uq-mobile.md",
+      "note": "UQ mobile app; device inventory 2026-08"
+    },
+    {
+      "name": "Canvas",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.instructure.icanvas",
+      "app_store_id": 480883488,
+      "app_store_url": "https://apps.apple.com/app/id480883488",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/canvas.md",
+      "note": "Learning management system; device inventory 2026-08"
+    },
+    {
+      "name": "ゆうちょPay",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.japanpost.jp-bank.YuchoPayapp",
+      "app_store_id": 1453364627,
+      "app_store_url": "https://apps.apple.com/app/id1453364627",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/ゆうちょpay.md",
+      "note": "Japan Post Pay; device inventory 2026-08"
+    },
+    {
+      "name": "楽天市場",
+      "category": "Shopping",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.rakuten.ichiba",
+      "app_store_id": 419267350,
+      "app_store_url": "https://apps.apple.com/app/id419267350",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/楽天市場.md",
+      "note": "Rakuten Ichiba; device inventory 2026-08"
+    },
+    {
+      "name": "Bumble",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.moxco.bumble",
+      "app_store_id": 930441707,
+      "app_store_url": "https://apps.apple.com/app/id930441707",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/bumble.md",
+      "note": "Dating app; device inventory 2026-08"
+    },
+    {
+      "name": "Namecheap",
+      "category": "Developer tools",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.namecheap.iosapp",
+      "app_store_id": 482604032,
+      "app_store_url": "https://apps.apple.com/app/id482604032",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/namecheap.md",
+      "note": "Domain registrar; device inventory 2026-08"
+    },
+    {
+      "name": "Bus+",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "tw.bus-plus.busplus",
+      "app_store_id": 967861325,
+      "app_store_url": "https://apps.apple.com/app/id967861325",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/bus+.md",
+      "note": "Taiwan bus app; device inventory 2026-08"
+    },
+    {
+      "name": "Tuya",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.tuya.smart",
+      "app_store_id": 1034649547,
+      "app_store_url": "https://apps.apple.com/app/id1034649547",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/tuya.md",
+      "note": "Tuya smart home; device inventory 2026-08"
+    },
+    {
+      "name": "Clash Royale",
+      "category": "Games",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.supercell.scroll",
+      "app_store_id": 1053012308,
+      "app_store_url": "https://apps.apple.com/app/id1053012308",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/clash-royale.md",
+      "note": "Supercell game; device inventory 2026-08"
+    },
+    {
+      "name": "识日",
+      "category": "Learning",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "shiri.jp",
+      "app_store_id": 6738333132,
+      "app_store_url": "https://apps.apple.com/app/id6738333132",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/识日.md",
+      "note": "Japanese study app; device inventory 2026-08"
+    },
+    {
+      "name": "家計簿",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.hapihapi.money",
+      "app_store_id": 1059224316,
+      "app_store_url": "https://apps.apple.com/app/id1059224316",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/家計簿.md",
+      "note": "Household budget app; device inventory 2026-08"
+    },
+    {
+      "name": "Keikenchi",
+      "category": "Travel",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.QdanApp.Keikenchi",
+      "app_store_id": 1396539079,
+      "app_store_url": "https://apps.apple.com/app/id1396539079",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/keikenchi.md",
+      "note": "Japan travel map; device inventory 2026-08"
+    },
+    {
+      "name": "モスバーガー",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.mos.MosFood",
+      "app_store_id": 390411817,
+      "app_store_url": "https://apps.apple.com/app/id390411817",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/モスバーガー.md",
+      "note": "Mos Burger Japan; device inventory 2026-08"
+    },
+    {
+      "name": "Whiteout Survival",
+      "category": "Games",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.gof.global",
+      "app_store_id": 6443575749,
+      "app_store_url": "https://apps.apple.com/app/id6443575749",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/whiteout-survival.md",
+      "note": "Mobile game; device inventory 2026-08"
+    },
+    {
+      "name": "千问",
+      "category": "AI",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.aliyun.ios.tongyi",
+      "app_store_id": 6466733523,
+      "app_store_url": "https://apps.apple.com/app/id6466733523",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/千问.md",
+      "note": "Alibaba Qwen AI; device inventory 2026-08"
+    },
+    {
+      "name": "紙面ビューアー",
+      "category": "Media",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.nikkei.viewer",
+      "app_store_id": 503424369,
+      "app_store_url": "https://apps.apple.com/app/id503424369",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/紙面ビューアー.md",
+      "note": "Nikkei newspaper viewer; device inventory 2026-08; upgraded to core 2026-08-21"
+    },
+    {
+      "name": "Baicizhan",
+      "category": "Learning",
+      "tier": "core",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.chaoui.jiongji100CN",
+      "app_store_id": 557545298,
+      "app_store_url": "https://apps.apple.com/app/id557545298",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/baicizhan.md",
+      "note": "Vocabulary learning; device inventory 2026-08; upgraded to core 2026-08-21"
+    },
+    {
+      "name": "MyJCB",
+      "category": "Finance",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.co.jcb.my",
+      "app_store_id": 1097001344,
+      "app_store_url": "https://apps.apple.com/app/id1097001344",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/myjcb.md",
+      "note": "JCB card app; device inventory 2026-08"
+    },
+    {
+      "name": "Gausium Mobile Global",
+      "category": "Smart home",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.gaussian.gsbot.global",
+      "app_store_id": 6757074443,
+      "app_store_url": "https://apps.apple.com/app/id6757074443",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/gausium-mobile-global.md",
+      "note": "Gausium robot global; device inventory 2026-08"
+    },
+    {
+      "name": "Pairs",
+      "category": "Social",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "jp.eure.pairs",
+      "app_store_id": 583376064,
+      "app_store_url": "https://apps.apple.com/app/id583376064",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/pairs.md",
+      "note": "Japan dating app; device inventory 2026-08"
+    },
+    {
+      "name": "9to5Toys",
+      "category": "Developer tools",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.9to5toys.terminal",
+      "app_store_id": 1432839481,
+      "app_store_url": "https://apps.apple.com/app/id1432839481",
+      "region_availability": [],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/9to5toys.md",
+      "note": "Tech deals news; device inventory 2026-08"
+    },
+    {
+      "name": "My au",
+      "category": "Japan life",
+      "tier": "optional",
+      "lifecycle_status": "active",
+      "ios_bundle_id": "com.kddi.ab.cmlab.auCSApp",
+      "app_store_id": 479159684,
+      "app_store_url": "https://apps.apple.com/app/id479159684",
+      "region_availability": [
+        "JP"
+      ],
+      "account_required": false,
+      "source": "app_store",
+      "allowed_sources": [
+        "app_store"
+      ],
+      "guide": "components/ios-guides/my-au.md",
+      "note": "au mobile app; device inventory 2026-08"
+    }
+  ]
+}

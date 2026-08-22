@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/android-app-catalog-v1.schema.json",
+  "title": "macomrade Android application catalog v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "apps"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "apps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "category",
+          "tier",
+          "play_store_package",
+          "guide"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string"
+          },
+          "tier": {
+            "enum": [
+              "core",
+              "optional",
+              "retired"
+            ]
+          },
+          "lifecycle_status": {
+            "enum": [
+              "active",
+              "retired",
+              "candidate"
+            ]
+          },
+          "play_store_package": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_\\-]*(\\.[a-zA-Z0-9_\\-]+)+$"
+          },
+          "play_store_url": {
+            "type": "string"
+          },
+          "apk_source": {
+            "enum": [
+              "play_store",
+              "apk_pure",
+              "fdroid",
+              "github_release",
+              "vendor_download",
+              "manual_or_unknown"
+            ]
+          },
+          "allowed_apk_sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "supported_abis": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "arm64-v8a",
+                "armeabi-v7a",
+                "x86_64",
+                "x86"
+              ]
+            }
+          },
+          "min_android_version": {
+            "type": "string"
+          },
+          "size_mb": {
+            "type": "number"
+          },
+          "account_required": {
+            "type": "boolean"
+          },
+          "google_account_scope": {
+            "type": "string"
+          },
+          "check_command": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "follow_up": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "guide": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "login_required": {
+            "type": "boolean",
+            "description": "Scan-confirmed: app requires interactive account login on this device (2026-08 login scan). True = needs login, False = no login needed (e.g. F-Droid), null/absent = Google-system or not assessed"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

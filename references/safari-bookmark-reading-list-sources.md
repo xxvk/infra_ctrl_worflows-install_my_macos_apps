@@ -3,7 +3,7 @@
 ## Scope and decision
 
 This is the Safari-only completion slice of BR-01. Chrome remains deferred.
-The preferred live item-reading source is the public `macos-data` Safari CLI
+The preferred live item-reading source is the public `mpia` Safari CLI
 contract introduced in 0.8.0. It provides bounded bookmark and Reading List
 list/query/get commands, opaque IDs, pagination, and stale-cursor rejection.
 The skill consumes that adapter rather than opening Safari's private plist.
@@ -25,7 +25,7 @@ The machine-readable source classification is
 ```sh
 python3 scripts/browser_sources.py validate
 python3 scripts/browser_sources.py inspect-safari
-MACOS_DATA_CLI=/path/to/macos-data python3 scripts/browser_sources.py inspect-safari
+MPIA_CLI=/path/to/mpia python3 scripts/browser_sources.py inspect-safari
 python3 scripts/safari_export.py inspect /private/path/to/Safari\ Export.zip
 python3 scripts/browser_review.py inspect-safari-export /private/path/to/Safari\ Export.zip
 python3 scripts/browser_lifecycle.py review-safari-export /private/path/to/Safari\ Export.zip \
@@ -33,21 +33,23 @@ python3 scripts/browser_lifecycle.py review-safari-export /private/path/to/Safar
 ```
 
 The live inspection reads Safari's version and scripting dictionary plus file
-presence/readability metadata, then probes only `macos-data --version` and
-`macos-data --help`. It never opens the bookmark plist or emits a URL,
+presence/readability metadata, then probes only `mpia --version`, the
+`/agent/manifest` route table, `OPTIONS /safari/permission`, and one bounded
+read whose envelope alone (`ok` and `error.code`) is inspected. It never opens
+the bookmark plist or emits a URL,
 title, folder name, profile name, or Apple Account identifier.
 
 ## Execution priority
 
 Use these routes in order according to intent:
 
-1. **Live read/query:** `macos-data >= 0.8.0` via PATH or
-   `MACOS_DATA_CLI`; fall back to an explicit export only when the adapter is
+1. **Live read/query:** `mpia >= 0.9.3` via PATH or
+   `MPIA_CLI`; fall back to an explicit export only when the adapter is
    unavailable or an immutable snapshot is required.
 2. **Immutable evidence and exact verification:** explicit Safari export ZIP.
 3. **Cross-device desired-state write:** deterministic HTML package imported
    by Safari so Safari owns the resulting sync transaction.
-4. **Local-only write:** public `macos-data >= 0.8.1` is preferred over GUI row
+4. **Local-only write:** public `mpia >= 0.9.3` is preferred over GUI row
    operations when capability probing confirms bookmark/folder CRUD and the
    user explicitly selects local-only scope.
 5. **GUI/Computer Use:** last-mile Safari-owned import/export or a bounded

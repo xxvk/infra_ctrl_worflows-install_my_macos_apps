@@ -24,11 +24,11 @@ KNOWN_LAUNCH_AGENTS = [
 ]
 
 KNOWN_SUPPORT_PATHS = [
-    HOME / "Library/Application Support/install_my_macos_apps",
+    HOME / "Library/Application Support/macomrade",
 ]
 
 KNOWN_LOG_PATHS = [
-    HOME / "Library/Logs/install_my_macos_apps",
+    HOME / "Library/Logs/macomrade",
 ]
 
 

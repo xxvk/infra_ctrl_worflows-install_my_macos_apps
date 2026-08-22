@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def build_checks(*, include_live_smoke: bool, python: str = sys.executable) -> list[tuple[str, list[str]]]:
     checks = [
-        ("catalog-json", [python, "-m", "json.tool", "references/app-catalog.json"]),
+        ("catalog-json", [python, "-m", "json.tool", "references/mac-app-catalog.json"]),
         ("catalog-contract", [python, "scripts/validate_app_catalog.py"]),
         ("component-state-boundary", [python, "scripts/audit_component_frontmatter.py"]),
         ("supply-chain", [python, "scripts/supply_chain.py", "validate"]),
@@ -56,7 +56,7 @@ def build_checks(*, include_live_smoke: bool, python: str = sys.executable) -> l
             "python-compile",
             [
                 "/usr/bin/env",
-                "PYTHONPYCACHEPREFIX=/tmp/install-macos-apps-release-pycache",
+                "PYTHONPYCACHEPREFIX=/tmp/macomrade-release-pycache",
                 python,
                 "-m",
                 "compileall",

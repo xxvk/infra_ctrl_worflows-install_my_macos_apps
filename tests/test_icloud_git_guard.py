@@ -42,7 +42,7 @@ def make_git_fixture(root: Path, *, pointer: bool = False) -> tuple[Path, Path]:
     (worktree / "README.md").write_text("# Readme\n", encoding="utf-8")
     (worktree / "VERSION").write_text("0.1.0\n", encoding="utf-8")
     (worktree / "references").mkdir()
-    (worktree / "references" / "app-catalog.json").write_text("{}\n", encoding="utf-8")
+    (worktree / "references" / "mac-app-catalog.json").write_text("{}\n", encoding="utf-8")
     return worktree, git_dir
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Semantic validation for references/app-catalog.json.
+"""Semantic validation for references/mac-app-catalog.json.
 
 The formal JSON Schema validates the versioned structural envelope. This
 read-only validator complements it with catalog-specific cross-field rules
@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG_PATH = ROOT / "references/app-catalog.json"
+CATALOG_PATH = ROOT / "references/mac-app-catalog.json"
 
 REQUIRED_FIELDS = ["name", "category", "tier", "guide"]
 VALID_TIERS = {"core", "optional", "heavy"}
@@ -65,6 +65,17 @@ def validate(catalog: dict, root: Path = ROOT) -> list[str]:
             or not app.get("npm_runtime_version")
         ):
             errors.append(f"{label}: npm global packages must declare fnm runtime ownership")
+        if app.get("npm_package") and app.get("npm_install_client", "npm") not in {"npm", "pnpm"}:
+            errors.append(f"{label}: npm_install_client must be npm or pnpm")
+        if app.get("npm_install_client") == "pnpm":
+            policy = app.get("npm_lifecycle_policy")
+            allowed = app.get("npm_allowed_builds", [])
+            if policy == "ignore_all" and allowed:
+                errors.append(f"{label}: ignore_all cannot declare npm_allowed_builds")
+            elif policy == "allow_listed" and not allowed:
+                errors.append(f"{label}: allow_listed requires npm_allowed_builds")
+            elif policy not in {"ignore_all", "allow_listed"}:
+                errors.append(f"{label}: invalid pnpm lifecycle policy")
 
         app_store_url = app.get("app_store_url")
         if app_store_url and not (app_store_url.startswith("macappstore://") or "apps.apple.com" in app_store_url):

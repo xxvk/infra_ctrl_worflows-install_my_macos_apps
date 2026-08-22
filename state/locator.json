@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "machine_local_state_locator",
   "resolver": "python3 scripts/state_paths.py path",
-  "environment_override": "INSTALL_MY_MACOS_APPS_STATE_DIR",
-  "default": "~/Library/Application Support/install-macos-apps/state/<hashed-machine-id>",
+  "environment_override": "MACOMRADE_STATE_DIR",
+  "default": "~/Library/Application Support/macomrade/state/<hashed-machine-id>",
   "contains_machine_state": false
 }

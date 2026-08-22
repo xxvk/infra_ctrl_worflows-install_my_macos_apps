@@ -90,10 +90,18 @@ verification method.
 ### JavaScript and TypeScript runtime ownership
 
 Node 24 LTS managed by fnm is the Core interactive runtime. A fresh login shell
-must resolve `node`, `npm`, and the npm global prefix from fnm's Node 24
-installation. Automation installs Core npm-global packages only through
-`fnm exec --using=24 npm`; a bare `npm install --global` is prohibited because
-its destination depends on the caller's PATH.
+must resolve `node`, `npm`, and the global package prefix from fnm's Node 24
+installation. Core JavaScript globals use the catalog-declared client through
+`fnm exec --using=24`; npm remains the default, while pnpm is allowed only with
+an exact version and an explicit `ignore_all` or package allowlist lifecycle
+policy. Bare npm/pnpm global installs are prohibited because their runtime,
+destination, and build-script authority depend on the caller's environment.
+
+For approved pnpm global packages, bind `PNPM_HOME` to the selected fnm
+runtime's `$(npm prefix --global)` root for that transaction; pnpm 11 appends
+its own `/bin`. Do not run
+`pnpm setup` automatically or grant broad build-script approval. Pi Coding
+Agent disables all lifecycle scripts; PI WEB permits only `node-pty`.
 
 Homebrew's unversioned `node` formula is a separate dependency runtime. Keep it
 while `brew uses --installed node` lists formulas such as Mermaid CLI,
@@ -108,9 +116,9 @@ fnm Node 24 -> interactive development, npm, Core npm-global tools
 Homebrew node -> Homebrew formula dependencies with formula-owned launchers
 ```
 
-Before migrating an existing npm-global package, record its current owner,
+Before migrating an existing JavaScript-global package, record its current owner,
 version, executable link, global prefix, and size. Install the exact catalog
-version under fnm Node 24, verify the command and account-dependent workflow,
+version under fnm Node 24 with its declared client and script policy, verify the command and account-dependent workflow,
 then request separate approval before deleting the prior prefix copy.
 
 ### Shared Python Core policy
@@ -189,6 +197,54 @@ inspection. After removal, require the exact image to be absent while
 `scrcpy` remain available. A warning from an independent Emulator launch or
 version probe is a separate compatibility finding; record it without
 attributing it to image removal unless a before/after test proves causation.
+
+### Wireless debugging and fixed ADB port (Pixel)
+
+Verified 2026-08-21 on Pixel 11 (`cubs`, Android 17) against macOS via
+`adb 37.0.1` (Homebrew `android-platform-tools` cask). Developer options are
+hidden by default; unlock by tapping **Settings → About phone → Build number**
+seven times, then enable **Developer options → USB debugging** and **Wireless
+debugging**.
+
+**Pair once, then connect.** Android 11+ wireless debugging requires a
+TLS pairing before any connection:
+
+```sh
+adb pair <ip>:<pairing_port>      # enter the 6-digit code shown on the phone
+adb connect <ip>:<connect_port>   # the connect port shown on the main screen
+```
+
+The pairing code expires in ~60 s. The phone shows two different
+`ip:port` pairs (pairing screen vs. main screen); never mix them up. `adb
+tcpip 5555` on a connected TLS session switches adbd to a **fixed** TCP port;
+the previous random TLS port stops working and the device starts advertising
+`_adb._tcp` at `5555`:
+
+```sh
+adb -s <ip>:<connect_port> tcpip 5555
+adb connect <ip>:5555
+```
+
+**mDNS discovery.** When wireless debugging is on, the phone advertises
+`<serial>._adb-tls-connect._tcp` (random port) and, after `tcpip 5555`,
+`<serial>._adb._tcp` at 5555. Discover with `adb mdns services`; connect
+directly by service name so the port can change without manual lookup:
+
+```sh
+adb connect <serial>._adb-tls-connect._tcp
+```
+
+**Persistence limits.** `tcpip 5555` is a runtime property only: it resets on
+every phone reboot. Non-root cannot write `persist.adb.tcp.port` on a
+production build (`ro.debuggable=0`); Pixel 11 has no practical root path.
+Mac-side automatic recovery is therefore the durable answer: a launchd
+LaunchAgent (`~/Library/LaunchAgents/com.xvk.adb-pixel.plist`,
+`RunAtLoad` + `StartInterval 120`) runs
+`scripts/adb-pixel.sh`, which retries `adb connect <ip>:5555`, falls back to
+the mDNS service name, runs `adb tcpip 5555`, and reconnects on the fixed
+port. Script and plist are part of the engine; the phone's Wi-Fi MAC may
+rotate (random MAC by default), so reserve the DHCP lease on the router and
+pin the phone to its device MAC for a stable `<ip>`.
 
 ### Whisper model selection
 

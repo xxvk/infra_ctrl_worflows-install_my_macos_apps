@@ -15,7 +15,7 @@
    "classification": "supported",
    "capability": "Application catalog, inventory, capacity-aware planning, and Homebrew dry-run/apply routing",
    "evidence": [
-    "references/app-catalog.json",
+    "references/mac-app-catalog.json",
     "scripts/macos_apps.py",
     "scripts/validate_app_catalog.py",
     "tests/smoke.sh"
@@ -281,7 +281,7 @@
    "limitation": "Receipts, Homebrew metadata, bundle signatures, and paths provide evidence but cannot prove every historical installation source.",
    "evidence": [
     "scripts/macos_apps.py",
-    "references/app-catalog.json"
+    "references/mac-app-catalog.json"
    ]
   },
   {

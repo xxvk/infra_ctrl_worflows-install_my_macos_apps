@@ -119,7 +119,7 @@ The release-candidate artifact map is:
 
 | Capability | Primary artifacts |
 | --- | --- |
-| App inventory, plan, install | `references/app-catalog.json`, `components/`, `scripts/macos_apps.py` |
+| App inventory, plan, install | `references/mac-app-catalog.json`, `components/`, `scripts/macos_apps.py` |
 | Unified CLI | `bin/macomrade`, `scripts/macomrade.py`, `references/macomrade-cli.md`, `references/cli-identity.json` |
 | JSON contracts and migration | `schemas/`, `references/schema-registry.json`, `scripts/schema_contract.py`, `references/schema-and-migration.md` |
 | Redacted diagnostics | `scripts/diagnostic_bundle.py`, `schemas/diagnostic-bundle-v1.schema.json`, `references/redacted-diagnostic-bundle.md` |
@@ -310,12 +310,15 @@ profile/account and collection boundaries, lifecycle/conflict fields, and
 fail-closed Git/privacy combinations. BR-03 now parses only an explicitly
 supplied Bookmarks-and-Reading-List-only Safari ZIP into schema-checked private in-memory items
 and emits a redacted count-only summary. Live reads now prefer the public
-`macos-data >= 0.8.0` Safari adapter, while an explicit
-Bookmarks-and-Reading-List-only Safari export remains the immutable evidence,
-recovery, reconciliation, and acceptance source. The skill never accesses the
-internal bookmark plist directly. Public `macos-data 0.8.1` now supplies the
+`mpia >= 0.9.3` Safari adapter (renamed from `macos-data-cli`), while an
+explicit Bookmarks-and-Reading-List-only Safari export remains the immutable
+evidence, recovery, reconciliation, and acceptance source. The skill never
+accesses the internal bookmark plist directly. `mpia 0.9.3` supplies the
 guarded local-only bookmark/folder CRUD contract, but it has not proved
-cross-device sync and is not yet bridged to frozen export plans. Chrome source
+cross-device sync and is not yet bridged to frozen export plans. Selection is
+gated on three independent checks — routes, Full Disk Access for the new
+`com.xvk.mpia.cli` identity, and the adapter's ability to parse this Mac's
+`Bookmarks.plist` — and any failing gate keeps the export path live. Chrome source
 verification remains deferred by
 user choice; BR-01 as a whole remains open. BR-04 adds authority-backed,
 structure-preserving URL proposals and explainable duplicate groups that never

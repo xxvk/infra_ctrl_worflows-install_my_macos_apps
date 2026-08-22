@@ -12,7 +12,7 @@ from pathlib import Path
 from config_layers import load_app_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG = ROOT / "references/app-catalog.json"
+CATALOG = ROOT / "references/mac-app-catalog.json"
 def main() -> int:
     data = load_app_catalog(CATALOG)
     for app in data["apps"]:

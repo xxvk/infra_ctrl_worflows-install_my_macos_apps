@@ -1,0 +1,572 @@
+{
+  "schema_version": 1,
+  "kind": "android_ignore_list",
+  "purpose": "Apps explicitly excluded from the Android catalog (not core, not optional). Kept for provenance so re-evaluation is possible.",
+  "generated_at": "2026-08-22T13:04:37.324540+09:00",
+  "entries": [
+    {
+      "name": "爱奇艺",
+      "play_store_package": "com.qiyi.video",
+      "reason_category": "china_region",
+      "reason": "China video platform; user excluded China apps"
+    },
+    {
+      "name": "优酷",
+      "play_store_package": "com.youku.phone",
+      "reason_category": "china_region",
+      "reason": "China video platform; user excluded China apps"
+    },
+    {
+      "name": "芒果TV",
+      "play_store_package": "com.hunantv.imgo.activity",
+      "reason_category": "china_region",
+      "reason": "China video platform; user excluded China apps"
+    },
+    {
+      "name": "抖音",
+      "play_store_package": "com.ss.android.ugc.aweme",
+      "reason_category": "china_region",
+      "reason": "China video platform; user excluded China apps"
+    },
+    {
+      "name": "美图秀秀",
+      "play_store_package": "com.mt.mtxx.mtxx",
+      "reason_category": "china_region",
+      "reason": "China photo app; user excluded China apps"
+    },
+    {
+      "name": "陌陌",
+      "play_store_package": "com.immomo.momo",
+      "reason_category": "china_region",
+      "reason": "China social app; user excluded China apps"
+    },
+    {
+      "name": "探探",
+      "play_store_package": "com.p1.mobile.putong",
+      "reason_category": "china_region",
+      "reason": "China dating app; user excluded China apps"
+    },
+    {
+      "name": "Soul",
+      "play_store_package": "cn.soulapp.android",
+      "reason_category": "china_region",
+      "reason": "China social app; user excluded China apps"
+    },
+    {
+      "name": "米家",
+      "play_store_package": "com.xiaomi.smarthome",
+      "reason_category": "china_region",
+      "reason": "Xiaomi smart home (China); user excluded China apps"
+    },
+    {
+      "name": "Skype",
+      "play_store_package": "com.skype.raider",
+      "reason_category": "service_discontinued",
+      "reason": "Skype shut down by Microsoft May 2025, moved to Teams"
+    },
+    {
+      "name": "Adobe Scan",
+      "play_store_package": "com.adobe.scan.android",
+      "reason_category": "not_selected",
+      "reason": "candidate; not selected"
+    },
+    {
+      "name": "AirDroid",
+      "play_store_package": "com.sand.airdroid",
+      "reason_category": "not_selected",
+      "reason": "candidate; not selected"
+    },
+    {
+      "name": "Amaze",
+      "play_store_package": "com.amaze.filemanager",
+      "reason_category": "not_selected",
+      "reason": "file manager; not selected"
+    },
+    {
+      "name": "AnkiDroid",
+      "play_store_package": "com.ichi2.anki",
+      "reason_category": "not_selected",
+      "reason": "candidate; not selected"
+    },
+    {
+      "name": "AntennaPod",
+      "play_store_package": "de.danoeh.antennapod",
+      "reason_category": "not_selected",
+      "reason": "podcast; not selected"
+    },
+    {
+      "name": "AnyDesk",
+      "play_store_package": "com.anydesk.anydeskandroid",
+      "reason_category": "not_selected",
+      "reason": "remote desktop; not selected"
+    },
+    {
+      "name": "Audible",
+      "play_store_package": "com.audible.application",
+      "reason_category": "not_selected",
+      "reason": "audiobooks; not selected"
+    },
+    {
+      "name": "Authy",
+      "play_store_package": "com.authy.authy",
+      "reason_category": "not_selected",
+      "reason": "2FA; Microsoft Authenticator chosen instead"
+    },
+    {
+      "name": "Bitwarden",
+      "play_store_package": "com.x8bit.bitwarden",
+      "reason_category": "not_selected",
+      "reason": "password manager; 1Password already core"
+    },
+    {
+      "name": "Busuu",
+      "play_store_package": "com.busuu.android.enc",
+      "reason_category": "not_selected",
+      "reason": "language; not selected"
+    },
+    {
+      "name": "CamScanner",
+      "play_store_package": "com.intsig.camscanner",
+      "reason_category": "not_selected",
+      "reason": "scanner; not selected"
+    },
+    {
+      "name": "Chrome Remote Desktop",
+      "play_store_package": "com.google.chromeremotedesktop",
+      "reason_category": "not_selected",
+      "reason": "remote; Windows App chosen"
+    },
+    {
+      "name": "Deezer",
+      "play_store_package": "deezer.android.app",
+      "reason_category": "not_selected",
+      "reason": "music; not selected"
+    },
+    {
+      "name": "Dropbox",
+      "play_store_package": "com.dropbox.android",
+      "reason_category": "not_selected",
+      "reason": "cloud; Google Drive/OneDrive already core"
+    },
+    {
+      "name": "Evernote",
+      "play_store_package": "com.evernote",
+      "reason_category": "not_selected",
+      "reason": "notes; Notion/Obsidian already core"
+    },
+    {
+      "name": "FX File Explorer",
+      "play_store_package": "nextapp.fx",
+      "reason_category": "not_selected",
+      "reason": "file manager; not selected"
+    },
+    {
+      "name": "Feedly",
+      "play_store_package": "com.devhd.feedly",
+      "reason_category": "not_selected",
+      "reason": "RSS; not selected"
+    },
+    {
+      "name": "Fing",
+      "play_store_package": "com.overlook.android.fing",
+      "reason_category": "not_selected",
+      "reason": "network tool; not selected"
+    },
+    {
+      "name": "Foobar2000",
+      "play_store_package": "com.foobar2000.foobar2000",
+      "reason_category": "not_selected",
+      "reason": "audio player; not selected"
+    },
+    {
+      "name": "GoodReads",
+      "play_store_package": "com.goodreads",
+      "reason_category": "not_selected",
+      "reason": "books; not selected"
+    },
+    {
+      "name": "Google Files",
+      "play_store_package": "com.google.android.apps.nbu.files",
+      "reason_category": "not_selected",
+      "reason": "file manager; not selected"
+    },
+    {
+      "name": "Google Lens",
+      "play_store_package": "com.google.ar.lens",
+      "reason_category": "not_selected",
+      "reason": "lens; built into camera/Gemini"
+    },
+    {
+      "name": "Google News",
+      "play_store_package": "com.google.android.apps.magazines",
+      "reason_category": "not_selected",
+      "reason": "news; not selected"
+    },
+    {
+      "name": "Google Opinion Rewards",
+      "play_store_package": "com.google.android.apps.paidtasks",
+      "reason_category": "not_selected",
+      "reason": "rewards; not selected"
+    },
+    {
+      "name": "Google Pay",
+      "play_store_package": "com.google.android.apps.walletnfcrel",
+      "reason_category": "not_selected",
+      "reason": "payments; region-dependent"
+    },
+    {
+      "name": "Google Tasks",
+      "play_store_package": "com.google.android.apps.tasks",
+      "reason_category": "not_selected",
+      "reason": "tasks; not selected"
+    },
+    {
+      "name": "HelloTalk",
+      "play_store_package": "com.hellotalk",
+      "reason_category": "not_selected",
+      "reason": "language; not selected"
+    },
+    {
+      "name": "Inoreader",
+      "play_store_package": "com.innologica.inoreader",
+      "reason_category": "not_selected",
+      "reason": "RSS; not selected"
+    },
+    {
+      "name": "Instapaper",
+      "play_store_package": "com.instapaper.android",
+      "reason_category": "not_selected",
+      "reason": "read later; not selected"
+    },
+    {
+      "name": "JRE POINT",
+      "play_store_package": "jp.co.jreast.jrepoint",
+      "reason_category": "not_selected",
+      "reason": "JR points; region-specific"
+    },
+    {
+      "name": "JuiceSSH",
+      "play_store_package": "com.sonelli.juicessh",
+      "reason_category": "not_selected",
+      "reason": "SSH; Termius already core"
+    },
+    {
+      "name": "Kindle",
+      "play_store_package": "com.amazon.kindle",
+      "reason_category": "not_selected",
+      "reason": "books; not selected"
+    },
+    {
+      "name": "Kodi",
+      "play_store_package": "org.xbmc.kodi",
+      "reason_category": "not_selected",
+      "reason": "media center; not selected"
+    },
+    {
+      "name": "LastPass",
+      "play_store_package": "com.lastpass.lpandroid",
+      "reason_category": "not_selected",
+      "reason": "password; 1Password already core"
+    },
+    {
+      "name": "Lightroom",
+      "play_store_package": "com.adobe.lrmobile",
+      "reason_category": "not_selected",
+      "reason": "photo; not selected"
+    },
+    {
+      "name": "MX Player",
+      "play_store_package": "com.mxtech.videoplayer.ad",
+      "reason_category": "not_selected",
+      "reason": "video player; VLC already core"
+    },
+    {
+      "name": "MapMyRun",
+      "play_store_package": "com.mapmyrun.android2",
+      "reason_category": "not_selected",
+      "reason": "fitness; Google Fit chosen (Nike excluded)"
+    },
+    {
+      "name": "Memrise",
+      "play_store_package": "com.memrise.android.memrisecompanion",
+      "reason_category": "not_selected",
+      "reason": "language; not selected"
+    },
+    {
+      "name": "Microsoft Edge",
+      "play_store_package": "com.microsoft.emmx",
+      "reason_category": "not_selected",
+      "reason": "browser; Chrome already core"
+    },
+    {
+      "name": "Microsoft Lens",
+      "play_store_package": "com.microsoft.office.officelens",
+      "reason_category": "not_selected",
+      "reason": "scanner; not selected"
+    },
+    {
+      "name": "Pandora",
+      "play_store_package": "com.pandora.android",
+      "reason_category": "not_selected",
+      "reason": "music; region-limited"
+    },
+    {
+      "name": "Photomath",
+      "play_store_package": "com.microblink.photomath",
+      "reason_category": "not_selected",
+      "reason": "math; not selected"
+    },
+    {
+      "name": "Photoshop Express",
+      "play_store_package": "com.adobe.psmobile",
+      "reason_category": "not_selected",
+      "reason": "photo; not selected"
+    },
+    {
+      "name": "Picsart",
+      "play_store_package": "com.picsart.studio",
+      "reason_category": "not_selected",
+      "reason": "photo; not selected"
+    },
+    {
+      "name": "PingTools",
+      "play_store_package": "com.ulfdittmer.android.ping",
+      "reason_category": "not_selected",
+      "reason": "network tool; not selected"
+    },
+    {
+      "name": "Pinterest",
+      "play_store_package": "com.pinterest",
+      "reason_category": "not_selected",
+      "reason": "social; not selected"
+    },
+    {
+      "name": "Pocket",
+      "play_store_package": "com.ideashower.readitlater.pro",
+      "reason_category": "not_selected",
+      "reason": "read later; not selected"
+    },
+    {
+      "name": "Pocket Casts",
+      "play_store_package": "au.com.shiftyjelly.pocketcasts",
+      "reason_category": "not_selected",
+      "reason": "podcast; not selected"
+    },
+    {
+      "name": "Poweramp",
+      "play_store_package": "com.maxmpz.audioplayer",
+      "reason_category": "not_selected",
+      "reason": "audio; not selected"
+    },
+    {
+      "name": "Prime Music",
+      "play_store_package": "com.amazon.mp3",
+      "reason_category": "not_selected",
+      "reason": "music; Spotify already core"
+    },
+    {
+      "name": "Quizlet",
+      "play_store_package": "com.quizlet.quizletandroid",
+      "reason_category": "not_selected",
+      "reason": "study; not selected"
+    },
+    {
+      "name": "Runtastic",
+      "play_store_package": "com.runtastic.android",
+      "reason_category": "not_selected",
+      "reason": "fitness; not selected"
+    },
+    {
+      "name": "Signal",
+      "play_store_package": "org.thoughtcrime.securesms",
+      "reason_category": "not_selected",
+      "reason": "messaging; not selected"
+    },
+    {
+      "name": "Solid Explorer",
+      "play_store_package": "pl.solidexplorer2",
+      "reason_category": "not_selected",
+      "reason": "file manager; not selected"
+    },
+    {
+      "name": "SoundCloud",
+      "play_store_package": "com.soundcloud.android",
+      "reason_category": "not_selected",
+      "reason": "music; not selected"
+    },
+    {
+      "name": "SoundHound",
+      "play_store_package": "com.melodis.midomiMusicIdentifier.freemium",
+      "reason_category": "not_selected",
+      "reason": "music ID; Shazam already core"
+    },
+    {
+      "name": "Strava",
+      "play_store_package": "com.strava",
+      "reason_category": "not_selected",
+      "reason": "fitness; Google Fit chosen (Nike excluded)"
+    },
+    {
+      "name": "TP-Link Tether",
+      "play_store_package": "com.tplink.tether",
+      "reason_category": "not_selected",
+      "reason": "router; not selected"
+    },
+    {
+      "name": "Tandem",
+      "play_store_package": "com.tandem.tandem",
+      "reason_category": "not_selected",
+      "reason": "language; not selected"
+    },
+    {
+      "name": "TeamViewer",
+      "play_store_package": "com.teamviewer.teamviewer.market.mobile",
+      "reason_category": "not_selected",
+      "reason": "remote; Windows App chosen"
+    },
+    {
+      "name": "Termux",
+      "play_store_package": "com.termux",
+      "reason_category": "not_selected",
+      "reason": "terminal; Termius already core"
+    },
+    {
+      "name": "Todoist",
+      "play_store_package": "com.todoist",
+      "reason_category": "not_selected",
+      "reason": "tasks; not selected"
+    },
+    {
+      "name": "VSCO",
+      "play_store_package": "com.vsco.cam",
+      "reason_category": "not_selected",
+      "reason": "photo; not selected"
+    },
+    {
+      "name": "Viber",
+      "play_store_package": "com.viber.voip",
+      "reason_category": "not_selected",
+      "reason": "messaging; not selected"
+    },
+    {
+      "name": "Webex",
+      "play_store_package": "com.cisco.webex.meetings",
+      "reason_category": "not_selected",
+      "reason": "meetings; Zoom/Teams already core"
+    },
+    {
+      "name": "WhatsApp Business",
+      "play_store_package": "com.whatsapp.w4b",
+      "reason_category": "not_selected",
+      "reason": "business messaging; WhatsApp already core"
+    },
+    {
+      "name": "WinZip",
+      "play_store_package": "com.winzip.android",
+      "reason_category": "not_selected",
+      "reason": "archive; ZArchiver alternative"
+    },
+    {
+      "name": "WolframAlpha",
+      "play_store_package": "com.wolfram.android.alpha",
+      "reason_category": "not_selected",
+      "reason": "knowledge; not selected"
+    },
+    {
+      "name": "ZArchiver",
+      "play_store_package": "ru.zdevs.zarchiver",
+      "reason_category": "not_selected",
+      "reason": "archive; not selected"
+    },
+    {
+      "name": "iHeartRadio",
+      "play_store_package": "com.clearchannel.iheartradio.controller",
+      "reason_category": "not_selected",
+      "reason": "radio; region-limited"
+    },
+    {
+      "name": "楽天ペイ",
+      "play_store_package": "jp.co.rakuten.pay",
+      "reason_category": "not_selected",
+      "reason": "payment; region-specific"
+    },
+    {
+      "name": "Nike Run Club",
+      "play_store_package": "com.nike.plusgps",
+      "reason_category": "user_excluded",
+      "reason": "User explicitly excluded Nike apps (2026-08-21)"
+    },
+    {
+      "name": "Nike Training Club",
+      "play_store_package": "com.nike.ntc",
+      "reason_category": "user_excluded",
+      "reason": "User explicitly excluded Nike apps (2026-08-21)"
+    },
+    {
+      "name": "东方财富",
+      "play_store_package": "com.eastmoney.android",
+      "reason_category": "user_excluded",
+      "reason": "User abandoned: not installing on Pixel (2026-08-22); CN-region app"
+    },
+    {
+      "name": "Kuaishou",
+      "play_store_package": "com.smile.gifmaker",
+      "reason_category": "user_excluded",
+      "reason": "User abandoned: not installing on Pixel (2026-08-22); CN-region app"
+    },
+    {
+      "name": "DJI Fly",
+      "play_store_package": "dji.go.v4",
+      "reason_category": "user_excluded",
+      "reason": "User abandoned: not installing on Pixel (2026-08-22)"
+    },
+    {
+      "name": "Grok AI (unofficial package)",
+      "play_store_package": "com.x.ai.grok",
+      "reason_category": "user_excluded",
+      "reason": "User explicitly excluded: package resolved to an unrelated zipoapps activity, not the official xAI package ai.x.grok (2026-08-22)"
+    },
+    {
+      "name": "Threads (unofficial/duplicate sideload)",
+      "play_store_package": "com.instagram.threadsapp",
+      "reason_category": "user_excluded",
+      "reason": "User confirmed removal: side-loaded package; official Threads is com.instagram.barcelona (2026-08-22)"
+    },
+    {
+      "name": "沪江开心词场",
+      "play_store_package": "com.hujiang.cichang",
+      "reason_category": "user_excluded",
+      "reason": "User abandoned: not installing on Pixel (2026-08-22); CN-region app"
+    },
+    {
+      "name": "PASMO",
+      "play_store_package": "jp.co.pasmo",
+      "reason_category": "user_excluded",
+      "reason": "User abandoned: not installing on Pixel (2026-08-22); JP-region app"
+    },
+    {
+      "name": "dポイントクラブ",
+      "play_store_package": "jp.docomo.dpoint",
+      "reason_category": "user_excluded",
+      "reason": "User abandoned: not installing on Pixel (2026-08-22); JP-region app"
+    },
+    {
+      "name": "紙面ビューアー",
+      "play_store_package": "com.nikkei.viewer",
+      "reason_category": "user_excluded",
+      "reason": "User no longer needs this app (2026-08-22); install was also broken (am start: Activity class does not exist)"
+    },
+    {
+      "name": "Mercari（美国版）",
+      "play_store_package": "com.mercariapp.mercari",
+      "reason_category": "user_excluded",
+      "reason": "Side-loaded US build (installerPackageName=null, en-only splits); user confirmed uninstall 2026-08-22. The tracked Mercari is the JP build com.kouzoh.mercari."
+    }
+  ],
+  "reason_categories": {
+    "china_region": "Chinese-region apps excluded by user preference",
+    "service_discontinued": "Service shut down by vendor",
+    "not_selected": "Candidate evaluated but not selected for core/optional",
+    "user_excluded": "Explicitly excluded by user decision"
+  }
+}

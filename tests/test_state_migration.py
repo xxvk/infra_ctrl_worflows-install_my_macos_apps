@@ -54,7 +54,7 @@ class StatePathTests(unittest.TestCase):
             self.assertEqual(
                 resolved,
                 home
-                / "Library/Application Support/install-macos-apps/state/machine-abc123",
+                / "Library/Application Support/macomrade/state/machine-abc123",
             )
 
     def test_machine_id_is_hashed_and_does_not_expose_raw_identifier(self) -> None:

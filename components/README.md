@@ -1,6 +1,6 @@
 # Component guides
 
-These guides are the operational companion to `references/app-catalog.json`.
+These guides are the operational companion to `references/mac-app-catalog.json`.
 The catalog remains the source of truth for install metadata; each catalog entry links to its detailed installation, configuration, and verification guide here.
 
 This index describes desired lifecycle and reproducible source only. Installation
@@ -48,6 +48,13 @@ and verification status belongs to machine-local state.
 | pkgconf | [pkgconf.md](pkgconf.md) | Core; Homebrew |
 | Obsidian | [obsidian.md](obsidian.md) | Core; Homebrew; verify vault per Mac |
 | GitHub CLI (`gh`) | [github-cli.md](github-cli.md) | Core; Homebrew; authenticate per Mac |
+| libimobiledevice | [libimobiledevice.md](libimobiledevice.md) | Core; Homebrew; iOS device tools (USB, authoritative app-list source); companion `ideviceinstaller` |
+| go-ios | [go-ios.md](go-ios.md) | Core; npm global (fnm Node 24); iOS automation CLI + SpringBoard layout reader |
+| pymobiledevice3 | [pymobiledevice3.md](pymobiledevice3.md) | Core; Python venv; iOS automation — preferred layout exporter (widget kind + size) |
+| Codex CLI | [codex-cli.md](codex-cli.md) | Core; Homebrew/standalone preferred; reuse ChatGPT App CLI only as reviewed fallback |
+| CC Switch | [cc-switch.md](cc-switch.md) | Core; Homebrew cask; AI coding agent configuration manager |
+| @google/design.md | [google-design-md.md](google-design-md.md) | Core; npm global under fnm Node 24; DESIGN.md linter/exporter |
+| @deepseek-ai/dsh | [dsh-npm-engine.md](dsh-npm-engine.md) | Core; npm global under fnm Node 24; complete Harness engine CLI |
 | tamnd/x-cli (`x`) | [tamnd-x-cli.md](tamnd-x-cli.md) | Core; free, strictly read-only X access; pinned GitHub release |
 | Mermaid CLI (`mmdc`) | [mermaid-cli.md](mermaid-cli.md) | Core; Homebrew; Mermaid-to-SVG/PNG/PDF rendering |
 | Ghostty | [ghostty.md](ghostty.md) | Core; Homebrew; tracked visual baseline |
@@ -58,6 +65,7 @@ and verification status belongs to machine-local state.
 | Android command-line tools | [android-commandlinetools.md](android-commandlinetools.md) | Core; SDK workflow in [environment.md](../references/environment.md) |
 | Android platform tools | [android-platform-tools.md](android-platform-tools.md) | Core; ADB workflow in [environment.md](../references/environment.md) |
 | scrcpy | [scrcpy.md](scrcpy.md) | Core; Android Robot remote display/control |
+| apkeep | [apkeep.md](apkeep.md) | Core; Homebrew formula; Play Store/F-Droid APK download (user token required) |
 | Temurin Java | [temurin.md](temurin.md) | Core; Android/Java runtime |
 | Xcodes | [xcodes.md](xcodes.md) | Core; Homebrew Xcode release and beta manager |
 | Google Cloud CLI | [gcloud-cli.md](gcloud-cli.md) | Core; Homebrew |
@@ -66,6 +74,8 @@ and verification status belongs to machine-local state.
 | DSH Computer Use | [dsh-computer-use.md](dsh-computer-use.md) | Optional; Homebrew cask `zrui-c/tap/dsh-computer-use` preferred |
 | Cloudflare Wrangler | [cloudflare-wrangler.md](cloudflare-wrangler.md) | Core; npm |
 | WordPress Studio CLI | [wordpress-studio-cli.md](wordpress-studio-cli.md) | Core; official npm package |
+| Pi Coding Agent | [pi-coding-agent.md](pi-coding-agent.md) | Core; pnpm under fnm Node 24; lifecycle scripts disabled |
+| PI WEB | [pi-web.md](pi-web.md) | Core Pi browser UI; pnpm permits only the `node-pty` build script |
 | mole | [mole.md](mole.md) | Core; Homebrew; review every cleanup |
 | Docker Desktop | [docker-desktop.md](docker-desktop.md) | Retired; OrbStack retained as the default replacement |
 | Antigravity CLI | [antigravity-cli.md](antigravity-cli.md) | Core replacement for retired Gemini CLI |
@@ -82,6 +92,7 @@ These guides are cataloged for review but are not installed automatically during
 | Microsoft Excel | [microsoft-excel.md](microsoft-excel.md) | Mac App Store |
 | FileZilla | [filezilla.md](filezilla.md) | Official website; Homebrew cask unavailable |
 | Android File Transfer | [android-file-transfer.md](android-file-transfer.md) | Official website |
+| SwiftMTP | [swiftmtp.md](swiftmtp.md) | Third-party Homebrew cask; package-scoped trust; MTP GUI and CLI |
 | Xcode | [xcode.md](xcode.md) | Mac App Store |
 | Android Studio | [android-studio.md](android-studio.md) | Official website |
 | Android Studio Preview | [android-studio-preview.md](android-studio-preview.md) | Official website |
@@ -91,6 +102,8 @@ These guides are cataloged for review but are not installed automatically during
 | Solaar | [solaar.md](solaar.md) | GitHub source; Homebrew dependencies |
 | xurl | [xurl.md](xurl.md) | Optional official X API CLI; credits and OAuth required for API calls |
 | Affinity | [affinity.md](affinity.md) | Official website |
+| Figma | [figma.md](figma.md) | Core; Homebrew cask; account required |
+| Open Design | [open-design.md](open-design.md) | Core; Homebrew cask; local-first, agent-native |
 | CapCut | [capcut.md](capcut.md) | Mac App Store |
 | Compressor | [compressor.md](compressor.md) | Mac App Store |
 | DaVinci Resolve | [davinci-resolve.md](davinci-resolve.md) | Mac App Store / Blackmagic website |

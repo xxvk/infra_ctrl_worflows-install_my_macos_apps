@@ -160,9 +160,11 @@ Use this sequence for a provider or VL migration:
    is not acceptance evidence: the web client can write a newer in-memory
    selection back to `settings.yaml` during startup.
 7. Verify the runtime model picker, not merely the patch text. The reviewed VL
-   route should expose `Vision HTTP` with `aliyun/qwen3-vl-flash`; the router
-   may additionally expose DeepSeek `Auto Vision` choices. Confirm that the UI
-   selection and `agent-default-model` settings agree.
+   route should expose `Vision HTTP` with
+   `deepseek-vision/deepseek-v4-flash-vision-exp` as the first chain row (and
+   historically `aliyun/qwen3-vl-flash` as the reviewed DashScope route); the
+   router may additionally expose DeepSeek `Auto Vision` choices. Confirm that
+   the UI selection and `agent-default-model` settings agree.
 8. Quit and relaunch once more. Acceptance requires the selected model to
    survive restart, both expected credential key names to remain present, the
    migrated secret to compare equal without disclosure, credential/settings
@@ -234,24 +236,92 @@ fallback compatibility review before activation.
 - Backup/checkpoint schedules and snapshot directories are machine-local
   behavior, initialized per machine from the plugin's own docs.
 
+## Credentials document format and startup recovery
+
+`~/.dsh/.credentials.yaml` is a strict flat YAML mapping of credential
+reference to string value, and nothing else — no `version` field, no wrapper
+layer (per `@deepseek-ai/dsh-credentials-local`). Any deviation fails hard at
+cold start: the Host exits before readiness with code 1 and a message such as
+`credentials-local: the value for "version" in <home>/.credentials.yaml must
+be a string` (or `must be a mapping of credential reference to value`). An
+already-running instance survives an invalid document — runtime reload only
+warns and keeps the last usable snapshot — which is why a cold start can die
+while a long-lived shell keeps working.
+
+A document that gained a `version`/`refs` wrapper (written by another tool or
+a stale migration) is rejected on both counts: `version: 1` is an integer, not
+a string, and `refs` is a mapping, not a string. Repair in place:
+
+1. Quit the affected shell(s) and verify the Host process has stopped.
+2. Back up the broken file with a timestamp
+   (`.credentials.yaml.broken-<timestamp>`).
+3. Rewrite the document as a flat mapping, preserving every key verbatim:
+   ```yaml
+   DEEPSEEK_API_KEY: sk-…
+   DASHSCOPE_API_KEY: sk-…
+   ```
+4. Keep the file owner-only `0600` (re-apply `chmod 600` after any rewrite).
+5. Validate before relaunch with the plugin's own strict rules: parse with
+   `uniqueKeys: true` and require every value to be a non-empty string (empty
+   strings are also rejected).
+6. Relaunch and require loopback HTTP readiness and no fatal Host log entry.
+
+Never store actual credential values in this repository; the document belongs
+to machine-local `~/.dsh` state (see the migration contract above).
+
 ## VL capability (vision-router)
 
-`dsh-vision-router` gives text models eyes: semantic understanding via Alibaba
-DashScope `qwen3-vl-flash` (key env `DASHSCOPE_API_KEY`), plus pixel-level
-`vision_*` tools (describe/ground/crop/pixel_diff/OCR/trace/cutout/screenshot).
-Model selector shows a "+ Auto Vision" group. The key lives only in the active
-`DSH_HOME/.credentials.yaml`: normally `~/.dsh/.credentials.yaml` for the
-global CLI, but
-`~/Library/Application Support/io.github.hairyf.deepseek-harness-desktop/data/dsh/.credentials.yaml`
-for the Hairyf Desktop profile. These files do not inherit from each other;
-use the field-level migration contract above when the user explicitly approves
-copying the provider key.
+`dsh-vision-router` (currently 1.7.4) gives text models eyes: semantic
+understanding via a vision chain of httpProviders, plus pixel-level `vision_*`
+tools (describe/ground/crop/pixel_diff/OCR/trace/cutout/screenshot). Model
+selector shows a "+ Auto Vision" group. Full metric/capability/pricing
+comparison of the two cloud backends:
+[`vision-models-comparison.md`](vision-models-comparison.md). Vision chain
+order (2026-08-21, after DeepSeek's native vision launch):
+
+1. `deepseek-vision/deepseek-v4-flash-vision-exp` — primary (official DeepSeek
+   multimodal model, OpenAI-compatible at `https://api.deepseek.com/v1`, reuses
+   the text model's `DEEPSEEK_API_KEY`, priced like v4-flash; `maxTokens: 4096`
+   so reasoning + answer fit).
+2. `aliyun/qwen3-vl-flash` — second (richer features, stronger semantics;
+   `DASHSCOPE_API_KEY`, 0600, in `~/.dsh/.credentials.yaml`).
+3. `local-ocr/deepseek-ocr-2` — local fallback (zero cost, offline, private),
+   wired as an `httpProvider` with `apiKeyEnv: ''` (keyless) pointing at
+   `http://127.0.0.1:1234/v1` (Bionic / LM Studio standard server, no API
+   key; see Local free LLM / OCR below). Do NOT use the `localLmStudio`
+   config for a cloud-primary setup: the router injects local backends
+   before every cloud http row (`native → local → http`), which would make
+   the local model the primary. As an httpProvider the local row keeps
+   config order.
+4. Built-in anonymous OVH free models — last-resort safety net.
+
+Engine compatibility: rc.8+ changed the client slot `settings.plugin.item`
+from `kind: list` (keyed by `id`) to `kind: keyed` (requires `options.key`).
+vision-router ≤1.1.1 registers only `id` and fails to load on rc.8+ with
+"keyed slot 'settings.plugin.item' requires options.key"; 1.7.4 registers
+both `key` and `id`. Keep the plugin at ≥1.7.4 on rc.8+ engines.
+
+Credentials: after Hairyf Desktop 0.6.12 the Hairyf profile migrated its
+isolated `data/dsh/` into the shared `~/.dsh` (startup log "dsh home
+migrated"), so the global CLI and both desktop shells now share
+`~/.dsh/.credentials.yaml`; there is no separate Hairyf credential file
+anymore. Never copy or replace `.credentials.yaml` wholesale (see the
+migration contract above).
 
 ## Local free LLM / OCR
 
-`~/.dsh/scripts/xvk_ocr2.py` runs local OCR via LM Studio
-(`http://127.0.0.1:1234/v1`) with DeepSeek-OCR-2 GGUF weights
-(`~/.dsh/models/ocr2/`), free for text/table pages. Paid VL is used only for
+Local OCR runs on the standard keyless LM Studio-compatible server
+`http://127.0.0.1:1234/v1`, hosted by Bionic (`ai.elementlabs.bionic`, an
+LM Studio fork; its `http-server-config.json` carries no API key).
+DeepSeek-OCR-2 weights live at
+`~/.lmstudio/models/deepseek-ai/DeepSeek-OCR-2/`
+(`DeepSeek-OCR-2-IQ4_NL.gguf` + `mmproj-deepseek-ocr-2-bf16.gguf`); model id
+is `deepseek-ocr-2` as returned by `/v1/models`. A second JIT llama.cpp
+instance may appear on a random port with an auto-generated `--api-key` —
+target the 1234 server, never the JIT port. `~/.dsh/scripts/xvk_ocr2.py`
+wraps the same endpoint for document OCR (defaults to
+`http://127.0.0.1:1234/v1/chat/completions`); a model copy also lives at
+`~/.dsh/models/ocr2/`. Free for text/table pages; paid VL is used only for
 image *semantics* after budget approval. Model assets are machine-local;
 automatic cleanup must never delete them.
 

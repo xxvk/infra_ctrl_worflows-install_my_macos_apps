@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macomrade.example/schemas/ios-app-catalog-v1.schema.json",
+  "title": "macomrade iOS application catalog v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "apps"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "apps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "category",
+          "tier",
+          "ios_bundle_id",
+          "app_store_id",
+          "guide"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string"
+          },
+          "tier": {
+            "enum": [
+              "core",
+              "optional",
+              "retired"
+            ]
+          },
+          "lifecycle_status": {
+            "enum": [
+              "active",
+              "retired",
+              "candidate"
+            ]
+          },
+          "ios_bundle_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9.\\-]+$"
+          },
+          "app_store_id": {
+            "type": [
+              "string",
+              "integer",
+              "null"
+            ]
+          },
+          "app_store_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "region_availability": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "account_required": {
+            "type": "boolean"
+          },
+          "apple_account_scope": {
+            "type": "string"
+          },
+          "size_mb": {
+            "type": "number"
+          },
+          "minimum_ios_version": {
+            "type": "string"
+          },
+          "source": {
+            "enum": [
+              "app_store",
+              "testflight",
+              "enterprise",
+              "manual_or_unknown"
+            ]
+          },
+          "allowed_sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sync_note": {
+            "type": "string"
+          },
+          "check_command": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "follow_up": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "guide": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

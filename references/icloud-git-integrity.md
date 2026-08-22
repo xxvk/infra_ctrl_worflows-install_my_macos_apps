@@ -26,7 +26,7 @@ skill does not emulate Finder's private pinning interfaces.
 Verify the current local result:
 
 ```sh
-cd workflows/infra_ctrl_worflows/install_my_macos_apps
+cd workflows/infra_ctrl_worflows/macomrade
 python3 scripts/icloud_git_guard.py inspect --repo .
 ```
 

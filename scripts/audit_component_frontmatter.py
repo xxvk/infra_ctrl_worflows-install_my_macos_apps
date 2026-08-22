@@ -9,7 +9,7 @@ from component_state import audit as audit_component_state
 from config_layers import load_app_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG = ROOT / "references/app-catalog.json"
+CATALOG = ROOT / "references/mac-app-catalog.json"
 
 REQUIRED = {
     "component_id", "name", "category", "tier", "lifecycle_status", "source", "delivery_method",

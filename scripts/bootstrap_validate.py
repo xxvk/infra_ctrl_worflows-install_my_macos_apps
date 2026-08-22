@@ -34,7 +34,7 @@ REQUIRED_FILES = [
     "examples/private/storage-policy.json",
     "examples/private/browser-decision-ledger.json",
     "examples/private/keyboards/example-keyboard.yaml",
-    "references/app-catalog.json",
+    "references/mac-app-catalog.json",
     "references/configuration-layers.md",
     "references/release-acceptance-matrix.json",
     "references/testing-contract.md",
