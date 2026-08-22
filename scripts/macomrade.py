@@ -88,6 +88,7 @@ ROUTES = (
     Route("verify", "browser", "scripts/browser_transactions.py", ("verify-post-export",), False, "verify expected browser item counts against a second explicit export"),
     Route("verify", "browser-acceptance", "scripts/browser_acceptance.py", (), False, "validate or run Safari-only BR-08 acceptance from explicit inputs"),
     Route("verify", "browser-gateway-pilot", "scripts/browser_gateway_pilot.py", ("verify",), False, "verify one manual Safari pilot checkpoint from explicit exports"),
+    Route("verify", "dsh-computer-use", "scripts/verify_dsh_computer_use.py", (), False, "verify DSH Computer Use bundle, catalog, and plugin enablement"),
     Route("history", "storage", "scripts/storage_lifecycle.py", ("history",), True, "read storage decisions and optionally import Mole evidence"),
     Route("history", "browser", "scripts/browser_lifecycle.py", ("inspect-ledger",), False, "validate private browser decision history and emit counts"),
     Route("drift", "baseline", "scripts/bootstrap_verify.py", (), False, "compare current Mac with the baseline"),

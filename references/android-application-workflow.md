@@ -267,6 +267,31 @@ Know-how, verified 2026-08-21 on Pixel 11 (`cubs`, Android 17 / API 37).
 - **Caveats:** the Pixel app drawer is alphabetical and not reorderable via
   adb; grid size and icon size remain launcher-UI settings.
 
+### Read-only Home Screen audit
+
+`scripts/android-home-audit.py` archives the visible Pixel Launcher state to
+the gitignored, iCloud-synced `Private/device-layouts/` directory. It captures
+the UI hierarchy and a native adb screenshot for each requested page, then
+records exposed widgets and the hotseat in JSON plus Markdown:
+
+```sh
+python3 scripts/android-home-audit.py --serial <adb-serial> --pages 1
+```
+
+The default is one page. `--pages N` starts at Home and swipes left between
+captures, so use it only with the known page count. Evidence vocabulary is
+`ui_confirmed` (accessibility tree), `visual_confirmed` (screenshot),
+`inferred` (coordinates mapped to layout), and `unavailable`. Widget-visible
+text, package, bounds, buttons, folder/app labels, and predicted-app status may
+be exposed. Widget configuration, launcher database IDs, exact grid cells, and
+spans remain unavailable without root; never describe this archive as a
+`launcher.db` backup.
+
+An open folder's UI hierarchy exposes only its current internal page. When a
+folder page indicator is present, capture every internal page by swiping or
+mark uncaptured pages `user_confirmed`. Never treat nine visible members as
+the total membership of a multi-page folder.
+
 ## Reviewed Apple Passwords export for Pixel Chrome
 
 `scripts/pixel_password_export.py` converts a user-exported Apple Passwords

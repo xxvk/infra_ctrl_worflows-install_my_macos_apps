@@ -75,6 +75,19 @@ brew install --cask zrui-c/tap/dsh-computer-use
   Recording** permissions (interactive; never automate the grant).
 - Install the `dsh-computer-use` plugin into the DSH profile (host + tool
   rows) and restart the running DSH Host.
+- Run the read-only verification command and require `status: passed`:
+
+```sh
+./bin/macomrade verify dsh-computer-use
+```
+
+  The command checks three independent layers: the installed bundle and its
+  `tech.zrui.dsh-computer-use` identifier, the tracked catalog entry
+  consistency, and the `computer-use-host` / `computer-use-tool` loader rows
+  composed by `dsh --profile web --dump-config`. It never reads the TCC
+  database, changes a permission, writes profile configuration, or sends a
+  model request; Accessibility/Screen Recording grants remain
+  `manual_verification_required` by design.
 - Verify browser and background control work from a DSH session (read-back,
   not a claim).
 - Verify the pinned Tap revision and Cask sha256 before trusting.
